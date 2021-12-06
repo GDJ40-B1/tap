@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.btf.tap.mapper.RoomMapper">
+
+	<!-- 숙소 등록 -->
+	<insert id="insertRoom" parameterType="com.btf.tap.vo.Room">
+		INSERT INTO room(
+			detail_address_id, host_id, room_category, room_form, room_name, room_intro,
+			min_day, check_in_time, check_out_time, people_num, room_price, create_date, update_date
+		)VALUE(
+			#{detailAddressId}, #{hostId}, #{roomCategory}, #{roomForm}, #{roomName},
+			#{roomIntro}, #{minDay}, #{checkInTime}, #{checkOutTime}, #{peopleNum},
+			#{roomPrice}, NOW(), NOW())
+		<selectKey keyProperty="roomId" order="AFTER" resultType="int">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	
+	<!-- 숙소 전체 목록 출력(최근 생성된 숙소 순으로) -->
+	<select id="selectRoomList" resultType="com.btf.tap.vo.Room">
+		SELECT
+			room_id roomId, detail_address_id detailAddressId, host_id hostId,
+			room_category roomCategory, room_form roomForm, room_name roomName,
+			room_intro roomIntro, min_day minDay, check_in_time checkInTime,
+			check_out_time checkOutTime, people_num peopleNum, room_price roomPrice,
+			create_date createDate, update_date updateDate
+		FROM room
+		ORDER BY create_date DESC
+	</select>
+	
+	<!-- 숙소 정보 수정 -->
+	<update id="updateRoom" parameterType="com.btf.tap.vo.Room">
+		UPDATE room SET
+			room_category=#{roomCategory}, room_form=#{roomForm}, room_name=#{roomName},
+			room_intro=#{roomIntro}, min_day=#{minDay}, check_in_time=#{checkInTime},
+			check_out_time=#{checkOutTime}, people_num=#{peopleNum}, room_price=#{roomPrice},
+			update_date=NOW()
+		WHERE room_id= #{roomId}
+	</update>
+	
+	<!-- 숙소 삭제 -->
+	<delete id="deleteRoom" parameterType="int">
+		DELETE FROM room
+		WHERE room_id= #{roomId}
+	</delete>
+	
+	
+</mapper>
