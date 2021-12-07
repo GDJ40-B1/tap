@@ -15,13 +15,11 @@ public class RoomController {
 
 	@GetMapping("/addRoom")
 	public String getAddRoom() {
-		return "addRoom";
+		return "testAPI";
 	}
 	
 	@PostMapping("addRoom")
 	public String postAddRoom(Room room, Address address) {
-		System.out.println("!!!!!! 숙소:"+room.getRoomName());
-		System.out.println("!!!!! 주소:"+address.getDetailAddress());
 		return "roomList";
 	}
 }
