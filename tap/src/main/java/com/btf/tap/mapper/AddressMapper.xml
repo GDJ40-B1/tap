@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.btf.tap.mapper.AddressMapper">
+
+	<!-- 주소 검색 -->
+	<select id="selectAddressOne" parameterType="com.btf.tap.vo.Address" resultType="int">
+		SELECT address_id addressId FROM address
+		WHERE
+			sido=#{sido} AND sigungu=#{sigungu} AND road_name=#{roadName}
+	</select>
+
+	<!-- 상세 주소 등록 -->
+	<insert id="insertDetailAddress" parameterType="com.btf.tap.vo.Address">
+		INSERT INTO room(
+			address_id, detail_address, detail_address2
+		)VALUE(
+			#{addressId}, #{detailAddress}, #{detailAddress2})
+		<selectKey keyProperty="detailAddressId" order="AFTER" resultType="int">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	
+	<!-- 상세 주소 정보 수정 -->
+	<update id="updateDetailAddress" parameterType="com.btf.tap.vo.Address">
+		UPDATE detail_address SET
+			address_id=#{addressId}, detail_address=#{detailAddress}, detail_address2=#{detailAddress2}
+		WHERE detail_address_id= #{detailAddressId}
+	</update>
+	
+	<!-- 상세 주소 삭제 -->
+	<delete id="deleteDetailAddress" parameterType="int">
+		DELETE FROM detail_address
+		WHERE detail_address_id= #{detailAddressId}
+	</delete>
+</mapper>
