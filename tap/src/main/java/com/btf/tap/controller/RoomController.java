@@ -15,7 +15,7 @@ public class RoomController {
 
 	@GetMapping("/addRoom")
 	public String getAddRoom() {
-		return "testAPI";
+		return "addRoom";
 	}
 	
 	@PostMapping("addRoom")
