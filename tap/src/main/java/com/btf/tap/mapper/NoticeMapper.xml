@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.btf.tap.mapper.NoticeMapper">
+	
+	<!-- 공지사항 등록 -->
+	<insert id="insertNotice" parameterType="com.btf.tap.vo.Notice">
+		INSERT INTO notice(
+			system_admin_id, title, content, kind, create_date, update_date
+		)VALUE(
+			#{noticeId}, #{systemAdminId}, #{title}, #{content}, #{kind}, NOW(), NOW())
+		<selectKey keyProperty="noticeId" order="AFTER" resultType="int">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	
+	<!-- 공지사항 목록 출력 -->
+	<select id="selectNoticeList" resultType="com.btf.tap.vo.Notice">
+		SELECT
+			notice_id, system_admin_id, title, content, kind, create_date, update_date
+		FROM notice
+		ORDER BY create_date DESC
+	</select>
+
+	<!-- 공지사항 수정 -->
+	<update id="updateNotice" parameterType="com.btf.tap.vo.Notice">
+		UPDATE notice SET
+			title=#{title}, content=#{content}, kind=#{kind}, update_date=NOW()
+		WHERE notice_id= #{noticeId}
+	</update>
+	
+	<!-- 공지사항 삭제 -->
+	<delete id="deleteNotice" parameterType="int">
+		DELETE FROM notice
+		WHERE notice_id= #{noticeId}
+	</delete>
+</mapper>
