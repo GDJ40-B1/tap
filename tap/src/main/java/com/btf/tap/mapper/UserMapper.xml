@@ -1,3 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.btf.tap.mapper.UserMapper"></mapper>
+
+
+<mapper namespace="com.btf.tap.mapper.UserMapper">
+	<resultMap type="com.btf.tap.vo.User" id="resultUser">
+		<result column="user_id" property="userId"/>
+		<result column="user_level" property="userLevel"/>
+	</resultMap>
+	
+	<select id="selectUserId" parameterType="com.btf.tap.vo.User">
+		SELECT 
+			COUNT(*)
+		FROM
+			view_user
+		WHERE
+			userId=#{userId}
+	</select>
+	
+	<select id="selectUserOne" parameterType="com.btf.tap.vo.User" resultMap="resultUser">
+		SELECT 
+			user_id,
+			user_level
+		FROM
+			view_user
+		WHERE
+			user_id=#{userId} AND
+			user_pw=#{userPw}
+	</select>
+
+</mapper>

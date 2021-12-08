@@ -14,7 +14,7 @@ import com.btf.tap.vo.Notice;
 public interface NoticeMapper {
 	int selectNoticeCount();
 	// BoardList 뽑아오기
-		List<Notice> selectNoticeList(Map page);
+	List<Notice> selectNoticeList(Map page);
 		
 		// 전체 책 수
 		
