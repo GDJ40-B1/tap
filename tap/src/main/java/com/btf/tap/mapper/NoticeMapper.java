@@ -12,14 +12,13 @@ import com.btf.tap.vo.Notice;
 
 @Mapper
 public interface NoticeMapper {
-	int selectNoticeCount();
 	// BoardList 뽑아오기
-	List<Notice> selectNoticeList(Map page);
-		
+	List<Notice> selectNoticeList(Map<String, Object> map);
+	int selectNoticeTotalCount();
 		// 전체 책 수
-		
+	Notice selectNoticeOne(int noticeId); //공지사항 세부내역	
 	int insertNotice(Notice notice); //공지사항 입력
-	void selectNoticeOne(Notice notice); //공지사항 세부내역
+	
 	void updateNotice(Notice notice); //공지사항 수정
-	void deleteNotice(int noticeId);	//공지사항 삭제
+	void deleteNotice(Notice notice);	//공지사항 삭제
 }

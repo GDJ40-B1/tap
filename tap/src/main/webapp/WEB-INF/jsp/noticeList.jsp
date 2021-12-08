@@ -8,6 +8,15 @@
 <title>noticeList.jsp</title>
 </head>
 <body>
+
+	<div>
+      <jsp:include page="/partial/mainHeader.jsp"></jsp:include>
+   </div>
+   <!-- end : mainHeader -->
+   
+   <br>
+   <br>
+   <br>
 	<h1>공지사항</h1>
 		
 	<table border="1">
@@ -20,9 +29,9 @@
 		<c:forEach items="${noticeList}" var="notice" >
 			<tr>
 				<td>${notice.noticeId}</td>
-				<td>${notice.title}</td>
-				<td>${notice.content}</td>
-				<td>${notice.updateDate}</td>
+				<td><a href="${pageContext.request.contextPath}/noticeOne?noticeId=${notice.noticeId}">${notice.title}</a></td>
+				<td>${notice.systemAdminId}</td>
+				<td>${notice.createDate}</td>
 			</tr>
 		</c:forEach>
 	</table>

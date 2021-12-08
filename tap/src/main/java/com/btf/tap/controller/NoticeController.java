@@ -22,21 +22,49 @@ public class NoticeController {
 	NoticeService noticeService;
 	
 	@GetMapping("/addNotice")
-	public void addNotice ()	{
-		
+	public String addNotice() {
+		return "addNotice";
 	}
+	
+	
+	@PostMapping("/addNotice")
+	public String addNotice(Notice notice) {
+		int noticeId = noticeService.setNotice(notice);
+		return "redirect:/noticeOne?noticeId="+noticeId;
+	}
+	
+	@GetMapping("/noticeOne")
+	public String noticeOne(Model model, int noticeId) {
+		Notice notice = noticeService.getNoticeOne(noticeId);
+		model.addAttribute("notice", notice);
+		return "noticeOne";
+	}
+	
+	@GetMapping("/modifyNotice")
+	public String modifyNotice(Model model, int noticeId) {
+		Notice notice = noticeService.getNoticeOne(noticeId);
+		model.addAttribute("notice", notice);
+		return "modifyNotice";
+	}
+	
+	@PostMapping("/modifyNotice")
+	public String modifyNotice(Notice notice) {
+		noticeService.setNoticeUpdate(notice);
+		return "redirect:/noticeOne?noticeId="+notice.getNoticeId();
+	}
+	
 	private final int ROW_PER_PAGE = 10;
 	
 	@GetMapping("/noticeList")
-	public String noticeList(Model model, int currentPage) {
-		Map<String, Object> result = noticeService.getNoticeList(currentPage);
-		model.addAttribute("result", result);
-		return "noticeList";
+	// 요청 num -> myNum
+	public String noticeList(Model model,
+			@RequestParam(defaultValue = "1") int currentPage) {
+		
+			Map<String, Object> map = noticeService.getNoticeList(currentPage, ROW_PER_PAGE);
+			model.addAttribute("noticeList", map.get("noticeList"));
+			model.addAttribute("lastPage", map.get("lastPage"));
+			model.addAttribute("currentPage", currentPage);
+			return "noticeList";
 	}
-	@PostMapping("/addNotice")
-	public String addNotice(Notice notice)	{
-		noticeService.addNotice(notice);
-		log.debug("★★★★★★★★★★★★★★★★★"+notice.toString());
-		return "noticeList";
-	}
+	
 }

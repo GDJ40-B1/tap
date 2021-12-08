@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,7 +8,19 @@
 <title>insertNotice.jsp</title>
 </head>
 <body>
-	<a href="/noticeList">리스트로</a>
+	
+		<!-- start : mainHeader -->
+   <div>
+      <jsp:include page="/partial/mainHeader.jsp"></jsp:include>
+   </div>
+   <!-- end : mainHeader -->
+   <br>
+   <br>
+   <br>
+   
+   
+	<a href="${pageContext.request.contextPath}/noticeList">리스트로</a>
+	
 	<h1>공지사항 추가</h1>
 	<form action="${pageContext.request.contextPath}/addNotice" method="post">
 		<div>관리자 id :</div>

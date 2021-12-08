@@ -8,29 +8,42 @@
 <title>noticeOne.jsp</title>
 </head>
 <body>
-	<a href="/noticeList">리스트로</a>
+
+	<!-- start : mainHeader -->
+   <div>
+      <jsp:include page="/partial/mainHeader.jsp"></jsp:include>
+   </div>
+   <!-- end : mainHeader -->
+   
+   <br>
+   <br>
+   <br>
+	<a href="${pageContext.request.contextPath}/noticeList">리스트로</a>
 	<h1>공지사항 상세</h1>
+	<input type="hidden" name="noticeId" value="${noticeId}" readonly="readonly">
 	<table border="1">
 		<tr>
 			<td>제목 :</td>
+			<td>${notice.title}</td>
 		</tr>
 		<tr>
-			<td>${notice.noticeTitle}</td>
+			<td>내용 :</td>
+			<td>${notice.content}</td>
 		</tr>
 		<tr>
-			<td>내용</td>
+			<td>종류 :</td>
+			<td>${notice.kind}</td>
 		</tr>
-		<tr>
-			<td>${notice.noticeContent}</td>
-		</tr>
-		<tr>
-			<td>종류</td>
-		</tr>
-		<tr>
-			<td>${notice.noticeKind}</td>
-		</tr>
+		
 	</table>
-	
+		<div>
+			<form action="${pageContext.request.contextPath}/modifyNotice?noticeId=${notice.noticeId}" method="get">
+			<button type="submit">수정</button>
+			</form>
+			<form action="${pageContext.request.contextPath}/deleteNotice?noticeId=${notice.noticeId}" method="get">
+			<button type="submit">삭제</button>
+		</form>
+		</div>
 	
 	
 	
