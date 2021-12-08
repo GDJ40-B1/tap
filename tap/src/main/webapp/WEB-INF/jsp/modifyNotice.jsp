@@ -9,14 +9,14 @@
 <body>
 	<a href="/noticeList">리스트로</a>
 	<h1>수정하기</h1>
-	<form action="/modifyNotice" method="post">
+	<form action="${pageContext.request.contextPath}/modifyNotice" method="post">
 		<div>제목 :</div>
-		<div><input type="text" name="noticeTitle" value="${noticeTitle}"></div>
+		<div><input type="text" name="title" value="${title}"></div>
 		<div>내용 :</div>
-		<div><textarea rows="10" cols="20" name="noticeContent">${noticeContent}</textarea></div>
+		<div><textarea rows="10" cols="20" name="content">${content}</textarea></div>
 		<div>종류 :</div>
 		<div>
-		<select name="noticeKind" value="${noticeKind}">
+		<select name="kind" value="${kind}">
 			<option value="Y">Y</option>
 			<option value="N">N</option>
 		</select>

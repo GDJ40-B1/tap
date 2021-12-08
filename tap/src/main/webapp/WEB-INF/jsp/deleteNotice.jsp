@@ -10,11 +10,11 @@
 	<h1>공지사항 삭제</h1>
 	<form action="/deleteNotice" method="post">
 		<div>
-			<input type="hidden" name="noticeNo" value="${noticeNo}" readonly="readonly">
+			<input type="hidden" name="noticeId" value="${noticeId}" readonly="readonly">
 		</div>
-		<div>${noticeNo}번 공지사항을 삭제하시겠습니까?</div>
+		<div>${noticeId}번 공지사항을 삭제하시겠습니까?</div>
 		<div><button type="submit">삭제하기</button></div>
-		<div><a href="/noticeList">공지사항 목록</a></div>
+		<div><a href="${pageContext.request.contextPath}/noticeList">공지사항 목록</a></div>
 	</form>
 </body>
 </html>

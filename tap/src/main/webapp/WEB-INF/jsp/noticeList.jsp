@@ -17,7 +17,7 @@
 			<th>작성자</th>
 			<th>작성일</th>
 		</tr>
-		<c:forEach items="${noticelist}" var="notice" >
+		<c:forEach items="${noticeList}" var="notice" >
 			<tr>
 				<td>${notice.noticeId}</td>
 				<td>${notice.title}</td>
