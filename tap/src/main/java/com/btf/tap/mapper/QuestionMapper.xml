@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.btf.tap.mapper.QuestionMapper">
+	<resultMap type="com.btf.tap.vo.Question" id="resultQuestion">
+		<id column="question_id" property="questionId"/>
+		<result column="writer_id" property="writerId"/>
+		<result column="writer_category" property="writerCategory"/>
+		<result column="question_title" property="questionTitle"/>
+		<result column="question_content" property="questionContent"/>
+		<result column="secret_status" property="secretStatus"/>
+		<result column="answer_status" property="answerStatus"/>
+		<result column="create_date" property="createDate"/>
+		<result column="update_date" property="updateDate"/>
+		<collection property="questionAnswer" ofType="com.btf.tap.vo.QuestionAnswer">
+			<id column="question_id" property="questionId"/>
+			<id column="system_admin_id" property="systemAdminId"/>
+			<id column="question_answer_content" property="questionAnswerContent"/>
+			<id column="create_date" property="createDate"/>
+		</collection>
+	</resultMap>
+	
+	<!-- 전체 페이지 / 카테고리별 페이지 조회 -->
+	<select id="selectQuestionList" parameterType="java.util.Map" resultMap="resultQuestion">
+		SELECT
+			question_id,
+			writer_id,
+			writer_category,
+			question_title,
+			secret_status,
+			answer_status,
+			create_date
+		FROM question
+		<where>
+			<if test="writerCategory != null">
+				writer_category = #{writerCategory}
+			</if>
+		</where>
+		ORDER BY create_date DESC
+		LIMIT #{beginRow}, #{rowPerPage}
+	</select>
+	
+	<!-- 페이지 체크 -->
+	<select id="totalRowCount" parameterType="String" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM question
+		<where>
+		<if test="writerCategory != null">
+			writer_category = #{writerCategory}
+		</if>
+		</where>	
+	</select>
+	
+	<!-- 문의 글 삽입 -->
+	<insert id="insertQuestion" parameterType="com.btf.tap.vo.Question">
+		INSERT INTO question(
+			writer_id,
+			writer_category,
+			question_title,
+			question_content,
+			secret_status,
+			create_date,
+			update_date
+		) VALUES (
+			#{writerId},
+			#{writerCategory},
+			#{questionTitle},
+			#{questionContent},
+			#{secretStatus},
+			NOW(),
+			NOW()
+		)
+	</insert>
+	
+	<!-- 문의 답변 삽입 -->
+	<insert id="insertQuestionAnswer" parameterType="com.btf.tap.vo.QuestionAnswer">
+		INSERT INTO question_answer(
+			question_id,
+			system_admin_id,
+			question_answer_content,
+			create_date
+		) VALUES (
+			#{questionId},
+			#{systemAdminId},
+			#{questionAnswerContent},
+			NOW()
+		)
+	</insert>	
+	
+	<!-- 특정 문의글 상세 조회 -->
+	<select id="selectQuestionOne" parameterType="int" resultMap="resultQuestion">
+		SELECT
+			q.question_id,
+			q.writer_id,
+			q.writer_category,
+			q.question_title,
+			q.question_content,
+			q.secret_status,
+			q.create_date,
+			a.system_admin_id,
+			a.question_answer_content
+		FROM question q LEFT JOIN question_answer a
+		ON q.question_id = a.question_id
+		<where>
+			q.question_id = #{questionId}
+		</where>
+	</select>
+	
+	<!-- 특정 문의 글 수정 -->
+	<update id="updateQuestion" parameterType="com.btf.tap.vo.Question">
+		UPDATE question
+		SET
+			question_title = #{questionTitle},
+			question_content = #{questionContent},
+			secret_status = #{secretStatus},
+			update_date = NOW()	
+		<where>
+			question_id = #{questionId}
+		</where>
+	</update>
+	
+	<!-- 글 - 댓글 삭제 -->
+	<delete id="deleteQuestion" parameterType="int">
+		DELETE FROM question
+		<where>
+			question_id = #{questionId}
+		</where>
+	</delete>
+	
+	<delete id="deleteQuestionAnswer" parameterType="int">
+		DELETE FROM question_answer
+		<where>
+			question_id = #{questionId}
+		</where>
+	</delete>
+</mapper>

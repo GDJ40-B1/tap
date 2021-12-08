@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.btf.tap.mapper.SearchMapper">
+	<!-- 숙소명 검색 조회 -->
+	<select id="roomSearchList" parameterType="String" resultType="com.btf.tap.vo.Room">
+		SELECT
+			room_id roomId,
+			room_name roomName,
+			room_intro roomIntro,
+			min_day, minDay,
+			people_num peopleNum,
+			room_price roomPrice
+		FROM room
+		<where>
+			room_name LIKE = #{keyword}
+		</where>
+		ORDER BY create_date DESC
+		LIMIT 0, 5
+	</select>
+	
+	<!-- 명소 검색 조회 -->
+	<select id="attractionSearchList" parameterType="String" resultType="com.btf.tap.vo.Attraction">
+		SELECT
+			attraction_id attractionId,
+			attraction_category attractionCategory,
+			attraction_name attractionName,
+			attraction_content attractionContent
+		FROM attraction
+		<where>
+			attraction_name LIKE = #{keyword}
+		</where>
+		ORDER BY create_date DESC
+		LIMIT 0, 5
+	</select>
+	
+	<!-- 해시 태그 테이블 조회 -->
+</mapper>
