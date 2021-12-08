@@ -8,7 +8,7 @@
 <title>noticeList.jsp</title>
 </head>
 <body>
-
+ 
 	<div>
       <jsp:include page="/partial/mainHeader.jsp"></jsp:include>
    </div>

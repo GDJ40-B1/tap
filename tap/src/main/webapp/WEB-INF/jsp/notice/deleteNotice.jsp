@@ -7,7 +7,7 @@
 <title>deleteNotice.jsp</title>
 </head>
 <body>
-
+ 
 	<!-- start : mainHeader -->
    <div>
       <jsp:include page="/partial/mainHeader.jsp"></jsp:include>

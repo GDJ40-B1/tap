@@ -67,4 +67,5 @@
 		DELETE FROM notice
 		<where>notice_id=#{noticeId}</where> 
 	</delete>	
+	
 </mapper>

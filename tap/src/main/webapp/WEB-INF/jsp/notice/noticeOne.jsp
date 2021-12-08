@@ -34,7 +34,7 @@
 			<td>종류 :</td>
 			<td>${notice.kind}</td>
 		</tr>
-		
+		 
 	</table>
 		<div>
 			<a href="${pageContext.request.contextPath}/modifyNotice?noticeId=${notice.noticeId}">수정</a>

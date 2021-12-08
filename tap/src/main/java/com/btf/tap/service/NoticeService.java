@@ -41,7 +41,7 @@ public class NoticeService {
 	public void deleteNotice(Notice notice) {
 		noticeMapper.deleteNotice(notice);
 	}
-	
+	 
 	public Map<String, Object> getNoticeList(int currentPage, int rowPerPage){
 		// 1) 매개변수 가공
 		Map<String, Object> paramMap = new HashMap<>();

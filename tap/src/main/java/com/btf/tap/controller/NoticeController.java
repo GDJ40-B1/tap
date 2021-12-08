@@ -68,7 +68,7 @@ public class NoticeController {
 		int noticeId = notice.getNoticeId();
 		noticeService.deleteNotice(notice);
 		return "redirect:/noticeList";
-	}
+	} 
 	
 	private final int ROW_PER_PAGE = 10;
 	

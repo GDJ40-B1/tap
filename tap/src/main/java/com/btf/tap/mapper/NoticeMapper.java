@@ -15,7 +15,7 @@ public interface NoticeMapper {
 	// List 뽑아오기
 	List<Notice> selectNoticeList(Map<String, Object> map);
 	int selectNoticeTotalCount();
-	
+	 
 	Notice selectNoticeOne(int noticeId); //공지사항 세부내역	
 	int insertNotice(Notice notice); //공지사항 입력
 	
