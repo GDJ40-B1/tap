@@ -6,7 +6,6 @@ import lombok.Data;
 // 주소 vo
 public class Address {
 	private int addressId; // 주소 ID
-	private String postalCode; // 우편번호
 	private String sido; // 시도
 	private String sigungu; // 시군구
 	private String roadName; // 도로명

@@ -23,17 +23,22 @@ public class RoomService {
 	// add, modify, get, remove
 	
 	// 숙소 등록(숙소 and 상세 주소)
-	public int addRoom(Map<String, Object> map) {
+	public int addRoom(Room room, Address address) {
+		// 입력받은 도로명 주소를 분할하여 객체에 넣기
+		String[] addressList = address.getDetailAddress().split(" ");
+		address.setSido(addressList[0]);
+		address.setSigungu(addressList[1]);
+		address.setRoadName(addressList[2]);
+		address.setDetailAddress(addressList[3]);
 		
 		// address 테이블에서 해당 주소를 검색 후
 		// 상세주소 테이블에 데이터를 삽입한다
-		Address address = (Address)map.get("address");
-		address.setAddressId(addressMapper.selectAddressOne(address));
+		Address addressId = addressMapper.selectAddressOne(address);
+		address.setAddressId((addressMapper.selectAddressOne(address)).getAddressId());
 		addressMapper.insertDetailAddress(address);
 		
 		// 상세주소 테이블의 데이터 삽입 시 생성된 id값을
 		// 숙소 등록시 상세주소 값으로 사용한다
-		Room room = (Room)map.get("room");
 		room.setDetailAddressId(address.getDetailAddressId());
 		roomMapper.insertRoom(room);
 		
@@ -47,15 +52,13 @@ public class RoomService {
 	}
 	
 	// 숙소 정보 수정(숙소 and 상세 주소)
-	public void modifyRoom(Map<String, Object> map) {
+	public void modifyRoom(Room room, Address address) {
 		// address 테이블 단 주소 변경 적용을 위해.
 		// addressId를 구하고 변경사항을 저장한다
-		Address address = (Address)map.get("address");
-		address.setAddressId(addressMapper.selectAddressOne(address));
+		address.setAddressId(addressMapper.selectAddressOne(address).getAddressId());
 		addressMapper.updateDetailAddress(address);
 		
 		// 숙소 변경사항 적용
-		Room room = (Room)map.get("room");
 		roomMapper.updateRoom(room);
 	}
 	

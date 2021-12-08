@@ -12,7 +12,7 @@
 	<h1>숙소 등록하기</h1>
 	<form action="${pageContext.request.contextPath}/addRoom" method="post">
 		<div>
-			숙소 카테고리(카테고리 값 받아와서 해야함) : <input type="text" name="roomName">
+			숙소 카테고리(카테고리 값 받아와서 해야함) : <input type="text" name="roomCategory">
 		</div>
 		<div>
 			숙소명 : <input type="text" name="roomName">
@@ -44,7 +44,7 @@
 		
 		<h3>주소 입력</h3>
 		<div>
-			주소 : <input type="text" name="address" id="address">
+			주소 : <input type="text" name="detailAddress" id="address">
 			<button type="button" id="searchBtn">검색</button>
 			상세 주소 : <input type="text" name="detailAddress2">
 		</div>

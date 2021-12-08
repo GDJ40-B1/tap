@@ -34,6 +34,7 @@
 			create_date createDate, update_date updateDate
 		FROM room
 		ORDER BY create_date DESC
+		LIMIT 0,10
 	</select>
 	
 	<!-- 숙소 정보 수정 -->

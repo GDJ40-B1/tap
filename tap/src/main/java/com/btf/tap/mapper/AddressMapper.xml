@@ -3,15 +3,15 @@
 <mapper namespace="com.btf.tap.mapper.AddressMapper">
 
 	<!-- 주소 검색 -->
-	<select id="selectAddressOne" parameterType="com.btf.tap.vo.Address" resultType="int">
-		SELECT address_id addressId FROM address
+	<select id="selectAddressOne" parameterType="com.btf.tap.vo.Address" resultType="com.btf.tap.vo.Address">
+		SELECT address_id addressId, sido, sigungu, road_name roadName FROM address
 		WHERE
 			sido=#{sido} AND sigungu=#{sigungu} AND road_name=#{roadName}
 	</select>
 
 	<!-- 상세 주소 등록 -->
 	<insert id="insertDetailAddress" parameterType="com.btf.tap.vo.Address">
-		INSERT INTO room(
+		INSERT INTO detail_address(
 			address_id, detail_address, detail_address2
 		)VALUE(
 			#{addressId}, #{detailAddress}, #{detailAddress2})
