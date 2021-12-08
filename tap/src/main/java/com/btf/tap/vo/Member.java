@@ -3,7 +3,7 @@ package com.btf.tap.vo;
 import lombok.Data;
 
 @Data
-public class Member {
+public class Member extends User {
 	private String memberId;
 	private String memberName;
 	private int memberAge;

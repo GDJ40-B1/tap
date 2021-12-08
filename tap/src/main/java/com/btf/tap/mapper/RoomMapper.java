@@ -9,6 +9,9 @@ import com.btf.tap.vo.Room;
 @Mapper
 public interface RoomMapper {
 	
+	// 숙소 상세 주소 ID 추출
+	int selectRoomDetailAddressId(int roomId);
+	
 	// 숙소 전체 목록 출력(최근 생성된 숙소 순으로)
 	List<Room> selectRoomList();
 	

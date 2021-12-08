@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.btf.tap.mapper.NoticeMapper">
+		<resultMap type="com.btf.tap.vo.Notice" id="resultNotice">
+		<result column="notice_id" property="noticeId"/>
+		<result column="system_admin_id" property="systemAdminId"/>
+		<result column="title" property="title"/>
+		<result column="content" property="content"/>
+		<result column="kind" property="kind"/>
+		<result column="create_date" property="createDate"/>
+		<result column="update_date" property="updateDate"/>
+	</resultMap>
+	
+	<select id="selectNoticeList" parameterType="hashMap" resultMap="resultNotice" >
+		SELECT
+			notice_id,
+			system_admin_id,
+			title,
+			CONCAT(SUBSTR(content, 1,30),'...') content,
+			kind,
+			create_date,
+			update_date
+		FROM notice
+		ORDER BY create_date ASC
+		LIMIT #{beginRow},#{rowPerPage}
+	</select>
+	
+	<select id="selectNoticeCount" resultType="int">
+		SELECT COUNT(*) num FROM notice
+	</select>
+		
+		<!-- 공지사항 추가 -->
+	<insert id="insertNotice" parameterType="com.btf.tap.vo.Notice">
+		INSERT INTO notice(
+			system_admin_id, title, content, kind, create_date, update_date
+		) VALUES (
+			#{systemAdminId}, #{title}, #{content}, #{kind}, NOW(), NOW())
+			<selectKey keyProperty="noticeId" order="AFTER" resultType="int">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+		
+</mapper>
