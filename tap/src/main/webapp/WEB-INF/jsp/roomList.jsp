@@ -8,10 +8,32 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<table border="1">
-		<tr>
-			<td></td>
-		</tr>
-	</table>
+	<!-- start : mainHeader -->
+   <div>
+      <jsp:include page="/partial/mainHeader.jsp"></jsp:include>
+   </div>
+   <!-- end : mainHeader -->
+   
+   <main id="main">
+   		<section class="breadcrumbs">
+			<table border="1">
+				<tr>
+					<td>wow</td>
+				</tr>
+				<tr>
+					<td>wow</td>
+				</tr>
+				<tr>
+					<td>wow</td>
+				</tr>
+			</table>
+		</section>
+	</main>
+	
+	<!-- start : mainFooter -->
+   <div>
+      <jsp:include page="/partial/mainFooter.jsp"></jsp:include>
+   </div>
+   <!-- end : mainFooter -->
 </body>
 </html>

@@ -9,6 +9,13 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<!-- start : mainHeader -->
+   <div>
+      <jsp:include page="/partial/mainHeader.jsp"></jsp:include>
+   </div>
+   <!-- end : mainHeader -->
+   <main id="main">
+   <section class="breadcrumbs">
 	<h1>숙소 등록하기</h1>
 	<form action="${pageContext.request.contextPath}/addRoom" method="post">
 		<div>
@@ -51,6 +58,14 @@
 		<div id="map" style="width:100%;height:350px;"></div>
 		<button type="submit">등록</button>
 	</form>
+	</section>
+	</main>
+	
+	<!-- start : mainFooter -->
+   <div>
+      <jsp:include page="/partial/mainFooter.jsp"></jsp:include>
+   </div>
+   <!-- end : mainFooter -->
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e1c10213787b97f0d88e77cdafcb6687&libraries=services"></script>
 <script>

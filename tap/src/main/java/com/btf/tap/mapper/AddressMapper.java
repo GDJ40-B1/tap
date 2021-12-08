@@ -9,7 +9,7 @@ import com.btf.tap.vo.Room;
 @Mapper
 public interface AddressMapper {
 	
-	// 주소 검색
+	// 특정 주소 검색
 	Address selectAddressOne(Address address);
 	
 	// 상세 주소 등록
