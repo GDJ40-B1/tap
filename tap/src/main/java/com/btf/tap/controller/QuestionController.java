@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.btf.tap.common.Font;
 import com.btf.tap.service.QuestionService;
 import com.btf.tap.vo.Question;
 import com.btf.tap.vo.QuestionAnswer;
@@ -27,7 +28,7 @@ public class QuestionController {
 	public String requestQuestionList(Model model, @RequestParam(name="currentPage", defaultValue = "1") int currentPage,
 											@RequestParam(required = false) String writerCategory) {
 		Map<String, Object> map = questionService.getQuestionList(currentPage, rowPerPage, writerCategory);
-		log.debug(map.toString());
+		log.debug(Font.JSB + map.toString() + Font.RESET);
 		
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("currentPage", currentPage);
@@ -41,7 +42,7 @@ public class QuestionController {
 	@GetMapping("/questionOne")
 	public String getQuestionOne(Model model, int questionId) {
 		Question question = questionService.getQuestionOne(questionId);
-		log.debug(question.toString());
+		log.debug(Font.JSB + question.toString() + Font.RESET);
 		
 		model.addAttribute("question", question);
 		
@@ -57,7 +58,7 @@ public class QuestionController {
 	public String postAddQuestion(Question question) {
 		questionService.addQuestion(question);
 		
-		return "redirect:/Question/questionList";
+		return "redirect:/questionList";
 	}
 	
 	
@@ -67,14 +68,14 @@ public class QuestionController {
 		int questionId = questionAnswer.getQuestionId();
 		questionService.addQuestionAnswer(questionAnswer);
 		
-		return "redirect:/Question/questionOne?questionId="+questionId;
+		return "redirect:/questionOne?questionId="+questionId;
 	}
 	
 	// 특정 문의 글 수정
 	@GetMapping("/modifyQuestion")
 	public String getUpdateQuestion(Model model, int questionId) {
 		Question question = questionService.getQuestionOne(questionId);
-		log.debug(question.toString());
+		log.debug(Font.JSB + question.toString() + Font.RESET);
 		
 		model.addAttribute("question", question);
 		
@@ -85,7 +86,7 @@ public class QuestionController {
 		int questionId = question.getQuestionId();
 		questionService.modifyQuestion(question);
 		
-		return "redirect:/Question/questionOne?questionId="+questionId;
+		return "redirect:/questionOne?questionId="+questionId;
 	}
 	
 	
@@ -94,7 +95,7 @@ public class QuestionController {
 	public String getRemoveQuestion(int questionId) {
 		questionService.removeQuestion(questionId);
 		
-		return "redirect:/Question/questionList";
+		return "redirect:/questionList";
 	}
 	
 	// 특정 문의 답변 삭제
@@ -102,7 +103,7 @@ public class QuestionController {
 	public String getRemoveQuestionAnswer(int questionId) {
 		questionService.removeQuestionAnswer(questionId);
 		
-		return "redirect:/Question/questionOne?questionId="+questionId;
+		return "redirect:/questionOne?questionId="+questionId;
 	}
 	
 }
