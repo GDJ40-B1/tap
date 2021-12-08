@@ -55,15 +55,16 @@
 		
 	<update id="updateNotice" parameterType="com.btf.tap.vo.Notice">
 		UPDATE notice SET
+			
 			title=#{title},
 			content=#{content},
 			kind=#{kind},
 			update_date=NOW()
-		WHERE notice_id=#{noticeId}
+			<where>notice_id=#{noticeId}</where>
 	</update>
 	
 	<delete id="deleteNotice" parameterType="com.btf.tap.vo.Notice">
 		DELETE FROM notice
-		WHERE notice_id=#{notice_id}
+		<where>notice_id=#{noticeId}</where> 
 	</delete>	
 </mapper>

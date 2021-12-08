@@ -23,10 +23,8 @@ public class NoticeService {
 	@Autowired
 	NoticeMapper noticeMapper;
 	
-	public void addNotice(Notice notice)	{
-		noticeMapper.insertNotice(notice);
-	}
-	public int setNotice(Notice notice) {
+	
+	public int addNotice(Notice notice) {
 		noticeMapper.insertNotice(notice);
 		return notice.getNoticeId();
 	}
@@ -36,7 +34,7 @@ public class NoticeService {
 		return notice;
 	}
 	
-	public void setNoticeUpdate(Notice notice) {
+	public void modifyNotice(Notice notice) {
 		noticeMapper.updateNotice(notice);
 	}
 	

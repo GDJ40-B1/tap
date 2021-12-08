@@ -13,7 +13,7 @@
       <jsp:include page="/partial/mainHeader.jsp"></jsp:include>
    </div>
    <!-- end : mainHeader -->
-   
+   <br>
    <br>
    <br>
    <br>
@@ -48,5 +48,10 @@
 			<button type="submit">게시글 추가</button>
 		</form>
 	</div>
+	<!-- start : mainFooter -->
+   <div>
+      <jsp:include page="/partial/mainFooter.jsp"></jsp:include>
+   </div>
+   <!-- end : mainFooter -->
 </body>
 </html>

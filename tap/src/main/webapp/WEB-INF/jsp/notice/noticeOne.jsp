@@ -37,15 +37,16 @@
 		
 	</table>
 		<div>
-			<form action="${pageContext.request.contextPath}/modifyNotice?noticeId=${notice.noticeId}" method="get">
-			<button type="submit">수정</button>
-			</form>
-			<form action="${pageContext.request.contextPath}/deleteNotice?noticeId=${notice.noticeId}" method="get">
-			<button type="submit">삭제</button>
-		</form>
+			<a href="${pageContext.request.contextPath}/modifyNotice?noticeId=${notice.noticeId}">수정</a>
+			
+			<a href="${pageContext.request.contextPath}/deleteNotice?noticeId=${notice.noticeId}">삭제</a>
 		</div>
 	
-	
+	<!-- start : mainFooter -->
+   <div>
+      <jsp:include page="/partial/mainFooter.jsp"></jsp:include>
+   </div>
+   <!-- end : mainFooter -->
 	
 	
 </body>

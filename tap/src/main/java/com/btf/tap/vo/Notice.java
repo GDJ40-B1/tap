@@ -11,4 +11,8 @@ public class Notice {
 	private String kind;
 	private String createDate;
 	private String updateDate;
+	public int getNoticeOne(int noticeId2) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
