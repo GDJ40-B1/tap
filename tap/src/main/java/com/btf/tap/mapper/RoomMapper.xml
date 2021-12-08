@@ -2,10 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.btf.tap.mapper.RoomMapper">
 
-	<!-- 숙소 상세 주소 ID 추출 -->
-	<select id="selectRoomDetailAddressId" parameterType="int" resultType="int">
+	<select id="selectRoomCategory" resultType="String">
+		SELECT room_category roomCategory
+		FROM room_category
+	</select>
+
+	<!-- 특정 숙소 상세 정보 추출-->
+	<select id="selectRoomOne" parameterType="int" resultType="com.btf.tap.vo.Room">
 		SELECT
-			detail_address_id detailAddressId
+			room_id roomId, detail_address_id detailAddressId, host_id hostId,
+			room_category roomCategory, room_form roomForm, room_name roomName,
+			room_intro roomIntro, min_day minDay, check_in_time checkInTime,
+			check_out_time checkOutTime, people_num peopleNum, room_price roomPrice,
+			create_date createDate, update_date updateDate
 		FROM room
 		WHERE room_id=#{roomId}
 	</select>

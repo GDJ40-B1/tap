@@ -18,14 +18,21 @@
    		<section class="breadcrumbs">
 			<table border="1">
 				<tr>
-					<td>wow</td>
+					<td>숙소명</td>
+					<td>카테고리</td>
+					<td>가격</td>
+					<td>체크인 시간</td>
+					<td>체크아웃 시간</td>
 				</tr>
-				<tr>
-					<td>wow</td>
-				</tr>
-				<tr>
-					<td>wow</td>
-				</tr>
+				<c:forEach items="${roomList }" var="list">
+					<tr>
+						<td><a href="${pageContext.request.contextPath}/roomOne?roomId=${list.roomId}&detailAddressId=${list.detailAddressId }">${list.roomName }</a></td>
+						<td>${list.roomCategory }</td>
+						<td>${list.roomPrice }</td>
+						<td>${list.checkInTime }</td>
+						<td>${list.checkOutTime }</td>
+					</tr>
+				</c:forEach>
 			</table>
 		</section>
 	</main>
@@ -37,3 +44,4 @@
    <!-- end : mainFooter -->
 </body>
 </html>
+

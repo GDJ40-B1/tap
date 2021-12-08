@@ -2,8 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.btf.tap.mapper.AddressMapper">
 
+	<!-- 특정 주소 정보 추출 -->
+	<select id="selectAddressOne" parameterType="int" resultType="com.btf.tap.vo.Address">
+		SELECT
+			da.detail_address_id detailAddressId, da.address_id addressId,
+			da.detail_address detailAddress, da.detail_address2 detailAddress2, a.sido, a.sigungu, a.road_name roadName
+		FROM (SELECT * FROM detail_address where detail_address_id=#{detailAddressId}) da
+		INNER JOIN address a ON da.address_id=a.address_id
+	</select>
+
 	<!-- 주소 검색 -->
-	<select id="selectAddressOne" parameterType="com.btf.tap.vo.Address" resultType="com.btf.tap.vo.Address">
+	<select id="searchAddressOne" parameterType="com.btf.tap.vo.Address" resultType="com.btf.tap.vo.Address">
 		SELECT address_id addressId, sido, sigungu, road_name roadName FROM address
 		WHERE
 			sido=#{sido} AND sigungu=#{sigungu} AND road_name=#{roadName}
