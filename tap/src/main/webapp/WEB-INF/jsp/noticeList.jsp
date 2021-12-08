@@ -9,7 +9,7 @@
 </head>
 <body>
 	<h1>공지사항</h1>
-		<a href="${pageContext.request.contextPath}">공지사항 추가</a>
+		
 	<table border="1">
 		<tr>
 			<th>No</th>
@@ -26,5 +26,18 @@
 			</tr>
 		</c:forEach>
 	</table>
+	<div>
+		<c:if test="${currentPage > 1}">
+			<a href="/noticeList?currentPage=${currentPage-1}">이전</a>
+		</c:if>
+			<c:if test="${currentPage < lastPage}">
+			<a href="/noticeList?currentPage=${currentPage-1}">다음</a>
+		</c:if>
+	</div>
+	<div>
+		<form action="addNotice" method="get">
+			<button type="submit">게시글 추가</button>
+		</form>
+	</div>
 </body>
 </html>

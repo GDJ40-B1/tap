@@ -1,5 +1,8 @@
 package com.btf.tap.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,56 +21,22 @@ public class NoticeController {
 	@Autowired
 	NoticeService noticeService;
 	
-	private final int ROW_PER_PAGE = 10;
-	//공지사항 추가
 	@GetMapping("/addNotice")
-	public String addNotice()	{
-		return "addNotice";
-	}
-	//공지사항 내용
-	@GetMapping("/noticeOne")
-	public String noticeOne(Model model, int noticeNo)	{
-		Notice notice = noticeService.getNoticeOne(noticeNo);
-		model.addAttribute("notice", notice);
-		return "noticeOne";
-	}
-	//공지사항 리스트
-	@GetMapping("/noticeList")
-	public String getNoticeList(Model model, String currentNum)	{
-		int currentPage = 1;
-		if(currentNum != null)	{
-			currentPage = Integer.parseInt(currentNum);
-		}
-		List<Notice> noticeList = noticeService.getNoticeList(currentPage);
+	public void addNotice ()	{
 		
 	}
-	//공지사항 수정
-	@GetMapping("modifyNotice")
-	public String modifyNotice(Model model, Notice notice)	{
-		log.debug("NoticeController : noticeId -> "+notice.getNoticeId());
-		model.addAttribute("noticeId", notice.getNoticeId());
-		return "modifyNotice";
-	}
+	private final int ROW_PER_PAGE = 10;
 	
-	//공지사항 삭제
-	@GetMapping("removeNotice")
-	public String removeNotice(int noticeId)	{
-		noticeService.removeNotice(noticeId);
-		return "redirect:/notice";
+	@GetMapping("/noticeList")
+	public String noticeList(Model model, int currentPage) {
+		Map<String, Object> result = noticeService.getNoticeList(currentPage);
+		model.addAttribute("result", result);
+		return "noticeList";
 	}
-	//공지사항 추가
 	@PostMapping("/addNotice")
 	public String addNotice(Notice notice)	{
 		noticeService.addNotice(notice);
-		log.debug(notice.toString());
-		return "redirect:/noticeList";
-	}
-	
-	@PostMapping("/modifyNotice")
-	public String modifyNotice(Notice notice)	{
-		log.debug("NoticeController : modifyNotice -> "+notice.getContent().toString());
-		noticeService.modifyNotice(notice);
-		log.debug("NoticeController : 수정 성공!");
-		return "redirect:/notice";
+		log.debug("★★★★★★★★★★★★★★★★★"+notice.toString());
+		return "noticeList";
 	}
 }
