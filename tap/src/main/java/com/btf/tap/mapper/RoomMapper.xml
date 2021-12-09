@@ -1,17 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.btf.tap.mapper.RoomMapper">
+	<resultMap type="com.btf.tap.vo.Room" id="resultRoom">
+		<result column="room_id" property="roomId"></result>
+		<result column="detail_address_id" property="detailAddressId"></result>
+		<result column="host_id" property="hostId"></result>
+		<result column="room_category" property="roomCategory"></result>
+		<result column="room_form" property="roomForm"></result>
+		<result column="room_name" property="roomName"></result>
+		<result column="room_intro" property="roomIntro"></result>
+		<result column="min_day" property="minDay"></result>
+		<result column="check_in_time" property="checkInTime"></result>
+		<result column="check_out_time" property="checkOutTime"></result>
+		<result column="people_num" property="peopleNum"></result>
+		<result column="room_price" property="roomPrice"></result>
+		<result column="create_date" property="createDate"></result>
+		<result column="update_date" property="updateDate"></result>
+		<association property="address" javaType="com.btf.tap.vo.Address">
+			<result column="address_id" property="addressId"></result>
+			<result column="detail_address_id" property="detailAddressId"></result>
+			<result column="detail_address" property="detailAddress"></result>
+			<result column="detail_address2" property="detailAddress2"></result>
+		</association>
+	</resultMap>
 
-	<!-- 숙소 전체 목록 출력(최근 생성된 숙소 순으로) -->
-	<select id="selectSearchResultRoomList" parameterType="String" resultType="com.btf.tap.vo.Room">
+	<!-- 숙소 검색 결과 목록 출력(최근 생성된 숙소 순으로) -->
+	<select id="selectSearchResultRoomList" parameterType="String" resultMap="resultRoom">
 		SELECT
-			room_id roomId, detail_address_id detailAddressId, host_id hostId,
-			room_category roomCategory, room_form roomForm, room_name roomName,
-			room_intro roomIntro, min_day minDay, check_in_time checkInTime,
-			check_out_time checkOutTime, people_num peopleNum, room_price roomPrice,
-			create_date createDate, update_date updateDate
-		FROM room WHERE room_name LIKE CONCAT('%', #{searchText}, '%')
-		ORDER BY create_date DESC
+			r.room_id, r.detail_address_id, r.host_id,
+			r.room_category, r.room_form, r.room_name,
+			r.room_intro, r.min_day, r.check_in_time,
+			r.check_out_time, r.people_num, r.room_price,
+			r.create_date, r.update_date, da.detail_address2, da.detail_address_id,
+			CONCAT(a.sido,' ',a.sigungu,' ',a.road_name,' ',da.detail_address) detail_address
+		FROM (SELECT * FROM room WHERE room_name LIKE CONCAT('%', #{searchText}, '%')) r
+		INNER JOIN detail_address da ON r.detail_address_id=da.detail_address_id
+		INNER JOIN address a ON da.address_id=a.address_id
+		ORDER BY r.create_date DESC
 		LIMIT 0,10
 	</select>
 

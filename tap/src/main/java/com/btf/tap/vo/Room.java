@@ -19,4 +19,6 @@ public class Room {
 	private int roomPrice; // 숙박 기본 가격
 	private String createDate; // 숙소 생성일
 	private String updateDate; // 숙소 정보 수정일
+	
+	private Address address; // 숙소의 주소 정보
 }

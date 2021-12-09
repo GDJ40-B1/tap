@@ -82,6 +82,7 @@ public class RoomController {
 	
 	@GetMapping("/removeRoom")
 	public String removeRoom(int roomId) {
+		// 숙소 삭제
 		roomService.removeRoom(roomId);
 		return "redirect:/myRoomList";
 	}

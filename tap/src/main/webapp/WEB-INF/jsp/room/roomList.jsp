@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
@@ -16,7 +17,7 @@
    
    <main id="main">
    		<section class="breadcrumbs">
-			<table border="1">
+   			<table border="1">
 				<tr>
 					<td>숙소명</td>
 					<td>카테고리</td>
@@ -44,4 +45,3 @@
    <!-- end : mainFooter -->
 </body>
 </html>
-
