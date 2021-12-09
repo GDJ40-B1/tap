@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.btf.tap.mapper.SystemAdminMapper">
+	<!-- 시스템관리자 전체 목록 불러오기 -->
+	<select	id="selectSystemAdminList" resultType="com.btf.tap.vo.SystemAdmin">
+		SELECT
+			system_admin_id systemAdminId,
+			system_admin_name systemAdminName
+		FROM 
+			system_admin
+		ORDER BY create_date DESC
+		LIMIT 0,10
+	</select>
+
+	<!-- 시스템관리자 한 명의 정보 불러오기 -->
+	<select id="selectSystemAdminOne" parameterType="String" resultType="com.btf.tap.vo.SystemAdmin">
+		SELECT
+			system_admin_id systemAdminId,
+			system_admin_pw systemAdminPw,
+			system_admin_name systemAdminName,
+			create_date createDate,
+			update_date updateDate
+		FROM
+			system_admin
+		WHERE
+			system_admin_id = #{systemAdminId}
+	</select>
+	
+	<!-- 새로운 시스템관리자 한 명 등록하기 -->
+	<insert id="insertSystemAdmin" parameterType="com.btf.tap.vo.SystemAdmin">
+		INSERT INTO 
+			system_admin(
+				system_admin_id,
+				system_admin_pw,
+				system_admin_name,
+				create_date,
+				update_date
+			)
+		VALUES(
+				#{systemAdminId},
+				#{systemAdminPw},
+				#{systemAdminName},
+				NOW(),
+				NOW()	
+		)	
+	</insert>
+	
+	<!-- 시스템관리자 한 명의 pw 수정하기 -->
+	<update id="updateSystemAdminPw" parameterType="com.btf.tap.vo.SystemAdmin">
+		UPDATE system_admin
+		SET
+			system_admin_pw = #{systemAdminPw},
+			update_date = NOW()
+		WHERE 
+			system_admin_id = #{systemAdminId}	
+	</update>
+	
+	<!-- 시스템관리자 한 명의 name 수정하기 -->
+	<update id="updateSystemAdminName" parameterType="com.btf.tap.vo.SystemAdmin">
+		UPDATE system_admin
+		SET
+			system_admin_name = #{systemAdminName},
+			update_date = NOW()
+		WHERE 
+			system_admin_id = #{systemAdminId}	
+	</update>
+	
+	<!-- 시스템관리자 한 명의 정보 삭제하기 -->
+	<delete id="deleteSystemAdmin" parameterType="com.btf.tap.vo.SystemAdmin">
+		DELETE 
+		FROM system_admin
+		WHERE system_admin_id = #{systemAdminId} AND system_admin_pw = #{systemAdminPw}
+	</delete>
+</mapper>
