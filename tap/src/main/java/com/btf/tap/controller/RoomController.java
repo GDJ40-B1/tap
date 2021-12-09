@@ -23,6 +23,14 @@ public class RoomController {
 	
 	/*-----Member측면 및 공통----- */
 	
+	@GetMapping("/roomList")
+	public String roomList(Model model) {
+		// 숙소 목록 추출
+		model.addAttribute("roomList",roomService.getRoomList());
+		
+		return "room/roomList";
+	}
+	
 	@GetMapping("/searchResultRoomList")
 	public String searchResultRoomList(Model model, String searchText) {
 		// 숙소 목록 추출
