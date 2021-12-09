@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.btf.tap.mapper.ReservationMapper">
+	
+	<!-- 예약하기 -->
+	<insert id="insertReservation" parameterType="com.btf.tap.vo.Reservation">
+		INSERT INTO Reservation (
+			member_id,
+			room_id,
+			check_in_date,
+			number_of_people,
+			check_out_date,
+			create_date,
+			update_date
+		)	VALUES	(
+					#{memberId}, #{roomId}, #{checkInDate}, #{numberOfPeople}, 
+					#{checkOutDate}, NOW(), NOW() )
+		<selectKey keyProperty="reservationId" order="AFTER" resultType="int">
+			SELECT LAST_INSERT_ID()
+		</selectKey>	
+	</insert>
+	
+	<!-- 예약 수정하기 -->
+	<update id="updateReservation" parameterType="com.btf.tap.vo.Reservation">
+		UPDATE SET reservation (
+			room_id=#{roomId}, check_in_date=#{checkInDate}, number_of_people=#{numberOfPeople},
+			check_out_date=#{checkOutDate}, update_date=#{updateDate} )
+		<where>reservation_id=#{reservationId}</where>
+	</update>
+	
+	<!-- 예약 삭제하기 -->
+	<delete id="deleteReservation" parameterType="com.btf.tap.vo.Reservation">
+		DELETE FROM reservation
+		<where>reservation_id=#{reservationId}</where>
+	</delete>
+	
+	<!-- 예약정보 상세보기 -->
+	<select id="selectReservationOne" parameterType="int" resultMap="resultReservation">
+		SELECT
+		reservation_id,
+		member_id,
+		room_id,
+		check_in_date,
+		number_of_people,
+		check_out_date,
+		create_date,
+		update_date	
+		FROM reservation
+		WHERE reservation_id = #{reservationId}
+	</select>
+	
+	  <!-- 전체 예약 목록 보기 -->
+	<!--  <select id="selectReservationList" parameterType="Map" resultMap="resultReservation">
+		SELECT
+		reservation_id,
+		member_id,
+		room_id,
+		check_in_date,
+		number_of_people,
+		check_out_date,
+		create_date,
+		update_date
+		ORDER BY create_date DESC
+		
+	</select>-->
+	</mapper>
