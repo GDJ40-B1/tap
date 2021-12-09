@@ -35,7 +35,7 @@
 	</delete>
 	
 	<!-- 예약정보 상세보기 -->
-	<select id="selectReservationOne" parameterType="int" resultMap="resultReservation">
+	<!--  <select id="selectReservationOne" parameterType="int" resultMap="resultReservation">
 		SELECT
 		reservation_id,
 		member_id,
@@ -47,7 +47,7 @@
 		update_date	
 		FROM reservation
 		WHERE reservation_id = #{reservationId}
-	</select>
+	</select>-->
 	
 	  <!-- 전체 예약 목록 보기 -->
 	<!--  <select id="selectReservationList" parameterType="Map" resultMap="resultReservation">
