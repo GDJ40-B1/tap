@@ -59,7 +59,7 @@
 				member_id, 
 				member_pw,
 				member_age,
-				member_name.
+				member_name,
 				member_phone,
 				member_point,
 				create_date,
@@ -71,7 +71,7 @@
 			#{memberAge},
 			#{memberName},
 			#{memberPhone},
-			#{memberPoint},
+			0,
 			NOW(),
 			NOW()
 		)

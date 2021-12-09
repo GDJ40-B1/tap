@@ -30,4 +30,31 @@
 			host_id=#{hostId}
 	</select>
 	
+	<!--  새로운 호스트 한 명 등록하기 -->
+	<insert id="insertHostOne" parameterType="com.btf.tap.vo.Host">
+		INSERT INTO
+			host(
+				host_id, 
+				host_pw,
+				host_age,
+				host_name,
+				host_phone,
+				business_number,
+				host_point,
+				create_date,
+				update_date 
+			)
+		VALUES (
+			#{hostId},
+			#{hostPw},
+			#{hostAge},
+			#{hostName},
+			#{hostPhone},
+			#{businessNumber},
+			0,
+			NOW(),
+			NOW()
+		)
+	</insert>
+	
 </mapper>

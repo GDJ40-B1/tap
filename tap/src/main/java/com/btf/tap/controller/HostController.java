@@ -9,19 +9,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.btf.tap.common.Font;
-import com.btf.tap.service.MemberService;
-import com.btf.tap.vo.Member;
+import com.btf.tap.service.HostService;
+import com.btf.tap.vo.Host;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-public class MemberController {
+public class HostController {
 	
-	@Autowired MemberService memberService;
+	@Autowired HostService hostService;
 	
-	@GetMapping("/addMember")
-	public String getAddMember(HttpServletRequest request) {
+	@GetMapping("/addHost")
+	public String getAddHost(HttpServletRequest request) {
 		
 		HttpSession session = request.getSession();
 		
@@ -30,27 +30,27 @@ public class MemberController {
 			return "redirect:/";
 		}
 		
-		return "member/register";
+		return "host/hostRegister";
 	}
 	
-	@PostMapping("/addMember")
-	public String postAddMember(Member member ) {
+	@PostMapping("/addHost")
+	public String postAddhost(Host host ) {
 		
 		// 입력 디버깅
-		log.debug(Font.HW + "입력받은 회원가입 정보 => ", member.toString() + Font.RESET);
+		log.debug(Font.HW + "입력받은 호스트 회원가입 정보 => ", host.toString() + Font.RESET);
 		
 		
 		// 회원가입 처리 후, 결과를 저장
-		int confirm = memberService.addMember(member);
+		int confirm = hostService.addHost(host);
 		
 		// 회원가입이 안 되어었을 경우 다시 회원가입 실패 알림
 		if(confirm == 0) {
-			log.debug(Font.HW + "회원가입 실패 " + Font.RESET);
-			return "redirect:/addMember";
+			log.debug(Font.HW + "호스트 회원가입 실패 " + Font.RESET);
+			return "redirect:/addHost";
 		}
 		
 		// 출력 디버깅
-		log.debug(Font.HW + "회원가입 성공 " + Font.RESET);
+		log.debug(Font.HW + "호스트 회원가입 성공 " + Font.RESET);
 		
 		// 홈페이지로 이동
 		return "redirect:/";

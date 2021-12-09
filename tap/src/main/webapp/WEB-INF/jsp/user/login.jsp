@@ -68,7 +68,8 @@
                                         <a class="small" href="forgot-password.html">Forgot Password?</a>
                                     </div>
                                     <div class="text-center">
-                                        <a class="small" href="register.html">Create an Account!</a>
+                                        <a class="small" href="${pageContext.request.contextPath}/addMember">Create an Account!</a><br>
+                                        <a class="small" href="${pageContext.request.contextPath}/addHost">Create a Host Account!</a>
                                     </div>
                                 </div>
                             </div>

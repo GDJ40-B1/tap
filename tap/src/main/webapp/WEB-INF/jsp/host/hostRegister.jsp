@@ -39,22 +39,32 @@
                             <div class="text-center">
                                 <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
                             </div>
-                            <form class="user">
-                                <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control form-control-user" id="exampleFirstName"
-                                            placeholder="First Name">
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <input type="text" class="form-control form-control-user" id="exampleLastName"
-                                            placeholder="Last Name">
-                                    </div>
-                                </div>
+                            <form class="user" method="post" action="${pageContext.request.contextPath}/addHost" >
                                 <div class="form-group">
                                     <input type="email" class="form-control form-control-user" id="exampleInputEmail"
-                                        placeholder="Email Address">
+                                        placeholder="Email Address" name="hostId">
+                                </div>                                
+                                <div class="form-group">
+                                    <input type="text" class="form-control form-control-user" id="exampleInputPw"
+                                        placeholder="password" name="hostPw">
                                 </div>
-                                <div class="form-group row">
+                                <div class="form-group">
+                                    <input type="text" class="form-control form-control-user" id="exampleInputName"
+                                        placeholder="name" name="hostName">
+                                </div>                                
+                                <div class="form-group">
+                                    <input type="text" class="form-control form-control-user" id="exampleInputBusinessNumber"
+                                        placeholder="business number" name="businessNumber">
+                                </div>                                
+                                <div class="form-group">
+                                    <input type="text" class="form-control form-control-user" id="exampleInputAge"
+                                        placeholder="age" name="hostAge">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control form-control-user" id="exampleInputPhone"
+                                        placeholder="phone number" name="hostPhone">
+                                </div>
+<!--                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <input type="password" class="form-control form-control-user"
                                             id="exampleInputPassword" placeholder="Password">
@@ -63,19 +73,11 @@
                                         <input type="password" class="form-control form-control-user"
                                             id="exampleRepeatPassword" placeholder="Repeat Password">
                                     </div>
-                                </div>
-                                <a href="login.html" class="btn btn-primary btn-user btn-block">
+                                </div> -->
+                                <button type="submit" class="btn btn-primary btn-user btn-block">
                                     Register Account
-                                </a>
-                                <hr>
-                                <a href="index.html" class="btn btn-google btn-user btn-block">
-                                    <i class="fab fa-google fa-fw"></i> Register with Google
-                                </a>
-                                <a href="index.html" class="btn btn-facebook btn-user btn-block">
-                                    <i class="fab fa-facebook-f fa-fw"></i> Register with Facebook
-                                </a>
+                                </button>
                             </form>
-                            <hr>
                             <div class="text-center">
                                 <a class="small" href="forgot-password.html">Forgot Password?</a>
                             </div>

@@ -28,4 +28,19 @@ public class MemberService {
 		
 		return member;
 	}
+
+	// 회원 한 명의 정보를 추가하기
+	// 입력: Member
+	// 결과: int(회원가입된 수)
+	public int addMember(Member member) {
+		
+		log.debug(Font.HW + "입력받은 회원가입 정보 => " + member.toString() + Font.RESET);
+		
+		int confirm = memberMapper.insertMemberOne(member);
+		
+		log.debug(Font.HW + "회원가입된 수 => " + confirm  + Font.RESET);
+		
+			
+		return confirm;
+	}
 }

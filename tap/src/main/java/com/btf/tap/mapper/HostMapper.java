@@ -9,7 +9,7 @@ import com.btf.tap.vo.Host;
 @Mapper
 public interface HostMapper {
 	Host selectHostOne(Host host);			// 호스트 한 명의 정보 불러오기
-	Host insertHostOne(Host host);			// 새로운 호스트 한 명 등록하기
+	int insertHostOne(Host host);			// 새로운 호스트 한 명 등록하기
 	int updateHostOne(Host host);			// 호스트 한 명의 정보 수정하기(나이,이름, 전화번호)
 	int deleteHostOne(Host host);			// 호스트 한 명의 정보 삭제하기
 	List<Host> selectHostList();			// 호스트 전체 목록 불러오기
