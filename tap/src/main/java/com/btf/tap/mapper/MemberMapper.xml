@@ -1,26 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.btf.tap.mapper.MemberMapper">
-	<!-- 아이디 중복 체크 -->
-	<select id="selectMemberId" resultType="int" parameterType="com.btf.tap.vo.Member">
+	<resultMap type="com.btf.tap.vo.Member" id="resultMember">
+		<result column="member_id" property="memberId"/>
+		<result column="member_pw" property="memberPw"/>
+		<result column="member_age" property="memberAge"/>
+		<result column="member_phone" property="memberPhone"/>
+		<result column="member_point" property="memberPoint"/>
+		<result column="create_date" property="createDate"/>
+		<result column="update_date" property="updateDate"/>
+	</resultMap>
+	
+	<!-- 회원 한 명의 정보 불러오기 -->
+	<select id="selectMemberOne" resultMap="resultMember" parameterType="com.btf.tap.vo.Member" >
 		SELECT 
-			COUNT(*)
+			member_id,
+			member_name,
+			member_age,
+			member_phone,
+			member_point,
+			create_date,
+			update_date
 		FROM
-			view_member_id_check
+			member
 		WHERE
 			member_id=#{memberId}
 	</select>
 	
-	<!-- 회원 한 명의 정보 불러오기 -->
-	<select id="selectMemberOne" resultType="com.btf.tap.vo.Member" parameterType="com.btf.tap.vo.Member">
+	<!-- 회원 전체 목록 불러오기 -->
+	<select id="selectMemberOne" resultMap="resultMember" parameterType="com.btf.tap.vo.Member" >
 		SELECT 
-			member_id memberID,
-			member_name memberName,
-			member_age memberAge,
-			member_phone memberPhone,
-			member_point memberPoint,
-			create_date createDate,
-			update_date updateDate
+			member_id,
+			member_name,
+			member_age,
+			member_phone,
+			member_point,
+			create_date,
+			update_date
+		FROM
+			member
+	</select>
+	
+	<!-- 회원 비밀번호 확인하기(수정용) -->
+	<select id="selectMemberPw" parameterType="com.btf.tap.vo.Member" >
+		SELECT 
+			COUNT(*)
 		FROM
 			member
 		WHERE
@@ -52,5 +76,62 @@
 			NOW()
 		)
 	</insert>
+	
+	<!-- 회원 한 명의 정보를 수정(나이,이름, 전화번호 ) -->
+	<update id="updateMemberOne" parameterType="com.btf.tap.vo.Member">
+		UPDATE
+			member
+		SET
+			member_age=#{memberAge},
+			member_name=#{memberName},
+			member_phone=#{memberPhone},
+			update_date=NOW()
+		WHERE
+			member_id=#{memberId}
+	</update>
+	
+	<!-- 회원 한 명의 정보를 수정(포인트) -->
+	<update id="updateMemberOne" parameterType="com.btf.tap.vo.Member">
+		UPDATE
+			member
+		SET
+			member_point=#{memberPoint},
+			update_date=NOW()
+		WHERE
+			member_id=#{memberId}
+	</update>
+	
+	<!-- 회원 한 명의 정보를 수정(비밀번호) -->
+	<update id="updateMemberOne" parameterType="com.btf.tap.vo.Member">
+		UPDATE
+			member
+		SET
+			member_pw=#{memberPw},
+			update_date=NOW()
+		WHERE
+			member_id=#{memberId}
+	</update>
+	
+	<!-- 회원 한 명의 정보를 수정(포인트) -->
+	<update id="updateMemberOne" parameterType="com.btf.tap.vo.Member">
+		UPDATE
+			member
+		SET
+			member_age=#{memberAge},
+			member_name=#{memberName},
+			member_phone=#{memberPhone},
+			update_date=NOW()
+		WHERE
+			member_id=#{memberId}
+	</update>
+	
+	<!-- 회원 한 명의 정보를 삭제 -->
+	<delete id="deleteMemberOne" parameterType="com.btf.tap.vo.Member">
+		DELETE
+			member
+		WHERE
+			member_id=#{memberID},
+			member_pw=#{memberPw}
+	</delete>
 
 </mapper>

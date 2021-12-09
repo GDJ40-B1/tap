@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.btf.tap.mapper.HostMapper">
+	<resultMap type="com.btf.tap.vo.Host" id="resultHost">
+		<result column="host_id" property="hostId"/>
+		<result column="host_pw" property="hostPw"/>
+		<result column="host_age" property="hostAge"/>
+		<result column="host_phone" property="hostPhone"/>
+		<result column="business_number" property="businessNumber"/>
+		<result column="host_point" property="hostPoint"/>
+		<result column="create_date" property="createDate"/>
+		<result column="update_date" property="updateDate"/>
+	</resultMap>
+	
+	<!-- 호스트 한 명의 정보 불러오기 -->
+	<select id="selectHostOne" resultMap="resultHost" parameterType="com.btf.tap.vo.Host" >
+		SELECT 
+			host_id,
+			host_name,
+			host_age,
+			host_phone,
+			business_number,
+			host_point,
+			create_date,
+			update_date
+		FROM
+			host
+		WHERE
+			host_id=#{hostId}
+	</select>
+	
+</mapper>

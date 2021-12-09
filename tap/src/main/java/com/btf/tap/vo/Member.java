@@ -1,8 +1,10 @@
 package com.btf.tap.vo;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper=false)
 public class Member extends User {
 	private String memberId;
 	private String memberName;
