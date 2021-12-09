@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>
 
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
@@ -63,6 +64,12 @@
             </ul>
           </li>
           <li><a href="contact.html">Contact</a></li>
+          <c:if test="${loginUser!=null}">
+          	<li><a href="${pageContext.request.contextPath}/logout">logout</a></li>
+          </c:if>
+          <c:if test="${loginUser==null}">
+          	<li><a href="${pageContext.request.contextPath}/login">login</a></li>
+          </c:if>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
@@ -72,11 +79,11 @@
   
   <!-- 기존 부트스트랩에서 footer 하단에 존재하던 js들-->
  <!-- Vendor JS Files -->
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="${pageContext.request.contextPath}/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="${pageContext.request.contextPath}/resources/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="${pageContext.request.contextPath}/resources/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="${pageContext.request.contextPath}/resources/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="${pageContext.request.contextPath}/resources/vendor/php-email-form/validate.js"></script>
 
   <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
+  <script src="${pageContext.request.contextPath}/resources/js/main.js"></script>

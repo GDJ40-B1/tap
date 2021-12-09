@@ -22,16 +22,27 @@ public class UserController {
 	
 	// 로그인 페이지로 이동
 	@GetMapping("login")
-	public String GetLogin() {
+	public String GetLogin(HttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+		
+		// 로그인 되있을 경우, 홈페이지로 이동
+		if(session.getAttribute("loginUser") != null) {
+			log.debug(Font.HW + "이미 로그인한 유저 => index 페이지로 이동" + Font.RESET);
+			
+			return "redirect:/index";
+		}
 		
 		return "user/login";
 	}
 	
 	// 로그아웃 후 index 페이지로 이동
 	@GetMapping("logout")
-	public String GetLogout() {
+	public String GetLogout(HttpSession session) {
 		
-		return "index";
+		session.invalidate();
+		
+		return "redirect:/";
 	}
 	
 	
@@ -46,7 +57,7 @@ public class UserController {
 		
 		// 로그인 되있을 경우, 홈페이지로 이동
 		if(session.getAttribute("loginUser") != null) {
-			return "redirect:/index";
+			return "redirect:/";
 		}
 		
 		// 로그인 로직 처리 후, 결과를 담음
@@ -64,7 +75,7 @@ public class UserController {
 		// 세션에 회원 정보 저장
 		session.setAttribute("loginUser", user);
 		
-		return "index";
+		return "redirect:/";
 	}
 }
 
