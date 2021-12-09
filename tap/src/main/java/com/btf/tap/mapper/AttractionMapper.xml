@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.btf.tap.mapper.AttractionMapper">
+
+	<!-- 카테고리 -->
+	<select id="selectAttractionCategory" resultType="String">
+		SELECT
+			attraction_category attractionCategory
+		FROM
+			attraction_category
+	</select>
+	
+	<!-- [비회원, 회원, 관리자] 명소 상세보기 -->
+	<select id="selectAttractionOne" parameterType="int" resultType="com.btf.tap.vo.Attraction">
+		SELECT
+			detail_address_id detailAddress, attraction_category attractionCategory, attraction_name attractionName,
+			attraction_phone_number attractionPhoneNumber, attraction_content attractionContent, update_date updateDate
+		FROM 
+			attraction
+		WHERE
+			attraction_id=#{attractionId}
+		
+	</select>
+	
+	<!-- [관리자] 명소 삭제 -->
+	<delete id="deleteAttraction" parameterType="int">
+		DELETE FROM
+			attraction
+		WHERE
+			attraction_id=#{attractionId}
+	
+	</delete>
+	
+	<!-- [관리자] 명소 수정(승인) -->
+	<update id="updateAttraction" parameterType="com.btf.tap.vo.Attraction">
+		UPDATE
+			attraction
+		SET
+			attraction_category=#{attractionCategory}, attraction_name=#{attractionName}, attraction_phone_number=#{attractionPhoneNumber},
+			attraction_content=#{attractionContent}, aproval_status=#{aprovalStatus}, update_date=Now()
+		WHERE
+			attraction_id=#{attractionId}
+		
+	</update>
+	
+	<!-- [비회원, 회원, 관리자] 명소 전체 목록 -->
+	<select id="selectAttractionList" resultType="com.btf.tap.vo.Attraction">
+		SELECT
+			attraction_category, attraction_name, attraction_phone_number
+		FROM
+			attraction
+		ORDER BY
+			create_date DESC
+	
+	</select>
+	
+	<!-- [회원, 관리자] 명소 등록 -->
+	<insert id="insertAttraction" parameterType="com.btf.tap.vo.Attraction">
+		INSERT INTO 
+			attraction(
+			detail_address_id, attraction_category, attraction_name, attraction_phone_number, 
+			attraction_content, approval_status, create_date, update_date
+		)VALUE(
+			#{detailAddressId}, #{attractionCategory}, #{attractionName}, #{attractionPhoneNumber},
+			#{attractionContent}, #{"N"}, NOW(), NOW())
+		<!-- key값 return -->
+		<selectKey keyProperty="attractionId" order="AFTER" resultType="int">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+
+</mapper>
