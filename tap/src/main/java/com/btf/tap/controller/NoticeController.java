@@ -70,17 +70,65 @@ public class NoticeController {
 		return "redirect:/noticeList";
 	} 
 	
-	private final int ROW_PER_PAGE = 10;
 	
 	@GetMapping("/noticeList")
-	public String getnoticeList(Model model,
-			@RequestParam(defaultValue = "1") int currentPage) {
+	public String noticeList(Model model, String currentNum, String kind) {
+			
+		int currentPage = 1;
+		if(currentNum!=null) {
+			currentPage = Integer.parseInt(currentNum);
+		}
 		
-			Map<String, Object> map = noticeService.getNoticeList(currentPage, ROW_PER_PAGE);
-			model.addAttribute("noticeList", map.get("noticeList"));
-			model.addAttribute("lastPage", map.get("lastPage"));
+		if(kind==null || kind=="") {
+			List<Notice> noticeList = noticeService.getNoticeList(currentPage);
+			
+			model.addAttribute("noticeList", noticeList);
+			model.addAttribute("currentPage",currentPage);
+			model.addAttribute("kind", kind);
+		} else if(kind != "") {
+			List<Notice> noticeList = noticeService.getNoticeListByKind(currentPage , kind);
+			
+			model.addAttribute("noticeList", noticeList);
 			model.addAttribute("currentPage", currentPage);
-			return "notice/noticeList";
+			model.addAttribute("kind", kind);
+		}
+		
+		int lastPage;
+		if(kind==null || kind=="") { // 선택된 카테고리가 없을때
+			lastPage = noticeService.lastPage();
+		} else { 
+			lastPage = noticeService.lastPageByKind(kind);
+		}
+		
+		// 화면에 보여질 페이지 번호의 갯수
+		int displayPage = 10;
+		
+		// 화면에 보여질 시작 페이지 번호
+		int startPage = ((currentPage - 1) / displayPage) * displayPage + 1;
+
+		// 화면에 보여질 마지막 페이지 번호
+		int endPage = 0;
+		if(lastPage<displayPage){
+			endPage = lastPage;
+		} else if (lastPage>=displayPage){
+			endPage = startPage + displayPage - 1;
+		}
+		
+		
+		log.debug("startPage(화면에 보여질 시작 페이지 번호) : "+startPage+", endPage(화면에 보여질 마지막 페이지 번호) : "+endPage);
+		model.addAttribute("startPage",startPage);
+		model.addAttribute("endPage",endPage);
+		model.addAttribute("displayPage",displayPage);
+		model.addAttribute("lastPage",lastPage);
+		
+		return "notice/noticeList";
+	}
+	
+	@PostMapping("/noticeList")
+	public String noticeListByKind(int currentPage, String kind) {
+			
+			
+			return "redirect:/noticeList?kind"+kind+"&currentPage="+currentPage;
 	}
 	
 }

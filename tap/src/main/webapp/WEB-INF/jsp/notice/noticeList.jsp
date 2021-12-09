@@ -17,8 +17,23 @@
    <br>
    <br>
    <br>
+   
 	<h1>공지사항</h1>
-		
+	<br>
+	
+	<h5>
+		KIND : ${kind}
+	</h5>
+	
+	<form method="get" action="${pageContext.request.contextPath}/noticeList">
+		<div>
+			<select name="kind">
+				<option value="">전체</option>
+				<option value="Y">Y</option>
+				<option value="N">N</option>
+			</select>
+			<button type="submit">검색</button>
+		</div>
 	<table border="1">
 		<tr>
 			<th>No</th>
@@ -35,14 +50,33 @@
 			</tr>
 		</c:forEach>
 	</table>
+	
 	<div>
-		<c:if test="${currentPage > 1}">
-			<a href="/noticeList?currentPage=${currentPage-1}">이전</a>
+		<c:if test="${currentPage!=1}">
+			<a href="${pageContext.request.contextPath}/noticeList?currentNum=1&kind=${kind}">처음</a>
 		</c:if>
-			<c:if test="${currentPage < lastPage}">
-			<a href="/noticeList?currentPage=${currentPage-1}">다음</a>
+		<c:if test="${startPage > displayPage}">
+			<a href="${pageContext.request.contextPath}/noticeList?currentNum=${startPage-displayPage}&kind=${kind}">이전</a>
+		</c:if>
+		<c:set var="loop_flag" value="true" />
+		<c:if test="${endPage<lastPage || endPage==lastPage}">
+			<c:forEach var="i" begin="${startPage}" end="${endPage}" step="1">
+				<a href="${pageContext.request.contextPath}/noticeList?currentNum=${i}&kind=${kind}">${i}</a>
+			</c:forEach>
+		</c:if>
+		<c:if test="${endPage>lastPage}">
+			<c:forEach var="i" begin="${startPage}" end="${lastPage}" step="1">
+				<a href="${pageContext.request.contextPath}/noticeList?currentNum=${i}&kind=${kind}">${i}</a>
+			</c:forEach>
+		</c:if>
+		<c:if test="${endPage < lastPage}">
+			<a href="${pageContext.request.contextPath}/noticeList?currentNum=${startPage+displayPage}&kind=${kind}">다음</a>
+		</c:if>
+		<c:if test="${currentPage != lastPage && endPage != 0}">
+			<a href="${pageContext.request.contextPath}/noticeList?currentNum=${lastPage}&kind=${kind}">끝</a>
 		</c:if>
 	</div>
+	
 	<div>
 		<form action="addNotice" method="get">
 			<button type="submit">게시글 추가</button>

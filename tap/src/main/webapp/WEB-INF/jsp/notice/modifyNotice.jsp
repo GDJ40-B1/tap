@@ -20,6 +20,7 @@
     
 	<a href="${pageContext.request.contextPath}/noticeList">리스트로</a>
 	<h1>수정하기</h1>
+	<br>
 	<form action="${pageContext.request.contextPath}/modifyNotice?noticeId=${notice.noticeId}" method="post">
 	
 		<div>제목 :</div>

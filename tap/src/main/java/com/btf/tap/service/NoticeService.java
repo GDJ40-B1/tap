@@ -42,27 +42,59 @@ public class NoticeService {
 		noticeMapper.deleteNotice(notice);
 	}
 	 
-	public Map<String, Object> getNoticeList(int currentPage, int rowPerPage){
-		// 1) 매개변수 가공
-		Map<String, Object> paramMap = new HashMap<>();
-		int beginRow = (currentPage-1)*rowPerPage;
-		paramMap.put("beginRow", 0); // currentPage가공
-		paramMap.put("rowPerPage", rowPerPage);
-		List<Notice> noticeList = noticeMapper.selectNoticeList(paramMap);
+	public List<Notice> getNoticeList(int currentPage){
 		
-		// 2) 리턴값 가공
-		Map<String, Object> returnMap = new HashMap<>();
-		int lastPage = 0;
-		int totalCount = noticeMapper.selectNoticeTotalCount();
-		lastPage = totalCount / rowPerPage;
-		if(totalCount % rowPerPage != 0) {
-			lastPage +=1;
-		}
-		returnMap.put("noticeList", noticeList);
-		returnMap.put("lastPage", lastPage);
-		return returnMap;
+		final int ROW_PER_PAGE = 10;
+		int beginRow = (currentPage-1) * ROW_PER_PAGE;
+		
+		Map<String, Integer> paramMap = new HashMap<>();
+		
+		paramMap.put("beginRow", beginRow);
+		
+		List<Notice> noticeList = noticeMapper.selectNoticeList(paramMap);
+		return noticeList;
+		
+	}
+	
+	public List<Notice> getNoticeListByKind(int currentPage, String kind){
+		
+		final int ROW_PER_PAGE = 10;
+		int beginRow = (currentPage-1) * ROW_PER_PAGE;
+		
+		Map<String, Object> paramMap2 = new HashMap<>();
+		
+		paramMap2.put("beginRow", beginRow);
+		paramMap2.put("kind", kind);
+		
+		List<Notice> noticeList = noticeMapper.selectNoticeListByKind(paramMap2);
+		
+		return noticeList;
 	}
 
-
+	// 마지막 페이지
+		public int lastPage() {
+			int lastPage = 0;
+			final int ROW_PER_PAGE = 10;
+			int totalRowCount = noticeMapper.totalRowCount();
+			
+			lastPage = totalRowCount / ROW_PER_PAGE;
+			if(totalRowCount % ROW_PER_PAGE != 0) {
+				lastPage++;
+			}
+			return lastPage;
+		}
+		
+		// kind 별 게시판 마지막 페이지
+		public int lastPageByKind(String kind) {
+			int lastPage = 0;
+			final int ROW_PER_PAGE = 10;
+			int totalRowCount = noticeMapper.totalRowCountByKind(kind);
+			
+			lastPage = totalRowCount / ROW_PER_PAGE;
+			if(totalRowCount % ROW_PER_PAGE != 0) {
+				lastPage++;
+			}
+			return lastPage;
+		}
 			
 }

@@ -21,6 +21,7 @@
 	<a href="${pageContext.request.contextPath}/noticeList">리스트로</a>
 	<h1>공지사항 상세</h1>
 	<input type="hidden" name="noticeId" value="${noticeId}" readonly="readonly">
+	<br>
 	<table border="1">
 		<tr>
 			<td>제목 :</td>
@@ -34,13 +35,18 @@
 			<td>종류 :</td>
 			<td>${notice.kind}</td>
 		</tr>
-		 
+		
 	</table>
 		<div>
 			<a href="${pageContext.request.contextPath}/modifyNotice?noticeId=${notice.noticeId}">수정</a>
 			
 			<a href="${pageContext.request.contextPath}/deleteNotice?noticeId=${notice.noticeId}">삭제</a>
 		</div>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
 	
 	<!-- start : mainFooter -->
    <div>
