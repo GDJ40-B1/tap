@@ -28,7 +28,7 @@
 	</select>
 	
 	<!-- 회원 전체 목록 불러오기 -->
-	<select id="selectMemberOne" resultMap="resultMember" parameterType="com.btf.tap.vo.Member" >
+	<select id="selectMemberList" resultMap="resultMember" parameterType="com.btf.tap.vo.Member" >
 		SELECT 
 			member_id,
 			member_name,
@@ -91,7 +91,7 @@
 	</update>
 	
 	<!-- 회원 한 명의 정보를 수정(포인트) -->
-	<update id="updateMemberOne" parameterType="com.btf.tap.vo.Member">
+	<update id="updateMemberPoint" parameterType="com.btf.tap.vo.Member">
 		UPDATE
 			member
 		SET
@@ -102,24 +102,11 @@
 	</update>
 	
 	<!-- 회원 한 명의 정보를 수정(비밀번호) -->
-	<update id="updateMemberOne" parameterType="com.btf.tap.vo.Member">
+	<update id="updateMemberPw" parameterType="com.btf.tap.vo.Member">
 		UPDATE
 			member
 		SET
 			member_pw=#{memberPw},
-			update_date=NOW()
-		WHERE
-			member_id=#{memberId}
-	</update>
-	
-	<!-- 회원 한 명의 정보를 수정(포인트) -->
-	<update id="updateMemberOne" parameterType="com.btf.tap.vo.Member">
-		UPDATE
-			member
-		SET
-			member_age=#{memberAge},
-			member_name=#{memberName},
-			member_phone=#{memberPhone},
 			update_date=NOW()
 		WHERE
 			member_id=#{memberId}
