@@ -8,8 +8,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>문의 글 작성</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <title>검색 결과</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -47,73 +46,62 @@
     </div>
     <!-- end : mainHeader -->
 
-  <main id="main">
+   <main id="main">
 
     <!-- ======= Breadcrumbs ======= -->
     <section id="breadcrumbs" class="breadcrumbs">
       <div class="container">
 
         <div class="d-flex justify-content-between align-items-center">
-          <h2>문의 글 작성</h2>
-          <ol>
-            <li><a href="index.html">Home</a></li>
-            <li>문의 게시판</li>
-          </ol>
+          <h2>숙소 검색 결과</h2>
         </div>
-
+		
+		<c:forEach var="r" items="${roomList}">
+			<div><a href="/tap/">${r.roomName}</a></div>
+			<div>${r.roomIntro}</div>
+			<div>최소 일수 : ${r.minDay} 최소 인원 :  ${peopleNum} 가격 : ${roomPrice}</div>
+		</c:forEach>
+		
       </div>
     </section><!-- End Breadcrumbs -->
 
-    <!-- ======= Table Section ======= -->
-    <section id="list" class="list">
+    <!-- ======= Breadcrumbs ======= -->
+    <section id="breadcrumbs" class="breadcrumbs">
       <div class="container">
+
+        <div class="d-flex justify-content-between align-items-center">
+          <h2>명소 검색 결과</h2>
+        </div>
 		
-		<form id="insertQuestionForm" action ="/tap/addQuestion" method ="post">
-		<!-- 세션 ID, 카테고리 -->
-		<input type="hidden" name="" value="">
-		<input type="hidden" name="" value="">
-		<div class="form-group">
-		<label for="questionTitle">제목 : </label>
-			<input type ="text" class="form-control" placeholder="제목을 입력해주세요" id="questionTitle" name="questionTitle" >
-		</div>
-		<div class="form-group">
-		<label for="questionContent">내용 : </label>
-			<textarea class="form-control" rows="5" placeholder="내용을 입력해주세요" id="questionContent" name="questionContent" ></textarea>
-		</div>
-		<div class="form-check">
-		 <label class="form-check-label">
-		    <input type="radio" class="form-check-input" name="secretStatus" value="Y">비밀글 작성
-		 </label>
-		</div>
-		<div class="form-check">
-  		<label class="form-check-label">
-   			<input type="radio" class="form-check-input" name="secretStatus" value="N" checked>외부 공개 허용
-  		</label>
-		</div>
-		<div>
-			<button id="btn" type ="button">작성</button>
-		</div>
-	</form>
-	
-	<script>
-		$('#btn').click(function(){
-			if($('#questionTitle').val() == '') {
-				alert('제목을 입력하세요');
-				return;
-			}
-			if($('#questionContent').val() == '') {
-				alert('내용을 입력하세요');
-				return;
-			}
-			
-			$('#insertQuestionForm').submit();
-		});
-	</script>
+		<c:forEach var="a" items="${attractionList}">
+			<div><a href="/tap/">${a.attractionName}</a></div>
+			<div>${a.attractionCategory}</div>
+			<div>${a.attractionContent}</div>
+		</c:forEach>
 		
       </div>
-    </section><!-- End Table Section -->
-	
-	
+    </section><!-- End Breadcrumbs -->
+
+    <!-- ======= Breadcrumbs ======= -->
+    <section id="breadcrumbs" class="breadcrumbs">
+      <div class="container">
+
+        <div class="d-flex justify-content-between align-items-center">
+          <h2>해시태그 검색 결과</h2>
+        </div>
+		
+		<c:forEach var="h" items="${resultList}">
+			<div>${r.roomName}</div>
+			<div>${r.roomIntro}</div>
+			<div>최소 일수 : ${r.minDay} 최소 인원 :  ${peopleNum} 가격 : ${roomPrice}</div>
+		</c:forEach>
+		
+      </div>
+    </section><!-- End Breadcrumbs -->
+  
+
+  
+
   </main><!-- End #main -->
 
   <!-- start : mainFooter -->
@@ -121,6 +109,7 @@
       <jsp:include page="/partial/mainFooter.jsp"></jsp:include>
     </div>
   <!-- end : mainFooter -->
+
 
   <!-- Vendor JS Files -->
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

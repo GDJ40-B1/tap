@@ -7,12 +7,13 @@
 			room_id roomId,
 			room_name roomName,
 			room_intro roomIntro,
-			min_day, minDay,
+			min_day minDay,
 			people_num peopleNum,
 			room_price roomPrice
 		FROM room
 		<where>
-			room_name LIKE = #{keyword}
+			room_name LIKE 
+			CONCAT ('%', #{keyword}, '%')
 		</where>
 		ORDER BY create_date DESC
 		LIMIT 0, 5
@@ -27,11 +28,38 @@
 			attraction_content attractionContent
 		FROM attraction
 		<where>
-			attraction_name LIKE = #{keyword}
+			attraction_name LIKE
+			CONCAT ('%', #{keyword}, '%')
 		</where>
 		ORDER BY create_date DESC
 		LIMIT 0, 5
 	</select>
 	
 	<!-- 해시 태그 테이블 조회 -->
+	<select id="hashtagSearch" parameterType="String" resultType="com.btf.tap.vo.Hashtag">
+		SELECT
+			hashtag_target hashtagTarget,
+			hashtag_name hashTagName,
+			hashtag_target_category hashtagTargetCategory
+		FROM hashtag
+		<where>
+			hashtag_name LIKE
+			CONCAT ('%', #{keyword}, '%')
+		</where>
+		LIMIT 0, 5
+	</select>
+	
+	<!-- 회원 검색어 기록 저장 -->
+	<insert id="insertSearchKeyword" parameterType="com.btf.tap.vo.SearchHistory">
+		INSERT INTO search_history(
+			search_word,
+			member_id,
+			create_date
+		) VALUES (
+			#{searchWord},
+			#{memberId},
+			NOW()
+		)
+		
+	</insert>
 </mapper>

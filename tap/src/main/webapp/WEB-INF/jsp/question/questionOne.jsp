@@ -86,25 +86,29 @@
 				<td>내용</td>
 				<td>${question.questionContent}</td>
 			</tr>
-			<tr>
-				<td>비밀글 여부</td>
-				<td>${question.secretStatus}</td>
-			</tr>
+			<c:if test="${question.writerId == loginUser.userId}">
+				<tr>
+					<td>비밀글 여부</td>
+					<td>${question.secretStatus}</td>
+				</tr>
+			</c:if>
 			<tr>
 				<td>작성일</td>
 				<td>${question.createDate}</td>
 			</tr>
 		</table>
-       
-		<a href="/tap/modifyQuestion?questionId=${question.questionId}">문의글 수정</a>
-		<a href="javascript:removeButton();">문의글 삭제</a>
+       	
+       	<c:if test="${question.writerId == loginUser.userId || loginUser.userLevel == 'system_admin'}">
+       		<a href="/tap/modifyQuestion?questionId=${question.questionId}">문의글 수정</a>
+			<a href="javascript:removeButton();">문의글 삭제</a>
+       	</c:if>
 		
       </div>
     </section><!-- End Table Section -->
 	
 	
 	<!-- ======= Answer Section ======= -->
-	<!-- 세션 완성 시 관리자만 보이도록 수정 필요 -->
+	<c:if test="${loginUser.userLevel == 'system_admin'}">
     <section id="list" class="list">
       <div class="container">
 
@@ -112,9 +116,9 @@
 			<div class="form-group">
 				<input type="hidden" name="questionId" value="${question.questionId}">
 				<!-- 세션에서 관리자명 가져와야 함 -->
-				<input type="hidden" name="" value="">
+				<input type="hidden" name="systemAdminId" value="${loginUser.userId}">
 				<label for="questionAnswer">답변 작성 : </label>
-					<textarea class="form-control" rows="5" placeholder="답변을 작성해주세요" id="questionAnswer" name="questionAnswer" ></textarea>
+					<textarea class="form-control" rows="5" placeholder="답변을 작성해주세요" id="questionAnswerContent" name="questionAnswerContent"></textarea>
 			</div>
 			<div>
 				<button id="btn" type ="button">작성</button>
@@ -122,7 +126,10 @@
 		</form>		
 		
       </div>
-    </section><!-- End Answer Section -->	
+      
+      
+    </section>
+    </c:if><!-- End Answer Section -->	
 	
 	
   	<!-- ======= Table Section ======= -->
@@ -139,8 +146,7 @@
 				<tr>
 					<td>${a.systemAdminId}</td>
 					<td>${a.questionAnswerContent}</td>
-					<!-- 세션 완성 시 관리자만 보이도록 수정 필요 -->
-					<c:if test="${admin == true}">
+					<c:if test="${a.systemAdminId != null && loginUser.userLevel == 'system_admin'}">
 						<td><a href="javascript:removeAnswer();">삭제</a></td>
 					</c:if>
 				</tr>
@@ -160,7 +166,7 @@
 		}
 		
 		$('#btn').click(function(){
-			if($('#questionAnswer').val() == '') {
+			if($('#questionAnswerContent').val() == '') {
 				alert('답변을 입력하세요');
 				return;
 			}
@@ -168,7 +174,7 @@
 			$('#questionAnswerForm').submit();
 		});
 		
-		function removeAnwser(){
+		function removeAnswer(){
 			if(confirm("작성하신 답변을 삭제 하시겠습니까?") == true){
 				location.href="/tap/removeQuestionAnswer?questionId=${question.questionId}";
 			} else {

@@ -8,7 +8,8 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>문의 게시판</title>
+  <title>문의 글 수정</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -46,14 +47,14 @@
     </div>
     <!-- end : mainHeader -->
 
-   <main id="main">
+  <main id="main">
 
     <!-- ======= Breadcrumbs ======= -->
     <section id="breadcrumbs" class="breadcrumbs">
       <div class="container">
 
         <div class="d-flex justify-content-between align-items-center">
-          <h2>문의 게시판</h2>
+          <h2>문의 글 수정</h2>
           <ol>
             <li><a href="index.html">Home</a></li>
             <li>문의 게시판</li>
@@ -63,69 +64,55 @@
       </div>
     </section><!-- End Breadcrumbs -->
 
-	<!-- ======= category Section ======= -->
-    <section id="pageNumber" class="pageNumber">
-      <div class="container">
-      
-		<a href="/tap/questionList?writerCategory=member">회원</a>
-		<a href="/tap/questionList?writerCategory=host">숙소 호스트</a>
-		
-      </div>
-    </section><!-- End category Section -->
-
-
     <!-- ======= Table Section ======= -->
     <section id="list" class="list">
       <div class="container">
 		
-		<table border="1">
-			<tr>
-				<th>글 번호</th>
-				<th>카테고리</th>
-				<th>제목</th>
-				<th>작성자</th>
-				<th>작성일</th>
-			</tr>
-			<c:forEach var="q" items="${list}">
-				<tr>
-					<td>${q.questionId}</td>
-					<td>${q.writerCategory}</td>
-					<!-- 비밀글 여부에 따라 본인 or 관리자인 경우에만 볼 수 있도록 코드 추가 필요 -->
-					<td><a href="/tap/questionOne?questionId=${q.questionId}">${q.questionTitle}</a></td>
-					<td>${q.writerId}</td>
-					<td>${q.createDate}</td>
-				</tr>
-			</c:forEach>
-		</table>
-       
-		<a href="/tap/addQuestion">문의글 작성</a>
+		<form id="modifyQuestionForm" action ="/tap/modifyQuestion" method ="post">
+		<!-- 세션 ID, 카테고리 -->
+		<input type="hidden" name="questionId" value="${question.questionId}">
+		<div class="form-group">
+		<label for="questionTitle">제목 : </label>
+			<input type ="text" class="form-control" value="${question.questionTitle}" id="questionTitle" name="questionTitle" >
+		</div>
+		<div class="form-group">
+		<label for="questionContent">내용 : </label>
+			<textarea class="form-control" rows="5" id="questionContent" name="questionContent" >${question.questionContent}</textarea>
+		</div>
+		<div class="form-check">
+		 <label class="form-check-label">
+		    <input type="radio" class="form-check-input" name="secretStatus" value="Y">비밀글 작성
+		 </label>
+		</div>
+		<div class="form-check">
+  		<label class="form-check-label">
+   			<input type="radio" class="form-check-input" name="secretStatus" value="N" checked>외부 공개 허용
+  		</label>
+		</div>
+		<div>
+			<button id="btn" type ="button">수정</button>
+		</div>
+	</form>
+	
+	<script>
+		$('#btn').click(function(){
+			if($('#questionTitle').val() == '') {
+				alert('제목을 입력하세요');
+				return;
+			}
+			if($('#questionContent').val() == '') {
+				alert('내용을 입력하세요');
+				return;
+			}
+			
+			$('#modifyQuestionForm').submit();
+		});
+	</script>
 		
       </div>
     </section><!-- End Table Section -->
 	
-	<!-- ======= Paging Section ======= -->
-    <section id="pageNumber" class="pageNumber">
-      <div class="container">
-      
-		<c:if test="${currentPage > 1}">
-			<a href="/tap/questionList?currentPage=1&writerCategory=${writerCategory}">처음으로</a>
-			<a href="/tap/questionList?currentPage=${currentPage-1}&writerCategory=${writerCategory}">이전</a>
-		</c:if>
-		
-		<c:forEach var="i" begin="1" end="${lastPage}">
-			<a href="/tap/questionList?currentPage=${i}&writerCategory=${writerCategory}"><c:out value="${i}"/></a>
-		</c:forEach>
-		
-		<c:if test="${currentPage < lastPage}">
-			<a href="/tap/questionList?currentPage=${currentPage+1}&writerCategory=${writerCategory}">다음</a>
-			<a href="/tap/questionList?currentPage=${lastPage}&writerCategory=${writerCategory}">끝으로</a>
-		</c:if>		
-		
-      </div>
-    </section><!-- End Paging Section -->
-
-  
-
+	
   </main><!-- End #main -->
 
   <!-- start : mainFooter -->
@@ -133,7 +120,6 @@
       <jsp:include page="/partial/mainFooter.jsp"></jsp:include>
     </div>
   <!-- end : mainFooter -->
-
 
   <!-- Vendor JS Files -->
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

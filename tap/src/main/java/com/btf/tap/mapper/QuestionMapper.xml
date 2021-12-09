@@ -35,7 +35,7 @@
 				writer_category = #{writerCategory}
 			</if>
 		</where>
-		ORDER BY create_date DESC
+		ORDER BY question_id DESC
 		LIMIT #{beginRow}, #{rowPerPage}
 	</select>
 	

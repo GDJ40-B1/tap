@@ -2,6 +2,9 @@ package com.btf.tap.controller;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +17,7 @@ import com.btf.tap.common.Font;
 import com.btf.tap.service.QuestionService;
 import com.btf.tap.vo.Question;
 import com.btf.tap.vo.QuestionAnswer;
+import com.btf.tap.vo.User;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,34 +29,48 @@ public class QuestionController {
 	
 	// 전체 문의 글 내역
 	@RequestMapping("/questionList")
-	public String requestQuestionList(Model model, @RequestParam(name="currentPage", defaultValue = "1") int currentPage,
+	public String requestQuestionList(Model model, HttpServletRequest request, @RequestParam(name="currentPage", defaultValue = "1") int currentPage,
 											@RequestParam(required = false) String writerCategory) {
 		Map<String, Object> map = questionService.getQuestionList(currentPage, rowPerPage, writerCategory);
 		log.debug(Font.JSB + map.toString() + Font.RESET);
 		
+		HttpSession session = request.getSession();
+		User loginUser = (User)session.getAttribute("loginUser");
+		
+		model.addAttribute("loginUser", loginUser);
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("lastPage", map.get("lastPage"));
 		model.addAttribute("writerCategory", writerCategory);
 		
-		return "Question/questionList";
+		return "question/questionList";
 	}
 	
 	// 특정 문의 글
 	@GetMapping("/questionOne")
-	public String getQuestionOne(Model model, int questionId) {
+	public String getQuestionOne(Model model, HttpServletRequest request, int questionId) {
 		Question question = questionService.getQuestionOne(questionId);
 		log.debug(Font.JSB + question.toString() + Font.RESET);
 		
+		HttpSession session = request.getSession();
+		User loginUser = (User)session.getAttribute("loginUser");
+		
+		model.addAttribute("loginUser", loginUser);
 		model.addAttribute("question", question);
 		
-		return "Question/questionOne";
+		return "question/questionOne";
 	}
 	
 	// 문의 글 작성
 	@GetMapping("/addQuestion")
-	public String getAddQuestion() {
-		return "Question/addQuestion";
+	public String getAddQuestion(Model model, HttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+		User loginUser = (User)session.getAttribute("loginUser");
+		
+		model.addAttribute("loginUser", loginUser);
+		
+		return "question/addQuestion";
 	}
 	@PostMapping("addQuestion")
 	public String postAddQuestion(Question question) {
@@ -63,7 +81,7 @@ public class QuestionController {
 	
 	
 	// 문의 답변 작성
-	@GetMapping("addQuestionAnswer")
+	@PostMapping("/questionOne")
 	public String getAddQuestionAnswer(QuestionAnswer questionAnswer) {
 		int questionId = questionAnswer.getQuestionId();
 		questionService.addQuestionAnswer(questionAnswer);
@@ -73,18 +91,23 @@ public class QuestionController {
 	
 	// 특정 문의 글 수정
 	@GetMapping("/modifyQuestion")
-	public String getUpdateQuestion(Model model, int questionId) {
+	public String getUpdateQuestion(Model model, HttpServletRequest request, int questionId) {
 		Question question = questionService.getQuestionOne(questionId);
 		log.debug(Font.JSB + question.toString() + Font.RESET);
 		
+		HttpSession session = request.getSession();
+		User loginUser = (User)session.getAttribute("loginUser");
+		
+		model.addAttribute("loginUser", loginUser);
 		model.addAttribute("question", question);
 		
-		return "Question/modifyQuestion";
+		return "question/modifyQuestion";
 	}
 	@PostMapping("/modifyQuestion")
 	public String postModifyQuestion(Question question) {
 		int questionId = question.getQuestionId();
 		questionService.modifyQuestion(question);
+		log.debug(question.toString());
 		
 		return "redirect:/questionOne?questionId="+questionId;
 	}
