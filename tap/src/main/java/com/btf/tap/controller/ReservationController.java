@@ -8,8 +8,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.btf.tap.common.Font;
 import com.btf.tap.service.ReservationService;
+import com.btf.tap.vo.Address;
 import com.btf.tap.vo.Notice;
 import com.btf.tap.vo.Reservation;
+import com.btf.tap.vo.Room;
 
 import lombok.extern.slf4j.Slf4j;
 
