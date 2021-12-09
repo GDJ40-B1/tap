@@ -128,7 +128,7 @@ public class NoticeController {
 	public String noticeListByKind(int currentPage, String kind) {
 			
 			
-			return "redirect:/noticeList?kind"+kind+"&currentPage="+currentPage;
+			return "notice/noticeList";
 	}
 	
 }

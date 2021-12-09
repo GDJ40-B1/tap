@@ -34,6 +34,7 @@
 			</select>
 			<button type="submit">검색</button>
 		</div>
+	</form>
 	<table border="1">
 		<tr>
 			<th>No</th>
@@ -78,8 +79,8 @@
 	</div>
 	
 	<div>
-		<form action="addNotice" method="get">
-			<button type="submit">게시글 추가</button>
+		<form action="${pageContext.request.contextPath}/addNotice" method="get">
+			<button type="submit">공지사항 추가</button>
 		</form>
 	</div>
 	<!-- start : mainFooter -->
