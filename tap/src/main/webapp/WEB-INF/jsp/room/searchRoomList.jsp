@@ -26,7 +26,7 @@
 				</tr>
 				<c:forEach items="${roomList }" var="list">
 					<tr>
-						<td><a href="${pageContext.request.contextPath}/myRoomOne?roomId=${list.roomId}&detailAddressId=${list.detailAddressId }">${list.roomName }</a></td>
+						<td><a href="${pageContext.request.contextPath}/roomOne?roomId=${list.roomId}&detailAddressId=${list.detailAddressId }">${list.roomName }</a></td>
 						<td>${list.roomCategory }</td>
 						<td>${list.roomPrice }</td>
 						<td>${list.checkInTime }</td>

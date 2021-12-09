@@ -17,7 +17,11 @@
    <main id="main">
    <section class="breadcrumbs">
 	<h1>숙소 등록하기</h1>
-	<form action="${pageContext.request.contextPath}/addRoom" method="post">
+	<form action="${pageContext.request.contextPath}/modifyRoom" method="post">
+		<!-- 숙소ID, 상세 주소ID, 호스트ID 숨김 -->
+		<input type="hidden" name="roomId" value="${room.roomId }">
+		<input type="hidden" name="detailAddressId" value="${address.detailAddressId }">
+		<input type="hidden" name="hostId" value="${room.hostId }">
 		<table>
 			<tr>
 				<td>
@@ -26,28 +30,35 @@
 				<td>
 					<select name="roomCategory">
 						<c:forEach items="${roomCategoryList }" var="c">
-							<option>${c }</option>
+							<c:choose>
+								<c:when test="${c eq room.roomCategory }">
+									<option selected>${c }</option>
+								</c:when>
+								<c:otherwise>
+									<option>${c }</option>
+								</c:otherwise>
+							</c:choose>
 						</c:forEach>
 					</select>
 				</td>
 			</tr>
 			<tr>
 				<td>숙소명</td>
-				<td><input type="text" name="roomName"></td>
+				<td><input type="text" name="roomName" value="${room.roomName }"></td>
 			</tr>
 			<tr>
 				<!-- select형식으로 변경해야 함 -->
 				<td>숙소 형태</td>
-				<td><input type="text" name="roomForm"></td>
+				<td><input type="text" name="roomForm" value="${room.roomForm }"></td>
 			</tr>
 			<tr>
 				<td>숙소 소개</td>
-				<td><textarea name="roomIntro"></textarea></td>
+				<td><textarea name="roomIntro">${room.roomIntro }</textarea></td>
 			</tr>
 			<tr>
 				<!-- 유효성 검사로 숫자인지 확인 -->
 				<td>최소숙박일</td>
-				<td><input type="text" name="minDay"></td>
+				<td><input type="text" name="minDay" value="${room.minDay }"></td>
 			</tr>
 			<tr>
 				<td>체크인 시간</td>
@@ -55,11 +66,25 @@
 					<select name="checkInTime">
 						<c:forEach  var="CIT" begin="0" end="23">
 							<c:choose>
-								<c:when test="${CIT<10 }">
-									<option>0${CIT }:00</option>
+								<c:when test="${(CIT<10 && (('0'+=CIT+=':00') eq room.checkInTime)) ||  (CIT>=10 && ((CIT+=':00') eq room.checkInTime))}">
+									<c:choose>
+										<c:when test="${CIT<10 }">
+											<option selected>0${CIT }:00</option>
+										</c:when>
+										<c:otherwise>
+											<option selected>${CIT }:00</option>
+										</c:otherwise>
+									</c:choose>
 								</c:when>
 								<c:otherwise>
-									<option>${CIT }:00</option>
+									<c:choose>
+										<c:when test="${CIT<10 }">
+											<option>0${CIT }:00</option>
+										</c:when>
+										<c:otherwise>
+											<option>${CIT }:00</option>
+										</c:otherwise>
+									</c:choose>
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
@@ -72,11 +97,25 @@
 					<select name="checkOutTime">
 						<c:forEach  var="COT" begin="0" end="23">
 							<c:choose>
-								<c:when test="${COT<10 }">
-									<option>0${COT }:00</option>
+								<c:when test="${(COT<10 && (('0'+=COT+=':00') eq room.checkOutTime)) ||  (COT>=10 && ((COT+=':00') eq room.checkOutTime))}">
+									<c:choose>
+										<c:when test="${COT<10 }">
+											<option selected>0${COT }:00</option>
+										</c:when>
+										<c:otherwise>
+											<option selected>${COT }:00</option>
+										</c:otherwise>
+									</c:choose>
 								</c:when>
 								<c:otherwise>
-									<option>${COT }:00</option>
+									<c:choose>
+										<c:when test="${COT<10 }">
+											<option>0${COT }:00</option>
+										</c:when>
+										<c:otherwise>
+											<option>${COT }:00</option>
+										</c:otherwise>
+									</c:choose>
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
@@ -86,17 +125,12 @@
 			<tr>
 				<!-- 유효성 검사로 숫자인지 확인 -->
 				<td>인원수</td>
-				<td><input type="text" name="peopleNum"></td>
+				<td><input type="text" name="peopleNum" value="${room.peopleNum }"></td>
 			</tr>
 			<tr>
 				<!-- 유효성 검사로 숫자인지 확인 -->
 				<td>숙박 기본 가격</td>
-				<td><input type="text" name="roomPrice"></td>
-			</tr>
-			<tr>
-				<!-- 호스트 로그인 생길때까지 임시 -->
-				<td>호스트</td>
-				<td><input type="text" name="hostId" value="1"></td>
+				<td><input type="text" name="roomPrice" value="${room.roomPrice }"></td>
 			</tr>
 		</table>
 		<br><br>
@@ -105,17 +139,17 @@
 		<table>
 			<tr>
 				<td>주소</td>
-				<td><input type="text" name="detailAddress" id="address"></td>
+				<td><input type="text" name="detailAddress" id="address" value="${address.detailAddress }"></td>
 				<td><button type="button" id="searchBtn">검색</button></td>
 			</tr>
 			<tr>
 				<td>상세 주소</td>
-				<td><input type="text" name="detailAddress2"></td>
+				<td><input type="text" name="detailAddress2" value="${address.detailAddress2 }"></td>
 				<td></td>
 			</tr>
 		</table>
 		<div id="map" style="width:100%;height:350px;"></div>
-		<button type="submit">등록</button>
+		<button type="submit">수정</button>
 	</form>
 	</section>
 	</main>

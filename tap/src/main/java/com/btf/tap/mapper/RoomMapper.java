@@ -9,6 +9,9 @@ import com.btf.tap.vo.Room;
 @Mapper
 public interface RoomMapper {
 	
+	// 검색 결과 숙소 리스트 추출
+	List<Room> selectSearchResultRoomList(String searchText);
+	
 	// 숙소 카테고리 리스트 추출
 	List<String> selectRoomCategory();
 	

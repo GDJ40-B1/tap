@@ -23,6 +23,12 @@ public class RoomService {
 	@Autowired AddressMapper addressMapper;
 	// add, modify, get, remove
 	
+	// 검색 결과 숙소 리스트 추출
+	public List<Room> getsearchResultRoomList(String searchText){
+		List<Room> list = roomMapper.selectSearchResultRoomList(searchText);
+		return list;
+	}
+	
 	// 특정 숙소 정보 추출
 	public Map<String, Object> getRoomOne(int roomId, int detailAddressId){
 		Map<String, Object> map = new HashMap<>();
@@ -74,7 +80,14 @@ public class RoomService {
 	}
 	
 	// 숙소 정보 수정(숙소 and 상세 주소)
-	public void modifyRoom(Room room, Address address) {
+	public Address modifyRoom(Room room, Address address) {
+		// 입력받은 도로명 주소를 분할하여 객체에 넣기
+		String[] addressList = address.getDetailAddress().split(" ");
+		address.setSido(addressList[0]);
+		address.setSigungu(addressList[1]);
+		address.setRoadName(addressList[2]);
+		address.setDetailAddress(addressList[3]);
+		
 		// address 테이블 단 주소 변경 적용을 위해.
 		// addressId를 구하고 변경사항을 저장한다
 		address.setAddressId(addressMapper.searchAddressOne(address).getAddressId());
@@ -82,6 +95,8 @@ public class RoomService {
 		
 		// 숙소 변경사항 적용
 		roomMapper.updateRoom(room);
+		
+		return address;
 	}
 	
 	// 숙소 삭제(숙소 and 상세 주소)

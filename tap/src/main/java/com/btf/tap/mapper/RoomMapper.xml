@@ -2,6 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.btf.tap.mapper.RoomMapper">
 
+	<!-- 숙소 전체 목록 출력(최근 생성된 숙소 순으로) -->
+	<select id="selectSearchResultRoomList" parameterType="String" resultType="com.btf.tap.vo.Room">
+		SELECT
+			room_id roomId, detail_address_id detailAddressId, host_id hostId,
+			room_category roomCategory, room_form roomForm, room_name roomName,
+			room_intro roomIntro, min_day minDay, check_in_time checkInTime,
+			check_out_time checkOutTime, people_num peopleNum, room_price roomPrice,
+			create_date createDate, update_date updateDate
+		FROM room WHERE room_name LIKE CONCAT('%', #{searchText}, '%')
+		ORDER BY create_date DESC
+		LIMIT 0,10
+	</select>
+
+	<!-- 숙소 카테고리 목록 추출 -->
 	<select id="selectRoomCategory" resultType="String">
 		SELECT room_category roomCategory
 		FROM room_category
