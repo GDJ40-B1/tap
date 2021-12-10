@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.btf.tap.mapper.SearchMapper">
 	<!-- 숙소명 검색 조회 -->
-	<select id="roomSearchList" parameterType="String" resultType="com.btf.tap.vo.Room">
+	<select id="roomSearchList" parameterType="java.util.Map" resultType="com.btf.tap.vo.Room">
 		SELECT
 			room_id roomId,
 			room_name roomName,
@@ -16,8 +16,26 @@
 			CONCAT ('%', #{keyword}, '%')
 		</where>
 		ORDER BY create_date DESC
-		LIMIT 0, 5
+		LIMIT #{beginRow}, #{rowPerPage}
 	</select>
+	
+	<!-- 숙소 페이지 체크 -->
+	<select id="totalRowCount" parameterType="String" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM 
+		<choose>
+			<when test="keyword == room">
+				room
+			</when>		
+			<otherwise>
+				attraction
+			</otherwise>
+		</choose>
+		<where>
+		
+		</where>
+	</select>	
 	
 	<!-- 명소 검색 조회 -->
 	<select id="attractionSearchList" parameterType="String" resultType="com.btf.tap.vo.Attraction">

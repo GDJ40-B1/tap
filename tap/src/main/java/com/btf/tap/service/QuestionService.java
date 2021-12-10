@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.btf.tap.common.Font;
 import com.btf.tap.mapper.QuestionMapper;
 import com.btf.tap.vo.Question;
 import com.btf.tap.vo.QuestionAnswer;
@@ -22,6 +23,9 @@ public class QuestionService {
 	
 	// 전체 문의 리스트
 	public Map<String, Object> getQuestionList(int currentPage, int rowPerPage, String writerCategory) {
+		int defaultPage = 10;
+		int startPage = ((currentPage - 1) / defaultPage) * defaultPage + 1;
+		int endPage = startPage + defaultPage - 1;		
 		int beginRow = (currentPage-1) * rowPerPage;
 		int lastPage = 0;
 		
@@ -31,7 +35,7 @@ public class QuestionService {
 		page.put("writerCategory", writerCategory);
 		
 		List<Question> list = questionMapper.selectQuestionList(page);
-		log.debug(list.toString());
+		log.debug(Font.JSB + list.toString() + Font.RESET);
 		
 		int totalRowCount = questionMapper.totalRowCount(writerCategory);
 		
@@ -41,8 +45,14 @@ public class QuestionService {
 			lastPage+=1;
 		}
 		
+		if(endPage > lastPage) {
+			endPage = lastPage;
+		}		
+		
 		Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("list", list);
+		paramMap.put("startPage", startPage);
+		paramMap.put("endPage", endPage);
 		paramMap.put("lastPage", lastPage);
 		
 		return paramMap;

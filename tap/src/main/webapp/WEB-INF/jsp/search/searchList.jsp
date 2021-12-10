@@ -56,15 +56,39 @@
           <h2>숙소 검색 결과</h2>
         </div>
 		
-		<c:forEach var="r" items="${roomList}">
-			<div><a href="/tap/">${r.roomName}</a></div>
-			<div>${r.roomIntro}</div>
-			<div>최소 일수 : ${r.minDay} 최소 인원 :  ${peopleNum} 가격 : ${roomPrice}</div>
-		</c:forEach>
-		
       </div>
     </section><!-- End Breadcrumbs -->
 
+	<div class="container">
+		
+		<c:choose>
+			<c:when test="${empty roomList}">
+				<div>검색 결과가 없습니다.</div>
+			</c:when>
+			
+			<c:otherwise>
+				<c:forEach var="r" items="${roomList}">
+					<div><a href="/tap/">${r.roomName}</a></div>
+					<div>${r.roomIntro}</div>
+					<div>최소 일수 : ${r.minDay} 최소 인원 :  ${r.peopleNum} 가격 : ${r.roomPrice}</div>
+				</c:forEach>
+				
+				<c:if test="${roomCurrentPage > 1}">
+					<a href="/tap/searchList?keyword=${keyword}&roomCurrentPage=${roomCurrentPage-1}&attractionCurrentPage=${attractionCurrentPage}">이전</a>
+				</c:if>
+				
+				<c:forEach var="i" begin="${roomStartPage}" end="${roomEndPage}">
+					<a href="/tap/searchList?keyword=${keyword}&roomCurrentPage=${i}&attractionCurrentPage=${attractionCurrentPage}"><c:out value="${i}"/></a>
+				</c:forEach>
+				
+				<c:if test="${roomCurrentPage < roomLastPage}">
+					<a href="/tap/searchList?keyword=${keyword}&roomcurrentPage=${roomCurrentPage+1}&attractionCurrentPage=${attractionCurrentPage}">다음</a>
+				</c:if>					
+			</c:otherwise>
+		</c:choose>
+
+	</div>
+		
     <!-- ======= Breadcrumbs ======= -->
     <section id="breadcrumbs" class="breadcrumbs">
       <div class="container">
@@ -73,15 +97,38 @@
           <h2>명소 검색 결과</h2>
         </div>
 		
-		<c:forEach var="a" items="${attractionList}">
-			<div><a href="/tap/">${a.attractionName}</a></div>
-			<div>${a.attractionCategory}</div>
-			<div>${a.attractionContent}</div>
-		</c:forEach>
-		
       </div>
     </section><!-- End Breadcrumbs -->
+	
+	<div class="container">
 
+		<c:choose>
+			<c:when test="${empty attractionList}">
+				<div>검색 결과가 없습니다.</div>
+			</c:when>
+			
+			<c:otherwise>
+				<c:forEach var="a" items="${attractionList}">
+					<div>[${a.attractionCategory}] <a href="/tap/">${a.attractionName}</a></div>
+					<div>${a.attractionContent}</div>
+				</c:forEach>
+		
+				<c:if test="${attractionCurrentPage > 1}">
+					<a href="/tap/searchList?keyword=${keyword}&roomCurrentPage=${roomCurrentPage}&attractionCurrentPage=${attractionCurrentPage-1}">이전</a>
+				</c:if>
+				
+				<c:forEach var="i" begin="${attractionStartPage}" end="${attractionEndPage}">
+					<a href="/tap/searchList?keyword=${keyword}&roomCurrentPage=${roomCurrentPage}&attractionCurrentPage=${i}"><c:out value="${i}"/></a>
+				</c:forEach>
+				
+				<c:if test="${attractionCurrentPage < attractionLastPage}">
+					<a href="/tap/searchList?keyword=${keyword}&roomcurrentPage=${roomCurrentPage}&attractionCurrentPage=${attractionCurrentPage+1}">다음</a>
+				</c:if>						
+			</c:otherwise>
+		</c:choose>	
+	
+	</div>
+	
     <!-- ======= Breadcrumbs ======= -->
     <section id="breadcrumbs" class="breadcrumbs">
       <div class="container">
@@ -90,16 +137,31 @@
           <h2>해시태그 검색 결과</h2>
         </div>
 		
-		<c:forEach var="h" items="${resultList}">
-			<div>${r.roomName}</div>
-			<div>${r.roomIntro}</div>
-			<div>최소 일수 : ${r.minDay} 최소 인원 :  ${peopleNum} 가격 : ${roomPrice}</div>
-		</c:forEach>
-		
       </div>
     </section><!-- End Breadcrumbs -->
-  
+	
+	<div class="container">
 
+		<c:choose>
+			<c:when test="${empty hashtagRoomList && empty hashtagAttractionList}">
+				<div>검색 결과가 없습니다.</div>
+			</c:when>
+			
+			<c:otherwise>
+				<c:forEach var="r" items="${hashtagRoomList}">
+					<div>${r.roomName}</div>
+					<div>${r.roomIntro}</div>
+					<div>최소 일수 : ${r.minDay} 최소 인원 :  ${r.peopleNum} 가격 : ${r.roomPrice}</div>
+				</c:forEach>
+				
+				<c:forEach var="a" items="${hashtagAttractionList}">
+					<div>[${a.attractionCategory}] <a href="/tap/">${a.attractionName}</a></div>
+					<div>${a.attractionContent}</div>
+				</c:forEach>  					
+			</c:otherwise>
+		</c:choose>	
+	
+	</div>
   
 
   </main><!-- End #main -->
