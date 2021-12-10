@@ -30,7 +30,7 @@
 								<td>체크인 시간</td>
 								<td>체크아웃 시간</td>
 							</tr>
-							<c:forEach items="${roomList }" var="list">
+							<c:forEach items="${result.roomList }" var="list">
 								<tr>
 									<td><a href="${pageContext.request.contextPath}/roomOne?roomId=${list.roomId}&detailAddressId=${list.detailAddressId }">${list.roomName }</a></td>
 									<td>${list.roomCategory }</td>
@@ -43,6 +43,31 @@
    					</td>
    				</tr>
    			</table>
+   			
+   			<!-- 페이징 -->
+   			<ul>
+			    <c:if test="${result.currentPage!=1}">
+				    <li><a href="${pageContext.request.contextPath}/searchRoomList?searchText=${searchText}&currentPage=<%=1 %>">처음</a></li>
+				</c:if>
+				
+				<c:if test="${result.currentnumPage>0}">
+				    <li><a href="${pageContext.request.contextPath}/searchRoomList?searchText=${searchText}&currentPage=${result.pagePerPage*(result.currentnumPage-1)+1 }">이전</a></li>
+				</c:if>
+				
+				<c:forEach begin="0" end="${result.pagePerPage-1}" step="1" var="i">
+					<c:if test="${result.lastPage>=(result.pagePerPage*result.currentnumPage)+i+1}">
+					    <li><a href="${pageContext.request.contextPath}/searchRoomList?searchText=${searchText}&currentPage=${(result.pagePerPage*result.currentnumPage)+i+1 }">${(result.pagePerPage*result.currentnumPage)+i+1 }</a></li>
+					</c:if>
+				</c:forEach>
+				    
+				<c:if test="${result.lastnumPage>result.currentnumPage}">
+				    <li><a href="${pageContext.request.contextPath}/searchRoomList?searchText=${searchText}&currentPage=${result.pagePerPage*(result.currentnumPage+1)+1 }">다음</a></li>
+				</c:if>
+				
+				<c:if test="${result.currentPage!=result.lastPage && result.lastPage!=0}">
+				    <li><a href="${pageContext.request.contextPath}/searchRoomList?searchText=${searchText}&currentPage=${result.lastPage }">맨끝</a></li>
+				</c:if>
+			</ul>
 		</section>
 	</main>
 	
@@ -68,7 +93,7 @@
 	var geocoder = new kakao.maps.services.Geocoder();
 	
 	// 각 숙소의 정보를 토대로 마커를 찍습니다
-	<c:forEach items="${roomList}" var="r" varStatus="status">
+	<c:forEach items="${result.roomList}" var="r" varStatus="status">
 		// 주소로 좌표를 검색합니다
 		geocoder.addressSearch("${r.address.detailAddress}", function(result, status) {
 
@@ -83,7 +108,7 @@
 			 
 			    // 마커에 표시할 인포윈도우를 생성합니다 
 			    var infowindow = new kakao.maps.InfoWindow({
-			        content: "${r.roomName}" // 인포윈도우에 표시할 내용
+			        content: '<div style="width:150px;text-align:center;padding:6px 0;">${r.roomName}</div>' // 인포윈도우에 표시할 내용
 			    });
 				// 인포윈도우를 띄웁니다
 			    infowindow.open(map, marker);
@@ -92,11 +117,11 @@
 			    kakao.maps.event.addListener(marker, 'click', makeClickListener("${r.roomId}","${r.address.detailAddressId}"));
 			    console.log(${r.address.detailAddressId});
 			    // 첫 숙소의 주소가 중심값이 되도록 설정
-			    if(${status.index}){
+			    if(${status.index}==0){
 			    	// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
 		        	map.setCenter(new kakao.maps.LatLng(result[0].y, result[0].x));
 			    }
-		    } 
+		    }
 		});	
 	</c:forEach>
 

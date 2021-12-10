@@ -26,17 +26,24 @@ public class RoomController {
 	/*-----Member측면----- */
 	
 	@GetMapping("/roomList")
-	public String roomList(Model model) {
-		// 숙소 목록 추출
-		model.addAttribute("roomList",roomService.getRoomList());
+	public String roomList(Model model, @RequestParam(value="currentPage", defaultValue ="1") int currentPage) {
+		// 숙소 리스트와 페이징 관련 데이터를 result에 담기
+		Map<String, Object> result = roomService.getRoomList(currentPage);
+		result.put("currentPage", currentPage);
 		
+		model.addAttribute("result", result);
 		return "room/roomList";
 	}
 	
-	@GetMapping("/searchResultRoomList")
-	public String searchResultRoomList(Model model, String searchText) {
-		// 숙소 목록 추출
-		model.addAttribute("roomList",roomService.getsearchResultRoomList(searchText));
+	@GetMapping("/searchRoomList")
+	public String searchRoomList(Model model, String searchText,
+			@RequestParam(value="currentPage", defaultValue ="1") int currentPage) {
+		// 검색 후 숙소 리스트와 페이징 관련 데이터를 result에 담기
+		Map<String, Object> result = roomService.getsearchResultRoomList(searchText, currentPage);
+		result.put("currentPage", currentPage);
+		result.put("searchText", searchText);
+		
+		model.addAttribute("result", result);
 		return "room/searchRoomList";
 	}
 	
@@ -68,7 +75,7 @@ public class RoomController {
 	@GetMapping("/myRoomList")
 	public String myRoomList(Model model) {
 		// 숙소 목록 추출
-		model.addAttribute("roomList",roomService.getRoomList());
+		// model.addAttribute("roomList",roomService.getRoomList());
 		// 추후에 host의 나의 숙소목록 페이지로 이동할 수 있도록 해야함
 		return "room/myRoomList";
 	}
