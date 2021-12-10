@@ -31,55 +31,55 @@
                      <table border="1">
                      <tr>
                         <td>숙소명</td>
-                        <td id="roomName">${roomName }</td>
+                        <td id="roomName">${room.roomName}</td>
                      </tr>
                      <tr>
                         <td>주소</td>
-                        <td id="address">${detailAddress }</td>
+                        <td id="address">${address.detailAddress}</td>
                      </tr>
                      <tr>
                         <td>상세 주소</td>
-                        <td>${detailAddress2 }</td>
+                        <td>${address.detailAddress2}</td>
                      </tr>
                      <tr>
                         <td>카테고리</td>
-                        <td>${roomCategory }</td>
+                        <td>${room.roomCategory}</td>
                      </tr>
                      <tr>
                         <td>숙소 소개</td>
-                        <td>${roomIntro }</td>
+                        <td>${room.roomIntro}</td>
                      </tr>
                      <tr>
                         <td>가격</td>
-                        <td>${roomPrice }</td>
+                        <td>${room.roomPrice}</td>
                      </tr>
                      <tr>
                         <td>체크인 시간</td>
-                        <td>${checkInTime }</td>
+                        <td>${room.checkInTime}</td>
                      </tr>
                      <tr>
                         <td>체크아웃 시간</td>
-                        <td>${checkOutTime }</td>
+                        <td>${room.checkOutTime}</td>
                      </tr>
                      <tr>
                         <td>인원수</td>
-                        <td>${peopleNum }</td>
+                        <td>${room.peopleNum}</td>
                      </tr>
                      <tr>
                         <td>숙소 형태</td>
-                        <td>${roomForm }</td>
+                        <td>${room.roomForm}</td>
                      </tr>
                      <tr>
                         <td>최소 숙박일</td>
-                        <td>${minDay }</td>
+                        <td>${room.minDay}</td>
                      </tr>
                      <tr>
                         <td>숙소 등록일</td>
-                        <td>${createDate }</td>
+                        <td>${room.createDate}</td>
                      </tr>
                      <tr>
                         <td>숙소 수정일</td>
-                        <td>${updateDate }</td>
+                        <td>${room.updateDate}</td>
                      </tr>
                   </table>
                   </td>

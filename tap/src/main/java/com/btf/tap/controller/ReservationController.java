@@ -1,5 +1,7 @@
 package com.btf.tap.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,15 +24,19 @@ public class ReservationController {
 	ReservationService reservationService;
 	
 	@GetMapping("/addReservation")
-	String addReservation()	{
+	String addReservation(Model model, int roomId, int detailAddressId)	{
+		
+		
+		Map<String, Object> map = reservationService.addReservation(roomId, detailAddressId);
+		model.addAttribute("room",map.get("room"));
+	    model.addAttribute("address",map.get("address"));
 		return "reservation/addReservation";
 	}
 	
 	@PostMapping("/addReservation")
 	String addReservation(Reservation reservation)	{
-		int reservationId = reservationService.addReservation(reservation);
 		log.debug(Font.KSB + reservation.toString() + Font.RESET);
-		return "reservationOne?reservationId="+reservationId;
+		return "redirect:/roomOne";
 	}
 	
 	@GetMapping("/modifyReservation")
