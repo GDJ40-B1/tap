@@ -69,7 +69,8 @@
                                     </div>
                                     <div class="text-center">
                                         <a class="small" href="${pageContext.request.contextPath}/addMember">Create an Account!</a><br>
-                                        <a class="small" href="${pageContext.request.contextPath}/addHost">Create a Host Account!</a>
+                                        <a class="small" href="${pageContext.request.contextPath}/addHost">Create a Host Account!</a><br>
+                                        <a class="small" href="${pageContext.request.contextPath}/addSystemAdmin">Create a Admin Account!</a>
                                     </div>
                                 </div>
                             </div>

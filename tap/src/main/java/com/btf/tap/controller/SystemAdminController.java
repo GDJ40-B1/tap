@@ -45,7 +45,7 @@ public class SystemAdminController {
 		systemAdminService.addSystemAdmin(systemAdmin);
 		log.debug(Font.HS + "postAddCont : " + systemAdmin.toString() + Font.RESET);
 		
-		return "redirect:/systemAdminList";
+		return "redirect:/login";
 	}
 	
 	// 시스템관리자 한 명의 pw 수정하기
