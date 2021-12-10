@@ -2,6 +2,8 @@ package com.btf.tap.controller;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 public class RoomController {
 	@Autowired RoomService roomService;
 	
-	/*-----Member측면 및 공통----- */
+	/*-----Member측면----- */
 	
 	@GetMapping("/roomList")
 	public String roomList(Model model) {
@@ -48,14 +50,14 @@ public class RoomController {
 	
 	/*-----HOST측면 및 공통----- */
 	
-	@GetMapping("/addRoom")
+	@GetMapping("/host/addRoom")
 	public String getAddRoom(Model model) {
 		// 숙소 카테고리 리스트
 		model.addAttribute("roomCategoryList",roomService.getRoomCategory());
 		return "room/addRoom";
 	}
 	
-	@PostMapping("/addRoom")
+	@PostMapping("/host/addRoom")
 	public String postAddRoom(Room room, Address address) {
 		// 숙소 추가
 		roomService.addRoom(room, address);

@@ -26,7 +26,6 @@ public class RoomService {
 	// 검색 결과 숙소 리스트 추출
 	public List<Room> getsearchResultRoomList(String searchText){
 		List<Room> list = roomMapper.selectSearchResultRoomList(searchText);
-		System.out.println("!!!"+list.get(0));
 		return list;
 	}
 	

@@ -17,7 +17,7 @@
    <main id="main">
    <section class="breadcrumbs">
 	<h1>숙소 등록하기</h1>
-	<form action="${pageContext.request.contextPath}/modifyRoom" method="post">
+	<form id="modifyRoomForm" action="${pageContext.request.contextPath}/modifyRoom" method="post">
 		<!-- 숙소ID, 상세 주소ID, 호스트ID 숨김 -->
 		<input type="hidden" name="roomId" value="${room.roomId }">
 		<input type="hidden" name="detailAddressId" value="${address.detailAddressId }">
@@ -44,21 +44,21 @@
 			</tr>
 			<tr>
 				<td>숙소명</td>
-				<td><input type="text" name="roomName" value="${room.roomName }"></td>
+				<td><input type="text" name="roomName" id="roomName" value="${room.roomName }"></td>
 			</tr>
 			<tr>
 				<!-- select형식으로 변경해야 함 -->
 				<td>숙소 형태</td>
-				<td><input type="text" name="roomForm" value="${room.roomForm }"></td>
+				<td><input type="text" name="roomForm" id="roomForm" value="${room.roomForm }"></td>
 			</tr>
 			<tr>
 				<td>숙소 소개</td>
-				<td><textarea name="roomIntro">${room.roomIntro }</textarea></td>
+				<td><textarea name="roomIntro" id="roomIntro">${room.roomIntro }</textarea></td>
 			</tr>
 			<tr>
 				<!-- 유효성 검사로 숫자인지 확인 -->
 				<td>최소숙박일</td>
-				<td><input type="text" name="minDay" value="${room.minDay }"></td>
+				<td><input type="number" name="minDay" id="minDay" value="${room.minDay }"></td>
 			</tr>
 			<tr>
 				<td>체크인 시간</td>
@@ -125,12 +125,12 @@
 			<tr>
 				<!-- 유효성 검사로 숫자인지 확인 -->
 				<td>인원수</td>
-				<td><input type="text" name="peopleNum" value="${room.peopleNum }"></td>
+				<td><input type="number" name="peopleNum" id="peopleNum" value="${room.peopleNum }"></td>
 			</tr>
 			<tr>
 				<!-- 유효성 검사로 숫자인지 확인 -->
 				<td>숙박 기본 가격</td>
-				<td><input type="text" name="roomPrice" value="${room.roomPrice }"></td>
+				<td><input type="number" name="roomPrice" id="roomPrice" value="${room.roomPrice }"></td>
 			</tr>
 		</table>
 		<br><br>
@@ -144,12 +144,12 @@
 			</tr>
 			<tr>
 				<td>상세 주소</td>
-				<td><input type="text" name="detailAddress2" value="${address.detailAddress2 }"></td>
+				<td><input type="text" name="detailAddress2" id="detailAddress2" value="${address.detailAddress2 }"></td>
 				<td></td>
 			</tr>
 		</table>
 		<div id="map" style="width:100%;height:350px;"></div>
-		<button type="submit">수정</button>
+		<button id="modifyBtn" type="button">수정</button>
 	</form>
 	</section>
 	</main>
@@ -159,6 +159,32 @@
       <jsp:include page="/partial/mainFooter.jsp"></jsp:include>
    </div>
    <!-- end : mainFooter -->
+   
+   <!-- input 유효성 검사 -->
+	<script>
+		// 숙소 등록을 클릭했을 때
+		$('#modifyBtn').click(function(){
+			if($('#roomName').val()==''){
+				alert('숙소명을 입력하세요');
+			} else if($('#roomForm').val()==''){
+				alert('숙소 형태를 입력하세요');
+			} else if($('#roomIntro').val()==''){
+				alert('숙소 소개를 입력하세요');
+			} else if($('#minDay').val()==''){
+				alert('최소숙박일을 숫자만으로 입력하세요');
+			} else if($('#peopleNum').val()==''){
+				alert('인원수를 숫자만으로 입력하세요');
+			} else if($('#roomPrice').val()==''){
+				alert('숙소 가격을 숫자만으로 입력하세요');
+			} else if($('#address').val()==''){
+				alert('주소를 입력하세요');
+			} else if($('#detailAddress2').val()==''){
+				alert('상세 주소를 입력하세요');
+			} else{
+				$('#modifyRoomForm').submit();
+			}
+		});
+	</script>
    
 	<!-- kakao API -->
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e1c10213787b97f0d88e77cdafcb6687&libraries=services"></script>
