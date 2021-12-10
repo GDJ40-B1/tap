@@ -6,8 +6,10 @@
 	<resultMap type="com.btf.tap.vo.User" id="resultUser">
 		<result column="user_id" property="userId"/>
 		<result column="user_level" property="userLevel"/>
+		<result column="user_name" property="userName"/>
 	</resultMap>
 	
+	<!-- 회원가입시 기존 회원, 호스트, 시스템관리자, 탈퇴한 이용자의 아이디와 겹치지 않는 아이디를 사용하도록 설정 -->
 	<select id="selectUserId" parameterType="com.btf.tap.vo.User">
 		SELECT 
 			COUNT(*)
@@ -17,15 +19,18 @@
 			userId=#{userId}
 	</select>
 	
+	<!-- 로그인 쿼리(회원탈퇴한 이용자의 아이디가 view에 노출되기에 user_level 컬럼을 이용하여 탈퇴한회원은 로그인에서 처리 대상에서 제외 -->
 	<select id="selectUserOne" parameterType="com.btf.tap.vo.User" resultMap="resultUser">
 		SELECT 
 			user_id,
+			user_name,
 			user_level
 		FROM
 			view_user
 		WHERE
 			user_id=#{userId} AND
-			user_pw=#{userPw}
+			user_pw=#{userPw} AND
+			user_level!='withdrawal'
 	</select>
 
 </mapper>

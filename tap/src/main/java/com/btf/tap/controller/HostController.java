@@ -20,6 +20,11 @@ public class HostController {
 	
 	@Autowired HostService hostService;
 	
+	@GetMapping("/hostMyPage")
+	public String getHostMyPage() {
+		return "host/hostMyPage";
+	}
+	
 	@GetMapping("/addHost")
 	public String getAddHost(HttpServletRequest request) {
 		

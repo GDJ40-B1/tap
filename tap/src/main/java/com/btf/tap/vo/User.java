@@ -9,8 +9,8 @@ public class User {
 	// 후에 각 권한별 다른 기능들을 이용할 때는, 회원 레벨과 아이디를 통해
 	// 각 권한의 vo 클래스를 이용
 	// 각 권한의 vo 클래스들은 User 클래스를 상속받음
-	// 필요하면 이 클래스에 이용자 이름(userName)을 추가해도 괜찮음
 	private String userId;
 	private String userPw;
 	private String userLevel;
+	private String userName;
 }

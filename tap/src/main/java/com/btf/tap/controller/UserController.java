@@ -65,12 +65,12 @@ public class UserController {
 		
 		// 로그인 실패시 로그인 페이지로 다시 이동
 		if(user == null) {
-			log.debug(Font.HW + "로그인 실패 " + Font.RESET);
+			log.debug(Font.HW + "로그인 실패 " + Font.RESET);	
 			return "redirect:/login";
 		}
 		
 		// 출력 디버깅
-		log.debug(Font.HW + "로그인 성공 " + Font.RESET);
+		log.debug(Font.HW + "로그인 유저 => " + user.toString() + Font.RESET);
 		
 		// 세션에 회원 정보 저장
 		session.setAttribute("loginUser", user);

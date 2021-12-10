@@ -33,7 +33,6 @@ public class UserService {
 		
 		user = userMapper.selectUserOne(user);
 		
-		log.debug(Font.HW + "로그인된 유저 정보 => " + user.toString() + Font.RESET);
 		
 		return user;
 	}

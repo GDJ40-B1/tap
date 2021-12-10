@@ -6,6 +6,7 @@
 		<result column="member_pw" property="memberPw"/>
 		<result column="member_age" property="memberAge"/>
 		<result column="member_phone" property="memberPhone"/>
+		<result column="member_name" property="memberName"/>
 		<result column="member_point" property="memberPoint"/>
 		<result column="create_date" property="createDate"/>
 		<result column="update_date" property="updateDate"/>
@@ -114,10 +115,10 @@
 	
 	<!-- 회원 한 명의 정보를 삭제 -->
 	<delete id="deleteMemberOne" parameterType="com.btf.tap.vo.Member">
-		DELETE
+		DELETE FROM
 			member
 		WHERE
-			member_id=#{memberID},
+			member_id=#{memberId} AND
 			member_pw=#{memberPw}
 	</delete>
 

@@ -65,6 +65,12 @@
           </li>
           <li><a href="contact.html">Contact</a></li>
           <c:if test="${loginUser!=null}">
+            <c:if test="${loginUser.userLevel.equals('host')}">
+              <li><a class="active" href="${pageContext.request.contextPath}/hostMyPage">${loginUser.userName}</a></li>
+          	</c:if>
+          	<c:if test="${loginUser.userLevel.equals('member')}">
+              <li><a class="active" href="${pageContext.request.contextPath}/myPage">${loginUser.userName}</a></li>
+          	</c:if>
           	<li><a href="${pageContext.request.contextPath}/logout">logout</a></li>
           </c:if>
           <c:if test="${loginUser==null}">
