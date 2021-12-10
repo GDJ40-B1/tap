@@ -8,8 +8,8 @@ public class Reservation {
 	private String memberId;
 	private int roomId;
 	private String checkInDate;
-	private int numberOfPeople;
 	private String checkOutDate;
+	private int peopleNum;
 	private String createDate;
 	private String updateDate;
 }

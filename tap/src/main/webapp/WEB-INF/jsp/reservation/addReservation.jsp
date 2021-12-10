@@ -18,7 +18,6 @@
    <!-- end : mainHeader -->
    
 	<h1>예약하기</h1>
-	<form action="${pageContext.request.contextPath}/addReservation" method="post">
 		<main id="main">
          <section class="breadcrumbs">
             <table>
@@ -88,7 +87,16 @@
             
       </section>
    </main>
-   <div><button type="submit">예약</button></div>
+   
+   <form action="${pageContext.request.contextPath}/addReservation" method="post">
+	   <div>회원 아이디 :</div>
+	   <input type="text" name="memberId">
+	   <input type="hidden" name="roomId" value="${room.roomId}">
+	   <input type="date" name="checkInDate" value="NOW()">
+	   <input type="date" name="checkOutDate" value="NOW()">
+	   <input type="text" name="peopleNum" value="---------">명
+   
+   	<div><button type="submit">예약</button></div>
 	
 	</form>
 	<!-- start : mainFooter -->

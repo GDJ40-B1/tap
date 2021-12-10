@@ -2,19 +2,30 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.btf.tap.mapper.ReservationMapper">
 	
+	<resultMap type="com.btf.tap.vo.Reservation" id="resultReservation">
+		<result column="reservation_id" property="reservationId"></result>
+		<result column="member_id" property="memberId"></result>
+		<result column="room_id" property="roomId"></result>
+		<result column="check_in_date" property="checkInDate"></result>
+		<result column="check_out_date" property="checkOutDate"></result>
+		<result column="people_num" property="peopleNum"></result>
+		<result column="create_date" property="createDate"></result>
+		<result column="update_date" property="updateDate"></result>
+	</resultMap>
+	
 	<!-- 예약하기 -->
-	<insert id="insertReservation" parameterType="com.btf.tap.vo.Reservation">
-		INSERT INTO Reservation (
+	<insert id="insertReservation" parameterType="com.btf.tap.vo.Reservation" >
+		INSERT INTO reservation (
 			member_id,
 			room_id,
 			check_in_date,
-			number_of_people,
 			check_out_date,
+			people_num,
 			create_date,
 			update_date
 		)	VALUES	(
-					#{memberId}, #{roomId}, #{checkInDate}, #{numberOfPeople}, 
-					#{checkOutDate}, NOW(), NOW() )
+					#{memberId}, #{roomId}, #{checkInDate}, #{checkOutDate}, #{peopleNum}, 
+					 NOW(), NOW() )
 		<selectKey keyProperty="reservationId" order="AFTER" resultType="int">
 			SELECT LAST_INSERT_ID()
 		</selectKey>	

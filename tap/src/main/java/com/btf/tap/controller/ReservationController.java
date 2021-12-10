@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.btf.tap.common.Font;
 import com.btf.tap.service.ReservationService;
@@ -24,19 +25,22 @@ public class ReservationController {
 	ReservationService reservationService;
 	
 	@GetMapping("/addReservation")
-	String addReservation(Model model, int roomId, int detailAddressId)	{
-		
+	String addReservation(Model model, int roomId,  int detailAddressId)	{
 		
 		Map<String, Object> map = reservationService.addReservation(roomId, detailAddressId);
 		model.addAttribute("room",map.get("room"));
 	    model.addAttribute("address",map.get("address"));
+	    
+	    log.debug(Font.KSB +" reservationController map에 id값 담아 서비스 처리 후 뷰로 전송 "+ map.toString() + Font.RESET);
+	    
 		return "reservation/addReservation";
 	}
 	
 	@PostMapping("/addReservation")
 	String addReservation(Reservation reservation)	{
-		log.debug(Font.KSB + reservation.toString() + Font.RESET);
-		return "redirect:/roomOne";
+		int reservationId = reservationService.addReservation(reservation);
+		log.debug(Font.KSB + "addReservation post맵핑 작동 "+ reservation.toString() + Font.RESET);
+		return "redirect:/roomList";
 	}
 	
 	@GetMapping("/modifyReservation")
