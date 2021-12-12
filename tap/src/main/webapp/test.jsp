@@ -12,8 +12,8 @@
 <body>
 <%
 String DB_URL = "jdbc:mariadb://3.36.30.25:3306/goodee?serverTimezone=Asia/Seoul";
-String DB_USER = "user_db";
-String DB_PASSWORD= "cap1984@";
+String DB_USER = "user_hw";
+String DB_PASSWORD= "db1984@";
 
 Connection conn;
 Statement stmt;
@@ -47,8 +47,8 @@ try {
 }
 
 DB_URL = "jdbc:mariadb://localhost:3306/goodee?serverTimezone=Asia/Seoul";
-DB_USER = "user_db";
-DB_PASSWORD= "cap1984@";
+DB_USER = "user_hw";
+DB_PASSWORD= "db1984@";
 
 try {
 	 Class.forName("org.mariadb.jdbc.Driver");
