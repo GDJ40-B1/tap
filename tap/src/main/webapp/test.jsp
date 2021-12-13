@@ -1,3 +1,4 @@
+<%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.Statement"%>
 <%@page import="java.sql.DriverManager"%>
 <%@page import="java.sql.Connection"%>
@@ -28,8 +29,12 @@ try {
 	<h1>3.36.30.25 접속 성공</h1>
 <%
  stmt = conn.createStatement();
+ ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS num FROM view_user");
+ rs.next();
+ int confirm = rs.getInt("num");
 %>
-	<h1>3.36.30.25 접속 성공</h1>
+	<h1>3.36.30.25 접속 성공 <%=confirm %></h1>
+	
 <%
  conn.close();
  
