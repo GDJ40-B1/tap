@@ -9,6 +9,14 @@
 <title>attractionOne</title>
 </head>
 <body>
+	<!-- start : mainHeader -->
+   <div>
+      <jsp:include page="/partial/mainHeader.jsp"></jsp:include>
+   </div>
+   <!-- end : mainHeader -->
+   <main id="main">
+   <section class="breadcrumbs">
+   
 	<h1>명소 상세보기</h1>
 	
 	<form action="${pageContext.request.contextPath}/attractionOne" method="post">
@@ -39,6 +47,12 @@
 			</tr>
 		</table>
 	</form>
-	
+	</section>
+	</main>	
+	<!-- start : mainFooter -->
+   <div>
+      <jsp:include page="/partial/mainFooter.jsp"></jsp:include>
+   </div>
+   <!-- end : mainFooter -->	
 </body>
 </html>

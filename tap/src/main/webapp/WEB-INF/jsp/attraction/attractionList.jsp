@@ -8,7 +8,15 @@
 <title>attractionList</title>
 </head>
 <body>
-	<h1>명소List</h1>
+	<!-- start : mainHeader -->
+   <div>
+      <jsp:include page="/partial/mainHeader.jsp"></jsp:include>
+   </div>
+   <!-- end : mainHeader -->
+   <main id="main">
+   <section class="breadcrumbs">
+   
+   	<h1>명소List</h1>
 	
 	<form action="${pageContext.request.contextPath}/attractionList" method="post">
 		<table border="1">
@@ -27,6 +35,13 @@
 
 		</table>
 	</form>
+	</section>
+	</main>
 	
+	<!-- start : mainFooter -->
+   <div>
+      <jsp:include page="/partial/mainFooter.jsp"></jsp:include>
+   </div>
+   <!-- end : mainFooter -->	
 </body>
 </html>

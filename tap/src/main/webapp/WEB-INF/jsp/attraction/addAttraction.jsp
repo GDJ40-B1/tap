@@ -9,7 +9,15 @@
 <title>addAttraction</title>
 </head>
 <body>
-	<h1>명소 등록</h1>
+	<!-- start : mainHeader -->
+   <div>
+      <jsp:include page="/partial/mainHeader.jsp"></jsp:include>
+   </div>
+   <!-- end : mainHeader -->
+   <main id="main">
+   <section class="breadcrumbs">
+  
+   	<h1>명소 등록</h1>
 	<form action="${pageContext.request.contextPath}/addAttraction" method="post">
 		<table border="1">
 			
@@ -50,7 +58,14 @@
 	
 	
 	</form>
+	</section>
+	</main>
 	
+	<!-- start : mainFooter -->
+   <div>
+      <jsp:include page="/partial/mainFooter.jsp"></jsp:include>
+   </div>
+   <!-- end : mainFooter -->	
 	
 		<!-- kakao API -->
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e1c10213787b97f0d88e77cdafcb6687&libraries=services"></script>
