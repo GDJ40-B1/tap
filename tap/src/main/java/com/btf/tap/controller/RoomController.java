@@ -29,16 +29,9 @@ public class RoomController {
 	/*-----Member측면----- */
 	
 	@GetMapping("/wow")
-	public String wowList(HttpServletRequest request, Model model) {
-		// 호스트 정보를 가져온다
-		HttpSession session = request.getSession();
-		User host = (User)session.getAttribute("loginUser");
-		Host rhost = new Host();
-		rhost.setHostName(host.getUserName());
+	public String wowList() {
 		
-		model.addAttribute("host", rhost);
-		
-		return "room/myRoomList";
+		return "tables";
 	}
 	
 	@GetMapping("/roomList")

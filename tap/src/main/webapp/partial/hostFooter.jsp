@@ -44,6 +44,7 @@
         </div>
     </div>
     
+    
     <!-- Bootstrap core JavaScript-->
     <script src="${pageContext.request.contextPath}/resources/vendor/jquery/jquery.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -56,7 +57,10 @@
 
     <!-- Page level plugins -->
     <script src="${pageContext.request.contextPath}/resources/vendor/chart.js/Chart.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
+    <script src="${pageContext.request.contextPath}/resources/js/demo/datatables-demo.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/demo/chart-area-demo.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/demo/chart-pie-demo.js"></script>
