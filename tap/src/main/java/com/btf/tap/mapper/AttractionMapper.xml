@@ -36,7 +36,7 @@
 		UPDATE
 			attraction
 		SET
-			attraction_category=#{attractionCategory}, attraction_name=#{attractionName}, attraction_phone_number=#{attractionPhoneNumber},
+			detail_address_id=#{detailAddressId}, attraction_category=#{attractionCategory}, attraction_name=#{attractionName}, attraction_phone_number=#{attractionPhoneNumber},
 			attraction_content=#{attractionContent}, aproval_status=#{aprovalStatus}, update_date=Now()
 		WHERE
 			attraction_id=#{attractionId}

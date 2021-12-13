@@ -24,7 +24,7 @@ public class AttractionService {
 	@Autowired AddressMapper addressMapper;
 	
 	// 특정 명소 정보 추출
-	public Map<String, Object> getRoomOne(int attractionId, int detailAddressId){
+	public Map<String, Object> getAttractionOne(int attractionId, int detailAddressId){
 		Map<String, Object> map = new HashMap<>();
 		Address address = addressMapper.selectAddressOne(detailAddressId);
 		
@@ -45,15 +45,17 @@ public class AttractionService {
 		return attractionCategoryList;
 	}
 	
-	// 명소삭제
+	// 명소삭제(고쳐야함 오류남..)
 	public void removeAttraction(int attractionId) {
 		int detailAddressId = attractionMapper.selectAttractionOne(attractionId).getDetailAddressId();
 		attractionMapper.deleteAttraction(attractionId);
-		addressMapper.deleteDetailAddress(attractionId);
+		addressMapper.deleteDetailAddress(detailAddressId);
 	}
 	
-	// 명소 수정(주소는 수정 안하도록)
-	public void modifyAttraction(Attraction attraction) {
+	// 명소 수정
+	public void modifyAttraction(Attraction attraction, Address address) {
+		address.setAddressId(addressMapper.searchAddressOne(address).getAddressId());
+		addressMapper.updateDetailAddress(address);
 		attractionMapper.updateAttraction(attraction);
 	}		
 	

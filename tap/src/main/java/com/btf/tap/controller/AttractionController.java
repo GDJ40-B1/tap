@@ -1,6 +1,7 @@
 package com.btf.tap.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,31 +32,32 @@ public class AttractionController {
 		// 추가된 뒤 명소 리스트페이지로 돌아감
 		return "redirect:/attractionList";
 	}
-/*
+
 	
-	@GetMapping("/attractionList")
-	public String attractionList(Model model) {
-		List<Attraction> list = attractionService.getattractionList();
-		model.addAttribute("list",list);
-		return "attraction/attractionList";
-	}
-	
-	// 다시 하기
+	// 상세보기
 	@GetMapping("/attractionOne")
 	public String getAttractionOne(Model model, int attractionId, int detailAddressId) {
-		Map<String, Object> map = roomService.getAttractionOne(attractionId, detailAddressId);
-	return "attraction/attractionOne";
-	}
+		Map<String, Object> map = attractionService.getAttractionOne(attractionId, detailAddressId);
+		model.addAttribute("attraction",map.get("attraction"));
+		model.addAttribute("address", map.get("address"));
+		return "attraction/attractionOne";
+	}	
 	
-	
+	//페이징 추가하기
+	@GetMapping("/attractionList")
+	public String attractionList(Model model) {
+		List<Attraction> list = attractionService.getAttractionList();
+		model.addAttribute("list",list);
+		return "attraction/attractionList";
+	}	
 	
 	
 	@GetMapping("/removeAttraction")
 	public String getRemoveRoom(int attractionId) {
 		// 명소 삭제
-		AttractionService.removeAttraction(attractionId);
+		attractionService.removeAttraction(attractionId);
 		// 목록으로 되돌아가기
 		return "redirect:/attractionList";
 	}
-	*/
+
 }
