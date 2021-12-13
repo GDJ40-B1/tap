@@ -7,7 +7,9 @@
 		<result column="host_pw" property="hostPw"/>
 		<result column="host_age" property="hostAge"/>
 		<result column="host_phone" property="hostPhone"/>
+		<result column="host_name" property="hostName"/>
 		<result column="business_number" property="businessNumber"/>
+		<result column="approval_status" property="approvalStatus"/>
 		<result column="host_point" property="hostPoint"/>
 		<result column="create_date" property="createDate"/>
 		<result column="update_date" property="updateDate"/>
@@ -21,6 +23,7 @@
 			host_age,
 			host_phone,
 			business_number,
+			approval_status,
 			host_point,
 			create_date,
 			update_date
@@ -28,6 +31,33 @@
 			host
 		WHERE
 			host_id=#{hostId}
+	</select>
+	
+	<!-- 호스트 전체 목록 불러오기 -->
+	<select id="selectHostList" resultMap="resultHost" parameterType="com.btf.tap.vo.Host" >
+		SELECT 
+			host_id,
+			host_name,
+			host_age,
+			host_phone,
+			business_number,
+			approval_status,
+			host_point,
+			create_date,
+			update_date
+		FROM
+			host
+	</select>
+	
+	<!-- 호스트 비밀번호 확인하기(수정용) -->
+	<select id="selectHostPw" parameterType="com.btf.tap.vo.Host" resultType="int" >
+		SELECT 
+			COUNT(*)
+		FROM
+			host
+		WHERE
+			host_id=#{hostId} AND
+			host_pw=#{hostPw}
 	</select>
 	
 	<!--  새로운 호스트 한 명 등록하기 -->
@@ -40,6 +70,7 @@
 				host_name,
 				host_phone,
 				business_number,
+				approval_status,
 				host_point,
 				create_date,
 				update_date 
@@ -50,6 +81,7 @@
 			#{hostAge},
 			#{hostName},
 			#{hostPhone},
+			'Y',
 			#{businessNumber},
 			0,
 			NOW(),
@@ -57,4 +89,48 @@
 		)
 	</insert>
 	
+	<!-- 호스트 한 명의 정보를 수정(나이,이름, 전화번호 ) -->
+	<update id="updateHostOne" parameterType="com.btf.tap.vo.Host">
+		UPDATE
+			host
+		SET
+			host_age=#{hostAge},
+			host_name=#{hostName},
+			host_phone=#{hostPhone},
+			update_date=NOW()
+		WHERE
+			host_id=#{hostId}
+	</update>
+	
+	<!-- 호스트 한 명의 정보를 수정(포인트) -->
+	<update id="updateHostPoint" parameterType="com.btf.tap.vo.Host">
+		UPDATE
+			host
+		SET
+			host_point=#{hostPoint},
+			update_date=NOW()
+		WHERE
+			host_id=#{hostId}
+	</update>
+	
+	<!-- 호스트 한 명의 정보를 수정(비밀번호) -->
+	<update id="updateHostPw" parameterType="com.btf.tap.vo.Host">
+		UPDATE
+			host
+		SET
+			host_pw=#{hostPw},
+			update_date=NOW()
+		WHERE
+			host_id=#{hostId}
+	</update>
+	
+	<!-- 호스트 한 명의 정보를 삭제 -->
+	<delete id="deleteHostOne" parameterType="com.btf.tap.vo.Host">
+		DELETE FROM
+			host
+		WHERE
+			host_id=#{hostId} AND
+			host_pw=#{hostPw}
+	</delete>
+
 </mapper>

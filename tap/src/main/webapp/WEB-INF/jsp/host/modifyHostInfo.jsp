@@ -4,12 +4,6 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<!-- test용 주석 -->
-<!-- test용 주석2 -->
-<!-- test용 주석3 -->
-<!-- test용 주석4 -->
-<!-- test용 주석5 -->
-<!-- test용 주석6 -->
 <head>
 
     <meta charset="utf-8">
@@ -45,25 +39,25 @@
                             <div class="text-center">
                                 <h1 class="h4 text-gray-900 mb-4">Modify Your Info!</h1>
                             </div>
-                            <form class="user" method="post" action="${pageContext.request.contextPath}/modifyMemberInfo" >
+                            <form class="user" method="post" action="${pageContext.request.contextPath}/modifyHostInfo" >
                                 <div class="form-group">
                                     <input type="hidden" class="form-control form-control-user" id="exampleInputEmail"
-                                        placeholder="Email Address" name="memberId" value="${member.memberId}">
+                                        placeholder="Email Address" name="hostId" value="${host.hostId}">
                                 </div>                                
                                 <div class="form-group">
                                     <h4 class="small font-weight-bold">이름</h4>
                                     <input type="text" class="form-control form-control-user" id="exampleInputName"
-                                        placeholder="name" name="memberName" value="${member.memberName}">
+                                        placeholder="name" name="hostName" value="${host.hostName}">
                                 </div>                                
                                 <div class="form-group">
                                 	<h4 class="small font-weight-bold">나이</h4>
                                     <input type="text" class="form-control form-control-user" id="exampleInputAge"
-                                        placeholder="age" name="memberAge" value="${member.memberAge}">
+                                        placeholder="age" name="hostAge" value="${host.hostAge}">
                                 </div>
                                 <div class="form-group">
                                 	<h4 class="small font-weight-bold">전화번호</h4>
                                     <input type="text" class="form-control form-control-user" id="exampleInputPhone"
-                                        placeholder="phone number" name="memberPhone" value="${member.memberPhone}">
+                                        placeholder="phone number" name="hostPhone" value="${host.hostPhone}">
                                 </div>
 <!--                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
