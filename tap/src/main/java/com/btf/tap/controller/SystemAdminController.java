@@ -1,5 +1,8 @@
 package com.btf.tap.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,13 +11,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.btf.tap.common.Font;
 import com.btf.tap.service.SystemAdminService;
 import com.btf.tap.vo.SystemAdmin;
+import com.btf.tap.vo.User;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
 public class SystemAdminController {
-	@Autowired SystemAdminService systemAdminService;
-	
+	@Autowired SystemAdminService systemAdminService;	
 	// 시스템관리자 전체 목록 불러오기
 	@GetMapping("/systemAdminList")
 	public String getSystemAdminList(Model model) {
@@ -68,24 +72,53 @@ public class SystemAdminController {
 		return "redirect:/systemAdminOne?systemAdminId="+systemAdminId;
 	}
 	
-	// 시스템관리자 한 명의 name 수정하기
-	@GetMapping("/modifySystemAdminName")
-	public String getModifySystemAdminName(Model model, String systemAdminId) {
-		SystemAdmin systemAdmin = systemAdminService.getSystemAdminOne(systemAdminId);
-		log.debug(Font.HS + "getModifyCont : " + systemAdmin.toString() + Font.RESET);
+	// 시스템관리자 한 명의 정보(name, age, phone) 수정하기
+	@GetMapping("/modifySystemAdminInfo")
+	public String getModifySystemAdminInfo(HttpServletRequest request, Model model) {
+		
+		HttpSession session = request.getSession();
+		log.debug(Font.HS + "getModifyInfoCont : " + session.toString() + Font.RESET);
+		
+		// 로그인 되어있지 않을 경우, 홈페이지로 이동
+		if(session.getAttribute("loginUser") == null) {
+			return "redirect:/";
+		}
+		
+		// 세션에서 loginUser 객체 받기
+		User user = (User)session.getAttribute("loginUser");
+		log.debug(Font.HS + "getModifyInfoCont : " + user.toString() + Font.RESET);
+		
+		// 유저 객체속 아이디를 시스템관리자 객체에 넣어 조회하기
+		SystemAdmin systemAdmin = new SystemAdmin();
+		systemAdmin.setSystemAdminId(user.getUserId());
+		systemAdmin = systemAdminService.getSystemAdminOne(systemAdmin.getSystemAdminId());
+		log.debug(Font.HS + "getModifyInfoCont : " + systemAdmin.toString() + Font.RESET);
 		
 		model.addAttribute("systemAdmin", systemAdmin);
 		
-		return "systemAdmin/modifySystemAdminName";
+		return "systemAdmin/modifySystemAdminInfo";
 	}
-	@PostMapping("/modifySystemAdminName")
-	public String postModifySystemAdminName(SystemAdmin systemAdmin) {
-		String systemAdminId = systemAdmin.getSystemAdminId();
-		log.debug(Font.HS + "postModifyCont : " + systemAdminId + Font.RESET);
+	@PostMapping("/modifySystemAdminInfo")
+	public String postModifySystemAdminInfo(HttpServletRequest request, Model model, SystemAdmin systemAdmin) {
 		
-		systemAdminService.modifySystemAdminName(systemAdmin);
+		HttpSession session = request.getSession();
+		log.debug(Font.HS + "postModifyInfoCont : " + session.toString() + Font.RESET);
 		
-		return "redirect:/systemAdminOne?systemAdminId="+systemAdminId;
+		// 로그인 되어있지 않을 경우, 홈페이지로 이동
+		if(session.getAttribute("loginUser") == null) {
+			return "redirect:/";
+		}
+		
+		// 입력한 정보(이름,나이,전화번호)
+		log.debug(Font.HS + "postModifyInfoCont : " + systemAdmin.toString() + Font.RESET);
+		
+		// 시스템관리자 정보 변경
+		systemAdmin = systemAdminService.modifySystemAdminInfo(systemAdmin);
+		
+		// 시스템관리자 정보 주입
+		model.addAttribute("systemAdmin", systemAdmin);
+		
+		return "systemAdmin/systemAdminMyPage";
 	}
 
 	// 시스템관리자 한 명의 정보 삭제하기

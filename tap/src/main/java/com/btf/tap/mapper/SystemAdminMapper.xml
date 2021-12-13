@@ -18,6 +18,8 @@
 			system_admin_id systemAdminId,
 			system_admin_pw systemAdminPw,
 			system_admin_name systemAdminName,
+			system_admin_age systemAdminAge,
+			system_admin_phone systemAdminPhone,
 			create_date createDate,
 			update_date updateDate
 		FROM
@@ -33,6 +35,8 @@
 				system_admin_id,
 				system_admin_pw,
 				system_admin_name,
+				system_admin_age,
+				system_admin_phone,
 				create_date,
 				update_date
 			)
@@ -40,10 +44,23 @@
 				#{systemAdminId},
 				#{systemAdminPw},
 				#{systemAdminName},
+				#{systemAdminAge},
+				#{systemAdminPhone},
 				NOW(),
 				NOW()	
 		)	
 	</insert>
+	
+	<!-- 시스템관리자 한 명의 pw 확인하기(수정용) -->
+	<select id="selectSystemAdminPw" parameterType="com.btf.tap.vo.SystemAdmin">
+		SELECT
+			COUNT(*)
+		FROM 
+			system_admin
+		WHERE
+		 	system_admin_id = #{systemAdminId},
+		 	system_admin_pw = #{systemAdminPw}
+	</select>
 	
 	<!-- 시스템관리자 한 명의 pw 수정하기 -->
 	<update id="updateSystemAdminPw" parameterType="com.btf.tap.vo.SystemAdmin">
@@ -55,11 +72,13 @@
 			system_admin_id = #{systemAdminId}	
 	</update>
 	
-	<!-- 시스템관리자 한 명의 name 수정하기 -->
-	<update id="updateSystemAdminName" parameterType="com.btf.tap.vo.SystemAdmin">
+	<!-- 시스템관리자 한 명의 정보(name,age,phone) 수정하기 -->
+	<update id="updateSystemAdminInfo" parameterType="com.btf.tap.vo.SystemAdmin">
 		UPDATE system_admin
 		SET
 			system_admin_name = #{systemAdminName},
+			system_admin_age = #{systemAdminAge},
+			system_admin_phone = #{systemAdminPhone},
 			update_date = NOW()
 		WHERE 
 			system_admin_id = #{systemAdminId}	
