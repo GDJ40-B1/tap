@@ -17,7 +17,8 @@
    <main id="main">
    <section class="breadcrumbs">
 	<h1>숙소 등록하기</h1>
-	<form id="addRoomForm" action="${pageContext.request.contextPath}/addRoom" method="post">
+	<form id="addRoomForm" action="${pageContext.request.contextPath}/host/addRoom" method="post">
+		<input type="hidden" name="hostId" value="${hostId }">
 		<table>
 			<tr>
 				<td>
@@ -92,11 +93,6 @@
 				<!-- 유효성 검사로 숫자인지 확인 -->
 				<td>숙박 기본 가격</td>
 				<td><input type="number" name="roomPrice" id="roomPrice"></td>
-			</tr>
-			<tr>
-				<!-- 호스트 로그인 생길때까지 임시 -->
-				<td>호스트</td>
-				<td><input type="text" name="hostId" value="1"></td>
 			</tr>
 		</table>
 		<br><br>

@@ -81,8 +81,8 @@
    					</td>
    				</tr>
    			</table>
-   			<a href="${pageContext.request.contextPath}/modifyRoom?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}">숙소 수정</a>
-   			<a href="${pageContext.request.contextPath}/removeRoom?roomId=${room.roomId}">숙소 삭제</a>
+   			<a href="${pageContext.request.contextPath}/host/modifyRoom?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}">숙소 수정</a>
+   			<a href="${pageContext.request.contextPath}/host/removeRoom?roomId=${room.roomId}">숙소 삭제</a>
    			
 		</section>
 	</main>

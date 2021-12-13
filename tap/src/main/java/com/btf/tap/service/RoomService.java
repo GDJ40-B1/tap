@@ -24,6 +24,37 @@ public class RoomService {
 	// add, modify, get, remove
 	
 	// 숙소 전체 리스트 출력(최근 생성된 숙소 순으로)
+	public Map<String, Object> getHostRoomList(String hostId, int currentPage) {
+		// 페이징에 필요한 요소들
+		final int ROW_PER_PAGE = 10;
+		final int PAGE_PER_PAGE = 10;
+		int beginRow = (currentPage-1)*ROW_PER_PAGE;
+		
+		// 검색 결과 리스트 및 개수 추출
+		Map<String, Object> selectListElement = new HashMap<>();
+		selectListElement.put("beginRow", beginRow);
+		selectListElement.put("rowPerPage", ROW_PER_PAGE);
+		selectListElement.put("hostId", hostId);
+		
+		List<Room> roomList = roomMapper.selectHostRoomList(selectListElement);
+		int totalData = roomMapper.selectHostRoomNum(hostId);
+		
+		// 페이지 연산
+		Map<String, Object> pageElement = pageOperation(totalData, ROW_PER_PAGE, currentPage, PAGE_PER_PAGE);
+		
+		// return으로 넘길 값 map으로 묶어 보내기
+		Map<String, Object> result = new HashMap<>();
+		result.put("roomList", roomList);
+		result.put("rowPerPage", ROW_PER_PAGE);
+	    result.put("lastPage", pageElement.get("lastPage"));
+	    result.put("lastnumPage", pageElement.get("lastnumPage"));
+	    result.put("currentnumPage", pageElement.get("currentnumPage"));
+	    result.put("pagePerPage", PAGE_PER_PAGE);
+	    
+		return result;
+	}
+	
+	// 숙소 전체 리스트 출력(최근 생성된 숙소 순으로)
 	public Map<String, Object> getRoomList(int currentPage) {
 		// 페이징에 필요한 요소들
 		final int ROW_PER_PAGE = 1;
@@ -160,6 +191,7 @@ public class RoomService {
 		addressMapper.deleteDetailAddress(detailAddressId);
 	}
 	
+	// 페이징 알고리즘
 	public Map<String, Object> pageOperation(int totalData, int ROW_PER_PAGE, int currentPage, int PAGE_PER_PAGE){
 		Map<String, Object> pageElement = new HashMap<>();
 		

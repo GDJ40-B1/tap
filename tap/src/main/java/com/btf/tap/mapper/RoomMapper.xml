@@ -24,6 +24,22 @@
 		</association>
 	</resultMap>
 	
+	<!-- 특정 host의 숙소 목록 -->
+	<select id="selectHostRoomList" parameterType="hashMap" resultMap="resultRoom">
+		SELECT
+			room_id, detail_address_id, room_category, room_form, room_name,
+			room_intro, min_day, check_in_time, check_out_time, people_num, room_price,
+			create_date, update_date
+		FROM room WHERE host_id=#{hostId}
+		ORDER BY create_date DESC
+		LIMIT #{beginRow}, #{rowPerPage}
+	</select>
+	
+	<!-- 특정 host의 숙소 목록 개수 -->
+	<select id="selectHostRoomNum" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM room WHERE host_id=#{hostId}
+	</select>
+	
 	<!-- 숙소 전체 목록 출력(최근 생성된 숙소 순으로) -->
 	<select id="selectRoomList" parameterType="hashMap" resultMap="resultRoom">
 		SELECT

@@ -16,8 +16,8 @@
    <!-- end : mainHeader -->
    <main id="main">
    <section class="breadcrumbs">
-	<h1>숙소 등록하기</h1>
-	<form id="modifyRoomForm" action="${pageContext.request.contextPath}/modifyRoom" method="post">
+	<h1>숙소 수정하기</h1>
+	<form id="modifyRoomForm" action="${pageContext.request.contextPath}/host/modifyRoom" method="post">
 		<!-- 숙소ID, 상세 주소ID, 호스트ID 숨김 -->
 		<input type="hidden" name="roomId" value="${room.roomId }">
 		<input type="hidden" name="detailAddressId" value="${address.detailAddressId }">
