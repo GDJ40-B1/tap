@@ -37,32 +37,31 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+                    <div class=" align-items-center text-center mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">포인트 충전</h1>
                     </div>
                     
                     <!-- 호스트정보 카드 -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">호스트정보</h6>
+                            <h6 class="m-0 font-weight-bold text-primary text-center">충전할 금액을 입력해 주세요.</h6>
                         </div>
                         <div class="card-body">
-                            <h4 class="small font-weight-bold">아이디 <span
-                                    class="float-right">${host.hostId}</span></h4>
-                            <h4 class="small font-weight-bold">이름 <span
-                                    class="float-right">${host.hostName}</span></h4>
-                            <h4 class="small font-weight-bold">사업자 번호 <span
-                                    class="float-right">${host.businessNumber}</span></h4>
-                            <h4 class="small font-weight-bold">나이 <span
-                                    class="float-right">${host.hostAge}</span></h4>
-                            <h4 class="small font-weight-bold">전화번호 <span
-                                    class="float-right">${host.hostPhone}</span></h4>
-                            <h4 class="small font-weight-bold">보유 포인트 <span
-                                    class="float-right">${host.hostPoint} 원</span></h4>
-                            <h4 class="small font-weight-bold">가입날짜 <span
-                                    class="float-right">${host.createDate.substring(0,11)}</span></h4>
+							<form class="user" action="${pageContext.request.contextPath}/pointCharge" method="post">
+							    <div class="form-group">
+							        <input type="hidden" class="form-control form-control-user"
+							            id="exampleInputEmail" aria-describedby="emailHelp"
+							            placeholder="Enter Email Address..." name="userId"  value="${loginUser.userId}">
+							        <input type="hidden" class="form-control form-control-user"
+							            id="exampleInputEmail" aria-describedby="emailHelp"
+							            placeholder="Enter Email Address..." name="userLevel" value="${loginUser.userLevel}">
+							    </div>
+							    <div class="form-group">
+							        <input type="text" class="form-control form-control-user"
+							            id="exampleInputPassword" placeholder="충전금액" name="point">
+							    </div>
+							    <button type="submit" class="btn btn-primary btn-user btn-block">충전</button>
+							</form>
                         </div>
                     </div>
 
@@ -373,26 +372,6 @@
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">Ã</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Bootstrap core JavaScript-->
     <script src="${pageContext.request.contextPath}/resources/vendor/jquery/jquery.min.js"></script>
