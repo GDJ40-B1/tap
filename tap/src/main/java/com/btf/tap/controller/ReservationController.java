@@ -24,6 +24,16 @@ public class ReservationController {
 	@Autowired
 	ReservationService reservationService;
 	
+	@GetMapping("/reservationList")
+	public String getReservationList(Model model, @RequestParam(value="currentPage", defaultValue ="1") int currentPage) {
+		// 숙소 리스트와 페이징 관련 데이터를 result에 담기
+		Map<String, Object> result = reservationService.getReservationList(currentPage);
+		result.put("currentPage", currentPage);
+		
+		model.addAttribute("result", result);
+		return "reservation/reservationList";
+	}
+	
 	@GetMapping("/addReservation")
 	String addReservation(Model model, int roomId,  int detailAddressId)	{
 		
