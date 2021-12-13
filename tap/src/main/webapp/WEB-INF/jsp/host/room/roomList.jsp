@@ -68,7 +68,16 @@
 	            </div>
 	        </div>
 	    </div>
+	    
+	    <!-- 숙소 등록 버튼 -->
+	    <a href="${pageContext.request.contextPath}/host/addRoom" class="btn btn-success btn-icon-split">
+	    	<span class="icon text-white-50">
+	    		<i class="fas fa-check"></i>
+	    	</span>
+	    	<span class="text">숙소를 등록하시겠습니까?</span>
+	    </a>
 	</div>
+	<!-- end : content -->
 	
 	<!-- start : hostFooter -->
     <div>

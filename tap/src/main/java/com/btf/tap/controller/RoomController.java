@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.btf.tap.service.HostService;
 import com.btf.tap.service.RoomService;
 import com.btf.tap.vo.Address;
 import com.btf.tap.vo.Host;
@@ -25,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class RoomController {
 	@Autowired RoomService roomService;
+	@Autowired HostService hostService;
 	
 	/*-----Member측면----- */
 	
@@ -70,11 +72,11 @@ public class RoomController {
 	public String getAddRoom(HttpServletRequest request, Model model) {
 		// 호스트 정보를 가져온다
 		HttpSession session = request.getSession();
-		User host = (User)session.getAttribute("loginUser");
+		User user = (User)session.getAttribute("loginUser");
 		
 		// 숙소 카테고리 리스트 및 hostId
 		model.addAttribute("roomCategoryList",roomService.getRoomCategory());
-		model.addAttribute("hostId", host.getUserId());
+		model.addAttribute("hostId", user.getUserId());
 		return "/host/room/addRoom";
 	}
 	
@@ -86,21 +88,26 @@ public class RoomController {
 		return "redirect:/host/roomList";
 	}
 	
+	// 페이징 삭제
 	@GetMapping("/host/roomList")
 	public String myRoomList(HttpServletRequest request, Model model,
 			@RequestParam(value="currentPage", defaultValue ="1") int currentPage) {
 		// 호스트 정보를 가져온다
 		HttpSession session = request.getSession();
-		User host = (User)session.getAttribute("loginUser");
+		User user = (User) session.getAttribute("loginUser");
 		
-		//
-		Map<String, Object> result = roomService.getHostRoomList(host.getUserId(), currentPage);
+		// 유저 객체속 아이디를 호스트 객체에 넣어 조회하기
+		Host host = new Host();
+		host.setHostId(user.getUserId());
+		host = hostService.getHostOne(host);
+		
+		// 숙소 목록 추출
+		Map<String, Object> result = roomService.getHostRoomList(host.getHostId(), currentPage);
 		result.put("currentPage", currentPage);
 		
+		model.addAttribute("host",host);
 		model.addAttribute("result", result);
-		// 숙소 목록 추출
-		// model.addAttribute("roomList",roomService.getRoomList());
-		// 추후에 host의 나의 숙소목록 페이지로 이동할 수 있도록 해야함
+		
 		return "/host/room/roomList";
 	}
 	
