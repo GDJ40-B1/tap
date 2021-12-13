@@ -20,7 +20,6 @@
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link href="${pageContext.request.contextPath}/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="${pageContext.request.contextPath}/resources/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
   <link href="${pageContext.request.contextPath}/resources/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
@@ -210,18 +209,7 @@
 				</c:if>									
 			</c:otherwise>
 		</c:choose>	
-		
-	  <!-- 임시로 추가 -->
-	  <form class="form-inline" action="${pageContext.request.contextPath}/searchList">
-      	<input class="form-control mr-sm-2" type="text" name="keyword">
-    	<button class="btn btn-primary" type="submit">Search</button>
-  	  </form>
-	  
-	  <select id="sido">
-	  	<c:forEach var="s" items="${sidoList}">
-	  		<option value="${s}">${s}</option>
-	  	</c:forEach>
-	  </select>
+	
 	</div>
 
   </main><!-- End #main -->
