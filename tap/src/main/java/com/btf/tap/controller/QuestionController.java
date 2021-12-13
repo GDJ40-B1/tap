@@ -109,7 +109,7 @@ public class QuestionController {
 	public String postModifyQuestion(Question question) {
 		int questionId = question.getQuestionId();
 		questionService.modifyQuestion(question);
-		log.debug(question.toString());
+		log.debug(Font.KSB + question.toString() + Font.RESET);
 		
 		return "redirect:/questionOne?questionId="+questionId;
 	}

@@ -19,22 +19,15 @@
 		LIMIT #{beginRow}, #{rowPerPage}
 	</select>
 	
-	<!-- 숙소 페이지 체크 -->
-	<select id="totalRowCount" parameterType="String" resultType="int">
+	<!-- 숙소 검색 페이지 체크 -->
+	<select id="roomTotalRowCount" parameterType="String" resultType="int">
 		SELECT
 			COUNT(*)
-		FROM 
-		<choose>
-			<when test="keyword == room">
-				room
-			</when>		
-			<otherwise>
-				attraction
-			</otherwise>
-		</choose>
+		FROM room
 		<where>
-		
-		</where>
+			room_name LIKE 
+			CONCAT ('%', #{keyword}, '%')
+		</where>		
 	</select>	
 	
 	<!-- 명소 검색 조회 -->
@@ -52,20 +45,44 @@
 		ORDER BY create_date DESC
 		LIMIT 0, 5
 	</select>
+
+	<!-- 명소 검색 페이지 체크 -->
+	<select id="attractionTotalRowCount" parameterType="String" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM attraction
+		<where>
+			attraction_name LIKE
+			CONCAT ('%', #{keyword}, '%')
+		</where>		
+	</select>	
 	
-	<!-- 해시 태그 테이블 조회 -->
-	<select id="hashtagSearch" parameterType="String" resultType="com.btf.tap.vo.Hashtag">
+	<!-- 해시태그 검색 조회 -->
+	<select id="hashtagSearchList" parameterType="java.util.Map" resultType="com.btf.tap.vo.Hashtag">
 		SELECT
 			hashtag_target hashtagTarget,
 			hashtag_name hashTagName,
 			hashtag_target_category hashtagTargetCategory
 		FROM hashtag
 		<where>
-			hashtag_name LIKE
+			hashtag_target_category = #{hashtagTargetCategory}
+			AND hashtag_name LIKE
 			CONCAT ('%', #{keyword}, '%')
 		</where>
-		LIMIT 0, 5
+		LIMIT #{beginRow}, #{rowPerPage}
 	</select>
+	
+	<!-- 해시태그 검색 페이지 체크 -->
+	<select id="hashtagTotalRowCount" parameterType="java.util.Map" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM hashtag
+		<where>
+			hashtag_target_category = #{hashtagTargetCategory}
+			AND hashtag_name LIKE
+			CONCAT ('%', #{keyword}, '%')
+		</where>		
+	</select>		
 	
 	<!-- 회원 검색어 기록 저장 -->
 	<insert id="insertSearchKeyword" parameterType="com.btf.tap.vo.SearchHistory">
@@ -78,6 +95,5 @@
 			#{memberId},
 			NOW()
 		)
-		
 	</insert>
 </mapper>
