@@ -22,6 +22,71 @@ public class MemberController {
 	
 	@Autowired MemberService memberService;
 	
+	
+	@GetMapping("/modifyMemberPw")
+	public String getModifyMemberPw(HttpServletRequest request, Model model) {
+	
+		HttpSession session = request.getSession();
+			
+		// 로그인 되있있지 않을 경우, 홈페이지로 이동
+		if(session.getAttribute("loginUser") == null) {
+			return "redirect:/";
+		}
+		
+		// 세션에서 로그인 유저 객체 받기 
+		User user = (User) session.getAttribute("loginUser");
+		
+		// 유저 객체속 아이디를 회원 객체에 넣어 조회하기
+		Member member = new Member();
+		member.setMemberId(user.getUserId());
+		member = memberService.getMemberOne(member);
+		
+		// 회원 정보 주입
+		model.addAttribute("member", member);
+		
+		// 비밀번호 변경 페이지로 이동
+		return "member/modifyMemberPw";
+	}
+	
+	
+	
+	@PostMapping("/modifyMemberPw")
+	public String postModifyMemberPw(HttpServletRequest request, Member member, Model model, String memberNewPw) {
+	
+		HttpSession session = request.getSession();
+			
+		// 로그인 되있지 않을 경우, 홈페이지로 이동
+		if(session.getAttribute("loginUser") == null) {
+			return "redirect:/";
+		}
+		
+		// 비밀번호 입력 디버깅
+		log.debug(Font.HW + "입력받은 비밀번호 일치여부 확인 정보 => " + member.toString() + Font.RESET);
+		
+		int confirm = memberService.selectMemberPw(member);
+		
+		// 비밀번호 불일치시 다시 입력받도록 리다이렉트
+		if (confirm==0) {
+			log.debug(Font.HW + "입력받은 비밀번호 불일치 => " +  member.toString() + Font.RESET);
+			return "redirect:/modifyMemberPw";
+		}
+		
+		// 새로운 비밀번호 입력 디버깅
+		log.debug(Font.HW + "입력받은 새로운 비밀번호 변경 정보 => " + memberNewPw + Font.RESET);
+		
+		// 새로운 비밀번호 세팅
+		member.setMemberPw(memberNewPw);
+		
+		// 비밀번호 변경
+		member = memberService.modifyMemberPw(member);
+		
+		// 회원 정보 주입
+		model.addAttribute("member", member);
+		
+		// 마이페이지로 이동
+		return "member/myPage";
+	}
+	
 	@GetMapping("/modifyMemberInfo")
 	public String getModifyMemberInfo(HttpServletRequest request, Model model) {
 	
@@ -43,7 +108,7 @@ public class MemberController {
 		// 회원 정보 주입
 		model.addAttribute("member", member);
 		
-		// 마이페이지로 이동
+		// 회원정보 변경 페이지로 이동
 		return "member/modifyMemberInfo";
 	}
 	
@@ -107,6 +172,7 @@ public class MemberController {
 			return "redirect:/";
 		}
 		
+		// 회원가입 페이지로 이동
 		return "member/register";
 	}
 	
@@ -120,6 +186,7 @@ public class MemberController {
 			return "redirect:/";
 		}
 		
+		// 회원탈퇴 페이지로 이동
 		return "member/withdraw";
 		
 	}

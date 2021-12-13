@@ -13,9 +13,9 @@
 		<result column="update_date" property="updateDate"/>
 		<collection property="questionAnswer" ofType="com.btf.tap.vo.QuestionAnswer">
 			<id column="question_id" property="questionId"/>
-			<id column="system_admin_id" property="systemAdminId"/>
-			<id column="question_answer_content" property="questionAnswerContent"/>
-			<id column="create_date" property="createDate"/>
+			<result column="system_admin_id" property="systemAdminId"/>
+			<result column="question_answer_content" property="questionAnswerContent"/>
+			<result column="create_date" property="createDate"/>
 		</collection>
 	</resultMap>
 	

@@ -4,6 +4,12 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<!-- test용 주석 -->
+<!-- test용 주석2 -->
+<!-- test용 주석3 -->
+<!-- test용 주석4 -->
+<!-- test용 주석5 -->
+<!-- test용 주석6 -->
 <head>
 
     <meta charset="utf-8">
@@ -41,11 +47,11 @@
                             </div>
                             <form class="user" method="post" action="${pageContext.request.contextPath}/modifyMemberInfo" >
                                 <div class="form-group">
-                                	<h4 class="small font-weight-bold">이름</h4>
                                     <input type="hidden" class="form-control form-control-user" id="exampleInputEmail"
                                         placeholder="Email Address" name="memberId" value="${member.memberId}">
                                 </div>                                
                                 <div class="form-group">
+                                    <h4 class="small font-weight-bold">이름</h4>
                                     <input type="text" class="form-control form-control-user" id="exampleInputName"
                                         placeholder="name" name="memberName" value="${member.memberName}">
                                 </div>                                

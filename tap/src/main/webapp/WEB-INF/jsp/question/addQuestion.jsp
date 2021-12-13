@@ -68,7 +68,7 @@
     <section id="list" class="list">
       <div class="container">
 		
-		<form id="addQuestionForm" action ="/tap/addQuestion" method ="post">
+		<form id="addQuestionForm" action ="${pageContext.request.contextPath}/addQuestion" method ="post">
 		<!-- 세션 ID, 카테고리 -->
 		<input type="hidden" name="writerId" value="${loginUser.userId}">
 		<input type="hidden" name="writerCategory" value="${loginUser.userLevel}">

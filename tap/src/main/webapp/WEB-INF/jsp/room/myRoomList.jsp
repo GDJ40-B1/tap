@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
 <html>
@@ -7,41 +7,32 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<body>
-	<!-- start : mainHeader -->
+
+<body id="page-top">
+
+    <!-- start : hostHeader -->
    <div>
-      <jsp:include page="/partial/mainHeader.jsp"></jsp:include>
+      <jsp:include page="/partial/hostHeader.jsp"></jsp:include>
    </div>
-   <!-- end : mainHeader -->
+   <!-- end : hostHeader -->
    
-   <main id="main">
-   		<section class="breadcrumbs">
-			<table border="1">
-				<tr>
-					<td>숙소명</td>
-					<td>카테고리</td>
-					<td>가격</td>
-					<td>체크인 시간</td>
-					<td>체크아웃 시간</td>
-				</tr>
-				<c:forEach items="${roomList }" var="list">
-					<tr>
-						<td><a href="${pageContext.request.contextPath}/myRoomOne?roomId=${list.roomId}&detailAddressId=${list.detailAddressId }">${list.roomName }</a></td>
-						<td>${list.roomCategory }</td>
-						<td>${list.roomPrice }</td>
-						<td>${list.checkInTime }</td>
-						<td>${list.checkOutTime }</td>
-					</tr>
-				</c:forEach>
-			</table>
-		</section>
-	</main>
-	
-	<!-- start : mainFooter -->
+    <!-- 원하는 대로 내용 채우기 -->
+	<div id="content" class="container-fluid">
+
+        <!-- Page Heading -->
+        <h1 class="h3 mb-4 text-gray-800">분리했습니다~~</h1>
+		<h3>사용시 주의사항을 알려드리겠습니다.</h3>
+		<h5>host쪽 헤더와 푸터를 쓰신다면, 일단 body의 id를 "page-top"으로 설정하고 class는 "container-fluid"로 하시길 바랍니다.</h5>
+		<h5>메인도 마찬가지이지만... 헤더와 푸터는 꼭 같이 쓰셔야 합니다. 헤더만 있는 경우는 없습니다.</h5>
+	</div>
+
+   <!-- start : hostFooter -->
    <div>
-      <jsp:include page="/partial/mainFooter.jsp"></jsp:include>
+      <jsp:include page="/partial/hostFooter.jsp"></jsp:include>
    </div>
-   <!-- end : mainFooter -->
+   <!-- end : hostFooter -->
+
 </body>
+
 </html>
 

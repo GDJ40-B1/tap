@@ -3,6 +3,7 @@ package com.btf.tap.controller;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,7 +15,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.btf.tap.service.RoomService;
 import com.btf.tap.vo.Address;
+import com.btf.tap.vo.Host;
 import com.btf.tap.vo.Room;
+import com.btf.tap.vo.User;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,18 +28,38 @@ public class RoomController {
 	
 	/*-----Member측면----- */
 	
-	@GetMapping("/roomList")
-	public String roomList(Model model) {
-		// 숙소 목록 추출
-		model.addAttribute("roomList",roomService.getRoomList());
+	@GetMapping("/wow")
+	public String wowList(HttpServletRequest request, Model model) {
+		// 호스트 정보를 가져온다
+		HttpSession session = request.getSession();
+		User host = (User)session.getAttribute("loginUser");
+		Host rhost = new Host();
+		rhost.setHostName(host.getUserName());
 		
+		model.addAttribute("host", rhost);
+		
+		return "room/myRoomList";
+	}
+	
+	@GetMapping("/roomList")
+	public String roomList(Model model, @RequestParam(value="currentPage", defaultValue ="1") int currentPage) {
+		// 숙소 리스트와 페이징 관련 데이터를 result에 담기
+		Map<String, Object> result = roomService.getRoomList(currentPage);
+		result.put("currentPage", currentPage);
+		
+		model.addAttribute("result", result);
 		return "room/roomList";
 	}
 	
-	@GetMapping("/searchResultRoomList")
-	public String searchResultRoomList(Model model, String searchText) {
-		// 숙소 목록 추출
-		model.addAttribute("roomList",roomService.getsearchResultRoomList(searchText));
+	@GetMapping("/searchRoomList")
+	public String searchRoomList(Model model, String searchText,
+			@RequestParam(value="currentPage", defaultValue ="1") int currentPage) {
+		// 검색 후 숙소 리스트와 페이징 관련 데이터를 result에 담기
+		Map<String, Object> result = roomService.getsearchResultRoomList(searchText, currentPage);
+		result.put("currentPage", currentPage);
+		result.put("searchText", searchText);
+		
+		model.addAttribute("result", result);
 		return "room/searchRoomList";
 	}
 	
@@ -51,10 +74,15 @@ public class RoomController {
 	/*-----HOST측면 및 공통----- */
 	
 	@GetMapping("/host/addRoom")
-	public String getAddRoom(Model model) {
-		// 숙소 카테고리 리스트
+	public String getAddRoom(HttpServletRequest request, Model model) {
+		// 호스트 정보를 가져온다
+		HttpSession session = request.getSession();
+		User host = (User)session.getAttribute("loginUser");
+		
+		// 숙소 카테고리 리스트 및 hostId
 		model.addAttribute("roomCategoryList",roomService.getRoomCategory());
-		return "room/addRoom";
+		model.addAttribute("hostId", host.getUserId());
+		return "/host/room/addRoom";
 	}
 	
 	@PostMapping("/host/addRoom")
@@ -62,34 +90,44 @@ public class RoomController {
 		// 숙소 추가
 		roomService.addRoom(room, address);
 		
-		return "redirect:/myRoomList";
+		return "redirect:/host/roomList";
 	}
 	
-	@GetMapping("/myRoomList")
-	public String myRoomList(Model model) {
+	@GetMapping("/host/roomList")
+	public String myRoomList(HttpServletRequest request, Model model,
+			@RequestParam(value="currentPage", defaultValue ="1") int currentPage) {
+		// 호스트 정보를 가져온다
+		HttpSession session = request.getSession();
+		User host = (User)session.getAttribute("loginUser");
+		
+		//
+		Map<String, Object> result = roomService.getHostRoomList(host.getUserId(), currentPage);
+		result.put("currentPage", currentPage);
+		
+		model.addAttribute("result", result);
 		// 숙소 목록 추출
-		model.addAttribute("roomList",roomService.getRoomList());
+		// model.addAttribute("roomList",roomService.getRoomList());
 		// 추후에 host의 나의 숙소목록 페이지로 이동할 수 있도록 해야함
-		return "room/myRoomList";
+		return "/host/room/roomList";
 	}
 	
-	@GetMapping("/myRoomOne")
+	@GetMapping("/host/roomOne")
 	public String myRoomOne(Model model, @RequestParam("roomId") int roomId, @RequestParam("detailAddressId") int detailAddressId) {
 		Map<String, Object> map = roomService.getRoomOne(roomId, detailAddressId);
 		model.addAttribute("room",map.get("room"));
 		model.addAttribute("address",map.get("address"));
-		return "room/myRoomOne";
+		return "/host/room/roomOne";
 	}
 	
 	
-	@GetMapping("/removeRoom")
+	@GetMapping("/host/removeRoom")
 	public String removeRoom(int roomId) {
 		// 숙소 삭제
 		roomService.removeRoom(roomId);
-		return "redirect:/myRoomList";
+		return "redirect:/host/roomList";
 	}
 	
-	@GetMapping("/modifyRoom")
+	@GetMapping("/host/modifyRoom")
 	public String getModifyRoom(Model model, int roomId, int detailAddressId) {
 		// 숙소 카테고리 리스트
 		model.addAttribute("roomCategoryList",roomService.getRoomCategory());
@@ -98,15 +136,15 @@ public class RoomController {
 		Map<String, Object> map = roomService.getRoomOne(roomId, detailAddressId);
 		model.addAttribute("room",map.get("room"));
 		model.addAttribute("address",map.get("address"));
-		return "room/modifyRoom";
+		return "/host/room/modifyRoom";
 	}
 	
-	@PostMapping("/modifyRoom")
+	@PostMapping("/host/modifyRoom")
 	public String postModifyRoom(RedirectAttributes redirect, Room room, Address address) {
 		address = roomService.modifyRoom(room, address);
 		redirect.addAttribute("roomId",room.getRoomId());
 		redirect.addAttribute("detailAddressId",address.getDetailAddressId());
-		return "redirect:/myRoomOne";
+		return "redirect:/host/roomOne";
 	}
 	
 	

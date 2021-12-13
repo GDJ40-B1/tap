@@ -1,44 +1,106 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<title>시스템관리자 비밀번호 수정</title>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-</head>
-<body>
-	<!-- header 불러오기 -->
-    <c:import url="/partial/mainHeader.jsp"></c:import>
-  
-  	<br><br><br>
 
-	<h1>${systemAdmin.systemAdminId} 비밀번호 수정</h1>
-	<form id="modifyForm" action="/tap/modifySystemAdminPw" method="post" >
-		<div>
-			<input type="hidden" name="systemAdminId" value="${systemAdmin.systemAdminId}" readonly="readonly">
-			<table>
-				<tr>
-					<th>변경할 비밀번호</th>
-					<td><input type="password" id="systemAdminPw" name="systemAdminPw" placeholder="Enter pw"></td>
-				</tr>
-			</table>
-		</div>
-		<button type="button" id="modifyBtn">수정</button>
-	</form>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>시스템관리자 비밀번호 수정</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	
-	<!-- 푸터 불러오기 -->
- 	<c:import url="/partial/mainFooter.jsp"></c:import>
+    <!-- Custom fonts for this template-->
+    <link href="${pageContext.request.contextPath}/resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
 
-<script>
+    <!-- Custom styles for this template-->
+    <link href="${pageContext.request.contextPath}/resources/css/sb-admin-2.min.css" rel="stylesheet">
+
+</head>
+
+<body class="bg-gradient-primary">
+
+    <div class="container">
+
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+                <!-- Nested Row within Card Body -->
+                <div class="row">
+                    <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+                    <div class="col-lg-7">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h1 class="h4 text-gray-900 mb-4">Modify Your Info!</h1>
+                            </div>
+                            <form id="modifyForm" class="user" method="post" action="${pageContext.request.contextPath}/modifySystemAdminPw">
+                                <div class="form-group">
+                                    <input type="hidden" class="form-control form-control-user" id="exampleInputEmail"
+                                        placeholder="Email Address" name="systemAdminId" value="${systemAdmin.systemAdminId}">
+                                </div>                 
+                                <h4 class="small font-weight-bold">현재 비밀번호</h4>               
+                                <div class="form-group">
+                                    <input type="text" class="form-control form-control-user" id="systemAdminPw"
+                                        placeholder="현재 비밀번호" name="systemAdminPw">
+                                </div>  
+                                <h4 class="small font-weight-bold">새로운 비밀번호</h4> 
+                                 <div class="form-group">
+                                    <input type="text" class="form-control form-control-user" id="systemAdminNewPw"
+                                        placeholder="새로운 비밀번호" name="systemAdminNewPw">
+                                </div>                               
+<!--                                 <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input type="password" class="form-control form-control-user"
+                                            id="exampleInputPassword" placeholder="Password">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="password" class="form-control form-control-user"
+                                            id="exampleRepeatPassword" placeholder="Repeat Password">
+                                    </div>
+                                </div> -->
+                                <button type="button" id="modifyBtn" class="btn btn-primary btn-user btn-block">
+                                    modify your Info 
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
+	
+	<script>
 	$('#modifyBtn').click(function(){
 		if($('#systemAdminPw').val() == '') {
-			alert('비밀번호를 입력하세요');
+			alert('현재 비밀번호를 입력하세요.');
 			return;
 		}
 		
+		if($('#systemAdminNewPw').val() == '') {
+			alert('새로운 비밀번호를 입력하세요.');
+			return;
+		}
+				
 		$('#modifyForm').submit();
 	});	
 </script>	
 </body>
+
 </html>

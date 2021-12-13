@@ -67,8 +67,8 @@
     <section id="pageNumber" class="pageNumber">
       <div class="container">
       
-		<a href="/tap/questionList?writerCategory=member">회원</a>
-		<a href="/tap/questionList?writerCategory=host">숙소 호스트</a>
+		<a href="${pageContext.request.contextPath}/questionList?writerCategory=member">회원</a>
+		<a href="${pageContext.request.contextPath}/questionList?writerCategory=host">숙소 호스트</a>
 		
       </div>
     </section><!-- End category Section -->
@@ -78,35 +78,43 @@
     <section id="list" class="list">
       <div class="container">
 		
-		<table border="1">
-			<tr>
-				<th>글 번호</th>
-				<th>카테고리</th>
-				<th>제목</th>
-				<th>작성자</th>
-				<th>작성일</th>
-			</tr>
-			<c:forEach var="q" items="${list}">
-				<tr>
-					<td>${q.questionId}</td>
-					<td>${q.writerCategory}</td>
-					<c:choose>
-						<c:when test="${q.secretStatus == 'N' || q.secretStatus == 'Y' && loginUser.userId == q.writerId || loginUser.userLevel == 'system_admin'}">
-							<td><a href="/tap/questionOne?questionId=${q.questionId}">${q.questionTitle}</a></td>
-						</c:when>
-						
-						<c:when test="${q.secretStatus == 'Y' && loginUser == null || loginUser.userId != q.writerId}">
-							<td>비밀글을 열람하실 수 없습니다.</td>
-						</c:when>
-					</c:choose>
-					<td>${q.writerId}</td>
-					<td>${q.createDate}</td>
-				</tr>
-			</c:forEach>
-		</table>
+		<c:choose>
+			<c:when test="${empty list}">
+				<div>검색 결과가 없습니다.</div>
+			</c:when>
+			
+			<c:otherwise>
+				<table border="1">
+					<tr>
+						<th>글 번호</th>
+						<th>카테고리</th>
+						<th>제목</th>
+						<th>작성자</th>
+						<th>작성일</th>
+					</tr>
+					<c:forEach var="q" items="${list}">
+						<tr>
+							<td>${q.questionId}</td>
+							<td>${q.writerCategory}</td>
+							<c:choose>
+								<c:when test="${q.secretStatus == 'N' || q.secretStatus == 'Y' && loginUser.userId == q.writerId || loginUser.userLevel == 'system_admin'}">
+									<td><a href="${pageContext.request.contextPath}/questionOne?questionId=${q.questionId}">${q.questionTitle}</a></td>
+								</c:when>
+								
+								<c:when test="${q.secretStatus == 'Y' && loginUser == null || loginUser.userId != q.writerId}">
+									<td>비밀글 입니다.</td>
+								</c:when>
+							</c:choose>
+							<td>${q.writerId}</td>
+							<td>${q.createDate}</td>
+						</tr>
+					</c:forEach>
+				</table>
+			</c:otherwise>
+		</c:choose>
 		
-       	<c:if test="${loginUser != null}">
-       		<a href="/tap/addQuestion">문의글 작성</a>
+       	<c:if test="${loginUser != null && loginUser.userLevel != 'system_admin'}">
+       		<a href="${pageContext.request.contextPath}/addQuestion">문의글 작성</a>
        	</c:if>
 		
       </div>
@@ -117,17 +125,17 @@
       <div class="container">
       
 		<c:if test="${currentPage > 1}">
-			<a href="/tap/questionList?currentPage=1&writerCategory=${writerCategory}">처음으로</a>
-			<a href="/tap/questionList?currentPage=${currentPage-1}&writerCategory=${writerCategory}">이전</a>
+			<a href="${pageContext.request.contextPath}/questionList?currentPage=1&writerCategory=${writerCategory}">처음으로</a>
+			<a href="${pageContext.request.contextPath}/questionList?currentPage=${currentPage-1}&writerCategory=${writerCategory}">이전</a>
 		</c:if>
 		
-		<c:forEach var="i" begin="1" end="${lastPage}">
-			<a href="/tap/questionList?currentPage=${i}&writerCategory=${writerCategory}"><c:out value="${i}"/></a>
+		<c:forEach var="i" begin="${startPage}" end="${endPage}">
+			<a href="${pageContext.request.contextPath}/questionList?currentPage=${i}&writerCategory=${writerCategory}"><c:out value="${i}"/></a>
 		</c:forEach>
 		
 		<c:if test="${currentPage < lastPage}">
-			<a href="/tap/questionList?currentPage=${currentPage+1}&writerCategory=${writerCategory}">다음</a>
-			<a href="/tap/questionList?currentPage=${lastPage}&writerCategory=${writerCategory}">끝으로</a>
+			<a href="${pageContext.request.contextPath}/questionList?currentPage=${currentPage+1}&writerCategory=${writerCategory}">다음</a>
+			<a href="${pageContext.request.contextPath}/questionList?currentPage=${lastPage}&writerCategory=${writerCategory}">끝으로</a>
 		</c:if>		
 		
       </div>

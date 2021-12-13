@@ -24,10 +24,20 @@ public class ReservationController {
 	@Autowired
 	ReservationService reservationService;
 	
+	@GetMapping("/reservationList")
+	public String getReservationList(Model model, @RequestParam(value="currentPage", defaultValue ="1") int currentPage) {
+		// 숙소 리스트와 페이징 관련 데이터를 result에 담기
+		Map<String, Object> result = reservationService.getReservationList(currentPage);
+		result.put("currentPage", currentPage);
+		
+		model.addAttribute("result", result);
+		return "reservation/reservationList";
+	}
+	
 	@GetMapping("/addReservation")
 	String addReservation(Model model, int roomId,  int detailAddressId)	{
 		
-		Map<String, Object> map = reservationService.addReservation(roomId, detailAddressId);
+		Map<String, Object> map = reservationService.getAddReservation(roomId, detailAddressId);
 		model.addAttribute("room",map.get("room"));
 	    model.addAttribute("address",map.get("address"));
 	    
@@ -38,11 +48,18 @@ public class ReservationController {
 	
 	@PostMapping("/addReservation")
 	String addReservation(Reservation reservation)	{
-		int reservationId = reservationService.addReservation(reservation);
+		int reservationId = reservationService.postAddReservation(reservation);
 		log.debug(Font.KSB + "addReservation post맵핑 작동 "+ reservation.toString() + Font.RESET);
-		return "redirect:/roomList";
+		return "reservation/reservationOne"; 
 	}
 	
+	@GetMapping("/reservationOne")
+	public String reservationOne(Model model, int reservationId) {
+		Reservation reservation = reservationService.getReservationOne(reservationId);
+		model.addAttribute("reservation", reservation);
+		return "reservation/reservationOne";
+	}
+
 	@GetMapping("/modifyReservation")
 	public String modifyReservation(Model model, int reservationId) {
 		Reservation reservation = reservationService.getReservationOne(reservationId);
@@ -71,10 +88,5 @@ public class ReservationController {
 		return "redirect:/reservationList";
 	} 
 	
-	@GetMapping("/reservationOne")
-	public String reservationOne(Model model, int reservationId) {
-		Reservation reservation = reservationService.getReservationOne(reservationId);
-		model.addAttribute("reservation", reservation);
-		return "reservation/reservationOne";
-	}
+	
 }

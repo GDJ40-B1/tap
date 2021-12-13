@@ -40,6 +40,8 @@ public class QuestionController {
 		model.addAttribute("loginUser", loginUser);
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("startPage", map.get("startPage"));
+		model.addAttribute("endPage", map.get("endPage"));
 		model.addAttribute("lastPage", map.get("lastPage"));
 		model.addAttribute("writerCategory", writerCategory);
 		
@@ -107,7 +109,7 @@ public class QuestionController {
 	public String postModifyQuestion(Question question) {
 		int questionId = question.getQuestionId();
 		questionService.modifyQuestion(question);
-		log.debug(question.toString());
+		log.debug(Font.KSB + question.toString() + Font.RESET);
 		
 		return "redirect:/questionOne?questionId="+questionId;
 	}

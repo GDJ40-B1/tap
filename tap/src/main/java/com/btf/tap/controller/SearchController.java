@@ -8,8 +8,10 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.btf.tap.common.Font;
 import com.btf.tap.service.SearchService;
 import com.btf.tap.vo.User;
 
@@ -19,12 +21,26 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class SearchController {
 	@Autowired private SearchService searchService;
+	private final int rowPerPage = 5;
 	
-	@GetMapping("/searchList")
-	public String getSearchList(Model model, HttpServletRequest request, String keyword) {
-		Map<String, Object> map = searchService.getSearchList(keyword);
-		log.debug(map.toString());
+	// 전체 검색 결과
+	@RequestMapping("/searchList")
+	public String requestSearchList(Model model, HttpServletRequest request, @RequestParam(name="roomCurrentPage", defaultValue="1") int roomCurrentPage, 
+																			 @RequestParam(name="attractionCurrentPage", defaultValue="1") int attractionCurrentPage, 
+																			 @RequestParam(name="hashtagRoomCurrentPage", defaultValue = "1") int hashtagRoomCurrentPage,
+																			 @RequestParam(name="hashtagAttractionCurrentPage", defaultValue = "1") int hashtagAttractionCurrentPage, String keyword) {
+		Map<String, Object> roomMap = searchService.getRoomSearchList(roomCurrentPage, rowPerPage, keyword);
+		log.debug(Font.JSB + roomMap.toString() + Font.RESET);
 
+		Map<String, Object> attractionMap = searchService.getAttractionSearchList(attractionCurrentPage, rowPerPage, keyword);
+		log.debug(Font.JSB + attractionMap.toString() + Font.RESET);
+		
+		Map<String, Object> hashtagRoomMap = searchService.getHashtagRoomSearchList(hashtagRoomCurrentPage, rowPerPage, keyword);
+		log.debug(Font.JSB + hashtagRoomMap.toString() + Font.RESET);
+		
+		Map<String, Object> hashtagAttractionMap = searchService.getHashtagAttractionSearchList(hashtagAttractionCurrentPage, rowPerPage, keyword);		
+		log.debug(Font.JSB + hashtagAttractionMap.toString() + Font.RESET);
+		
 		HttpSession session = request.getSession();
 		User loginUser = (User)session.getAttribute("loginUser");
 		
@@ -32,11 +48,28 @@ public class SearchController {
 			searchService.addSearchHistory(loginUser, keyword);
 		}
 		
+		model.addAttribute("keyword", keyword);
 		model.addAttribute("loginUser", loginUser);
-		model.addAttribute("roomList", map.get("roomList"));
-		model.addAttribute("attractionList", map.get("attractionList"));
-		model.addAttribute("resultList", map.get("resultList"));
-		
+		model.addAttribute("roomList", roomMap.get("roomList"));
+		model.addAttribute("roomCurrentPage", roomCurrentPage);
+		model.addAttribute("roomStartPage", roomMap.get("roomStartPage"));
+		model.addAttribute("roomEndPage", roomMap.get("roomEndPage"));
+		model.addAttribute("roomLastPage", roomMap.get("roomLastPage"));
+		model.addAttribute("attractionList", attractionMap.get("attractionList"));
+		model.addAttribute("attractionCurrentPage", attractionCurrentPage);
+		model.addAttribute("attractionStartPage", attractionMap.get("attractionStartPage"));
+		model.addAttribute("attractionEndPage", attractionMap.get("attractionEndPage"));
+		model.addAttribute("attractionLastPage", attractionMap.get("attractionLastPage"));
+		model.addAttribute("hashtagRoomList", hashtagRoomMap.get("hashtagRoomList"));
+		model.addAttribute("hashtagRoomCurrentPage", hashtagRoomCurrentPage);
+		model.addAttribute("hashtagRoomStartPage", hashtagRoomMap.get("hashtagRoomStartPage"));
+		model.addAttribute("hashtagRoomEndPage", hashtagRoomMap.get("hashtagRoomEndPage"));
+		model.addAttribute("hashtagRoomLastPage", hashtagRoomMap.get("hashtagRoomLastPage"));
+		model.addAttribute("hashtagAttractionList", hashtagAttractionMap.get("hashtagAttractionList"));
+		model.addAttribute("hashtagAttractionCurrentPage", hashtagAttractionCurrentPage);
+		model.addAttribute("hashtagAttractionStartPage", hashtagAttractionMap.get("hashtagAttractionStartPage"));
+		model.addAttribute("hashtagAttractionEndPage", hashtagAttractionMap.get("hashtagAttractionEndPage"));
+		model.addAttribute("hashtagAttractionLastPage", hashtagAttractionMap.get("hashtagAttractionLastPage"));
 		return "search/searchList";
 	}
 }

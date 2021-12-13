@@ -23,10 +23,95 @@ public class RoomService {
 	@Autowired AddressMapper addressMapper;
 	// add, modify, get, remove
 	
+	// 숙소 전체 리스트 출력(최근 생성된 숙소 순으로)
+	public Map<String, Object> getHostRoomList(String hostId, int currentPage) {
+		// 페이징에 필요한 요소들
+		final int ROW_PER_PAGE = 10;
+		final int PAGE_PER_PAGE = 10;
+		int beginRow = (currentPage-1)*ROW_PER_PAGE;
+		
+		// 검색 결과 리스트 및 개수 추출
+		Map<String, Object> selectListElement = new HashMap<>();
+		selectListElement.put("beginRow", beginRow);
+		selectListElement.put("rowPerPage", ROW_PER_PAGE);
+		selectListElement.put("hostId", hostId);
+		
+		List<Room> roomList = roomMapper.selectHostRoomList(selectListElement);
+		int totalData = roomMapper.selectHostRoomNum(hostId);
+		
+		// 페이지 연산
+		Map<String, Object> pageElement = pageOperation(totalData, ROW_PER_PAGE, currentPage, PAGE_PER_PAGE);
+		
+		// return으로 넘길 값 map으로 묶어 보내기
+		Map<String, Object> result = new HashMap<>();
+		result.put("roomList", roomList);
+		result.put("rowPerPage", ROW_PER_PAGE);
+	    result.put("lastPage", pageElement.get("lastPage"));
+	    result.put("lastnumPage", pageElement.get("lastnumPage"));
+	    result.put("currentnumPage", pageElement.get("currentnumPage"));
+	    result.put("pagePerPage", PAGE_PER_PAGE);
+	    
+		return result;
+	}
+	
+	// 숙소 전체 리스트 출력(최근 생성된 숙소 순으로)
+	public Map<String, Object> getRoomList(int currentPage) {
+		// 페이징에 필요한 요소들
+		final int ROW_PER_PAGE = 1;
+		final int PAGE_PER_PAGE = 10;
+		int beginRow = (currentPage-1)*ROW_PER_PAGE;
+		
+		// 검색 결과 리스트 및 개수 추출
+		Map<String, Object> selectListElement = new HashMap<>();
+		selectListElement.put("beginRow", beginRow);
+		selectListElement.put("rowPerPage", ROW_PER_PAGE);
+		
+		List<Room> roomList = roomMapper.selectRoomList(selectListElement);
+		int totalData = roomMapper.selectRoomNum();
+		
+		// 페이지 연산
+		Map<String, Object> pageElement = pageOperation(totalData, ROW_PER_PAGE, currentPage, PAGE_PER_PAGE);
+		
+		// return으로 넘길 값 map으로 묶어 보내기
+		Map<String, Object> result = new HashMap<>();
+		result.put("roomList", roomList);
+		result.put("rowPerPage", ROW_PER_PAGE);
+	    result.put("lastPage", pageElement.get("lastPage"));
+	    result.put("lastnumPage", pageElement.get("lastnumPage"));
+	    result.put("currentnumPage", pageElement.get("currentnumPage"));
+	    result.put("pagePerPage", PAGE_PER_PAGE);
+	    
+		return result;
+	}
+	
 	// 검색 결과 숙소 리스트 추출
-	public List<Room> getsearchResultRoomList(String searchText){
-		List<Room> list = roomMapper.selectSearchResultRoomList(searchText);
-		return list;
+	public Map<String, Object> getsearchResultRoomList(String searchText, int currentPage){
+		// 페이징에 필요한 요소들
+		final int ROW_PER_PAGE = 1;
+		final int PAGE_PER_PAGE = 10;
+		int beginRow = (currentPage-1)*ROW_PER_PAGE;
+		
+		// 검색 결과 리스트 및 개수 추출
+		Map<String, Object> selectListElement = new HashMap<>();
+		selectListElement.put("searchText", searchText);
+		selectListElement.put("beginRow", beginRow);
+		selectListElement.put("rowPerPage", ROW_PER_PAGE);
+		
+		List<Room> roomList = roomMapper.selectSearchResultRoomList(selectListElement); // 검색결과 숙소정보
+		int totalData = roomMapper.selectSearchResultRoomNum(searchText); // 검색결과 숙소개수
+		
+		// 페이지 연산
+		Map<String, Object> pageElement = pageOperation(totalData, ROW_PER_PAGE, currentPage, PAGE_PER_PAGE);
+		
+		// return으로 넘길 값 map으로 묶어 보내기
+		Map<String, Object> result = new HashMap<>();
+		result.put("roomList", roomList);
+		result.put("rowPerPage", ROW_PER_PAGE);
+	    result.put("lastPage", pageElement.get("lastPage"));
+	    result.put("lastnumPage", pageElement.get("lastnumPage"));
+	    result.put("currentnumPage", pageElement.get("currentnumPage"));
+	    result.put("pagePerPage", PAGE_PER_PAGE);
+		return result;
 	}
 	
 	// 특정 숙소 정보 추출
@@ -73,12 +158,6 @@ public class RoomService {
 		return room.getRoomId();
 	}
 	
-	// 숙소 전체 목록 출력(최근 생성된 숙소 순으로)
-	public List<Room> getRoomList() {
-		List<Room> list = roomMapper.selectRoomList();
-		return list;
-	}
-	
 	// 숙소 정보 수정(숙소 and 상세 주소)
 	public Address modifyRoom(Room room, Address address) {
 		// 입력받은 도로명 주소를 분할하여 객체에 넣기
@@ -110,6 +189,41 @@ public class RoomService {
 		
 		// 상세 주소 정보 삭제
 		addressMapper.deleteDetailAddress(detailAddressId);
+	}
+	
+	// 페이징 알고리즘
+	public Map<String, Object> pageOperation(int totalData, int ROW_PER_PAGE, int currentPage, int PAGE_PER_PAGE){
+		Map<String, Object> pageElement = new HashMap<>();
+		
+		/*---페이지 연산 시작---*/
+		// 마지막 페이지 구하는 연산
+		int lastPage= totalData/ROW_PER_PAGE;
+        if(totalData%ROW_PER_PAGE!=0){
+           lastPage +=1;
+        }
+        
+        // 현재 페이지가 PAGE_PER_PAGE 기준 몇번째 묶음인지
+        int currentnumPage;
+        if(currentPage%PAGE_PER_PAGE==0){
+    		currentnumPage =(currentPage/PAGE_PER_PAGE)-1;
+    	} else{
+    		currentnumPage = currentPage/PAGE_PER_PAGE;
+    	}
+        
+        // 마지막 페이지가 PAGE_PER_PAGE 기준 몇번째 묶음인지
+        int lastnumPage;
+        if(lastPage%PAGE_PER_PAGE==0){
+    		lastnumPage =(lastPage/PAGE_PER_PAGE)-1;
+    	} else{
+    		lastnumPage = lastPage/PAGE_PER_PAGE;
+    	}
+        /*---페이지 연산 끝---*/
+        
+        pageElement.put("lastPage", lastPage);
+        pageElement.put("currentnumPage", currentnumPage);
+        pageElement.put("lastnumPage", lastnumPage);
+        
+        return pageElement;
 	}
 	
 }

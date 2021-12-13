@@ -11,7 +11,9 @@
 		<result column="people_num" property="peopleNum"></result>
 		<result column="create_date" property="createDate"></result>
 		<result column="update_date" property="updateDate"></result>
+		
 	</resultMap>
+	
 	
 	<!-- 예약하기 -->
 	<insert id="insertReservation" parameterType="com.btf.tap.vo.Reservation" >
@@ -30,6 +32,52 @@
 			SELECT LAST_INSERT_ID()
 		</selectKey>	
 	</insert>
+	
+	<!-- 예약하기 -->
+	<insert id="insertReservation2" parameterType="com.btf.tap.vo.Reservation" >
+		INSERT INTO reservation (
+			member_id,
+			room_id,
+			check_in_date,
+			check_out_date,
+			people_num,
+			create_date,
+			update_date
+		)	VALUES	(
+					#{memberId}, #{roomId}, #{checkInDate}, #{checkOutDate}, #{peopleNum}, 
+					 NOW(), NOW() )
+		<selectKey keyProperty="reservationId" order="AFTER" resultType="int">
+			SELECT LAST_INSERT_ID()
+		</selectKey>	
+	</insert>
+	
+	<select id="selectReservationOne" parameterType="int" resultMap="resultReservation">
+		SELECT
+			reservation_id,
+			member_id,
+			room_id,
+			check_in_date,
+			check_out_date,
+			people_num,
+			create_date,
+			update_date
+		FROM reservation
+		WHERE reservation_id = #{reservationId}
+	</select>
+	
+	<!-- 예약 숙소 리스트 -->
+	<select id="selectReservationList" parameterType="hashMap" resultMap="resultReservation">
+		SELECT
+			res.reservation_id, r.room_name, CONCAT(a.sido,' ',a.sigungu,' ',a.road_name,' ',da.detail_address) detail_address,
+			res.check_in_date, res.check_out_date, r.check_in_time, r.check_out_time, r.room_form, res.people_num,
+			r.room_price, res.updadte_date
+			
+		FROM reservation
+			ORDER BY create_date DESC res
+		INNER JOIN room r ON res.room_id=r.room_id
+		INNER JOIN detail_address da ON r.detail_address_id=da.detail_address_id
+		INNER JOIN address a ON da.address_id=a.address_id
+	</select>
 	
 	<!-- 예약 수정하기 -->
 	<update id="updateReservation" parameterType="com.btf.tap.vo.Reservation">

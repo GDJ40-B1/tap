@@ -99,7 +99,7 @@
 		</table>
        	
        	<c:if test="${question.writerId == loginUser.userId || loginUser.userLevel == 'system_admin'}">
-       		<a href="/tap/modifyQuestion?questionId=${question.questionId}">문의글 수정</a>
+       		<a href="${pageContext.request.contextPath}/modifyQuestion?questionId=${question.questionId}">문의글 수정</a>
 			<a href="javascript:removeButton();">문의글 삭제</a>
        	</c:if>
 		
@@ -112,7 +112,7 @@
     <section id="list" class="list">
       <div class="container">
 
-		<form id="questionAnswerForm" action="/tap/questionOne" method="post">
+		<form id="questionAnswerForm" action="${pageContext.request.contextPath}/questionOne" method="post">
 			<div class="form-group">
 				<input type="hidden" name="questionId" value="${question.questionId}">
 				<!-- 세션에서 관리자명 가져와야 함 -->
@@ -159,7 +159,7 @@
 	<script>
 		function removeButton(){
 			if(confirm("문의 글을 삭제 하시겠습니까?") == true){
-				location.href="/tap/removeQuestion?questionId=${question.questionId}";
+				location.href="${pageContext.request.contextPath}/removeQuestion?questionId=${question.questionId}";
 			} else {
 				return;	
 			}
@@ -176,7 +176,7 @@
 		
 		function removeAnswer(){
 			if(confirm("작성하신 답변을 삭제 하시겠습니까?") == true){
-				location.href="/tap/removeQuestionAnswer?questionId=${question.questionId}";
+				location.href="${pageContext.request.contextPath}/removeQuestionAnswer?questionId=${question.questionId}";
 			} else {
 				return;	
 			}

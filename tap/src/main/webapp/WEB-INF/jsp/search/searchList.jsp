@@ -56,15 +56,39 @@
           <h2>숙소 검색 결과</h2>
         </div>
 		
-		<c:forEach var="r" items="${roomList}">
-			<div><a href="/tap/">${r.roomName}</a></div>
-			<div>${r.roomIntro}</div>
-			<div>최소 일수 : ${r.minDay} 최소 인원 :  ${peopleNum} 가격 : ${roomPrice}</div>
-		</c:forEach>
-		
       </div>
     </section><!-- End Breadcrumbs -->
 
+	<div class="container">
+		
+		<c:choose>
+			<c:when test="${empty roomList}">
+				<div>검색 결과가 없습니다.</div>
+			</c:when>
+			
+			<c:otherwise>
+				<c:forEach var="r" items="${roomList}">
+					<div><a href="${pageContext.request.contextPath}/myRoomOne?roomId=${r.roomId}&detailAddressId=${r.detailAddressId}">${r.roomName}</a></div>
+					<div>${r.roomIntro}</div>
+					<div>최소 일수 : ${r.minDay} 최소 인원 :  ${r.peopleNum} 가격 : ${r.roomPrice}</div>
+				</c:forEach>
+				
+				<c:if test="${roomCurrentPage > 1}">
+					<a href="${pageContext.request.contextPath}/searchList?keyword=${keyword}&roomCurrentPage=${roomCurrentPage-1}&attractionCurrentPage=${attractionCurrentPage}&hashtagRoomCurrentPage=${hashtagRoomCurrentPage}&hashtagAttractionCurrentPage=${hashtagAttractionCurrentPage}">이전</a>
+				</c:if>
+				
+				<c:forEach var="i" begin="${roomStartPage}" end="${roomEndPage}">
+					<a href="${pageContext.request.contextPath}/searchList?keyword=${keyword}&roomCurrentPage=${i}&attractionCurrentPage=${attractionCurrentPage}&hashtagRoomCurrentPage=${hashtagRoomCurrentPage}&hashtagAttractionCurrentPage=${hashtagAttractionCurrentPage}"><c:out value="${i}"/></a>
+				</c:forEach>
+				
+				<c:if test="${roomCurrentPage < roomLastPage}">
+					<a href="${pageContext.request.contextPath}/searchList?keyword=${keyword}&roomCurrentPage=${roomCurrentPage+1}&attractionCurrentPage=${attractionCurrentPage}&hashtagRoomCurrentPage=${hashtagRoomCurrentPage}&hashtagAttractionCurrentPage=${hashtagAttractionCurrentPage}">다음</a>
+				</c:if>					
+			</c:otherwise>
+		</c:choose>
+
+	</div>
+		
     <!-- ======= Breadcrumbs ======= -->
     <section id="breadcrumbs" class="breadcrumbs">
       <div class="container">
@@ -73,34 +97,118 @@
           <h2>명소 검색 결과</h2>
         </div>
 		
-		<c:forEach var="a" items="${attractionList}">
-			<div><a href="/tap/">${a.attractionName}</a></div>
-			<div>${a.attractionCategory}</div>
-			<div>${a.attractionContent}</div>
-		</c:forEach>
-		
       </div>
     </section><!-- End Breadcrumbs -->
+	
+	<div class="container">
 
+		<c:choose>
+			<c:when test="${empty attractionList}">
+				<div>검색 결과가 없습니다.</div>
+			</c:when>
+			
+			<c:otherwise>
+				<c:forEach var="a" items="${attractionList}">
+					<div>[${a.attractionCategory}] <a href="/tap/">${a.attractionName}</a></div>
+					<div>${a.attractionContent}</div>
+				</c:forEach>
+		
+				<c:if test="${attractionCurrentPage > 1}">
+					<a href="${pageContext.request.contextPath}/searchList?keyword=${keyword}&roomCurrentPage=${roomCurrentPage}&attractionCurrentPage=${attractionCurrentPage-1}&hashtagRoomCurrentPage=${hashtagRoomCurrentPage}&hashtagAttractionCurrentPage=${hashtagAttractionCurrentPage}">이전</a>
+				</c:if>
+				
+				<c:forEach var="i" begin="${attractionStartPage}" end="${attractionEndPage}">
+					<a href="${pageContext.request.contextPath}/searchList?keyword=${keyword}&roomCurrentPage=${roomCurrentPage}&attractionCurrentPage=${i}&hashtagRoomCurrentPage=${hashtagRoomCurrentPage}&hashtagAttractionCurrentPage=${hashtagAttractionCurrentPage}"><c:out value="${i}"/></a>
+				</c:forEach>
+				
+				<c:if test="${attractionCurrentPage < attractionLastPage}">
+					<a href="${pageContext.request.contextPath}/searchList?keyword=${keyword}&roomCurrentPage=${roomCurrentPage}&attractionCurrentPage=${attractionCurrentPage+1}&hashtagRoomCurrentPage=${hashtagRoomCurrentPage}&hashtagAttractionCurrentPage=${hashtagAttractionCurrentPage}">다음</a>
+				</c:if>						
+			</c:otherwise>
+		</c:choose>	
+	
+	</div>
+	
     <!-- ======= Breadcrumbs ======= -->
     <section id="breadcrumbs" class="breadcrumbs">
       <div class="container">
 
         <div class="d-flex justify-content-between align-items-center">
-          <h2>해시태그 검색 결과</h2>
+          <h2>해시태그 숙소 관련 검색 결과</h2>
         </div>
-		
-		<c:forEach var="h" items="${resultList}">
-			<div>${r.roomName}</div>
-			<div>${r.roomIntro}</div>
-			<div>최소 일수 : ${r.minDay} 최소 인원 :  ${peopleNum} 가격 : ${roomPrice}</div>
-		</c:forEach>
 		
       </div>
     </section><!-- End Breadcrumbs -->
-  
+	
+	<div class="container">
 
+		<c:choose>
+			<c:when test="${empty hashtagRoomList}">
+				<div>검색 결과가 없습니다.</div>
+			</c:when>
+			
+			<c:otherwise>
+				<c:forEach var="r" items="${hashtagRoomList}">
+					<div><a href="${pageContext.request.contextPath}/myRoomOne?roomId=${r.roomId}&detailAddressId=${r.detailAddressId}">${r.roomName}</a></div>
+					<div>${r.roomIntro}</div>
+					<div>최소 일수 : ${r.minDay} 최소 인원 :  ${r.peopleNum} 가격 : ${r.roomPrice}</div>
+				</c:forEach>	
+				
+				<c:if test="${hashtagRoomCurrentPage > 1}">
+					<a href="${pageContext.request.contextPath}/searchList?keyword=${keyword}&roomCurrentPage=${roomCurrentPage}&attractionCurrentPage=${attractionCurrentPage}&hashtagRoomCurrentPage=${hashtagRoomCurrentPage-1}&hashtagAttractionCurrentPage=${hashtagAttractionCurrentPage}">이전</a>
+				</c:if>
+				
+				<c:forEach var="i" begin="${hashtagRoomStartPage}" end="${hashtagRoomEndPage}">
+					<a href="${pageContext.request.contextPath}/searchList?keyword=${keyword}&roomCurrentPage=${roomCurrentPage}&attractionCurrentPage=${attractionCurrentPage}&hashtagRoomCurrentPage=${i}&hashtagAttractionCurrentPage=${hashtagAttractionCurrentPage}"><c:out value="${i}"/></a>
+				</c:forEach>
+				
+				<c:if test="${hashtagRoomCurrentPage < hashtagRoomLastPage}">
+					<a href="${pageContext.request.contextPath}/searchList?keyword=${keyword}&roomCurrentPage=${roomCurrentPage}&attractionCurrentPage=${attractionCurrentPage}&hashtagRoomCurrentPage=${hashtagRoomCurrentPage+1}&hashtagAttractionCurrentPage=${hashtagAttractionCurrentPage}">다음</a>
+				</c:if>			
+			</c:otherwise>
+		</c:choose>	
+	
+	</div>
   
+    <!-- ======= Breadcrumbs ======= -->
+    <section id="breadcrumbs" class="breadcrumbs">
+      <div class="container">
+
+        <div class="d-flex justify-content-between align-items-center">
+          <h2>해시태그 명소 관련 검색 결과</h2>
+        </div>
+		
+      </div>
+    </section><!-- End Breadcrumbs -->
+	
+	<div class="container">
+
+		<c:choose>
+			<c:when test="${empty hashtagAttractionList}">
+				<div>검색 결과가 없습니다.</div>
+			</c:when>
+			
+			<c:otherwise>
+				<c:forEach var="a" items="${hashtagAttractionList}">
+					<div>[${a.attractionCategory}] <a href="/tap/">${a.attractionName}</a></div>
+					<div>${a.attractionContent}</div>
+				</c:forEach>
+				
+				<c:if test="${hashtagAttractionCurrentPage > 1}">
+					<a href="${pageContext.request.contextPath}/searchList?keyword=${keyword}&roomCurrentPage=${roomCurrentPage}&attractionCurrentPage=${attractionCurrentPage}&hashtagRoomCurrentPage=${hashtagRoomCurrentPage}&hashtagAttractionCurrentPage=${hashtagAttractionCurrentPage-1}">이전</a>
+				</c:if>
+				
+				<c:forEach var="i" begin="${hashtagAttractionStartPage}" end="${hashtagAttractionEndPage}">
+					<a href="${pageContext.request.contextPath}/searchList?keyword=${keyword}&roomCurrentPage=${roomCurrentPage}&attractionCurrentPage=${attractionCurrentPage}&hashtagRoomCurrentPage=${hashtagRoomCurrentPage}&hashtagAttractionCurrentPage=${i}"><c:out value="${i}"/></a>
+				</c:forEach>
+				
+				<c:if test="${hashtagAttractionCurrentPage < hashtagAttractionLastPage}">
+					<a href="${pageContext.request.contextPath}/searchList?keyword=${keyword}&roomCurrentPage=${roomCurrentPage}&attractionCurrentPage=${attractionCurrentPage}&hashtagRoomCurrentPage=${hashtagRoomCurrentPage}&hashtagAttractionCurrentPage=${hashtagAttractionCurrentPage+1}">다음</a>
+				</c:if>									
+			</c:otherwise>
+		</c:choose>	
+	
+	</div>
 
   </main><!-- End #main -->
 
