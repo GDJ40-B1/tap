@@ -29,6 +29,11 @@ public class QuestionService {
 		int beginRow = (currentPage-1) * rowPerPage;
 		int lastPage = 0;
 		
+		// 회원, 호스트 카테고리를 선택하지 않은 전체 리스트 출력 시 카테고리 변수 값이 null이 되도록 수정
+		if(writerCategory == "") {
+			writerCategory = null;
+		}
+		
 		Map<String, Object> page = new HashMap<>();
 		page.put("beginRow", beginRow);
 		page.put("rowPerPage", rowPerPage);

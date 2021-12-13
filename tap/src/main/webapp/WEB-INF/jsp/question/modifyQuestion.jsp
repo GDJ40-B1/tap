@@ -68,7 +68,7 @@
     <section id="list" class="list">
       <div class="container">
 		
-		<form id="modifyQuestionForm" action ="/tap/modifyQuestion" method ="post">
+		<form id="modifyQuestionForm" action ="${pageContext.request.contextPath}/modifyQuestion" method ="post">
 		<!-- 세션 ID, 카테고리 -->
 		<input type="hidden" name="questionId" value="${question.questionId}">
 		<div class="form-group">

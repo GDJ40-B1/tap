@@ -50,7 +50,15 @@
                                 <div class="form-group">
                                     <input type="text" class="form-control form-control-user" id="exampleInputName"
                                         placeholder="name" name="systemAdminName">
-                                </div>                                
+                                </div>          
+                                <div class="form-group">
+                                    <input type="text" class="form-control form-control-user" id="exampleInputAge"
+                                        placeholder="age" name="systemAdminAge">
+                                </div>  
+                                <div class="form-group">
+                                    <input type="text" class="form-control form-control-user" id="exampleInputPhone"
+                                        placeholder="phone" name="systemAdminPhone">
+                                </div>                        
 <!--    						<div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <input type="password" class="form-control form-control-user"
