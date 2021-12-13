@@ -8,90 +8,52 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<body>
-	<!-- start : mainHeader -->
-   <div>
-      <jsp:include page="/partial/mainHeader.jsp"></jsp:include>
-   </div>
-   <!-- end : mainHeader -->
-   
-   <main id="main">
-   		<section class="breadcrumbs">
-   			<table>
-   				<tr>
-   					<!-- 지도 -->
-   					<td><div id="map" style="width:600px;height:350px;"></div></td>
-   					<td style="width:100px;"></td>
-   					<td>
-   						<!-- 숙소 정보 -->
-   						<table border="1">
-							<tr>
-								<td>숙소명</td>
-								<td id="roomName">${room.roomName }</td>
-							</tr>
-							<tr>
-								<td>주소</td>
-								<td id="address">${address.detailAddress }</td>
-							</tr>
-							<tr>
-								<td>상세 주소</td>
-								<td>${address.detailAddress2 }</td>
-							</tr>
-							<tr>
-								<td>카테고리</td>
-								<td>${room.roomCategory }</td>
-							</tr>
-							<tr>
-								<td>숙소 소개</td>
-								<td>${room.roomIntro }</td>
-							</tr>
-							<tr>
-								<td>가격</td>
-								<td>${room.roomPrice }</td>
-							</tr>
-							<tr>
-								<td>체크인 시간</td>
-								<td>${room.checkInTime }</td>
-							</tr>
-							<tr>
-								<td>체크아웃 시간</td>
-								<td>${room.checkOutTime }</td>
-							</tr>
-							<tr>
-								<td>인원수</td>
-								<td>${room.peopleNum }</td>
-							</tr>
-							<tr>
-								<td>숙소 형태</td>
-								<td>${room.roomForm }</td>
-							</tr>
-							<tr>
-								<td>최소 숙박일</td>
-								<td>${room.minDay }</td>
-							</tr>
-							<tr>
-								<td>숙소 등록일</td>
-								<td>${room.createDate }</td>
-							</tr>
-							<tr>
-								<td>숙소 수정일</td>
-								<td>${room.updateDate }</td>
-							</tr>
-						</table>
-   					</td>
-   				</tr>
-   			</table>
-   			<a href="${pageContext.request.contextPath}/host/modifyRoom?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}">숙소 수정</a>
-   			<a href="${pageContext.request.contextPath}/host/removeRoom?roomId=${room.roomId}">숙소 삭제</a>
-   			
-		</section>
-	</main>
+<body id="page-top">
+	<!-- start : hostHeader -->
+    <div>
+    	<jsp:include page="/partial/hostHeader.jsp"></jsp:include>
+    </div>
+    <!-- end : hostHeader -->
+    
+    <!-- start : content -->
+	<div id="content" class="container-fluid">
+		
+		<!-- 지도 -->
+		<div id="map" style="width:100%;height:400px;"></div>
+		<br>
+		
+		<!-- 호스트정보 카드 -->
+		<div class="card shadow mb-4">
+			<div class="card-header py-3">
+				<h6 class="m-0 font-weight-bold text-primary">숙소 상세보기</h6>
+			</div>
+			<div class="card-body">
+				<h4 class="small font-weight-bold">숙소명<span id="roomName" class="float-right">${room.roomName }</span></h4>
+				<h4 class="small font-weight-bold">주소<span id="address" class="float-right">${address.detailAddress }</span></h4>
+				<h4 class="small font-weight-bold">상세 주소<span class="float-right">${address.detailAddress2 }</span></h4>
+				<h4 class="small font-weight-bold">카테고리<span class="float-right">${room.roomCategory }</span></h4>
+				<h4 class="small font-weight-bold">숙소 소개<span class="float-right">${room.roomIntro }</span></h4>
+				<h4 class="small font-weight-bold">가격<span class="float-right">${room.roomPrice }</span></h4>
+				<h4 class="small font-weight-bold">체크인 시간<span class="float-right">${room.checkInTime }</span></h4>
+				<h4 class="small font-weight-bold">체크아웃 시간<span class="float-right">${room.checkOutTime }</span></h4>
+				<h4 class="small font-weight-bold">인원수<span class="float-right">${room.peopleNum }</span></h4>
+				<h4 class="small font-weight-bold">숙소 형태<span class="float-right">${room.roomForm }</span></h4>
+				<h4 class="small font-weight-bold">최소 숙박일<span class="float-right">${room.minDay }</span></h4>
+				<h4 class="small font-weight-bold">숙소 등록일<span class="float-right">${room.createDate }</span></h4>
+				<h4 class="small font-weight-bold">숙소 수정일<span class="float-right">${room.updateDate }</span></h4>
+			</div>
+		</div>
+		
+		<a href="${pageContext.request.contextPath}/host/modifyRoom?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}">숙소 수정</a>
+   		<a href="${pageContext.request.contextPath}/host/removeRoom?roomId=${room.roomId}">숙소 삭제</a>
+	</div>
+	<!-- end : content -->
 	
-	<!-- start : mainFooter -->
-   <div>
-      <jsp:include page="/partial/mainFooter.jsp"></jsp:include>
-   </div>
-   <!-- end : mainFooter -->
+	<!-- start : hostFooter -->
+    <div>
+       <jsp:include page="/partial/hostFooter.jsp"></jsp:include>
+    </div>
+    <!-- end : hostFooter -->
    
    <!-- kakao API -->
    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e1c10213787b97f0d88e77cdafcb6687&libraries=services"></script>

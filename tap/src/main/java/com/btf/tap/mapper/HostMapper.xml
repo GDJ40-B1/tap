@@ -81,8 +81,8 @@
 			#{hostAge},
 			#{hostName},
 			#{hostPhone},
-			'Y',
 			#{businessNumber},
+			'Y',
 			0,
 			NOW(),
 			NOW()

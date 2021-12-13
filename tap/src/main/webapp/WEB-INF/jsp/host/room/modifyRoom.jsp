@@ -8,27 +8,33 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<body>
-	<!-- start : mainHeader -->
-   <div>
-      <jsp:include page="/partial/mainHeader.jsp"></jsp:include>
-   </div>
-   <!-- end : mainHeader -->
-   <main id="main">
-   <section class="breadcrumbs">
-	<h1>숙소 수정하기</h1>
-	<form id="modifyRoomForm" action="${pageContext.request.contextPath}/host/modifyRoom" method="post">
-		<!-- 숙소ID, 상세 주소ID, 호스트ID 숨김 -->
-		<input type="hidden" name="roomId" value="${room.roomId }">
-		<input type="hidden" name="detailAddressId" value="${address.detailAddressId }">
-		<input type="hidden" name="hostId" value="${room.hostId }">
-		<table>
-			<tr>
-				<td>
-					숙소 카테고리
-				</td>
-				<td>
-					<select name="roomCategory">
+<body id="page-top">
+	<!-- start : hostHeader -->
+    <div>
+    	<jsp:include page="/partial/hostHeader.jsp"></jsp:include>
+    </div>
+    <!-- end : hostHeader -->
+    
+    <!-- start : content -->
+	<div id="content" class="container-fluid">
+		<h1 class="h3 mb-4 text-gray-800">숙소 수정</h1>
+		<br>
+		
+		<form id="modifyRoomForm" action="${pageContext.request.contextPath}/host/modifyRoom" method="post">
+			<!-- 전달을 위한 값 hidden처리 -->
+			<input type="hidden" name="roomId" value="${room.roomId }">
+			<input type="hidden" name="detailAddressId" value="${address.detailAddressId }">
+			<input type="hidden" name="hostId" value="${room.hostId }">
+			
+			<div class="form-group row">
+				<div class="col-sm-6 mb-3 mb-sm-0">
+					<label>숙소명</label>
+					<input type="text" class="form-control form-control-user" name="roomName" id="roomName" value="${room.roomName }" placeholder="숙소명을 입력하세요">
+				</div>
+				
+				<div class="col-sm-6 mb-3 mb-sm-0">
+					<label>카테고리</label>
+					<select class="form-control" name="roomCategory">
 						<c:forEach items="${roomCategoryList }" var="c">
 							<c:choose>
 								<c:when test="${c eq room.roomCategory }">
@@ -40,30 +46,44 @@
 							</c:choose>
 						</c:forEach>
 					</select>
-				</td>
-			</tr>
-			<tr>
-				<td>숙소명</td>
-				<td><input type="text" name="roomName" id="roomName" value="${room.roomName }"></td>
-			</tr>
-			<tr>
-				<!-- select형식으로 변경해야 함 -->
-				<td>숙소 형태</td>
-				<td><input type="text" name="roomForm" id="roomForm" value="${room.roomForm }"></td>
-			</tr>
-			<tr>
-				<td>숙소 소개</td>
-				<td><textarea name="roomIntro" id="roomIntro">${room.roomIntro }</textarea></td>
-			</tr>
-			<tr>
-				<!-- 유효성 검사로 숫자인지 확인 -->
-				<td>최소숙박일</td>
-				<td><input type="number" name="minDay" id="minDay" value="${room.minDay }"></td>
-			</tr>
-			<tr>
-				<td>체크인 시간</td>
-				<td>
-					<select name="checkInTime">
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label for="exampleFormControlTextarea1">소개</label>
+				<textarea class="form-control" name="roomIntro" id="roomIntro" rows="5">${room.roomIntro }</textarea>
+			</div>
+			
+			<div class="form-group row">
+				<!-- select 방식으로 변경 예정 -->
+				<div class="col-sm-6 mb-3 mb-sm-0">
+					<label>숙소 형태</label>
+					<input type="text" class="form-control form-control-user" name="roomForm" id="roomForm" value="${room.roomForm }" placeholder="숙소 형태를 입력하세요">
+				</div>
+				
+				<div class="col-sm-6 mb-3 mb-sm-0">
+					<label>가격</label>
+					<input type="text" class="form-control form-control-user" name="roomPrice" id="roomPrice" value="${room.roomPrice }" placeholder="숙박 기본 가격를 입력하세요">
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<!-- select 방식으로 변경 예정 -->
+				<div class="col-sm-6 mb-3 mb-sm-0">
+					<label>인원수</label>
+					<input type="text" class="form-control form-control-user" name="peopleNum" id="peopleNum" value="${room.peopleNum }" placeholder="적정 인원수를 입력하세요">
+				</div>
+				
+				<div class="col-sm-6 mb-3 mb-sm-0">
+					<label>최소 숙박일</label>
+					<input type="text" class="form-control form-control-user" name="minDay" id="minDay" value="${room.minDay }" placeholder="최소 숙박일을 입력하세요">
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<div class="col-sm-6 mb-3 mb-sm-0">
+					<label>체크인 시간</label>
+					<select class="form-control" name="checkInTime">
 						<c:forEach  var="CIT" begin="0" end="23">
 							<c:choose>
 								<c:when test="${(CIT<10 && (('0'+=CIT+=':00') eq room.checkInTime)) ||  (CIT>=10 && ((CIT+=':00') eq room.checkInTime))}">
@@ -89,13 +109,12 @@
 							</c:choose>
 						</c:forEach>
 					</select>
-				</td>
-			</tr>
-			<tr>
-				<td>체크아웃 시간</td>
-				<td>
-					<select name="checkOutTime">
-						<c:forEach  var="COT" begin="0" end="23">
+				</div>
+				
+				<div class="col-sm-6 mb-3 mb-sm-0">
+					<label>체크아웃 시간</label>
+					<select class="form-control" name="checkOutTime">
+						<c:forEach var="COT" begin="0" end="23">
 							<c:choose>
 								<c:when test="${(COT<10 && (('0'+=COT+=':00') eq room.checkOutTime)) ||  (COT>=10 && ((COT+=':00') eq room.checkOutTime))}">
 									<c:choose>
@@ -120,45 +139,42 @@
 							</c:choose>
 						</c:forEach>
 					</select>
-				</td>
-			</tr>
-			<tr>
-				<!-- 유효성 검사로 숫자인지 확인 -->
-				<td>인원수</td>
-				<td><input type="number" name="peopleNum" id="peopleNum" value="${room.peopleNum }"></td>
-			</tr>
-			<tr>
-				<!-- 유효성 검사로 숫자인지 확인 -->
-				<td>숙박 기본 가격</td>
-				<td><input type="number" name="roomPrice" id="roomPrice" value="${room.roomPrice }"></td>
-			</tr>
-		</table>
-		<br><br>
-		
-		<h3>숙소 주소 입력</h3>
-		<table>
-			<tr>
-				<td>주소</td>
-				<td><input type="text" name="detailAddress" id="address" value="${address.detailAddress }"></td>
-				<td><button type="button" id="searchBtn">검색</button></td>
-			</tr>
-			<tr>
-				<td>상세 주소</td>
-				<td><input type="text" name="detailAddress2" id="detailAddress2" value="${address.detailAddress2 }"></td>
-				<td></td>
-			</tr>
-		</table>
-		<div id="map" style="width:100%;height:350px;"></div>
-		<button id="modifyBtn" type="button">수정</button>
-	</form>
-	</section>
-	</main>
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<!-- select 방식으로 변경 예정 -->
+				<div class="col-sm-6 mb-3 mb-sm-0">
+					<label>주소</label>
+					<div class="input-group mb-3">
+						<input type="text" class="form-control" name="detailAddress" id="address" value="${address.detailAddress }" placeholder="주소를 검색하세요">
+						<div class="input-group-append">
+							<button class="btn btn-outline-secondary" type="button" id="searchBtn">지도</button>
+						</div>
+					</div>
+				</div>
+				
+				<div class="col-sm-6 mb-3 mb-sm-0">
+					<label>상세 주소</label>
+					<input type="text" class="form-control form-control-user" name="detailAddress2" id="detailAddress2" value="${address.detailAddress2 }" placeholder="상세 주소를 입력하세요">
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<div id="map" style="width:100%;height:350px;"></div>
+			</div>
+			
+			<br>
+			<button type="button" class="btn btn-primary btn-lg btn-block"  id="modifyBtn">숙소 수정</button>
+			<br>
+		</form>
+	</div>
 	
-	<!-- start : mainFooter -->
-   <div>
-      <jsp:include page="/partial/mainFooter.jsp"></jsp:include>
-   </div>
-   <!-- end : mainFooter -->
+	<!-- start : hostFooter -->
+	<div>
+    	<jsp:include page="/partial/hostFooter.jsp"></jsp:include>
+    </div>
+    <!-- end : hostFooter -->
    
    <!-- input 유효성 검사 -->
 	<script>

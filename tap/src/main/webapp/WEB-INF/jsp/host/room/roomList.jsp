@@ -4,44 +4,86 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <meta charset="utf-8">
+	<title>Insert title here</title>
+	<script src="http://code.jquery.com/jquery-latest.js"></script> 
 </head>
-<body>
-	<!-- start : mainHeader -->
-   <div>
-      <jsp:include page="/partial/mainHeader.jsp"></jsp:include>
-   </div>
-   <!-- end : mainHeader -->
-   
-   <main id="main">
-   		<section class="breadcrumbs">
-			<table border="1">
-				<tr>
-					<td>숙소명</td>
-					<td>카테고리</td>
-					<td>가격</td>
-					<td>체크인 시간</td>
-					<td>체크아웃 시간</td>
-				</tr>
-				<c:forEach items="${result.roomList }" var="list">
-					<tr>
-						<td><a href="${pageContext.request.contextPath}/host/roomOne?roomId=${list.roomId}&detailAddressId=${list.detailAddressId }">${list.roomName }</a></td>
-						<td>${list.roomCategory }</td>
-						<td>${list.roomPrice }</td>
-						<td>${list.checkInTime }</td>
-						<td>${list.checkOutTime }</td>
-					</tr>
-				</c:forEach>
-			</table>
-		</section>
-	</main>
+<body id="page-top">
+
+    <!-- start : hostHeader -->
+    <div>
+    	<jsp:include page="/partial/hostHeader.jsp"></jsp:include>
+    </div>
+    <!-- end : hostHeader -->
+    
+    <!-- start : content -->
+	<div id="content" class="container-fluid">
+		<!-- DataTales Example -->
+	    <div class="card shadow mb-4">
+	        <div class="card-header py-3">
+	            <h6 class="m-0 font-weight-bold text-primary">숙소 목록</h6>
+	        </div>
+	        <div class="card-body">
+	            <div class="table-responsive">
+	                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+	                    <thead>
+	                        <tr>
+	                            <th>no.</th>
+	                            <th>숙소</th>
+	                            <th>카테고리</th>
+	                            <th>형태</th>
+	                            <th>최소숙박일</th>
+	                            <th>인원수</th>
+	                            <th>가격</th>
+	                            <th>상세보기</th>
+	                        </tr>
+	                    </thead>
+	                    <tfoot>
+	                        <tr>
+	                            <th>no.</th>
+	                            <th>숙소</th>
+	                            <th>카테고리</th>
+	                            <th>형태</th>
+	                            <th>최소숙박일</th>
+	                            <th>인원수</th>
+	                            <th>가격</th>
+	                            <th>상세보기</th>
+	                        </tr>
+	                    </tfoot>
+	                    <tbody>
+	                    	<c:forEach items="${result.roomList }" var="list">
+								<tr>
+									<td>${list.roomId }</td>
+									<td>${list.roomName }</td>
+									<td>${list.roomCategory }</td>
+									<td>${list.roomForm }</td>
+									<td>${list.minDay }</td>
+									<td>${list.peopleNum }</td>
+									<td>${list.roomPrice }</td>
+									<td><a href="${pageContext.request.contextPath}/host/roomOne?roomId=${list.roomId}&detailAddressId=${list.detailAddressId }">상세보기</a></td>
+								</tr>
+							</c:forEach>
+	                    </tbody>
+	                </table>
+	            </div>
+	        </div>
+	    </div>
+	    
+	    <!-- 숙소 등록 버튼 -->
+	    <a href="${pageContext.request.contextPath}/host/addRoom" class="btn btn-success btn-icon-split">
+	    	<span class="icon text-white-50">
+	    		<i class="fas fa-check"></i>
+	    	</span>
+	    	<span class="text">숙소를 등록하시겠습니까?</span>
+	    </a>
+	</div>
+	<!-- end : content -->
 	
-	<!-- start : mainFooter -->
-   <div>
-      <jsp:include page="/partial/mainFooter.jsp"></jsp:include>
-   </div>
-   <!-- end : mainFooter -->
+	<!-- start : hostFooter -->
+    <div>
+       <jsp:include page="/partial/hostFooter.jsp"></jsp:include>
+    </div>
+    <!-- end : hostFooter -->
 </body>
 </html>
 

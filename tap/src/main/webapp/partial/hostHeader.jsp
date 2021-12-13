@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
-    <!-- Custom fonts for this template-->
+    
+        <!-- Custom fonts for this template-->
     <link href="${pageContext.request.contextPath}/resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
@@ -14,6 +14,9 @@
 
     <!-- Custom styles for this template-->
     <link href="${pageContext.request.contextPath}/resources/css/sb-admin-2.min.css" rel="stylesheet">
+    
+    <!-- Custom styles for this page -->
+    <link href="${pageContext.request.contextPath}/resources/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -89,6 +92,13 @@
             <div class="sidebar-heading">
                 Addons
             </div>
+            
+            <!-- Nav Item - Tables -->
+            <li class="nav-item">
+                <a class="nav-link" href="${pageContext.request.contextPath}/host/roomList">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>나의 숙소</span></a>
+            </li>
 			
 			<!-- Nav Item - Tables -->
             <li class="nav-item">
@@ -96,6 +106,7 @@
                     <i class="fas fa-fw fa-table"></i>
                     <span>호스트정보 변경</span></a>
             </li>
+            
             <!-- Nav Item - Tables -->
             <li class="nav-item">
                 <a class="nav-link" href="${pageContext.request.contextPath}/modifyHostPw">
@@ -341,6 +352,15 @@
                                 </a>
                             </div>
                         </li>
+                        
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="${pageContext.request.contextPath}/logout" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">로그아웃</span>
+                            </a>
+                        </li>
+						
 
                     </ul>
 
