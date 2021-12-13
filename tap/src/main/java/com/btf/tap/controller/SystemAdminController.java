@@ -19,6 +19,34 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class SystemAdminController {
 	@Autowired SystemAdminService systemAdminService;	
+	// 시스템관리자 세션을 통한 myPage 구현
+	@GetMapping("/systemAdminMyPage")
+	public String getSystemAdminMyPage(HttpServletRequest request, Model model) {
+		HttpSession session = request.getSession();
+		log.debug(Font.HS + "getMyPageCont : " + session.toString() + Font.RESET);
+		
+		// 로그인 되어있지 않을 경우, 홈페이지로 이동
+		if(session.getAttribute("loginUser") == null) {
+			return "redirect:/";
+		}
+		
+		// 세션에서 loginUser 객체 받기
+		User user = (User)session.getAttribute("loginUser");
+		log.debug(Font.HS + "getMyPageCont : " + user.toString() + Font.RESET);
+		
+		// 유저 객체속 아이디를 시스템관리자 객체에 넣어 조회하기
+		SystemAdmin systemAdmin = new SystemAdmin();
+		systemAdmin.setSystemAdminId(user.getUserId());
+		systemAdmin = systemAdminService.getSystemAdminOne(systemAdmin.getSystemAdminId());
+		log.debug(Font.HS + "getMyPageCont : " + systemAdmin.toString() + Font.RESET);
+		
+		// 시스템관리자 정보 주입
+		model.addAttribute("systemAdmin", systemAdmin);
+		
+		// 시스템관리자 마이페이지로 이동
+		return "systemAdmin/systemAdminMyPage";
+	}
+	
 	// 시스템관리자 전체 목록 불러오기
 	@GetMapping("/systemAdminList")
 	public String getSystemAdminList(Model model) {
@@ -34,6 +62,7 @@ public class SystemAdminController {
 		SystemAdmin systemAdmin = systemAdminService.getSystemAdminOne(systemAdminId);
 		log.debug(Font.HS + "getGetCont : " + systemAdmin.toString() + Font.RESET);
 		
+		// 시스템관리자 정보 주입
 		model.addAttribute("systemAdminOne", systemAdmin);
 		
 		return "systemAdmin/systemAdminOne";
@@ -54,22 +83,67 @@ public class SystemAdminController {
 	
 	// 시스템관리자 한 명의 pw 수정하기
 	@GetMapping("/modifySystemAdminPw")
-	public String getModifySystemAdminPw(Model model, String systemAdminId) {
-		SystemAdmin systemAdmin = systemAdminService.getSystemAdminOne(systemAdminId);
-		log.debug(Font.HS + "getModifyCont : " + systemAdmin.toString() + Font.RESET);
+	public String getModifySystemAdminPw(HttpServletRequest request, Model model) {
 		
+		HttpSession session = request.getSession();
+		log.debug(Font.HS + "getModifyPwCont : " + session.toString() + Font.RESET);
+		
+		// 로그인 되어있지 않을 경우, 홈페이지로 이동
+		if(session.getAttribute("loginUser") == null) {
+			return "redirect:/";
+		}
+		
+		// 세션에서 loginUser 객체 받기
+		User user = (User)session.getAttribute("loginUser");
+		log.debug(Font.HS + "getModifyPwCont : " + user.toString() + Font.RESET);
+		
+		// 유저 객체속 아이디를 시스템관리자 객체에 넣어 조회하기
+		SystemAdmin systemAdmin = new SystemAdmin();
+		systemAdmin.setSystemAdminId(user.getUserId());
+		systemAdmin = systemAdminService.getSystemAdminOne(systemAdmin.getSystemAdminId());
+		log.debug(Font.HS + "getModifyPwCont : " + systemAdmin.toString() + Font.RESET);
+		
+		// 시스템관리자 정보 주입
 		model.addAttribute("systemAdmin", systemAdmin);
 		
 		return "systemAdmin/modifySystemAdminPw";
 	}
 	@PostMapping("/modifySystemAdminPw")
-	public String postModifySystemAdminPw(SystemAdmin systemAdmin) {
-		String systemAdminId = systemAdmin.getSystemAdminId();
-		log.debug(Font.HS + "postModifyCont : " + systemAdminId + Font.RESET);
+	public String postModifySystemAdminPw(HttpServletRequest request, Model model, SystemAdmin systemAdmin, String systemAdminNewPw) {
 		
-		systemAdminService.modifySystemAdminPw(systemAdmin);
+		HttpSession session = request.getSession();
+		log.debug(Font.HS + "postModifyPwCont : " + session.toString() + Font.RESET);
 		
-		return "redirect:/systemAdminOne?systemAdminId="+systemAdminId;
+		// 로그인 되어있지 않을 경우, 홈페이지로 이동
+		if(session.getAttribute("loginUser") == null) {
+			return "redirect:/";
+		}
+		
+		// 입력한 비밀번호
+		log.debug(Font.HS + "postModifyPwCont : " + systemAdmin.toString() + Font.RESET);
+		
+		// 입력한 비밀번호와 현재 비밀번호가 일치하는지 확인하기 위한 변수
+		int check = systemAdminService.getSystemAdminPw(systemAdmin);
+		
+		// 비밀번호가 일치하지 않을 시 다시 입력하도록 수정
+		if(check!=1) {
+			log.debug(Font.HS + "입력한 비밀번호와 기존비밀번호 불일치!" + systemAdmin.toString() + Font.RESET);
+			return "redirect:/modifySystemAdminPw";
+		}
+		
+		// 새로운 비밀번호 입력 정보
+		log.debug(Font.HS + "postModifyNewPwCont : " + systemAdminNewPw + Font.RESET);
+		
+		// 새로운 비밀번호 세팅
+		systemAdmin.setSystemAdminPw(systemAdminNewPw);
+		
+		// 새로운 비밀번호로 변경
+		systemAdmin = systemAdminService.modifySystemAdminPw(systemAdmin);
+		
+		// 시스템관리자 정보 주입
+		model.addAttribute("systemAdmin", systemAdmin);
+		
+		return "systemAdmin/systemAdminMyPage";
 	}
 	
 	// 시스템관리자 한 명의 정보(name, age, phone) 수정하기
@@ -94,6 +168,7 @@ public class SystemAdminController {
 		systemAdmin = systemAdminService.getSystemAdminOne(systemAdmin.getSystemAdminId());
 		log.debug(Font.HS + "getModifyInfoCont : " + systemAdmin.toString() + Font.RESET);
 		
+		// 시스템관리자 정보 주입
 		model.addAttribute("systemAdmin", systemAdmin);
 		
 		return "systemAdmin/modifySystemAdminInfo";

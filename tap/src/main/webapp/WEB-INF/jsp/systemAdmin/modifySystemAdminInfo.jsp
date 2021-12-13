@@ -11,7 +11,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>시스템관리자 비밀번호 수정</title>
+    <title>시스템관리자 정보 수정</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	
     <!-- Custom fonts for this template-->
@@ -39,20 +39,25 @@
                             <div class="text-center">
                                 <h1 class="h4 text-gray-900 mb-4">Modify Your Info!</h1>
                             </div>
-                            <form id="modifyForm" class="user" method="post" action="${pageContext.request.contextPath}/modifySystemAdminPw">
+                            <form id="modifyForm" class="user" method="post" action="${pageContext.request.contextPath}/modifySystemAdminInfo">
                                 <div class="form-group">
                                     <input type="hidden" class="form-control form-control-user" id="exampleInputEmail"
                                         placeholder="Email Address" name="systemAdminId" value="${systemAdmin.systemAdminId}">
-                                </div>                 
-                                <h4 class="small font-weight-bold">현재 비밀번호</h4>               
+                                </div>     
+                                <h4 class="small font-weight-bold">이름</h4>                           
                                 <div class="form-group">
-                                    <input type="text" class="form-control form-control-user" id="systemAdminPw"
-                                        placeholder="현재 비밀번호" name="systemAdminPw">
-                                </div>  
-                                <h4 class="small font-weight-bold">새로운 비밀번호</h4> 
+                                    <input type="text" class="form-control form-control-user" id="systemAdminName"
+                                        placeholder="이름" name="systemAdminName" value="${systemAdmin.systemAdminName}">
+                                </div>
+                                <h4 class="small font-weight-bold">나이</h4>   
                                  <div class="form-group">
-                                    <input type="text" class="form-control form-control-user" id="systemAdminNewPw"
-                                        placeholder="새로운 비밀번호" name="systemAdminNewPw">
+                                    <input type="text" class="form-control form-control-user" id="systemAdminAge"
+                                        placeholder="나이" name="systemAdminAge" value="${systemAdmin.systemAdminAge}">
+                                </div>  
+                                <h4 class="small font-weight-bold">전화번호</h4>
+                                 <div class="form-group">
+                                    <input type="text" class="form-control form-control-user" id="systemAdminPhone"
+                                        placeholder="전화번호" name="systemAdminPhone" value="${systemAdmin.systemAdminPhone}">
                                 </div>                               
 <!--                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
@@ -88,16 +93,21 @@
 	
 	<script>
 	$('#modifyBtn').click(function(){
-		if($('#systemAdminPw').val() == '') {
-			alert('현재 비밀번호를 입력하세요.');
+		if($('#systemAdminName').val() == '') {
+			alert('변경할 이름을 입력하세요.');
 			return;
 		}
 		
-		if($('#systemAdminNewPw').val() == '') {
-			alert('새로운 비밀번호를 입력하세요.');
+		if($('#systemAdminAge').val() == '') {
+			alert('변경할 나이를 입력하세요.');
 			return;
 		}
-				
+		
+		if($('#systemAdminPhone').val() == '') {
+			alert('변경할 전화번호를 입력하세요.');
+			return;
+		}
+		
 		$('#modifyForm').submit();
 	});	
 </script>	

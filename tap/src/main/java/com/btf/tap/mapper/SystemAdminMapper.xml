@@ -52,13 +52,13 @@
 	</insert>
 	
 	<!-- 시스템관리자 한 명의 pw 확인하기(수정용) -->
-	<select id="selectSystemAdminPw" parameterType="com.btf.tap.vo.SystemAdmin">
+	<select id="selectSystemAdminPw" parameterType="com.btf.tap.vo.SystemAdmin" resultType="int">
 		SELECT
 			COUNT(*)
 		FROM 
 			system_admin
 		WHERE
-		 	system_admin_id = #{systemAdminId},
+		 	system_admin_id = #{systemAdminId} AND
 		 	system_admin_pw = #{systemAdminPw}
 	</select>
 	
