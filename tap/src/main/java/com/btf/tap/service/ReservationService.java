@@ -12,6 +12,7 @@ import com.btf.tap.mapper.AddressMapper;
 import com.btf.tap.mapper.ReservationMapper;
 import com.btf.tap.mapper.RoomMapper;
 import com.btf.tap.vo.Address;
+import com.btf.tap.vo.Notice;
 import com.btf.tap.vo.Reservation;
 import com.btf.tap.vo.Room;
 
@@ -27,11 +28,11 @@ public class ReservationService {
 	AddressMapper addressMapper;
 	@Autowired 
 	RoomMapper roomMapper;
-	private Reservation reservation;
+	
 	
 	
 	//예약 추가하기.
-	public Map<String, Object> addReservation(int roomId, int detailAddressId)	{
+	public Map<String, Object> getAddReservation(int roomId, int detailAddressId)	{
 		
 		Map<String, Object> map = new HashMap<>();
 		
@@ -47,20 +48,29 @@ public class ReservationService {
 			map.put("address", address);
 		// 숙소 정보	
 			map.put("room", room);
-		// 
-			map.put("reservation", reservation.getReservationId());
-		reservationMapper.insertReservation(reservation);
+	
+		
 		//디버그
 			
 			log.debug(Font.KSB + "서비스 단 map값 점검하기 : "+ map.toString() + Font.RESET);
 			return map;
 			
 	}
+	//예약 추가하기.
+		public int postAddReservation(Reservation reservation)	{
+
+			
+				reservationMapper.insertReservation2(reservation);
+				log.debug(Font.KSB + "서비스 단 reservation값 점검하기 : "+ reservation.toString() + Font.RESET);
+				//디버그
+				return reservation.getReservationId();
+				
+		}
 	//예약정보 상세보기.
-	public Reservation getReservationOne(int reservationId) {
-		Reservation reservation = reservationMapper.selectReservationOne(reservationId);
-		return reservation;
-	}
+		public Reservation getReservationOne(int reservationId) {
+			Reservation reservation = reservationMapper.selectReservationOne(reservationId);
+			return reservation;
+		}
 	//예약 수정하기.
 	public void modifyReservation(Reservation reservation) {
 		reservationMapper.updateReservation(reservation);

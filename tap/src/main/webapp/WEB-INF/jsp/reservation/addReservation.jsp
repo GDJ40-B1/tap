@@ -99,6 +99,7 @@
    	<div><button type="submit">예약</button></div>
 	
 	</form>
+	
 	<!-- start : mainFooter -->
    <div>
       <jsp:include page="/partial/mainFooter.jsp"></jsp:include>

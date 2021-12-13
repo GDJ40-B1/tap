@@ -11,7 +11,9 @@
 		<result column="people_num" property="peopleNum"></result>
 		<result column="create_date" property="createDate"></result>
 		<result column="update_date" property="updateDate"></result>
+		
 	</resultMap>
+	
 	
 	<!-- 예약하기 -->
 	<insert id="insertReservation" parameterType="com.btf.tap.vo.Reservation" >
@@ -30,6 +32,38 @@
 			SELECT LAST_INSERT_ID()
 		</selectKey>	
 	</insert>
+	
+	<!-- 예약하기 -->
+	<insert id="insertReservation2" parameterType="com.btf.tap.vo.Reservation" >
+		INSERT INTO reservation (
+			member_id,
+			room_id,
+			check_in_date,
+			check_out_date,
+			people_num,
+			create_date,
+			update_date
+		)	VALUES	(
+					#{memberId}, #{roomId}, #{checkInDate}, #{checkOutDate}, #{peopleNum}, 
+					 NOW(), NOW() )
+		<selectKey keyProperty="reservationId" order="AFTER" resultType="int">
+			SELECT LAST_INSERT_ID()
+		</selectKey>	
+	</insert>
+	
+	<select id="selectReservationOne" parameterType="int" resultMap="resultReservation">
+		SELECT
+			reservation_id,
+			member_id,
+			room_id,
+			check_in_date,
+			check_out_date,
+			people_num,
+			create_date,
+			update_date
+		FROM reservation
+		WHERE reservation_id = #{reservationId}
+	</select>
 	
 	<!-- 예약 수정하기 -->
 	<update id="updateReservation" parameterType="com.btf.tap.vo.Reservation">
