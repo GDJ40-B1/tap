@@ -41,7 +41,12 @@
 			<tr>
 				<!-- 전화번호 형태? 예쁘게 만들기+숫자만 들어가게끔 하기 -->
 				<td>전화번호</td>
-				<td><input type="text" name="attractionPoneNumber"></td>
+				<td>
+					<input type="text" name="attractionPhoneNumber1">"-"
+					<input type="text" name="attractionPhoneNumber2">"-"
+					<input type="text" name="attractionPhoneNumber3">"-"
+					
+				</td>
 			</tr>
 			<tr>
 				<!-- 명소 소개 -->
@@ -54,9 +59,8 @@
 				<td><input type="text" name="detailAddress" id="address"></td>
 				<!-- 구현하기 -->				
 			</tr>
-		</table>
-	
-	
+		</table>	
+			<button type="submit">입력</button>
 	</form>
 	</section>
 	</main>

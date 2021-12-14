@@ -26,7 +26,8 @@ public class AttractionController {
 	}
 	
 	@PostMapping("/addAttraction")
-	public String postAddAttraction(Attraction attraction, Address address) {
+	public String postAddAttraction(Attraction attraction, Address address, String phone1, String phone2, String phone3) {		
+		
 		// 명소 추가
 		attractionService.addAttraction(attraction, address);	
 		// 추가된 뒤 명소 리스트페이지로 돌아감
@@ -58,6 +59,18 @@ public class AttractionController {
 		attractionService.removeAttraction(attractionId);
 		// 목록으로 되돌아가기
 		return "redirect:/attractionList";
+	}
+	
+	@GetMapping("/modifyAttraction")
+	// 수정
+	public String getModifyAttraction(Attraction attraction, Address address, String phone1, String phone2, String phone3) {
+		return "attraction/modifyAttraction";
+	}
+	
+	@PostMapping("/modifyAttraction")
+	public String postModifyAttraction() {
+		
+		return "redirect:attractionList";
 	}
 
 }

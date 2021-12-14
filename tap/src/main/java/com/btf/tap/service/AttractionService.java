@@ -45,7 +45,7 @@ public class AttractionService {
 		return attractionCategoryList;
 	}
 	
-	// 명소삭제(고쳐야함 오류남..)
+	// 명소삭제
 	public void removeAttraction(int attractionId) {
 		int detailAddressId = attractionMapper.selectAttractionOne(attractionId).getDetailAddressId();
 		attractionMapper.deleteAttraction(attractionId);
@@ -67,6 +67,7 @@ public class AttractionService {
 	
 	// 명소 등록
 	public int addAttraction(Attraction attraction, Address address) {
+		
 		String[] addressList = address.getDetailAddress().split(" ");
 		address.setSido(addressList[0]);
 		address.setSigungu(addressList[1]);

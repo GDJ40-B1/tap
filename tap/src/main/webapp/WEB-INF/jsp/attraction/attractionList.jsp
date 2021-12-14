@@ -21,17 +21,17 @@
 	<form action="${pageContext.request.contextPath}/attractionList" method="post">
 		<table border="1">
 			<tr>
-				<td>명소 카테고리</td>
-				<td id="attractionCategory">${ attraction.attractionCategory}</td>
+				<th>명소 카테고리</th>
+				<th>명소 이름</th>
+				<th>전화번호</th>
 			</tr>
-			<tr>
-				<td>명소 이름</td>
-				<td id="attractionName">${attraction.attractionName }</td>
-			</tr>
-			<tr>
-				<td>전화번호</td>
-				<td id="attractionPhoneNumber">${attraction.attractionPhoneNumber }</td>
-			</tr>
+			<c:forEach items="${list }" var="list">
+				<tr>
+					<td>${list.attractionCategory }</td>
+					<td>${list.attractionName }</td>
+					<td>${list.attractionPhoneNumber }</td>
+				</tr>
+				</c:forEach>
 
 		</table>
 	</form>
