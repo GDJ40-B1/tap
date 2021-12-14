@@ -146,6 +146,4 @@ public class RoomController {
 		return "redirect:/host/roomOne";
 	}
 	
-	
-	
 }

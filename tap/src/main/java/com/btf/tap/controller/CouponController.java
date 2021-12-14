@@ -22,4 +22,10 @@ public class CouponController {
 		model.addAttribute("room",room);
 		return "/host/coupon/couponList";
 	}
+	
+	@GetMapping("/host/addCoupon")
+	public String getAddCoupon(Model model, Room room) {
+		model.addAttribute("room",room);
+		return "/host/coupon/addCoupon";
+	}
 }

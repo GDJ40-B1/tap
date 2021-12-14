@@ -41,11 +41,10 @@
 	                        <tr>
 	                            <th>no.</th>
 	                            <th>쿠폰 이름</th>
-	                            <th>할인형태</th>
+	                            <th>할인률</th>
 	                            <th>수량</th>
 	                            <th>사용 시작일</th>
 	                            <th>사용 종료일</th>
-	                            <th>할인율</th>
 	                            <th>상세보기</th>
 	                        </tr>
 	                    </thead>
@@ -53,11 +52,10 @@
 	                        <tr>
 	                            <th>no.</th>
 	                            <th>쿠폰 이름</th>
-	                            <th>할인형태</th>
+	                            <th>할인률</th>
 	                            <th>수량</th>
 	                            <th>사용 시작일</th>
 	                            <th>사용 종료일</th>
-	                            <th>할인율</th>
 	                            <th>상세보기</th>
 	                        </tr>
 	                    </tfoot>
@@ -66,11 +64,10 @@
 								<tr>
 									<td>${list.couponId }</td>
 									<td>${list.couponName }</td>
-									<td>${list.couponType }</td>
+									<td>${list.discount }${list.couponType }</td>
 									<td>${list.couponQuantity }</td>
 									<td>${list.couponEffectiveDate }</td>
 									<td>${list.couponExpirationDate }</td>
-									<td>${list.discount }</td>
 									<td><a href="${pageContext.request.contextPath}/host/roomOne?roomId=${room.roomId}&detailAddressId=${room.detailAddressId }">상세보기</a></td>
 								</tr>
 							</c:forEach>
@@ -80,7 +77,7 @@
 	        </div>
 	    </div>
 	    
-	    <!-- 숙소 등록 버튼 -->
+	    <!-- 쿠폰 등록 버튼 -->
 	    <a href="${pageContext.request.contextPath}/host/addCoupon" class="btn btn-success btn-icon-split">
 	    	<span class="icon text-white-50">
 	    		<i class="fas fa-check"></i>

@@ -14,7 +14,7 @@
 		<result column="update_date" property="updateDate"></result>
 	</resultMap>
 	
-	<!-- 특정 숙소의 쿠폰 목록 -->
+	<!-- 특정 숙소의 쿠폰 목록 추출 -->
 	<select id="selectRoomCouponList" parameterType="int" resultMap="resultCoupon">
 		SELECT
 			coupon_id, room_id, coupon_name, coupon_effective_date, coupon_expiration_date,
