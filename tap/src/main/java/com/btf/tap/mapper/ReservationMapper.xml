@@ -63,14 +63,14 @@
 	
 	<select id="selectReservationOne" parameterType="int" resultMap="resultReservation">
 		SELECT
-			reservation_id reservationId,
-			member_id memverId,
-			room_id roomId,
-			check_in_date checkInDate,
-			check_out_date checkOutDate,
-			people_num peopleNum,
-			create_date createDate,
-			update_date updateDate
+			reservation_id,
+			member_id,
+			room_id,
+			check_in_date,
+			check_out_date,
+			people_num,
+			create_date,
+			update_date
 		FROM reservation
 		WHERE reservation_id = #{reservationId}
 	</select>

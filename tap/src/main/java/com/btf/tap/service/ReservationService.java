@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 
 import com.btf.tap.common.Font;
 import com.btf.tap.mapper.AddressMapper;
@@ -61,16 +62,20 @@ public class ReservationService {
 		public int postAddReservation(Reservation reservation)	{
 
 			
-				reservationMapper.insertReservation2(reservation);
-				log.debug(Font.KSB + "서비스 단 reservation값 점검하기 : "+ reservation.toString() + Font.RESET);
+				int reservationId =reservationMapper.insertReservation2(reservation);
+				log.debug(Font.KSB + " postAddReservation 서비스 단 값 점검하기 : "+ reservationId + Font.RESET);
 				//디버그
 				return reservation.getReservationId();
 				
 		}
 	//예약정보 상세보기.
 		public Reservation getReservationOne(int reservationId) {
+			
+			//reservationId값 받아옴 
+			//받아온 reservationId 값을 다시 맵퍼로 모내고 그 값을 reservation에 저장해서 값 확인 
 			Reservation reservation = reservationMapper.selectReservationOne(reservationId);
-			log.debug(Font.KSB + "예약 상세정보 서비스 단 reservation값 점검하기 : "+ reservation.toString() + Font.RESET);
+			log.debug(Font.KSB + "예약 상세정보 서비스 단 reservation값 점검하기 : "+ reservationId + Font.RESET);
+			
 			return reservation;
 		}
 		
