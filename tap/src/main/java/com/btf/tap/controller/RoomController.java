@@ -81,10 +81,9 @@ public class RoomController {
 	}
 	
 	@PostMapping("/host/addRoom")
-	public String postAddRoom(Room room, Address address) {
+	public String postAddRoom(Room room, Address address, String hashtag) {
 		// 숙소 추가
-		roomService.addRoom(room, address);
-		
+		roomService.addRoom(room, address, hashtag);
 		return "redirect:/host/roomList";
 	}
 	

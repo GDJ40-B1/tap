@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.btf.tap.mapper.HashtagMapper">
+	<resultMap type="com.btf.tap.vo.Hashtag" id="resultHashtag">
+		<result column="hashtag_target_category" property="hashtagTargetCategory"></result>
+		<result column="hashtag_target" property="hashtagTarget"></result>
+		<result column="hashtag_name" property="hashtagName"></result>
+	</resultMap>
+
+	<!-- 해시태그 데이터 추가 -->
+	<insert id="insertHashtag" parameterType="com.btf.tap.vo.Hashtag">
+		INSERT INTO hashtag(
+			hashtag_target_category, hashtag_target, hashtag_name
+		)VALUE(
+			#{hashtagTargetCategory}, #{hashtagTarget}, #{hashtagName})
+	</insert>
+</mapper>
