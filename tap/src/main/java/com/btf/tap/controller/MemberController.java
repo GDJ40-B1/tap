@@ -22,6 +22,96 @@ public class MemberController {
 	
 	@Autowired MemberService memberService;
 	
+	@PostMapping("/earnPoint")
+	public String postEarnPoint(HttpServletRequest request, Member member) {
+		
+		HttpSession session = request.getSession();
+		
+		// 로그인 되있지 않을 경우, 홈페이지로 이동
+		if(session.getAttribute("loginUser") == null) {
+			return "redirect:/";
+		}
+		
+		// 포인트 증가 입력 디버깅
+		log.debug(Font.HW + "입력받은 포인트 증가 정보 => " + member.toString() + Font.RESET);
+		
+		// 포인트 증가 로직 실행
+		int confirm = memberService.earnMemberPoint(member);
+		
+		// 포인트 증가가 안 되었을 시, 다시 시도하도록 redirect
+		if (confirm==0) {
+			log.debug(Font.HW + "포인트 증가 실패 => " +  member.toString() + Font.RESET);
+			return "redirect:/pointInfo";
+		}
+		
+		// 포인트 증가된 회원 정보 가져오기
+		member = memberService.getMemberOne(member);
+		
+		// 포인트 증가 로직 처리 결과 디버깅
+		log.debug(Font.HW + "포인트 증가된 회원 정보 => " + member.toString() + Font.RESET);
+		
+		
+		// 포인트 정보 페이지로 이동
+		return "redirect:/pointInfo";
+	}
+	
+	@PostMapping("/spendPoint")
+	public String postSpendPoint(HttpServletRequest request, Member member) {
+	
+		HttpSession session = request.getSession();
+		
+		// 로그인 되있지 않을 경우, 홈페이지로 이동
+		if(session.getAttribute("loginUser") == null) {
+			return "redirect:/";
+		}
+		
+		// 포인트 증가 입력 디버깅
+		log.debug(Font.HW + "입력받은 포인트 감소 정보 => " + member.toString() + Font.RESET);
+		
+		// 포인트 감소 로직 실행
+		int confirm = memberService.spendMemberPoint(member);
+		
+		// 포인트 감소가 안 되었을 시, 다시 시도하도록 redirect
+		if (confirm==0) {
+			log.debug(Font.HW + "포인트 감소 실패 => " +  member.toString() + Font.RESET);
+			return "redirect:/pointInfo";
+		}
+		
+		// 포인트 감소된 회원 정보 가져오기
+		member = memberService.getMemberOne(member);
+		
+		// 포인트 증가 로직 처리 결과 디버깅
+		log.debug(Font.HW + "포인트 감소된 회원 정보 => " + member.toString() + Font.RESET);
+		
+		// 포인트 정보 페이지로 이동
+		return "redirect:/pointInfo";
+	}
+	
+	@GetMapping("/pointInfo")
+	public String getPointInfo(HttpServletRequest request, Model model) {
+	
+		HttpSession session = request.getSession();
+			
+		// 로그인 되있지 않을 경우, 홈페이지로 이동
+		if(session.getAttribute("loginUser") == null) {
+			return "redirect:/";
+		}
+		
+		// 세션에서 로그인 유저 객체 받기 
+		User user = (User) session.getAttribute("loginUser");
+		
+		// 유저 객체속 아이디를 회원 객체에 넣어 조회하기
+		Member member = new Member();
+		member.setMemberId(user.getUserId());
+		member = memberService.getMemberOne(member);
+		
+		// 회원 정보 주입
+		model.addAttribute("member", member);
+		
+		// 포인트 정보 페이지로 이동
+		return "member/pointInfo";
+	}
+	
 	
 	@GetMapping("/modifyMemberPw")
 	public String getModifyMemberPw(HttpServletRequest request, Model model) {
@@ -63,7 +153,7 @@ public class MemberController {
 		// 비밀번호 입력 디버깅
 		log.debug(Font.HW + "입력받은 비밀번호 일치여부 확인 정보 => " + member.toString() + Font.RESET);
 		
-		int confirm = memberService.selectMemberPw(member);
+		int confirm = memberService.checkMemberPw(member);
 		
 		// 비밀번호 불일치시 다시 입력받도록 리다이렉트
 		if (confirm==0) {

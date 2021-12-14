@@ -98,7 +98,7 @@ public class MemberService {
 	// 회원 한 명의 비밀번호를 일치여부 확인하기
 	// 입력: Member
 	// 결과: int (일치하는 회원 수)
-	public int selectMemberPw(Member member) {
+	public int checkMemberPw(Member member) {
 		
 		log.debug(Font.HW + "입력받은 비밀번호 확인 정보 => " + member.toString() + Font.RESET);
 		
@@ -107,6 +107,52 @@ public class MemberService {
 		
 		log.debug(Font.HW + "일치하는 회원 수 => " + confirm  + Font.RESET);
 		
+		
+		return confirm;
+	}
+	
+	// 회원 한 명의 포인트 증가(충전)
+	// 입력: Member
+	// 결과: int (포인트 증가한 회원 수)
+	public int earnMemberPoint(Member member) {
+		
+		log.debug(Font.HW + "입력받은 포인트 증가 정보 => " + member.toString() + Font.RESET);
+		
+		// 입력받은 회원의 기존 포인트 확인하기
+		Member oldMember = memberMapper.selectMemberOne(member);
+		log.debug(Font.HW + "입력받은 회원의 기존 포인트 정보 => " + oldMember.toString() + Font.RESET);
+		
+		// 기존 포인트에서 입력받은 포인트를 추가
+		oldMember.setMemberPoint(oldMember.getMemberPoint() + member.getMemberPoint());
+		log.debug(Font.HW + "입력받은 회원의 증가된 포인트 정보 => " + oldMember.toString() + Font.RESET);
+		
+		// 포인트 충전 실행
+		int confirm = memberMapper.updateMemberPoint(oldMember);
+		
+		log.debug(Font.HW + "포인트 증가된 회원 수 => " + confirm  + Font.RESET);
+		
+		return confirm;
+	}
+	
+	// 회원 한 명의 포인트 감소(사용)
+	// 입력: Member
+	// 결과: int (포인트 감소한 회원 수)
+	public int spendMemberPoint(Member member) {
+		
+		log.debug(Font.HW + "입력받은 포인트 감소 정보 => " + member.toString() + Font.RESET);
+		
+		// 입력받은 회원의 기존 포인트 확인하기
+		Member oldMember = memberMapper.selectMemberOne(member);
+		log.debug(Font.HW + "입력받은 회원의 기존 포인트 정보 => " + oldMember.toString() + Font.RESET);
+		
+		// 기존 포인트에서 입력받은 포인트를 추가
+		oldMember.setMemberPoint(oldMember.getMemberPoint() - member.getMemberPoint());
+		log.debug(Font.HW + "입력받은 회원의 감소된 포인트 정보 => " + oldMember.toString() + Font.RESET);
+		
+		// 포인트 충전 실행
+		int confirm = memberMapper.updateMemberPoint(oldMember);
+		
+		log.debug(Font.HW + "포인트 감소된 회원 수 => " + confirm  + Font.RESET);
 		
 		return confirm;
 	}

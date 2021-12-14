@@ -97,7 +97,7 @@ public class HostService {
 	// 호스트 한 명의 비밀번호를 일치여부 확인하기
 	// 입력: Host
 	// 결과: int (일치하는 호스트 수)
-	public int selectHostPw(Host host) {
+	public int checkHostPw(Host host) {
 		
 		log.debug(Font.HW + "입력받은 비밀번호 확인 정보 => " + host.toString() + Font.RESET);
 		
@@ -106,6 +106,52 @@ public class HostService {
 		
 		log.debug(Font.HW + "일치하는 호스트 수 => " + confirm  + Font.RESET);
 		
+		
+		return confirm;
+	}
+	
+	// 호스트 한 명의 포인트 증가(충전)
+	// 입력: Host
+	// 결과: int (포인트 증가한 호스트 수)
+	public int earnHostPoint(Host host) {
+		
+		log.debug(Font.HW + "입력받은 포인트 증가 정보 => " + host.toString() + Font.RESET);
+		
+		// 입력받은 호스트의 기존 포인트 확인하기
+		Host oldHost = hostMapper.selectHostOne(host);
+		log.debug(Font.HW + "입력받은 호스트의 기존 포인트 정보 => " + oldHost.toString() + Font.RESET);
+		
+		// 기존 포인트에서 입력받은 포인트를 추가
+		oldHost.setHostPoint(oldHost.getHostPoint() + host.getHostPoint());
+		log.debug(Font.HW + "입력받은 호스트의 증가된 포인트 정보 => " + oldHost.toString() + Font.RESET);
+		
+		// 포인트 충전 실행
+		int confirm = hostMapper.updateHostPoint(oldHost);
+		
+		log.debug(Font.HW + "포인트 증가된 호스트 수 => " + confirm  + Font.RESET);
+		
+		return confirm;
+	}
+	
+	// 호스트 한 명의 포인트 감소(사용)
+	// 입력: Host
+	// 결과: int (포인트 감소한 호스트 수)
+	public int spendHostPoint(Host host) {
+		
+		log.debug(Font.HW + "입력받은 포인트 감소 정보 => " + host.toString() + Font.RESET);
+		
+		// 입력받은 호스트의 기존 포인트 확인하기
+		Host oldHost = hostMapper.selectHostOne(host);
+		log.debug(Font.HW + "입력받은 호스트의 기존 포인트 정보 => " + oldHost.toString() + Font.RESET);
+		
+		// 기존 포인트에서 입력받은 포인트를 추가
+		oldHost.setHostPoint(oldHost.getHostPoint() - host.getHostPoint());
+		log.debug(Font.HW + "입력받은 호스트의 감소된 포인트 정보 => " + oldHost.toString() + Font.RESET);
+		
+		// 포인트 충전 실행
+		int confirm = hostMapper.updateHostPoint(oldHost);
+		
+		log.debug(Font.HW + "포인트 감소된 호스트 수 => " + confirm  + Font.RESET);
 		
 		return confirm;
 	}
