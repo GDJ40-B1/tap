@@ -20,6 +20,8 @@
 	<h1>명소 상세보기</h1>
 	
 	<form action="${pageContext.request.contextPath}/attractionOne" method="post">
+		<a href="${pageContext.request.contextPath }/modifyAttraction?attractionId=${attraction.attractionId }&detailAddressId=${address.detailAddressId}">수정하기</a>
+		<a href="${pageContext.request.contextPath }/removeAttraction?attractionId=${attraction.attractionId }">삭제하기</a>
 		<table border="1">
 			<tr>
 				<td>명소 이름</td>
@@ -47,6 +49,8 @@
 			</tr>
 		</table>
 	</form>
+	
+	
 	</section>
 	</main>	
 	<!-- start : mainFooter -->

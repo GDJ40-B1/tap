@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.btf.tap.service.AttractionService;
 import com.btf.tap.vo.Address;
@@ -22,8 +23,7 @@ public class AttractionController {
 
 	@GetMapping("/addAttraction")
 	public String getAddAttraction(Model model) {
-		attractionService.getAttractionCategory();
-		
+		model.addAttribute("attractionCategoryList", attractionService.getAttractionCategory());
 		return "attraction/addAttraction";
 	}
 	
@@ -65,15 +65,22 @@ public class AttractionController {
 	
 	@GetMapping("/modifyAttraction")
 	// 수정
-	public String getModifyAttraction(Attraction attraction, Address address, String phone1, String phone2, String phone3) {
+	public String getModifyAttraction(Model model, int attractionId, int detailAddressId) {
+		model.addAttribute("attractionCategoryList", attractionService.getAttractionCategory());
+		System.out.println("!!!!!!!"+attractionService.getAttractionCategory());
+		Map<String, Object> map = attractionService.getAttractionOne(attractionId, detailAddressId);
+		model.addAttribute("attraction", map.get("attraction"));
+		model.addAttribute("address", map.get("address"));
 		return "attraction/modifyAttraction";
 	}
 	
 	@PostMapping("/modifyAttraction")
-	public String postModifyAttraction(Attraction attraction, Address address, String phone1, String phone2, String phone3) {
-		attractionService.modifyAttraction(attraction, address );
+	public String postModifyAttraction(RedirectAttributes redirect, Attraction attraction, Address address, String phone1, String phone2, String phone3) {
+		address = attractionService.modifyAttraction(attraction, address);
+		redirect.addAttribute("attractionId",attraction.getAttractionId());
+		redirect.addAttribute("detailAddressId", address.getDetailAddress());
 		
-		return "redirect:attractionList";
+		return "redirect:attractionOne";
 	}
 
 }

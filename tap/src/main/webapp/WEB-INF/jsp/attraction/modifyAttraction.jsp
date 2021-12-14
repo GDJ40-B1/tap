@@ -1,8 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
 <head>
+<script src="http://code.jquery.com/jquery-latest.js"></script> 
 <meta charset="UTF-8">
 <title>modifyAttraction</title>
 </head>
@@ -39,8 +42,8 @@
 				<td>명소 카테고리</td>
 				<td>
 					<select name="attractionCategory">
-						<c:forEach items="${attractionCategoryList}" var="ac">
-							<option>${ac }</option>
+						<c:forEach items="${attractionCategoryList}" var="list">
+							<option>${list}</option>
 						</c:forEach>
 					</select>
 				</td>
@@ -62,8 +65,8 @@
 				<!-- 구현하기 -->				
 			</tr>
 		</table>
-	
-	
+		
+	<button type="submit">수정하기</button>
 	</form>
 	</section>
 	</main>
