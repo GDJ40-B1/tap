@@ -64,20 +64,19 @@
 				
 				<div class="col-sm-6 mb-3 mb-sm-0">
 					<label>가격</label>
-					<input type="text" class="form-control form-control-user" name="roomPrice" id="roomPrice" placeholder="숙박 기본 가격를 입력하세요">
+					<input type="number" class="form-control form-control-user" name="roomPrice" id="roomPrice" placeholder="숙박 기본 가격를 입력하세요">
 				</div>
 			</div>
 			
 			<div class="form-group row">
-				<!-- select 방식으로 변경 예정 -->
 				<div class="col-sm-6 mb-3 mb-sm-0">
 					<label>인원수</label>
-					<input type="text" class="form-control form-control-user" name="peopleNum" id="peopleNum" placeholder="적정 인원수를 입력하세요">
+					<input type="number" class="form-control form-control-user" name="peopleNum" id="peopleNum" placeholder="적정 인원수를 입력하세요">
 				</div>
 				
 				<div class="col-sm-6 mb-3 mb-sm-0">
 					<label>최소 숙박일</label>
-					<input type="text" class="form-control form-control-user" name="minDay" id="minDay" placeholder="최소 숙박일을 입력하세요">
+					<input type="number" class="form-control form-control-user" name="minDay" id="minDay" placeholder="최소 숙박일을 입력하세요">
 				</div>
 			</div>
 			

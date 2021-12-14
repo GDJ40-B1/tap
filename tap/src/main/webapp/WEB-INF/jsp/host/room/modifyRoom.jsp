@@ -74,20 +74,19 @@
 				
 				<div class="col-sm-6 mb-3 mb-sm-0">
 					<label>가격</label>
-					<input type="text" class="form-control form-control-user" name="roomPrice" id="roomPrice" value="${room.roomPrice }" placeholder="숙박 기본 가격를 입력하세요">
+					<input type="number" class="form-control form-control-user" name="roomPrice" id="roomPrice" value="${room.roomPrice }" placeholder="숙박 기본 가격를 입력하세요">
 				</div>
 			</div>
 			
 			<div class="form-group row">
-				<!-- select 방식으로 변경 예정 -->
 				<div class="col-sm-6 mb-3 mb-sm-0">
 					<label>인원수</label>
-					<input type="text" class="form-control form-control-user" name="peopleNum" id="peopleNum" value="${room.peopleNum }" placeholder="적정 인원수를 입력하세요">
+					<input type="number" class="form-control form-control-user" name="peopleNum" id="peopleNum" value="${room.peopleNum }" placeholder="적정 인원수를 입력하세요">
 				</div>
 				
 				<div class="col-sm-6 mb-3 mb-sm-0">
 					<label>최소 숙박일</label>
-					<input type="text" class="form-control form-control-user" name="minDay" id="minDay" value="${room.minDay }" placeholder="최소 숙박일을 입력하세요">
+					<input type="number" class="form-control form-control-user" name="minDay" id="minDay" value="${room.minDay }" placeholder="최소 숙박일을 입력하세요">
 				</div>
 			</div>
 			
@@ -189,7 +188,7 @@
    
    <!-- input 유효성 검사 -->
 	<script>
-		// 숙소 등록을 클릭했을 때
+		// 숙소 수정을 클릭했을 때
 		$('#modifyBtn').click(function(){
 			if($('#roomName').val()==''){
 				alert('숙소명을 입력하세요');

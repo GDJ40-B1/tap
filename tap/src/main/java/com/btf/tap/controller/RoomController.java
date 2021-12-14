@@ -77,6 +77,7 @@ public class RoomController {
 		// 숙소 카테고리 리스트 및 hostId
 		model.addAttribute("roomCategoryList",roomService.getRoomCategory());
 		model.addAttribute("hostId", user.getUserId());
+		model.addAttribute("loginUser",user);
 		return "/host/room/addRoom";
 	}
 	

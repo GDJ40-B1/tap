@@ -70,7 +70,7 @@
 			<c:otherwise>
 				<c:forEach var="r" items="${roomList}">
 					<div>[${r.roomCategory}] [${r.roomForm}]</div>
-					<div><a href="${pageContext.request.contextPath}/myRoomOne?roomId=${r.roomId}&detailAddressId=${r.detailAddressId}">${r.roomName}</a></div>
+					<div><a href="${pageContext.request.contextPath}/roomOne?roomId=${r.roomId}&detailAddressId=${r.detailAddressId}">${r.roomName}</a></div>
 					<div>${r.roomIntro}</div>
 					<div>최소 일수 : ${r.minDay} 최소 인원 :  ${r.peopleNum} 가격 : ${r.roomPrice}</div>
 				</c:forEach>
@@ -152,7 +152,7 @@
 			<c:otherwise>
 				<c:forEach var="r" items="${hashtagRoomList}">
 					<div>[${r.roomCategory}] [${r.roomForm}]</div>
-					<div><a href="${pageContext.request.contextPath}/myRoomOne?roomId=${r.roomId}&detailAddressId=${r.detailAddressId}">${r.roomName}</a></div>
+					<div><a href="${pageContext.request.contextPath}/roomOne?roomId=${r.roomId}&detailAddressId=${r.detailAddressId}">${r.roomName}</a></div>
 					<div>${r.roomIntro}</div>
 					<div>최소 일수 : ${r.minDay} 최소 인원 :  ${r.peopleNum} 가격 : ${r.roomPrice}</div>
 				</c:forEach>	
@@ -210,19 +210,14 @@
 				</c:if>									
 			</c:otherwise>
 		</c:choose>	
-		
+
 	  <!-- 임시로 추가 -->
 	  <form class="form-inline" action="${pageContext.request.contextPath}/searchList">
       	<input class="form-control mr-sm-2" type="text" name="keyword">
     	<button class="btn btn-primary" type="submit">Search</button>
   	  </form>
 	  
-	  <select id="sido">
-	  	<c:forEach var="s" items="${sidoList}">
-	  		<option value="${s}">${s}</option>
-	  	</c:forEach>
-	  </select>
-	</div>
+	</div> 
 
   </main><!-- End #main -->
 

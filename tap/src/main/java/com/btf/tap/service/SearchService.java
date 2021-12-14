@@ -335,11 +335,28 @@ public class SearchService {
 		searchMapper.insertSearchKeyword(searchHistory);
 	}
 	
+	// 사용자 이전 검색어 기록 조회
+	public List<String> getSearchHistory(User user) {
+		List<String> list = new ArrayList<>();
+		String memberId = user.getUserId();
+		list = searchMapper.selectSearchKeyword(memberId);
+		
+		return list;
+	}
+	
 	// DB 시도 리스트 조회
 	public List<String> getSidoList() {
 		List<String> sidoList = new ArrayList<>();
 		sidoList = searchMapper.sidoList();
 		
 		return sidoList;
+	}
+	
+	// DB 시군구 리스트 조회
+	public List<String> getSigunguList(String sido) {
+		List<String> sigunguList = new ArrayList<>();
+		sigunguList = searchMapper.sigunguList(sido);
+		
+		return sigunguList;
 	}
 }

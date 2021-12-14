@@ -18,6 +18,12 @@
 		<java.version>1.8</java.version>
 	</properties>
 	<dependencies>
+		<!-- https://mvnrepository.com/artifact/org.json/json -->
+		<dependency>
+		    <groupId>org.json</groupId>
+		    <artifactId>json</artifactId>
+		    <version>20211205</version>
+		</dependency>		
 		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
 	    <dependency>
 	        <groupId>org.projectlombok</groupId>

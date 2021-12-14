@@ -9,6 +9,7 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
   <title>${keyword} 검색 결과</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -209,6 +210,42 @@
 				</c:if>									
 			</c:otherwise>
 		</c:choose>	
+	
+		<form class="form-inline" action="${pageContext.request.contextPath}/searchListByDistrict">
+			<select name="sido" id="sido" onchange="sidoType(this.value);">
+		  		<option value="">==전체==</option>
+		  	<c:forEach var="s" items="${sidoList}">
+		  		<option value="${s}">${s}</option>
+		  	</c:forEach>
+			</select>
+			<select name="sigungu" id="sigungu">
+				<option value="">==전체==</option>
+			</select>
+			<input class="form-control mr-sm-2" type="text" name="keyword">
+    		<button class="btn btn-primary" type="submit">Search</button>
+		</form>
+	  
+	  <script>
+	  function sidoType(sido){
+		  $.ajax({
+			  type: 'GET',
+			  contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+			  url : '${pageContext.request.contextPath}/sido?sido='+sido,
+			  dataType: 'json',
+			  success : function(result){
+				  console.log(result)
+					
+				  $("#sigungu").find("option").remove().end().append("<option value=''>전체</option>")
+
+				  $.each(result, function(i){
+					 $("#sigungu").append("<option value='"+result[i]+"'>"+result[i]+"</option>")
+				  });
+			  }
+		  }).fail(function (error) {
+			  alert(JSON.stringify(error));
+		  })
+	  };
+	  </script>
 	
 	</div>
 

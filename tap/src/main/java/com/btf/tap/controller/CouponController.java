@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.btf.tap.service.CouponService;
 import com.btf.tap.vo.Coupon;
@@ -27,5 +28,13 @@ public class CouponController {
 	public String getAddCoupon(Model model, Room room) {
 		model.addAttribute("room",room);
 		return "/host/coupon/addCoupon";
+	}
+	
+	@PostMapping("/host/addCoupon")
+	public String postAddCoupon(Model model, Room room, Coupon coupon) {
+		coupon.setRoomId(room.getRoomId());
+		System.out.println(coupon);
+		couponService.addCoupon(coupon);
+		return "redirect:/host/couponList?roomId="+room.getRoomId()+"&detailAddressId="+room.getDetailAddressId();
 	}
 }
