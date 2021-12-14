@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.btf.tap.mapper.CouponMapper">
+	<resultMap type="com.btf.tap.vo.Coupon" id="resultCoupon">
+		<result column="coupon_id" property="couponId"></result>
+		<result column="room_id" property="roomId"></result>
+		<result column="coupon_name" property="couponName"></result>
+		<result column="coupon_effective_date" property="couponEffectiveDate"></result>
+		<result column="coupon_expiration_date" property="couponExpirationDate"></result>
+		<result column="discount" property="discount"></result>
+		<result column="coupon_type" property="couponType"></result>
+		<result column="coupon_quantity" property="couponQuantity"></result>
+		<result column="create_date" property="createDate"></result>
+		<result column="update_date" property="updateDate"></result>
+	</resultMap>
+	
+	<!-- 특정 숙소의 쿠폰 목록 -->
+	<select id="selectRoomCouponList" parameterType="int" resultMap="resultCoupon">
+		SELECT
+			coupon_id, room_id, coupon_name, coupon_effective_date, coupon_expiration_date,
+			discount, coupon_type, coupon_quantity, create_date, update_date
+		FROM coupon
+		WHERE room_id=#{roomId}
+	</select>
+	
+</mapper>

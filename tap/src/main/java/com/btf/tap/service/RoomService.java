@@ -21,7 +21,6 @@ import lombok.extern.slf4j.Slf4j;
 public class RoomService {
 	@Autowired RoomMapper roomMapper;
 	@Autowired AddressMapper addressMapper;
-	// add, modify, get, remove
 	
 	// 호스트 숙소 전체 리스트 출력(최근 생성된 숙소 순으로)
 	public Map<String, Object> getHostRoomList(String hostId, int currentPage) {

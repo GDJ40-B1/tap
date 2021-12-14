@@ -18,6 +18,15 @@
     <!-- start : content -->
 	<div id="content" class="container-fluid">
 	
+		<!-- breadcrumb : 3 level이 되는 부분부터 사용 -->
+		<nav aria-label="breadcrumb">
+			<ol class="breadcrumb bg-gray-100">
+				<li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/hostMyPage">홈</a></li>
+				<li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/host/roomList">숙소목록</a></li>
+				<li class="breadcrumb-item active" aria-current="page">숙소등록</li>
+			</ol>
+		</nav>
+		
 		<h1 class="h3 mb-4 text-gray-800">숙소 등록</h1>
 		<br>
 		
@@ -128,6 +137,11 @@
 				<div id="map" style="width:100%;height:350px;"></div>
 			</div>
 			
+			<div class="form-group">
+				<label>해시태그</label>
+				<input class="form-control" type="text" id="hashtag" name="hashtag" value="#">
+			</div>
+			
 			<br>
 			<button type="button" class="btn btn-primary btn-lg btn-block"  id="addBtn">숙소 등록</button>
 			<br>
@@ -142,6 +156,7 @@
    
 	<!-- input 유효성 검사 -->
 	<script>
+	
 		// 숙소 등록을 클릭했을 때
 		$('#addBtn').click(function(){
 			if($('#roomName').val()==''){
@@ -164,6 +179,34 @@
 				$('#addRoomForm').submit();
 			}
 		});
+	</script>
+	
+	<!-- 해시태그 관련 script -->
+	<script>
+		// hashtag input에서 데이터를 모두 지워도 #은 남도록 한다.
+		$('#hashtag').keydown(function(event) {
+			var oldvalue=$(this).val();
+			var field=this;
+			setTimeout(function () {
+			    if(field.value.indexOf('#') !== 0) {
+			        $('#hashtag').val(oldvalue);
+			    } 
+			}, 1);
+			
+			// 스페이스바 기능 방지를 위한 변수
+			var handled=false;
+			  // 스페이스바 or 엔터를 칠 시 #자동생성
+			  if (event.keyCode == '13') {
+				  $('#hashtag').val($('#hashtag').val()+' #');
+			  } else if(event.keyCode == '32'){
+				  handled=true; // 기능 제한
+				  $('#hashtag').val($('#hashtag').val()+' #');
+			  }
+			  
+			  if(handled){
+					event.preventDefault();
+				}
+		 });
 	</script>
 	
 	<!-- kakao map API -->
