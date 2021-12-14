@@ -12,4 +12,6 @@ public class Report {
 	private String writerCategory; // 작성자 카테고리
 	private String createDate; // 정보 생성일
 	private String updateDate; // 정보 수정일
+	
+	private SystemAdmin systemAdmin; 
 }

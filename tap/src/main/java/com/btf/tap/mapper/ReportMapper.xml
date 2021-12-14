@@ -10,6 +10,15 @@
 		<result column="approval_status" property="approvalStatus"/>
 		<result column="create_date" property="createDate"/>
 		<result column="update_date" property="updateDate"/>
+		<collection property="systemAdmin" ofType="com.btf.tap.vo.SystemAdmin">
+			<id column="system_admin_id" property="systemAdminId"/>
+			<result column="system_admin_pw" property="systemAdminPw"/>
+			<result column="system_admin_name" property="systemAdminName"/>
+			<result column="system_admin_age" property="systemAdminAge"/>
+			<result column="system_admin_phone" property="systemAdminPhone"/>
+			<result column="create_date" property="createDate"/>
+			<result column="update_date" property="updateDate"/>
+		</collection>
 	</resultMap>	
 
 	<!-- 전체 페이지 / 작성자 카테고리별 페이지 조회 -->
@@ -45,5 +54,48 @@
 		</where>		
 	</select>
 	
+	<!-- 신고글 작성하기 -->
+	<insert id="insertReport" parameterType="com.btf.tap.vo.Report">
+		INSERT INTO 
+			report(
+				writer_id, 
+				report_target, 
+				report_target_category, 
+				writer_category,
+				report_content, 
+				approval_status, 
+				create_date, 
+				update_date
+			)
+		VALUES(
+				#{writerId},
+				#{reportTarget},
+				#{reportTargetCategory},
+				#{writerCategory},
+				#{reportContent},
+				#{approvalStatus},
+				NOW(),
+				NOW()
+		)		
+	</insert>
 	
+	<!-- 신고글 삭제하기 -->
+	<delete id="deleteReport" parameterType="com.btf.tap.vo.Report">
+	 	DELETE
+	 	FROM report
+	 	WHERE 
+	 		writer_id = #{writerId} AND
+	 		report_target = #{reportTarget} AND
+	 		report_target_category = #{reportTargetCategory}
+	</delete>
+	
+	<!-- 신고글 승인여부 수정하기 -->
+	<update id="updateReport" parameterType="com.btf.tap.vo.Report">
+		UPDATE report
+		SET
+			approval_status = #{approvalStatus},
+			update_date = NOW()
+		WHERE
+			system_admin_id = #{systemAdminId}	
+	</update>
 </mapper>
