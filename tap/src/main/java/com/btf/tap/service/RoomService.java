@@ -1,16 +1,21 @@
 package com.btf.tap.service;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.btf.tap.mapper.AddressMapper;
+import com.btf.tap.mapper.HashtagMapper;
 import com.btf.tap.mapper.RoomMapper;
 import com.btf.tap.vo.Address;
+import com.btf.tap.vo.Hashtag;
 import com.btf.tap.vo.Room;
 
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 public class RoomService {
 	@Autowired RoomMapper roomMapper;
 	@Autowired AddressMapper addressMapper;
+	@Autowired HashtagMapper hashtagMapper;
 	
 	// 호스트 숙소 전체 리스트 출력(최근 생성된 숙소 순으로)
 	public Map<String, Object> getHostRoomList(String hostId, int currentPage) {
@@ -136,7 +142,7 @@ public class RoomService {
 	}
 	
 	// 숙소 등록(숙소 and 상세 주소)
-	public int addRoom(Room room, Address address) {
+	public int addRoom(Room room, Address address, String hashtag) {
 		// 입력받은 도로명 주소를 분할하여 객체에 넣기
 		String[] addressList = address.getDetailAddress().split(" ");
 		address.setSido(addressList[0]);
@@ -154,6 +160,24 @@ public class RoomService {
 		room.setDetailAddressId(address.getDetailAddressId());
 		roomMapper.insertRoom(room);
 		
+		/* 해시태그 데이터 추가 시작 */
+		// 문자열 공백 제거
+		hashtag = hashtag.replaceAll(" ", "");
+		String[] hashtagList = hashtag.split("#");
+		Arrays.sort(hashtagList); // 중복된 해시태그 제거
+		
+		// 해시태그 값 넣기
+		Hashtag hashtagVal = new Hashtag();
+		hashtagVal.setHashtagTargetCategory("room");
+		hashtagVal.setHashtagTarget(room.getRoomId());
+		for(String h : hashtagList) {
+			// 해시태그 값이 공백이 아닐 경우에만 추가되도록 한다.
+			if(!h.equals("") && !h.equals(" ")) {
+				hashtagVal.setHashtagName(h);
+				hashtagMapper.insertHashtag(hashtagVal);
+			}
+		}
+		/* 해시태그 데이터 추가 끝 */
 		return room.getRoomId();
 	}
 	
