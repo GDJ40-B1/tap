@@ -21,7 +21,9 @@ public class AttractionController {
 	@Autowired AttractionService attractionService;
 
 	@GetMapping("/addAttraction")
-	public String getAddAttraction() {
+	public String getAddAttraction(Model model) {
+		attractionService.getAttractionCategory();
+		
 		return "attraction/addAttraction";
 	}
 	
@@ -68,7 +70,8 @@ public class AttractionController {
 	}
 	
 	@PostMapping("/modifyAttraction")
-	public String postModifyAttraction() {
+	public String postModifyAttraction(Attraction attraction, Address address, String phone1, String phone2, String phone3) {
+		attractionService.modifyAttraction(attraction, address );
 		
 		return "redirect:attractionList";
 	}

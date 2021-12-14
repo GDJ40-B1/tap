@@ -2,6 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.btf.tap.mapper.AttractionMapper">
 
+<resultMap type="com.btf.tap.vo.Attraction" id="resultAttraction">
+      <result column="attraction_id" property="attractionId"></result>
+      <result column="detail_address_id" property="detailAddressId"></result>
+      <result column="attraction_category" property="attractionCategory"></result>
+      <result column="attraction_name" property="attractionName"></result>
+      <result column="attraction_phone_number" property="attractionPhoneNumber"></result>
+      <result column="attraction_content" property="attractionContent"></result>
+      <result column="approval_status" property="approvalStatus"></result>
+      <result column="create_date" property="createDate"></result>
+      <result column="update_date" property="updateDate"></result>
+   </resultMap>
 
 
 	<!-- 카테고리 -->
@@ -15,7 +26,7 @@
 	<!-- [비회원, 회원, 관리자] 명소 상세보기 -->
 	<select id="selectAttractionOne" parameterType="int" resultType="com.btf.tap.vo.Attraction">
 		SELECT
-			detail_address_id detailAddress, attraction_category attractionCategory, attraction_name attractionName,
+			attraction_id attractionId, detail_address_id detailAddress, attraction_category attractionCategory, attraction_name attractionName,
 			attraction_phone_number attractionPhoneNumber, attraction_content attractionContent, update_date updateDate
 		FROM 
 			attraction
@@ -48,7 +59,7 @@
 	<!-- [비회원, 회원, 관리자] 명소 전체 목록 -->
 	<select id="selectAttractionList" resultType="com.btf.tap.vo.Attraction">
 		SELECT
-			attraction_category attractionCategory, attraction_name attractionName, attraction_phone_number attractionPhoneNumber
+			attraction_id attractionId, detail_address_id detailAddressId, attraction_category attractionCategory, attraction_name attractionName, attraction_phone_number attractionPhoneNumber
 		FROM
 			attraction
 		ORDER BY

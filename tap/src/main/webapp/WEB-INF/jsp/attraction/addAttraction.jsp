@@ -29,11 +29,11 @@
 			
 			<tr>
 				<!-- 카테고리 -->
-				<td>명소 카테고리</td>
+				<td>카테고리</td>
 				<td>
 					<select name="attractionCategory">
-						<c:forEach items="${attractionCategoryList}" var="ac">
-							<option>${ac }</option>
+						<c:forEach items="${attractionCategoryList}" var="list">
+							<option>${list }</option>
 						</c:forEach>
 					</select>
 				</td>
@@ -42,9 +42,9 @@
 				<!-- 전화번호 형태? 예쁘게 만들기+숫자만 들어가게끔 하기 -->
 				<td>전화번호</td>
 				<td>
-					<input type="text" name="attractionPhoneNumber1">"-"
-					<input type="text" name="attractionPhoneNumber2">"-"
-					<input type="text" name="attractionPhoneNumber3">"-"
+					<input type="text" name="attractionPhoneNumber1">-
+					<input type="text" name="attractionPhoneNumber2">-
+					<input type="text" name="attractionPhoneNumber3">
 					
 				</td>
 			</tr>

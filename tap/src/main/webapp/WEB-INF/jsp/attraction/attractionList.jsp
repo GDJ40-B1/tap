@@ -28,7 +28,7 @@
 			<c:forEach items="${list }" var="list">
 				<tr>
 					<td>${list.attractionCategory }</td>
-					<td>${list.attractionName }</td>
+					<td><a href="${pageContext.request.contextPath}/attractionOne?attractionId=${list.attractionId}&detailAddressId=${list.detailAddressId}">${list.attractionName }</a></td>
 					<td>${list.attractionPhoneNumber }</td>
 				</tr>
 				</c:forEach>

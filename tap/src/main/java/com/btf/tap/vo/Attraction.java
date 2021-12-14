@@ -10,6 +10,7 @@ public class Attraction {
 	private String attractionName;
 	private String attractionPhoneNumber;
 	private String attractionContent;
+	private String approvalStatus;
 	private String createDate;
 	private String updateDate;
 }

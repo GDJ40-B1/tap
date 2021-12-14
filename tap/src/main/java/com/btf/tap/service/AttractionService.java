@@ -53,10 +53,18 @@ public class AttractionService {
 	}
 	
 	// 명소 수정
-	public void modifyAttraction(Attraction attraction, Address address) {
+	public Address modifyAttraction(Attraction attraction, Address address) {
+		String[] addressList = address.getDetailAddress().split(" ");
+		address.setSido(addressList[0]);
+		address.setSigungu(addressList[1]);
+		address.setRoadName(addressList[2]);
+		address.setDetailAddress(addressList[3]);				
+		
 		address.setAddressId(addressMapper.searchAddressOne(address).getAddressId());
 		addressMapper.updateDetailAddress(address);
 		attractionMapper.updateAttraction(attraction);
+		
+		return address;
 	}		
 	
 	// 명소 전체 목록
