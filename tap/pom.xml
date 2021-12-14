@@ -78,6 +78,25 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
+		<!-- aws 마이바티스 매퍼 매핑 오류 해결 위한 설정 추가 -->
+		<resources>
+		    <resource>
+		        <!-- src/main/java 위치-->
+		        <directory>src/main/java</directory>
+		        <includes>
+		            <include>**/*.xml</include>
+		        </includes>
+		    </resource>
+		    <resource>
+		        <!-- src/main/resources 위치-->
+		        <directory>src/main/resources</directory>
+		        <includes>
+		            <include>**/*.xml</include>
+		            <include>**/*.properties</include>
+		            <!-- <include>**/*.setting</include> -->
+		        </includes>
+		    </resource>
+		</resources>
 	</build>
 
 </project>
