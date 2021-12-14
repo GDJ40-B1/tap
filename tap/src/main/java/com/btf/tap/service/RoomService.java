@@ -62,7 +62,7 @@ public class RoomService {
 	// 숙소 전체 리스트 출력(최근 생성된 숙소 순으로)
 	public Map<String, Object> getRoomList(int currentPage) {
 		// 페이징에 필요한 요소들
-		final int ROW_PER_PAGE = 1;
+		final int ROW_PER_PAGE = 10;
 		final int PAGE_PER_PAGE = 10;
 		int beginRow = (currentPage-1)*ROW_PER_PAGE;
 		

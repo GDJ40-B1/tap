@@ -24,7 +24,7 @@
 			<ol class="breadcrumb bg-gray-100">
 				<li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/hostMyPage">홈</a></li>
 				<li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/host/roomList">숙소목록</a></li>
-				<li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/host/roomOne?roomId=${room.roomId }&detailAddressId=${address.detailAddressId }">상세보기</a></li>
+				<li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/host/roomOne?roomId=${room.roomId }&detailAddressId=${room.detailAddressId }">상세보기</a></li>
 				<li class="breadcrumb-item active" aria-current="page">쿠폰목록</li>
 			</ol>
 		</nav>
@@ -32,7 +32,7 @@
 		<!-- DataTales Example -->
 	    <div class="card shadow mb-4">
 	        <div class="card-header py-3">
-	            <h6 class="m-0 font-weight-bold text-primary">*${room.roomName }*의 쿠폰 목록</h6>
+	            <h6 class="m-0 font-weight-bold text-primary">쿠폰 목록</h6>
 	        </div>
 	        <div class="card-body">
 	            <div class="table-responsive">
@@ -78,7 +78,7 @@
 	    </div>
 	    
 	    <!-- 쿠폰 등록 버튼 -->
-	    <a href="${pageContext.request.contextPath}/host/addCoupon" class="btn btn-success btn-icon-split">
+	    <a href="${pageContext.request.contextPath}/host/addCoupon?roomId=${room.roomId}&detailAddressId=${room.detailAddressId }" class="btn btn-success btn-icon-split">
 	    	<span class="icon text-white-50">
 	    		<i class="fas fa-check"></i>
 	    	</span>

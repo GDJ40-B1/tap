@@ -23,4 +23,15 @@
 		WHERE room_id=#{roomId}
 	</select>
 	
+	<!-- 쿠폰 생성 -->
+	<insert id="insertCoupon" parameterType="com.btf.tap.vo.Coupon">
+		INSERT INTO coupon(
+			room_id,coupon_name, coupon_effective_date, coupon_expiration_date, coupon_type,
+			discount, coupon_quantity, create_date, update_date
+			) VALUE(
+				#{roomId}, #{couponName}, #{couponEffectiveDate}, #{couponExpirationDate},
+				#{couponType}, #{discount}, #{couponQuantity}, NOW(), NOW()
+			)
+	</insert>
+	
 </mapper>
