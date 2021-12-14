@@ -27,8 +27,11 @@ public class HostController {
 		
 		HttpSession session = request.getSession();
 		
+		// 세션의 이용자(유저) 객체 가져오기
+		User user = (User) session.getAttribute("loginUser");
+		
 		// 로그인 되있지 않을 경우, 홈페이지로 이동
-		if(session.getAttribute("loginUser") == null) {
+		if(user == null) {
 			return "redirect:/";
 		}
 		
@@ -50,6 +53,10 @@ public class HostController {
 		// 포인트 증가 로직 처리 결과 디버깅
 		log.debug(Font.HW + "포인트 증가된 호스트 정보 => " + host.toString() + Font.RESET);
 		
+		// 세션에 저장된 이용자 객체를 변경된 정보로 최신화
+		user.setUserPoint(host.getHostPoint());
+		session.setAttribute("loginUser", user);
+		
 		// 포인트 정보 페이지로 이동
 		return "redirect:/hostPointInfo";
 	}
@@ -59,8 +66,11 @@ public class HostController {
 	
 		HttpSession session = request.getSession();
 		
+		// 세션의 이용자(유저) 객체 가져오기
+		User user = (User) session.getAttribute("loginUser");
+		
 		// 로그인 되있지 않을 경우, 홈페이지로 이동
-		if(session.getAttribute("loginUser") == null) {
+		if(user == null) {
 			return "redirect:/";
 		}
 		
@@ -82,8 +92,9 @@ public class HostController {
 		// 포인트 증가 로직 처리 결과 디버깅
 		log.debug(Font.HW + "포인트 감소된 호스트 정보 => " + host.toString() + Font.RESET);
 		
-		// 호스트 정보 주입
-		model.addAttribute("host", host);
+		// 세션에 저장된 이용자 객체를 변경된 정보로 최신화
+		user.setUserPoint(host.getHostPoint());
+		session.setAttribute("loginUser", user);
 		
 		// 포인트 정보 페이지로 이동
 		return "redirect:/hostPointInfo";

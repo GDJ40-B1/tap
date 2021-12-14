@@ -27,11 +27,13 @@ public class MemberController {
 		
 		HttpSession session = request.getSession();
 		
+		// 세션의 이용자(유저) 객체 가져오기
+		User user = (User) session.getAttribute("loginUser");
+		
 		// 로그인 되있지 않을 경우, 홈페이지로 이동
-		if(session.getAttribute("loginUser") == null) {
+		if(user == null) {
 			return "redirect:/";
 		}
-		
 		// 포인트 증가 입력 디버깅
 		log.debug(Font.HW + "입력받은 포인트 증가 정보 => " + member.toString() + Font.RESET);
 		
@@ -50,6 +52,9 @@ public class MemberController {
 		// 포인트 증가 로직 처리 결과 디버깅
 		log.debug(Font.HW + "포인트 증가된 회원 정보 => " + member.toString() + Font.RESET);
 		
+		// 세션에 저장된 이용자 객체를 변경된 정보로 최신화
+		user.setUserPoint(member.getMemberPoint());
+		session.setAttribute("loginUser", user);
 		
 		// 포인트 정보 페이지로 이동
 		return "redirect:/pointInfo";
@@ -60,8 +65,11 @@ public class MemberController {
 	
 		HttpSession session = request.getSession();
 		
+		// 세션의 이용자(유저) 객체 가져오기
+		User user = (User) session.getAttribute("loginUser");
+		
 		// 로그인 되있지 않을 경우, 홈페이지로 이동
-		if(session.getAttribute("loginUser") == null) {
+		if(user == null) {
 			return "redirect:/";
 		}
 		
@@ -82,6 +90,10 @@ public class MemberController {
 		
 		// 포인트 증가 로직 처리 결과 디버깅
 		log.debug(Font.HW + "포인트 감소된 회원 정보 => " + member.toString() + Font.RESET);
+		
+		// 세션에 저장된 이용자 객체를 변경된 정보로 최신화
+		user.setUserPoint(member.getMemberPoint());
+		session.setAttribute("loginUser", user);
 		
 		// 포인트 정보 페이지로 이동
 		return "redirect:/pointInfo";
