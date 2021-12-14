@@ -104,13 +104,13 @@
             <!-- Nav Item - Name -->
             <li class="nav-item">
                 <a class="nav-link" href="${pageContext.request.contextPath}/modifySystemAdminInfo">
-                    <i class="fas fa-fw fa-table"></i>
+                    <i class="fas fa-info-circle"></i>
                     <span>정보 변경</span></a>
             </li>
             <!-- Nav Item - Password -->
             <li class="nav-item">
                 <a class="nav-link" href="${pageContext.request.contextPath}/modifySystemAdminPw">
-                    <i class="fas fa-fw fa-table"></i>
+                    <i class="fas fa-key"></i>
                     <span>비밀번호 변경</span></a>
             </li>
 
@@ -119,6 +119,28 @@
                 <a class="nav-link" href="charts.html">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>Charts</span></a>
+            </li>
+            
+             <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                management
+            </div>
+            
+            <!-- Nav Item - Notices -->
+            <li class="nav-item">
+                <a class="nav-link" href="${pageContext.request.contextPath}/noticeList">
+                    <i class="fas fa-sticky-note"></i>
+                    <span>공지사항</span></a>
+            </li>
+            
+            <!-- Nav Item - Questions -->
+            <li class="nav-item">
+                <a class="nav-link" href="${pageContext.request.contextPath}/questionList">
+                    <i class="fas fa-question-circle"></i>
+                    <span>문의</span></a>
             </li>
 
             <!-- Divider -->
