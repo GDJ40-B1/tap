@@ -1,11 +1,15 @@
 package com.btf.tap.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,7 +33,7 @@ public class SearchController {
 	public String requestSearchList(Model model, HttpServletRequest request, @RequestParam(name="roomCurrentPage", defaultValue="1") int roomCurrentPage, 
 																			 @RequestParam(name="attractionCurrentPage", defaultValue="1") int attractionCurrentPage, 
 																			 @RequestParam(name="hashtagRoomCurrentPage", defaultValue = "1") int hashtagRoomCurrentPage,
-																			 @RequestParam(name="hashtagAttractionCurrentPage", defaultValue = "1") int hashtagAttractionCurrentPage, String keyword) {
+																			 @RequestParam(name="hashtagAttractionCurrentPage", defaultValue = "1") int hashtagAttractionCurrentPage, String keyword){
 		
 		Map<String, Object> roomMap = searchService.getRoomSearchList(roomCurrentPage, rowPerPage, keyword);
 		log.debug(Font.JSB + roomMap.toString() + Font.RESET);
@@ -49,11 +53,7 @@ public class SearchController {
 		if(loginUser != null && loginUser.getUserLevel() == "member") {
 			searchService.addSearchHistory(loginUser, keyword);
 		}
-		
-		// 임시 검색 테스트용 삭제 필요
-		List<String> sidoList = searchService.getSidoList();
-		model.addAttribute("sidoList", sidoList);
-		
+	
 		model.addAttribute("keyword", keyword);
 		model.addAttribute("roomList", roomMap.get("roomList"));
 		model.addAttribute("roomCurrentPage", roomCurrentPage);
@@ -106,6 +106,10 @@ public class SearchController {
 			searchService.addSearchHistory(loginUser, keyword);
 		}
 		
+		// 임시 검색 테스트용 삭제 필요
+		List<String> sidoList = searchService.getSidoList();
+		model.addAttribute("sidoList", sidoList);
+		
 		model.addAttribute("keyword", keyword);
 		model.addAttribute("roomList", roomMap.get("roomList"));
 		model.addAttribute("roomCurrentPage", roomCurrentPage);
@@ -129,5 +133,22 @@ public class SearchController {
 		model.addAttribute("hashtagAttractionLastPage", hashtagAttractionMap.get("hashtagAttractionLastPage"));
 		
 		return "search/searchListByDistrict";
+	}
+	
+	@RequestMapping("/sido")
+	public void requestSigunguList(HttpServletResponse res, String sido) throws IOException {
+		res.setContentType("text/html;charset=UTF-8");
+		
+		List<String> sigunguList = searchService.getSigunguList(sido);
+
+		JSONArray jsonArray = new JSONArray();
+		
+		for(int i = 0; i < sigunguList.size(); i++) {
+			jsonArray.put(sigunguList.get(i));
+		}
+		PrintWriter pw = res.getWriter();
+		pw.print(jsonArray.toString());
+		pw.flush();
+		pw.close();
 	}
 }

@@ -62,7 +62,7 @@
 	
 	<!-- 해시태그 숙소 관련 검색 조회 -->
 	<select id="hashtagRoomSearchList" parameterType="java.util.Map" resultType="com.btf.tap.vo.Room">
-		SELECT
+		SELECT DISTINCT
 			r.room_id roomId,
 			r.detail_address_id detailAddressId,
 			r.room_category roomCategory,
@@ -85,7 +85,7 @@
 	<!-- 해시태그 숙소 관련 검색 페이지 체크 -->
 	<select id="hashtagRoomTotalRowCount" parameterType="String" resultType="int">
 		SELECT
-			COUNT(*)
+			COUNT(DISTINCT r.room_id)
 		FROM room r INNER JOIN hashtag h
 		ON r.room_id = h.hashtag_target
 		<where>
@@ -96,7 +96,7 @@
 
 	<!-- 해시태그 명소 관련 검색 조회 -->
 	<select id="hashtagAttractionSearchList" parameterType="java.util.Map" resultType="com.btf.tap.vo.Attraction">
-		SELECT
+		SELECT DISTINCT
 			a.attraction_id attractionId,
 			a.attraction_category attractionCategory,
 			a.attraction_name attractionName,
@@ -114,7 +114,7 @@
 	<!-- 해시태그 명소 관련 검색 페이지 체크 -->
 	<select id="hashtagAttractionTotalRowCount" parameterType="String" resultType="int">
 		SELECT
-			COUNT(*)
+			COUNT(DISTINCT a.attraction_id)
 		FROM attraction a INNER JOIN hashtag h
 		ON a.attraction_id = h.hashtag_target
 		<where>
@@ -192,7 +192,7 @@
 
 	<!-- 지역별 해시태그 숙소 관련 검색 조회 -->
 	<select id="hashtagRoomDistrictSearchList" parameterType="java.util.Map" resultType="com.btf.tap.vo.Room">
-		SELECT
+		SELECT DISTINCT
 			v.room_id roomId,
 			v.detail_address_id detailAddressId,
 			v.room_category roomCategory,
@@ -217,7 +217,7 @@
 	<!-- 지역별 해시태그 숙소 관련 검색 페이지 체크 -->
 	<select id="hashtagRoomDistrictTotalRowCount" parameterType="java.util.Map" resultType="int">
 		SELECT
-			COUNT(*)
+			COUNT(DISTINCT v.room_id)
 		FROM view_room_address v INNER JOIN hashtag h
 		ON v.room_id = h.hashtag_target
 		<where>
@@ -230,7 +230,7 @@
 
 	<!-- 지역별 해시태그 명소 관련 검색 조회 -->
 	<select id="hashtagAttractionDistrictSearchList" parameterType="java.util.Map" resultType="com.btf.tap.vo.Attraction">
-		SELECT
+		SELECT DISTINCT
 			v.attraction_id attractionId,
 			v.attraction_category attractionCategory,
 			v.attraction_name attractionName,
@@ -250,7 +250,7 @@
 	<!-- 지역별 해시태그 명소 관련 검색 페이지 체크 -->
 	<select id="hashtagAttractionDistrictTotalRowCount" parameterType="java.util.Map" resultType="int">
 		SELECT
-			COUNT(*)
+			COUNT(DISTINCT v.attraction_id)
 		FROM view_attraction_address v INNER JOIN hashtag h
 		ON v.attraction_id = h.hashtag_target
 		<where>
@@ -279,8 +279,29 @@
 		</where>
 	</insert>
 	
+	<!-- 회원 검색어 기록 조회 -->
+	<select id ="selectSearchKeyword" parameterType="String" resultType="String">
+		SELECT
+			search_word searchWord
+		FROM search_history
+		ORDER BY create_date DESC
+		<where>
+			member_id = #{memberId}
+		</where>
+	</select>
+	
 	<!-- 시도 리스트 조회 -->
 	<select id="sidoList" resultType="String">
 		SELECT si_do sido FROM si_do
+	</select>
+	
+	<!-- 시군구 리스트 조회 -->
+	<select id="sigunguList" parameterType="String" resultType="String">
+		SELECT
+			si_gun_gu sigungu 
+		FROM si_gun_gu
+		<where>
+			si_do = #{sido}
+		</where>
 	</select>
 </mapper>
