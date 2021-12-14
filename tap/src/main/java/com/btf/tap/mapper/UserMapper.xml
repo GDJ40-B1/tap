@@ -7,6 +7,7 @@
 		<result column="user_id" property="userId"/>
 		<result column="user_level" property="userLevel"/>
 		<result column="user_name" property="userName"/>
+		<result column="user_point" property="userPoint"/>
 	</resultMap>
 	
 	<!-- 회원가입시 기존 회원, 호스트, 시스템관리자, 탈퇴한 이용자의 아이디와 겹치지 않는 아이디를 사용하도록 설정 -->
@@ -24,7 +25,8 @@
 		SELECT 
 			user_id,
 			user_name,
-			user_level
+			user_level,
+			user_point
 		FROM
 			view_user
 		WHERE

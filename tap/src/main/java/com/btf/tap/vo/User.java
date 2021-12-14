@@ -13,4 +13,5 @@ public class User {
 	private String userPw;
 	private String userLevel;
 	private String userName;
+	private int userPoint;
 }
