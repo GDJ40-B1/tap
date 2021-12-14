@@ -12,13 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.stereotype.Component;
-
 import com.btf.tap.vo.User;
 
-@WebFilter(urlPatterns= "/host/*")
-public class hostLoginFilter implements Filter {
-	
+@WebFilter(urlPatterns= "/member/*")
+public class MemberLoginFilter implements Filter {
+
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		Filter.super.init(filterConfig);
@@ -27,13 +25,13 @@ public class hostLoginFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		
-		// 호스트 로그인 상태에서만 요청할수 있도록 필터링
-		System.out.println("hostLoginFilter.doFilter() 실행");
+		// 멤버 로그인 상태에서만 요청할수 있도록 필터링
+		System.out.println("MemberLoginFilter.doFilter() 실행");
 		HttpSession session = ((HttpServletRequest)request).getSession();
 		
-		// 로그인이 되어있지 않거나 호스트가 아니라면
-		if(session.getAttribute("loginUser") == null || !((User)session.getAttribute("loginUser")).getUserLevel().equals("host")) {
-			((HttpServletResponse)response).sendRedirect(((HttpServletRequest)request).getContextPath()+"/");
+		// 로그인이 되어있지 않거나 멤버가 아니라면
+		if(session.getAttribute("loginUser") == null || !((User)session.getAttribute("loginUser")).getUserLevel().equals("member")) {
+			((HttpServletResponse)response).sendRedirect(((HttpServletRequest)request).getContextPath()+"/login");
 			return;
 		}
 		
@@ -44,5 +42,4 @@ public class hostLoginFilter implements Filter {
 	public void destroy() {
 		Filter.super.destroy();
 	}
-
 }
