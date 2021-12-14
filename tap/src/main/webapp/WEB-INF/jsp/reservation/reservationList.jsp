@@ -8,6 +8,15 @@
 <title>예약 목록</title>
 </head>
 <body>
+	
+	<!-- start : mainHeader -->
+   <div>
+      <jsp:include page="/partial/mainHeader.jsp"></jsp:include>
+   </div>
+   <!-- end : mainHeader -->
+	<br>
+	<br>
+	<br>
 	<h1>예약 목록</h1>
 	<table border="1">
 		
@@ -36,5 +45,11 @@
 			</tr>
 		</c:forEach>
 	</table>
+	
+	<!-- start : mainFooter -->
+   <div>
+      <jsp:include page="/partial/mainFooter.jsp"></jsp:include>
+   </div>
+   <!-- end : mainFooter -->
 </body>
 </html>

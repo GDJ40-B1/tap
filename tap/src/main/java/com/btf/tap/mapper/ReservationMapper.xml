@@ -60,7 +60,7 @@
 			SELECT LAST_INSERT_ID()
 		</selectKey>	
 	</insert>
-	
+	<!-- 예약 정보 상세보기 -->
 	<select id="selectReservationOne" parameterType="int" resultMap="resultReservation">
 		SELECT
 			reservation_id,
@@ -75,7 +75,7 @@
 		WHERE reservation_id = #{reservationId}
 	</select>
 	
-	<!-- 예약 숙소 리스트 -->
+	<!-- 예약 숙소 리스트 아직 안함...-->
 	<select id="selectReservationList" parameterType="hashMap" resultMap="resultReservation">
 		SELECT
 			res.reservation_id, r.room_name, CONCAT(a.sido,' ',a.sigungu,' ',a.road_name,' ',da.detail_address) detail_address,
@@ -92,8 +92,8 @@
 	<!-- 예약 수정하기 -->
 	<update id="updateReservation" parameterType="com.btf.tap.vo.Reservation">
 		UPDATE SET reservation (
-			room_id=#{roomId}, check_in_date=#{checkInDate}, number_of_people=#{numberOfPeople},
-			check_out_date=#{checkOutDate}, update_date=#{updateDate} )
+			check_in_date=#{checkInDate}, check_out_date=#{checkOutDate}, people_num=#{peopleNum},
+			 update_date= NOW())
 		<where>reservation_id=#{reservationId}</where>
 	</update>
 	

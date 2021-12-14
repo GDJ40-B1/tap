@@ -16,7 +16,7 @@
    <br>
    <br>
    <br>
-	<a href="${pageContext.request.contextPath}/noticeList">리스트로</a>
+	<a href="${pageContext.request.contextPath}/reservationList">리스트로</a>
 	<h1>예약 상세보기</h1>
 	<br>
 	<table border="1">
@@ -43,9 +43,9 @@
 		
 	</table>
 		<div>
-			<a href="${pageContext.request.contextPath}/modifyNotice?noticeId=${notice.noticeId}">수정</a>
+			<a href="${pageContext.request.contextPath}/modifyReservation?reservationId=${reservation.reservationId}">수정</a>
 			
-			<a href="${pageContext.request.contextPath}/deleteNotice?noticeId=${notice.noticeId}">삭제</a>
+			<a href="${pageContext.request.contextPath}/deleteReservation?reservationId=${reservation.reservationId}">삭제</a>
 		</div>
 		<br>
 		<br>

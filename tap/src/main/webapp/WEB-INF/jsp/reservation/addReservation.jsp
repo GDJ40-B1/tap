@@ -16,7 +16,11 @@
       <jsp:include page="/partial/mainHeader.jsp"></jsp:include>
    </div>
    <!-- end : mainHeader -->
-   
+   <br>
+   <br>
+   <br>
+   <br>
+   <a href="${pageContext.request.contextPath}/reservationList">리스트로</a>
 	<h1>예약하기</h1>
 		<main id="main">
          <section class="breadcrumbs">
