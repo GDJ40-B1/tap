@@ -16,7 +16,7 @@
 	
 	
 	<!-- 예약하기 -->
-	<insert id="insertReservation" parameterType="com.btf.tap.vo.Reservation" >
+	<!--  <insert id="insertReservation" parameterType="com.btf.tap.vo.Reservation" >
 		INSERT INTO reservation (
 			member_id,
 			room_id,
@@ -31,7 +31,18 @@
 		<selectKey keyProperty="reservationId" order="AFTER" resultType="int">
 			SELECT LAST_INSERT_ID()
 		</selectKey>	
-	</insert>
+	</insert>-->
+	<!-- 특정 숙소 상세 정보 추출-->
+	<select id="insertReservation" parameterType="int" resultType="com.btf.tap.vo.Room">
+		SELECT
+			room_id roomId, detail_address_id detailAddressId, host_id hostId,
+			room_category roomCategory, room_form roomForm, room_name roomName,
+			room_intro roomIntro, min_day minDay, check_in_time checkInTime,
+			check_out_time checkOutTime, people_num peopleNum, room_price roomPrice,
+			create_date createDate, update_date updateDate
+		FROM room
+		WHERE room_id=#{roomId}
+	</select>
 	
 	<!-- 예약하기 -->
 	<insert id="insertReservation2" parameterType="com.btf.tap.vo.Reservation" >
@@ -44,8 +55,7 @@
 			create_date,
 			update_date
 		)	VALUES	(
-					#{memberId}, #{roomId}, #{checkInDate}, #{checkOutDate}, #{peopleNum}, 
-					 NOW(), NOW() )
+					#{memberId}, #{roomId}, #{checkInDate}, #{checkOutDate}, #{peopleNum}, NOW(), NOW())
 		<selectKey keyProperty="reservationId" order="AFTER" resultType="int">
 			SELECT LAST_INSERT_ID()
 		</selectKey>	
@@ -53,14 +63,14 @@
 	
 	<select id="selectReservationOne" parameterType="int" resultMap="resultReservation">
 		SELECT
-			reservation_id,
-			member_id,
-			room_id,
-			check_in_date,
-			check_out_date,
-			people_num,
-			create_date,
-			update_date
+			reservation_id reservationId,
+			member_id memverId,
+			room_id roomId,
+			check_in_date checkInDate,
+			check_out_date checkOutDate,
+			people_num peopleNum,
+			create_date createDate,
+			update_date updateDate
 		FROM reservation
 		WHERE reservation_id = #{reservationId}
 	</select>

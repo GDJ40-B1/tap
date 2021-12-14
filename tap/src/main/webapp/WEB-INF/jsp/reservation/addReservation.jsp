@@ -95,8 +95,8 @@
 	   <input type="date" name="checkInDate" value="NOW()">
 	   <input type="date" name="checkOutDate" value="NOW()">
 	   <input type="text" name="peopleNum" value="---------">명
-   
-   	<div><button type="submit">예약</button></div>
+	   
+	   <div><button type="submit">예약</button></div>
 	
 	</form>
 	

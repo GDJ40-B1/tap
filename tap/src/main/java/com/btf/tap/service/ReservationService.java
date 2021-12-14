@@ -70,6 +70,7 @@ public class ReservationService {
 	//예약정보 상세보기.
 		public Reservation getReservationOne(int reservationId) {
 			Reservation reservation = reservationMapper.selectReservationOne(reservationId);
+			log.debug(Font.KSB + "예약 상세정보 서비스 단 reservation값 점검하기 : "+ reservation.toString() + Font.RESET);
 			return reservation;
 		}
 		
