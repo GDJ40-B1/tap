@@ -9,10 +9,12 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
   <title>문의 글 작성</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <meta content="" name="description">
   <meta content="" name="keywords">
-
+	
+  <!-- jquery -->	
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  	
   <!-- Favicons -->
   <link href="${pageContext.request.contextPath}/resources/img/favicon.png" rel="icon">
   <link href="${pageContext.request.contextPath}/resources/img/apple-touch-icon.png" rel="apple-touch-icon">

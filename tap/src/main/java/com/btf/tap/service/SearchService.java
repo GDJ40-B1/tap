@@ -340,8 +340,20 @@ public class SearchService {
 		List<String> list = new ArrayList<>();
 		String memberId = user.getUserId();
 		list = searchMapper.selectSearchKeyword(memberId);
+		log.debug(Font.JSB + list.toString() + Font.RESET);
 		
 		return list;
+	}
+	
+	// 사용자 이전 검색어 삭제
+	public void removeSearchHistory(Map<String, Object> paramMap) {
+		String keyword = (String)paramMap.get("keyword");
+		String userId = (String)paramMap.get("userId");
+		SearchHistory searchHistory = new SearchHistory();
+		searchHistory.setSearchWord(keyword);
+		searchHistory.setMemberId(userId);
+		
+		searchMapper.deleteSearchKeyword(searchHistory);
 	}
 	
 	// DB 시도 리스트 조회

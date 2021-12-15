@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.btf.tap.common.Font;
 import com.btf.tap.service.SearchService;
@@ -50,7 +51,7 @@ public class SearchController {
 		HttpSession session = request.getSession();
 		User loginUser = (User)session.getAttribute("loginUser");
 		
-		if(loginUser != null && loginUser.getUserLevel() == "member") {
+		if(loginUser != null && loginUser.getUserLevel().equals("member")) {
 			searchService.addSearchHistory(loginUser, keyword);
 		}
 	
@@ -101,12 +102,17 @@ public class SearchController {
 		
 		HttpSession session = request.getSession();
 		User loginUser = (User)session.getAttribute("loginUser");
-
-		if(loginUser != null && loginUser.getUserLevel() == "member") {
+		
+		if(loginUser != null && loginUser.getUserLevel().equals("member") && keyword != null) {
 			searchService.addSearchHistory(loginUser, keyword);
 		}
 		
 		// 임시 검색 테스트용 삭제 필요
+		if(loginUser != null && loginUser.getUserLevel().equals("member")) {
+			List<String> searchList = searchService.getSearchHistory(loginUser);
+			log.debug(Font.JSB + searchList.toString() + Font.RESET);
+			model.addAttribute("searchList", searchList);
+		}
 		List<String> sidoList = searchService.getSidoList();
 		model.addAttribute("sidoList", sidoList);
 		
@@ -135,9 +141,11 @@ public class SearchController {
 		return "search/searchListByDistrict";
 	}
 	
+	// 시도 선택 시 해당 하위 행정구역 시군구 리스트 조회
 	@RequestMapping("/sido")
-	public void requestSigunguList(HttpServletResponse res, String sido) throws IOException {
+	public void requestSigunguList(HttpServletResponse res, @RequestParam Map<String, Object> paramMap) throws IOException {
 		res.setContentType("text/html;charset=UTF-8");
+		String sido = (String)paramMap.get("sido");
 		
 		List<String> sigunguList = searchService.getSigunguList(sido);
 
@@ -150,5 +158,18 @@ public class SearchController {
 		pw.print(jsonArray.toString());
 		pw.flush();
 		pw.close();
+	}
+	
+	// 이전 검색어 삭제 - 이동 필요
+	@RequestMapping("/removeSearchHistory")
+	@ResponseBody
+	public void RequestRemoveSearchHistory(HttpServletRequest request, @RequestParam Map<String, Object> paramMap) {
+		HttpSession session = request.getSession();
+		User loginUser = (User)session.getAttribute("loginUser");
+		
+		paramMap.put("userId", loginUser.getUserId());
+		log.debug(paramMap.toString());
+		
+		searchService.removeSearchHistory(paramMap);
 	}
 }

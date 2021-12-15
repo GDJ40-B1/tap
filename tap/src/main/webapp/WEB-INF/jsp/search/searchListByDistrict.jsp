@@ -9,7 +9,6 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
   <title>${keyword} 검색 결과</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -210,32 +209,62 @@
 				</c:if>									
 			</c:otherwise>
 		</c:choose>	
-	
-		<form class="form-inline" action="${pageContext.request.contextPath}/searchListByDistrict">
+		
+		<!-- 임시로 추가 -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+		
+		<form class="form-inline" id="searchByDistrictForm" action="${pageContext.request.contextPath}/searchListByDistrict">
 			<select name="sido" id="sido" onchange="sidoType(this.value);">
-		  		<option value="">==전체==</option>
+		  		<option value="">==선택==</option>
 		  	<c:forEach var="s" items="${sidoList}">
 		  		<option value="${s}">${s}</option>
 		  	</c:forEach>
 			</select>
 			<select name="sigungu" id="sigungu">
-				<option value="">==전체==</option>
+				<option value="">==선택==</option>
 			</select>
-			<input class="form-control mr-sm-2" type="text" name="keyword">
-    		<button class="btn btn-primary" type="submit">Search</button>
+			<input class="form-control mr-sm-2" type="text" id="keyword" name="keyword">
+    		<button class="btn btn-primary" id="btn" type="button">Search</button>
 		</form>
-	  
+	  	<div id="searchHistory">
+	  		<c:forEach var="s" items="${searchList}">
+		  		<span><a href="#" onclick="searchKeyword(this)">${s}</a> <a href="#" onclick="removeKeyword('${s}')">x</a></span>
+		  	</c:forEach>
+	  	</div>
 	  <script>
-	  function sidoType(sido){
+		$('#btn').click(function(){
+			if($('#sido').val() == '') {
+				alert('시도를 선택하세요');
+				return;
+			}
+			if($('#sigungu').val() == '') {
+				alert('시군구를 선택하세요');
+				return;
+			}
+			if($('#keyword').val() == '') {
+				alert('검색어를 입력하세요');
+				return;
+			}
+			$('#searchByDistrictForm').submit();
+		});
+	  
+	  function searchKeyword(keyword) {
+		  var addKeyword = $(keyword).text();
+		  
+		  $("#keyword").val(addKeyword);
+	  }
+	  
+	  function sidoType(sido) {
 		  $.ajax({
 			  type: 'GET',
 			  contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-			  url : '${pageContext.request.contextPath}/sido?sido='+sido,
+			  url : '${pageContext.request.contextPath}/sido',
+			  data : { sido : sido },
 			  dataType: 'json',
 			  success : function(result){
 				  console.log(result)
 					
-				  $("#sigungu").find("option").remove().end().append("<option value=''>전체</option>")
+				  $("#sigungu").find("option").remove().end().append("<option value=''>==선택==</option>")
 
 				  $.each(result, function(i){
 					 $("#sigungu").append("<option value='"+result[i]+"'>"+result[i]+"</option>")
@@ -244,7 +273,22 @@
 		  }).fail(function (error) {
 			  alert(JSON.stringify(error));
 		  })
-	  };
+	  }
+	  
+	  function removeKeyword(keyword) {
+		  $.ajax({
+			  type: 'GET',
+			  contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+			  url : '${pageContext.request.contextPath}/removeSearchHistory',
+			  data : { keyword : keyword },
+			  success : function(result){
+				  console.log(result)
+				  
+				  $("#searchHistory").load(location.href+' #searchHistory');
+				
+			  }
+		  })
+	  }
 	  </script>
 	
 	</div>

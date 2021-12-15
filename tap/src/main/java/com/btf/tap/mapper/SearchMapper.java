@@ -30,7 +30,8 @@ public interface SearchMapper {
 	int hashtagAttractionDistrictTotalRowCount(Map<String, Object> hashtagAttractionPage);				// 지역해시태그 명소 검색 결과 페이지 체크
 	
 	int insertSearchKeyword(SearchHistory searchHistory);												// 회원 검색어 기록 저장
-	List<String> selectSearchKeyword(String memberId);
+	List<String> selectSearchKeyword(String memberId);													// 회원 최근 검색어 기록 조회
+	int deleteSearchKeyword(SearchHistory searchHistory);												// 회원 최근 검색어 삭제
 	List<String> sidoList();																			// 시도 전체 리스트
 	List<String> sigunguList(String sido);																// 시도별 시군구 리스트
 }
