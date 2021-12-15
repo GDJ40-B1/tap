@@ -1,5 +1,8 @@
 package com.btf.tap.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.btf.tap.common.Font;
 import com.btf.tap.service.MemberService;
+import com.btf.tap.service.PointService;
 import com.btf.tap.vo.Member;
 import com.btf.tap.vo.User;
 
@@ -21,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberController {
 	
 	@Autowired MemberService memberService;
+	@Autowired PointService pointService;
 	
 	@PostMapping("/earnPoint")
 	public String postEarnPoint(HttpServletRequest request, Member member) {
@@ -117,8 +122,14 @@ public class MemberController {
 		member.setMemberId(user.getUserId());
 		member = memberService.getMemberOne(member);
 		
+		// 회원의 포인트 이용 내역 조회
+		List<Map> pointHistory = pointService.getPointHistoryList(user);
+		
 		// 회원 정보 주입
 		model.addAttribute("member", member);
+		
+		// 회원 포인트 이용 내역 정보 주입
+		model.addAttribute("pointHistory", pointHistory);
 		
 		// 포인트 정보 페이지로 이동
 		return "member/pointInfo";

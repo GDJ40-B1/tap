@@ -14,6 +14,8 @@
 
     <title>SB Admin 2 - Dashboard</title>
 
+	<!-- jquery -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <!-- Custom fonts for this template-->
     <link href="${pageContext.request.contextPath}/resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
@@ -43,7 +45,7 @@
                     
                     <!-- Content Row -->
                     <div class="row">
-
+						
                         <!-- Content Column -->
                         <div class="col-xl-4 col-lg-5">
 		                    <!-- 포인트 충전 카드 -->
@@ -55,7 +57,7 @@
 									<form class="user" action="${pageContext.request.contextPath}/earnPoint" method="post">
 									    <div class="form-group">
 									        <input type="hidden" class="form-control form-control-user"
-									            id="exampleInputEmail" aria-describedby="emailHelp"
+									            id="loginUserId" aria-describedby="emailHelp"
 									            placeholder="Enter Email Address..." name="memberId"  value="${loginUser.userId}">
 									    </div>
 									    <div class="form-group">
@@ -87,39 +89,11 @@
 		                        </div>
 		                    </div>
                         </div>
+						
+						
 
-                        <div class="col-xl-4 col-lg-6">
-							<!-- DataTales Example -->
-						    <div class="card shadow mb-4">
-						        <div class="card-header py-3">
-						            <h6 class="m-0 font-weight-bold text-primary">포인트 이용 내역</h6>
-						        </div>
-						        <div class="card-body">
-						            <div class="table-responsive">
-						                <table class="table table-bordered" id="dataTable" width="100%">
-						                    <tfoot>
-						                        <tr>
-						                            <th>금액</th>
-						                            <th>유형</th>
-						                            <th>이용날짜</th>
-						                        </tr>
-						                    </tfoot>
-						                    <tbody>
-						                    	<c:forEach items="${pointHistory}" var="history">
-													<tr>
-														<td>${history.point}</td>
-														<td>${history.category}</td>
-														<td>${history.date}</td>
-													</tr>
-												</c:forEach>
-						                    </tbody>
-						                </table>
-						            </div>
-						        </div>
-						    </div>
-                        </div>
-                        
-                        <div class="col-xl-4 col-lg-4">
+						<!-- pie chart -->                        
+                        <div class="col-xl-8 col-lg-7 ">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Dropdown -->
                                 <div
@@ -247,7 +221,43 @@
                             </div>
                         </div>
                     </div>
-
+                    
+                    <!-- pointHisory Row -->
+					<div class="row">
+						<div class="col-xl-12 col-lg-12">
+							<!-- DataTales Example -->
+						    <div class="card shadow mb-4">
+						        <div class="card-header py-3">
+						            <h6 class="m-0 font-weight-bold text-primary">포인트 이용 내역</h6>
+						        </div>
+						        <div class="card-body">
+						            <div class="table-responsive" id="pointHsitorylistDiv">
+						                <table class="table table-bordered" id="dataTable" width="100%" >
+						                    <thead>
+						                        <tr>
+						                            <th>금액</th>
+						                            <th>변동금액</th>
+						                            <th>유형</th>
+						                            <th>이용날짜</th>
+						                        </tr>
+						                    </thead>
+						                    <tbody>
+						                    	<c:forEach items="${pointHistory}" var="history">
+													<tr>
+														<td>${history.point}</td>
+														<td>${history.changedPoint}</td>
+														<td>${history.pointHistoryCategory}</td>
+														<td>${history.createDate}</td>
+													</tr>
+												</c:forEach>
+						                    </tbody>
+						                </table>
+						            </div>
+						        </div>
+						    </div>
+                        </div>
+                    </div>
+                        
                     <!-- Content Row -->
 
                     <div class="row">
@@ -310,7 +320,7 @@
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-
+		
     <!-- Bootstrap core JavaScript-->
     <script src="${pageContext.request.contextPath}/resources/vendor/jquery/jquery.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/vendor/bootstrap_sb/js/bootstrap.bundle.min.js"></script>
