@@ -50,6 +50,8 @@
 				<h4 class="small font-weight-bold">최소 숙박일<span class="float-right">${room.minDay }</span></h4>
 				<h4 class="small font-weight-bold">숙소 등록일<span class="float-right">${room.createDate }</span></h4>
 				<h4 class="small font-weight-bold">숙소 수정일<span class="float-right">${room.updateDate }</span></h4>
+				<br>
+				<h4 class="small font-weight-bold">${hashtag }</h4>
 			</div>
 		</div>
 		

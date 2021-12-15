@@ -6,6 +6,14 @@
 		<result column="hashtag_target" property="hashtagTarget"></result>
 		<result column="hashtag_name" property="hashtagName"></result>
 	</resultMap>
+	
+	<!-- 특정 target의 해시태그 목록 추출 -->
+	<select id="selecthashtagList" parameterType="hashMap" resultType="String">
+		SELECT
+			hashtag_name
+		FROM hashtag
+		WHERE hashtag_target_category=#{hashtagTargetCategory} AND hashtag_target=#{hashtagTarget}
+	</select>
 
 	<!-- 해시태그 데이터 추가 -->
 	<insert id="insertHashtag" parameterType="com.btf.tap.vo.Hashtag">

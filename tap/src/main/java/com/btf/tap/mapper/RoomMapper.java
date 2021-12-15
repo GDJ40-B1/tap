@@ -11,7 +11,7 @@ import com.btf.tap.vo.Room;
 public interface RoomMapper {
 	
 	// host의 숙소 전체 목록 출력
-	List<Room> selectHostRoomList(Map selectListElement);
+	List<Room> selectHostRoomList(String hostId);
 	
 	// 검색 결과 숙소 개수
 	int selectHostRoomNum(String hostId);

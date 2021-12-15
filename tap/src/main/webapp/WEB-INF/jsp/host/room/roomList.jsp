@@ -51,16 +51,16 @@
 	                        </tr>
 	                    </tfoot>
 	                    <tbody>
-	                    	<c:forEach items="${result.roomList }" var="list">
+	                    	<c:forEach items="${roomList }" var="room">
 								<tr>
-									<td>${list.roomId }</td>
-									<td>${list.roomName }</td>
-									<td>${list.roomCategory }</td>
-									<td>${list.roomForm }</td>
-									<td>${list.minDay }</td>
-									<td>${list.peopleNum }</td>
-									<td>${list.roomPrice }</td>
-									<td><a href="${pageContext.request.contextPath}/host/roomOne?roomId=${list.roomId}&detailAddressId=${list.detailAddressId }">상세보기</a></td>
+									<td>${room.roomId }</td>
+									<td>${room.roomName }</td>
+									<td>${room.roomCategory }</td>
+									<td>${room.roomForm }</td>
+									<td>${room.minDay }</td>
+									<td>${room.peopleNum }</td>
+									<td>${room.roomPrice }</td>
+									<td><a href="${pageContext.request.contextPath}/host/roomOne?roomId=${room.roomId}&detailAddressId=${room.detailAddressId }">상세보기</a></td>
 								</tr>
 							</c:forEach>
 	                    </tbody>

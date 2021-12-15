@@ -20,14 +20,14 @@
             <table>
                <tr>
                   <!-- 지도 -->
-                  <td><div id="map" style="width:600px;height:350px;"></div></td>
-                  <td style="width:100px;"></td>
-                  <td>
+                  <td style="width:40%;"><div id="map" style="width:100%;height:350px;"></div></td>
+                  <td style="width:10%;"></td>
+                  <td style="width:50%;">
                      <!-- 숙소 정보 -->
-                     <table border="1">
+                     <table border="1" style="width:100%;">
                      <tr>
-                        <td>숙소명</td>
-                        <td id="roomName">${room.roomName }</td>
+                        <td style="width:10%;">숙소명</td>
+                        <td id="roomName" style="width:90%;">${room.roomName }</td>
                      </tr>
                      <tr>
                         <td>주소</td>
@@ -76,6 +76,10 @@
                      <tr>
                         <td>숙소 수정일</td>
                         <td>${room.updateDate }</td>
+                     </tr>
+                     <tr>
+                        <td></td>
+                        <td>${hashtag }</td>
                      </tr>
                   </table>
                   </td>

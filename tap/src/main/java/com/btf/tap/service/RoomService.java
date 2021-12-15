@@ -28,37 +28,6 @@ public class RoomService {
 	@Autowired AddressMapper addressMapper;
 	@Autowired HashtagMapper hashtagMapper;
 	
-	// 호스트 숙소 전체 리스트 출력(최근 생성된 숙소 순으로)
-	public Map<String, Object> getHostRoomList(String hostId, int currentPage) {
-		// 페이징에 필요한 요소들
-		final int ROW_PER_PAGE = 10;
-		final int PAGE_PER_PAGE = 10;
-		int beginRow = (currentPage-1)*ROW_PER_PAGE;
-		
-		// 검색 결과 리스트 및 개수 추출
-		Map<String, Object> selectListElement = new HashMap<>();
-		selectListElement.put("beginRow", beginRow);
-		selectListElement.put("rowPerPage", ROW_PER_PAGE);
-		selectListElement.put("hostId", hostId);
-		
-		List<Room> roomList = roomMapper.selectHostRoomList(selectListElement);
-		int totalData = roomMapper.selectHostRoomNum(hostId);
-		
-		// 페이지 연산
-		Map<String, Object> pageElement = pageOperation(totalData, ROW_PER_PAGE, currentPage, PAGE_PER_PAGE);
-		
-		// return으로 넘길 값 map으로 묶어 보내기
-		Map<String, Object> result = new HashMap<>();
-		result.put("roomList", roomList);
-		result.put("rowPerPage", ROW_PER_PAGE);
-	    result.put("lastPage", pageElement.get("lastPage"));
-	    result.put("lastnumPage", pageElement.get("lastnumPage"));
-	    result.put("currentnumPage", pageElement.get("currentnumPage"));
-	    result.put("pagePerPage", PAGE_PER_PAGE);
-	    
-		return result;
-	}
-	
 	// 숙소 전체 리스트 출력(최근 생성된 숙소 순으로)
 	public Map<String, Object> getRoomList(int currentPage) {
 		// 페이징에 필요한 요소들
@@ -121,18 +90,30 @@ public class RoomService {
 	
 	// 특정 숙소 정보 추출
 	public Map<String, Object> getRoomOne(int roomId, int detailAddressId){
-		Map<String, Object> map = new HashMap<>();
+		Map<String, Object> result = new HashMap<>();
 		Address address = addressMapper.selectAddressOne(detailAddressId);
 		
 		// 시도+시군구+도로명+상세주소 합치기 => kakao 지도 API 검색을 위해
 		String detailAddress = address.getSido()+" "+address.getSigungu()+" "+address.getRoadName()+" "+address.getDetailAddress();
 		address.setDetailAddress(detailAddress);
 		
+		// 해시태그 추출을 위한 target 요소
+		Map<String, Object> hashtagTarget = new HashMap<>();
+		hashtagTarget.put("hashtagTargetCategory", "room");
+		hashtagTarget.put("hashtagTarget", roomId);
+		List<String> hashtagList = hashtagMapper.selecthashtagList(hashtagTarget);
+		String hashtag = "";
+		for(String h : hashtagList) {
+			hashtag += " #" + h;
+		}
+		System.out.println("!!!"+hashtag);
 		// 주소 정보
-		map.put("address", address);
+		result.put("address", address);
 		// 숙소 정보
-		map.put("room", roomMapper.selectRoomOne(roomId));
-		return map;
+		result.put("room", roomMapper.selectRoomOne(roomId));
+		// 해시태그 정보
+		result.put("hashtag", hashtag);
+		return result;
 	}
 	
 	// 숙소 카테고리 리스트 추출
@@ -140,6 +121,9 @@ public class RoomService {
 		List<String> roomCategoryList = roomMapper.selectRoomCategory();
 		return roomCategoryList;
 	}
+	
+	
+	/* 호스트 관련 메서드 */
 	
 	// 숙소 등록(숙소 and 상세 주소)
 	public int addRoom(Room room, Address address, String hashtag) {
@@ -212,6 +196,12 @@ public class RoomService {
 		
 		// 상세 주소 정보 삭제
 		addressMapper.deleteDetailAddress(detailAddressId);
+	}
+	
+	// 호스트 숙소 전체 리스트 출력(최근 생성된 숙소 순으로)
+	public List<Room> getHostRoomList(String hostId) {
+		List<Room> roomList = roomMapper.selectHostRoomList(hostId);
+		return roomList;
 	}
 	
 	// 페이징 알고리즘
