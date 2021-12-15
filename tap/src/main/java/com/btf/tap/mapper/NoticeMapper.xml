@@ -78,7 +78,7 @@
 			SELECT LAST_INSERT_ID()
 		</selectKey>
 	</insert>
-		
+	<!-- 공지사항 수정 -->
 	<update id="updateNotice" parameterType="com.btf.tap.vo.Notice">
 		UPDATE notice SET
 			
@@ -88,7 +88,7 @@
 			update_date=NOW()
 			<where>notice_id=#{noticeId}</where>
 	</update>
-	
+	<!-- 공지사항 삭제 -->
 	<delete id="deleteNotice" parameterType="com.btf.tap.vo.Notice">
 		DELETE FROM notice
 		<where>notice_id=#{noticeId}</where> 

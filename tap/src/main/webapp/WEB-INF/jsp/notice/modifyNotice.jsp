@@ -24,18 +24,25 @@
 	<form action="${pageContext.request.contextPath}/modifyNotice?noticeId=${notice.noticeId}" method="post">
 	
 		<div>제목 :</div>
-		<div><input type="text" name="title" value="${notice.title}"></div>
+		<div>
+			<input type="text" name="title" value="${notice.title}">
+		</div>
 		<div>내용 :</div>
-		<div><textarea rows="10" cols="20" name="content">${notice.content}</textarea></div>
+		<div>
+			<textarea rows="10" cols="20" name="content">${notice.content}</textarea>
+		</div>
 		<div>종류 :</div>
 		<div>
-		<select name="kind" value="${kind}">
-			<option value="Y">Y</option>
-			<option value="N">N</option>
+			<select name="kind" value="${notice.kind}">
+				<option value="Y">Y</option>
+				<option value="N">N</option>
 		</select>
 		</div>
-		<div><button type="submit">수정</button></div>
+		<div>	
+			<button type="submit">수정</button>
+		</div>
 	</form>
+	
 	<!-- start : mainFooter -->
    <div>
       <jsp:include page="/partial/mainFooter.jsp"></jsp:include>

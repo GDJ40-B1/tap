@@ -18,21 +18,26 @@
    <br>
    <br>
    <a href="${pageContext.request.contextPath}/reservationList">리스트로</a>
-   <form action="${pageContext.request.contextPath}/modifyReservation?reservationId=${reservation.reservationId}">
-	   <input type="hidden" name="reservationId" value="${reservation.reservationId}">
-	   <input type="hidden" name="roomId" value="${reservation.roomId}">
+   
+   	   <div>회원 아이디 :</div>
+	   <div>
+	   		<input type="text" name="memberId" readonly="readonly" value="${reservation.memberId}">
+	   </div>
+	   
+   <form action="${pageContext.request.contextPath}/modifyReservation?reservationId=${reservation.reservationId}" method="post">
+	   
 	   
 	   <div>체크인 날짜 : </div>
 	   <div>
-	   <input type="date" name="checkInDate" value="${reservation.checkInDate}">
+	   		<input type="date" name="checkInDate" value="${reservation.checkInDate}">
 	   </div>
 	   <div>체크아웃 날짜 : </div>
 	   <div>
-	   <input type="date" name="checkOutDate" value="${reservation.checkOutDate}">
+	   		<input type="date" name="checkOutDate" value="${reservation.checkOutDate}">
 	   </div>
-	   <div>인원</div>
+	   <div>인원 : </div>
 	   <div>
-	   <input type="text" name="peopleNum" value="${reservation.peopleNum}">인
+	   		<input type="text" name="peopleNum" value="${reservation.peopleNum}">인
 	   </div>
 	   
 	   

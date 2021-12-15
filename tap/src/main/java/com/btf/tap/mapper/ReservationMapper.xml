@@ -91,9 +91,8 @@
 	
 	<!-- 예약 수정하기 -->
 	<update id="updateReservation" parameterType="com.btf.tap.vo.Reservation">
-		UPDATE SET reservation (
-			check_in_date=#{checkInDate}, check_out_date=#{checkOutDate}, people_num=#{peopleNum},
-			 update_date= NOW())
+		UPDATE reservation SET	
+			check_in_date=#{checkInDate}, check_out_date=#{checkOutDate}, people_num=#{peopleNum}, update_date=NOW() 
 		<where>reservation_id=#{reservationId}</where>
 	</update>
 	

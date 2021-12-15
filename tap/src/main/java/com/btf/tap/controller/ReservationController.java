@@ -76,10 +76,10 @@ public class ReservationController {
 	@GetMapping("/modifyReservation")
 	public String modifyReservation(Model model, int reservationId) {
 		Reservation reservation = reservationService.getReservationOne(reservationId);
-		//서비스에 getReservationOne으로 값 보내고 reservation에 값 저장 
+		//서비스에 getReservationOne으로 값 보내고 reservation에 값 저장
+		log.debug(Font.KSB + "컨트롤러 단 modifyReservation get방식 작동 "+ reservation + Font.RESET);
 		model.addAttribute("reservation", reservation);
-		//값 뷰에 전송
-		return "reservation/modifyReservation";
+		return "reservation/modifyReservation";	//값 뷰에 전송
 	}
 	//예약 정보 수정하기 버튼
 	@PostMapping("/modifyReservation")
@@ -87,7 +87,9 @@ public class ReservationController {
 		int reservationId = reservation.getReservationId();
 		//리턴값에 아이디값 넘겨주기 위한 설정
 		reservationService.modifyReservation(reservation);
-		//서비스에 modifyReservation으로 값 보냄 
+		//서비스에 modifyReservation으로 값 보냄
+		
+		log.debug(Font.KSB + "컨트롤러 단 modifyReservaion post방식 작동 값 점검 "+ reservationId + Font.RESET);
 		return "redirect:/reservationOne?reservationId="+reservationId;
 	}
 	//예약 정보 삭제하기 
