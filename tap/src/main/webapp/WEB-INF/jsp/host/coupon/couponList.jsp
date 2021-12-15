@@ -24,7 +24,7 @@
 			<ol class="breadcrumb bg-gray-100">
 				<li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/hostMyPage">홈</a></li>
 				<li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/host/roomList">숙소목록</a></li>
-				<li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/host/roomOne?roomId=${room.roomId }&detailAddressId=${room.detailAddressId }">상세보기</a></li>
+				<li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/host/roomOne?roomId=${room.roomId }&detailAddressId=${room.detailAddressId }">숙소상세보기</a></li>
 				<li class="breadcrumb-item active" aria-current="page">쿠폰목록</li>
 			</ol>
 		</nav>
@@ -68,7 +68,7 @@
 									<td>${list.couponQuantity }</td>
 									<td>${list.couponEffectiveDate }</td>
 									<td>${list.couponExpirationDate }</td>
-									<td><a href="${pageContext.request.contextPath}/host/roomOne?roomId=${room.roomId}&detailAddressId=${room.detailAddressId }">상세보기</a></td>
+									<td><a href="${pageContext.request.contextPath}/host/couponOne?roomId=${room.roomId}&detailAddressId=${room.detailAddressId }&couponId=${list.couponId }">상세보기</a></td>
 								</tr>
 							</c:forEach>
 	                    </tbody>

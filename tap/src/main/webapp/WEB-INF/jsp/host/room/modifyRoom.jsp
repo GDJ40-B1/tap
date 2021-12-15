@@ -23,7 +23,7 @@
 			<ol class="breadcrumb bg-gray-100">
 				<li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/hostMyPage">홈</a></li>
 				<li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/host/roomList">숙소목록</a></li>
-				<li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/host/roomOne?roomId=${room.roomId }&detailAddressId=${address.detailAddressId }">상세보기</a></li>
+				<li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/host/roomOne?roomId=${room.roomId }&detailAddressId=${address.detailAddressId }">숙소상세보기</a></li>
 				<li class="breadcrumb-item active" aria-current="page">숙소수정</li>
 			</ol>
 		</nav>

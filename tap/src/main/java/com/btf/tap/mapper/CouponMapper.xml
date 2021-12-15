@@ -14,6 +14,31 @@
 		<result column="update_date" property="updateDate"></result>
 	</resultMap>
 	
+	<!-- 쿠폰 정보 수정 -->
+	<update id="updateCoupon" parameterType="com.btf.tap.vo.Coupon">
+		UPDATE coupon SET
+			coupon_name=#{couponName}, coupon_effective_date=#{couponEffectiveDate},
+			coupon_expiration_date=#{couponExpirationDate}, discount=#{discount},
+			coupon_type=#{couponType}, coupon_quantity=#{couponQuantity}, update_date=NOW()
+		WHERE coupon_id=#{couponId}
+	</update>
+	
+	<!-- 쿠폰 삭제 -->
+	<delete id="deleteCoupon" parameterType="int">
+		DELETE FROM coupon
+		WHERE coupon_id= #{couponId}
+	</delete>
+	
+	<!-- 특정 쿠폰 정보 추출 -->
+	<select id="selectCouponOne" parameterType="int" resultMap="resultCoupon">
+		SELECT
+			coupon_id, room_id, coupon_name, coupon_effective_date, coupon_expiration_date,
+			discount, coupon_type, coupon_quantity, create_date, update_date
+		FROM coupon
+		WHERE coupon_id=#{couponId}
+		ORDER BY create_date DESC
+	</select>
+	
 	<!-- 특정 숙소의 쿠폰 목록 추출 -->
 	<select id="selectRoomCouponList" parameterType="int" resultMap="resultCoupon">
 		SELECT
@@ -21,6 +46,7 @@
 			discount, coupon_type, coupon_quantity, create_date, update_date
 		FROM coupon
 		WHERE room_id=#{roomId}
+		ORDER BY create_date DESC
 	</select>
 	
 	<!-- 쿠폰 생성 -->

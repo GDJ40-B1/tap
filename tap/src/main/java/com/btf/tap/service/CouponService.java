@@ -13,6 +13,21 @@ public class CouponService {
 	@Autowired CouponMapper couponMapper;
 	// add, modify, get, remove
 	
+	// 쿠폰 수정
+	public void modifyCoupon(Coupon coupon) {
+		couponMapper.updateCoupon(coupon);
+	}
+	
+	// 쿠폰 삭제
+	public void removeCoupon(int couponId) {
+		couponMapper.deleteCoupon(couponId);
+	}
+	
+	// 특정 쿠폰 정보 추출
+	public Coupon getCouponOne(int couponId) {
+		return couponMapper.selectCouponOne(couponId);
+	}
+	
 	// 쿠폰 생성
 	public void addCoupon(Coupon coupon){
 		couponMapper.insertCoupon(coupon);

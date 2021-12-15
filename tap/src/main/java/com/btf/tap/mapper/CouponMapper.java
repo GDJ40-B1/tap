@@ -9,6 +9,15 @@ import com.btf.tap.vo.Coupon;
 @Mapper
 public interface CouponMapper {
 	
+	// 쿠폰 정보 수정
+	void updateCoupon(Coupon coupon);
+	
+	// 쿠폰 삭제
+	void deleteCoupon(int couponId);
+	
+	// 특정 쿠폰 정보 추출
+	Coupon selectCouponOne(int couponId);
+	
 	// 쿠폰 생성
 	void insertCoupon(Coupon coupon);
 	
