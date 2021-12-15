@@ -101,7 +101,7 @@
                 Addons
             </div>
 
-            <!-- Nav Item - Name -->
+            <!-- Nav Item - Info -->
             <li class="nav-item">
                 <a class="nav-link" href="${pageContext.request.contextPath}/modifySystemAdminInfo">
                     <i class="fas fa-info-circle"></i>
@@ -128,6 +128,13 @@
             <div class="sidebar-heading">
                 management
             </div>
+            
+            <!-- Nav Item - Report -->
+            <li class="nav-item">
+                <a class="nav-link" href="${pageContext.request.contextPath}/reportList">
+                    <i class="fas fa-flag"></i>
+                    <span>신고</span></a>
+            </li>
             
             <!-- Nav Item - Notices -->
             <li class="nav-item">
@@ -724,7 +731,7 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <a class="btn btn-primary" href="${pageContext.request.contextPath}/logout">Logout</a>
                 </div>
             </div>
         </div>

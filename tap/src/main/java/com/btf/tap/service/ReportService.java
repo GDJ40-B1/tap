@@ -65,9 +65,10 @@ public class ReportService {
 		paramMap.put("endPage", endPage);
 		log.debug(Font.HS + "getListServ : " + paramMap.toString() + Font.RESET);
 		
+		
 		return paramMap;
 	}
-	
+		
 	// 신고글 작성하기
 	// 입력 : report 
 	// 출력 : check(게시글 작성된 수)
@@ -109,7 +110,7 @@ public class ReportService {
 	}
 	
 	// 신고글 승인여부 수정하기
-	// 입력 : report
+	// 입력 : report(작성자id,신고대상,신고대상카테고리)
 	// 출력 : check(수정 된 신고글 수)
 	public int modifyReport(Report report) {
 		// 수정할 정보
@@ -123,7 +124,7 @@ public class ReportService {
 			log.debug(Font.HS + "정보 수정 실패!" + Font.RESET);
 		}
 		
-		// 신고글 삭제 수
+		// 신고글 수정 수
 		log.debug(Font.HS + "modifyReportServ : " + check + Font.RESET);
 				
 		return check;

@@ -45,7 +45,7 @@ public class ReportController {
 			model.addAttribute("lastPage", map.get("lastPage"));
 			model.addAttribute("startPage", map.get("startPage"));
 			model.addAttribute("endPage", map.get("endPage"));
-						
+			
 			return "report/reportList";					
 	}	
 	
@@ -109,24 +109,23 @@ public class ReportController {
 		return "redirect:/reportList";
 	}
 	
-	// 신고글 수정하기
-	@GetMapping("/modifyReport")
-	public String getModifyReport(HttpServletRequest request, Report report) {
-		HttpSession session = request.getSession();
-		log.debug(Font.HS + "getModifyCont : " + session.toString() + Font.RESET);
+	// 신고글 수정하기(승인여부)
+	@PostMapping("/modifyReport")
+	public String postModifyReport(HttpServletRequest request, Model model, Report report) {
 		
-		// 로그인 되어있지 않을 경우, 회원, 숙소관리자일 경우 홈페이지로 이동
-		if(session.getAttribute("loginUser") == null || session.getAttribute("loginUser").equals("member") || session.getAttribute("loginUser").equals("host")) {
-			log.debug(Font.HS + "시스템관리자 계정으로 로그인 하십시오." + Font.RESET);
-			return "redirect:/login";
+		HttpSession session = request.getSession();
+		
+		// 로그인 되어있지 않을 경우
+		User user = (User)session.getAttribute("loginUser");
+		if(user == null) {
+			return "redirect:/";
 		}
 		
-		// 입력받은 수정글 수정 정보
-		log.debug(Font.HS + "getModifyCont : " + report.toString() + Font.RESET);
+		// 수정하기 전 신고글 정보
+		log.debug(Font.HS + "수정하기 전 신고글 정보 => " + report.toString() + Font.RESET);
 		
 		int check = reportService.modifyReport(report);
-		
-		// 수정되지 않았을 경우 다시 삭제 실패 알림
+		// 수정되지 않았을 경우 다시 수정 실패 알림
 		if(check != 1) {
 			log.debug(Font.HS + "수정 실패!" + Font.RESET);
 			return "redirect:/reportList";

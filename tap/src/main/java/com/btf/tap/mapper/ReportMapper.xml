@@ -10,15 +10,6 @@
 		<result column="approval_status" property="approvalStatus"/>
 		<result column="create_date" property="createDate"/>
 		<result column="update_date" property="updateDate"/>
-		<collection property="systemAdmin" ofType="com.btf.tap.vo.SystemAdmin">
-			<id column="system_admin_id" property="systemAdminId"/>
-			<result column="system_admin_pw" property="systemAdminPw"/>
-			<result column="system_admin_name" property="systemAdminName"/>
-			<result column="system_admin_age" property="systemAdminAge"/>
-			<result column="system_admin_phone" property="systemAdminPhone"/>
-			<result column="create_date" property="createDate"/>
-			<result column="update_date" property="updateDate"/>
-		</collection>
 	</resultMap>	
 
 	<!-- 전체 페이지 / 작성자 카테고리별 페이지 조회 -->
@@ -95,7 +86,9 @@
 		SET
 			approval_status = #{approvalStatus},
 			update_date = NOW()
-		WHERE
-			system_admin_id = #{systemAdminId}	
+		WHERE 
+			writer_id = #{writerId} AND
+			report_target = #{reportTarget} AND
+			report_target_category = #{reportTargetCategory}	
 	</update>
 </mapper>

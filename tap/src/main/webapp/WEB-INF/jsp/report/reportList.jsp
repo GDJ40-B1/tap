@@ -9,7 +9,7 @@
 <body>
 	<!-- start : mainHeader -->
     <div>
-       <jsp:include page="/partial/mainHeader.jsp"></jsp:include>
+       <jsp:include page="/partial/systemAdminHeader.jsp"></jsp:include>
     </div>
     <!-- end : mainHeader -->
     
@@ -60,7 +60,24 @@
 					<td>${r.reportTargetCategory}</td>
 					<td>${r.writerCategory}</td>
 					<td>${r.reportContent}</td>
-					<td>${r.approvalStatus}</td>
+					<td>
+						<form action="${pageContext.request.contextPath}/modifyReport?writerId=${r.writerId}&reportTarget=${r.reportTarget}&reportTargetCategory=${r.reportTargetCategory}" method="post">
+							<select name="approvalStatus">
+								<c:choose>
+									<c:when test="${r.approvalStatus eq 'Y'}">
+										<option value="Y" selected="selected">Y</option>
+										<option value="N">N</option>
+									</c:when>
+									
+									<c:when test="${r.approvalStatus eq 'N'}">
+										<option value="Y">Y</option>
+										<option value="N" selected="selected">N</option>
+									</c:when>
+								</c:choose>
+							</select>
+							<button type="submit">수정</button>
+						</form>
+					</td>
 					<td>${r.createDate}</td>
 					<td>${r.updateDate}</td>
 					<th><a href="${pageContext.request.contextPath}/removeReport?writerId=${r.writerId}&reportTarget=${r.reportTarget}&reportTargetCategory=${r.reportTargetCategory}">삭제</a></th>
@@ -99,7 +116,7 @@
 
   	<!-- start : mainFooter -->
 	<div>
-      <jsp:include page="/partial/mainFooter.jsp"></jsp:include>
+      <jsp:include page="/partial/systemAdminFooter.jsp"></jsp:include>
     </div>
  	<!-- end : mainFooter -->
 </body>
