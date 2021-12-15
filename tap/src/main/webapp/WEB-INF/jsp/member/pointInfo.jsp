@@ -89,24 +89,34 @@
                         </div>
 
                         <div class="col-xl-4 col-lg-6">
-                            <!-- Illustrations -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">사용 내역</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="text-center">
-                                        <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
-                                            src="${pageContext.request.contextPath}/resource/img/undraw_posting_photo.svg" alt="...">
-                                    </div>
-                                    <p>Add some quality, svg illustrations to your project courtesy of <a
-                                            target="_blank" rel="nofollow" href="https://undraw.co/">unDraw</a>, a
-                                        constantly updated collection of beautiful svg images that you can use
-                                        completely free and without attribution!</p>
-                                    <a target="_blank" rel="nofollow" href="https://undraw.co/">Browse Illustrations on
-                                        unDraw &rarr;</a>
-                                </div>
-                            </div>
+							<!-- DataTales Example -->
+						    <div class="card shadow mb-4">
+						        <div class="card-header py-3">
+						            <h6 class="m-0 font-weight-bold text-primary">포인트 이용 내역</h6>
+						        </div>
+						        <div class="card-body">
+						            <div class="table-responsive">
+						                <table class="table table-bordered" id="dataTable" width="100%">
+						                    <tfoot>
+						                        <tr>
+						                            <th>금액</th>
+						                            <th>유형</th>
+						                            <th>이용날짜</th>
+						                        </tr>
+						                    </tfoot>
+						                    <tbody>
+						                    	<c:forEach items="${pointHistory}" var="history">
+													<tr>
+														<td>${history.point}</td>
+														<td>${history.category}</td>
+														<td>${history.date}</td>
+													</tr>
+												</c:forEach>
+						                    </tbody>
+						                </table>
+						            </div>
+						        </div>
+						    </div>
                         </div>
                         
                         <div class="col-xl-4 col-lg-4">

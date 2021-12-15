@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.btf.tap.mapper.PointMapper">
+	
+	<!-- 입력받은 이용자의 포인트 이용 내역을 조회 -->
+	<select id="selectgPointHistoryList" parameterType="com.btf.tap.vo.User" resultType="map">
+		SELECT 
+			user_id AS userId,
+			point,
+			changed_point AS changedPoint,
+			point_history_category AS pointHistoryCategory,
+			create_date AS createDate
+		FROM
+			view_user_point_history
+		WHERE
+			user_id=#{userId}
+	</select>
+	
+</mapper>
