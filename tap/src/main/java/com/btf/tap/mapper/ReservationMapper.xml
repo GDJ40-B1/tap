@@ -82,9 +82,9 @@
 			res.check_in_date, res.check_out_date, r.check_in_time, r.check_out_time, r.room_form, res.people_num,
 			r.room_price, res.updadte_date
 			
-		FROM reservation
-			ORDER BY create_date DESC res
-		INNER JOIN room r ON res.room_id=r.room_id
+		FROM reservation	res
+			ORDER BY create_date DESC 
+		INNER JOIN room	r ON res.room_id=r.room_id
 		INNER JOIN detail_address da ON r.detail_address_id=da.detail_address_id
 		INNER JOIN address a ON da.address_id=a.address_id
 	</select>

@@ -19,13 +19,14 @@
    <br>
    <a href="${pageContext.request.contextPath}/reservationList">리스트로</a>
    
-   	   <div>회원 아이디 :</div>
-	   <div>
-	   		<input type="text" name="memberId" readonly="readonly" value="${reservation.memberId}">
-	   </div>
+   	   
 	   
    <form action="${pageContext.request.contextPath}/modifyReservation?reservationId=${reservation.reservationId}" method="post">
 	   
+	   <div>회원 아이디 :</div>
+	   <div>
+	   		<input type="text" name="memberId" readonly="readonly" value="${reservation.memberId}">
+	   </div>
 	   
 	   <div>체크인 날짜 : </div>
 	   <div>
@@ -41,14 +42,10 @@
 	   </div>
 	   
 	   
-	      
 	   <div>
 	   		<button type="submit">수정</button>
 	   </div>
    </form>
-   
-   
-   
    
    
    

@@ -20,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ReservationController {
 	@Autowired
 	ReservationService reservationService;
-	//예약 정보 리스트 아직 미완성
+	//예약 정보 리스트 제작중
 	@GetMapping("/reservationList")
 	public String getReservationList(Model model, @RequestParam(value="currentPage", defaultValue ="1") int currentPage) {
 		// 숙소 리스트와 페이징 관련 데이터를 result에 담기

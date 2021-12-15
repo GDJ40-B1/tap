@@ -26,15 +26,15 @@
 		</tr>
 		<tr>
 			<td>체크인 날짜 :</td>
-			<td>${reservation.checkInDate}</td>
+			<td>${reservation.checkInDate}일</td>
 		</tr>
 		<tr>
 			<td>체크아웃 날짜 :</td>
-			<td>${reservation.checkOutDate}</td>
+			<td>${reservation.checkOutDate}일</td>
 		</tr>
 		<tr>
 			<td>인원수 :</td>
-			<td>${reservation.peopleNum}</td>
+			<td>${reservation.peopleNum}명</td>
 		</tr>
 		<tr>
 			<td>최종 작성일 :</td>

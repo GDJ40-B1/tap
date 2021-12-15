@@ -33,7 +33,7 @@ public class ReservationService {
 	
 	
 	
-	//예약 추가하기.
+	//예약 추가하기1.
 	public Map<String, Object> getAddReservation(int roomId, int detailAddressId)	{
 		
 		Map<String, Object> map = new HashMap<>();
@@ -58,7 +58,7 @@ public class ReservationService {
 			return map;
 			
 	}
-	//예약 추가하기.
+	//예약 추가하기2.
 		public int postAddReservation(Reservation reservation)	{
 
 			
@@ -79,7 +79,7 @@ public class ReservationService {
 			return reservation;
 		}
 		
-	// 전체 예약 정보 리스트
+	// 전체 예약 정보 리스트 제작중
 		public Map<String, Object> getReservationList(int currentPage) {
 			// 페이징에 필요한 요소들
 			final int ROW_PER_PAGE = 1;
