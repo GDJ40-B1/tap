@@ -174,6 +174,11 @@
 				<div id="map" style="width:100%;height:350px;"></div>
 			</div>
 			
+			<div class="form-group">
+				<label>해시태그</label>
+				<input class="form-control" type="text" id="hashtag" name="hashtag" value="${hashtag }">
+			</div>
+			
 			<br>
 			<button type="button" class="btn btn-primary btn-lg btn-block"  id="modifyBtn">숙소 수정</button>
 			<br>
@@ -210,6 +215,34 @@
 				$('#modifyRoomForm').submit();
 			}
 		});
+	</script>
+	
+	<!-- 해시태그 관련 script -->
+	<script>
+		// hashtag input에서 데이터를 모두 지워도 #은 남도록 한다.
+		$('#hashtag').keydown(function(event) {
+			var oldvalue=$(this).val();
+			var field=this;
+			setTimeout(function () {
+			    if(field.value.indexOf('#') !== 0) {
+			        $('#hashtag').val(oldvalue);
+			    } 
+			}, 1);
+			
+			// 스페이스바 기능 방지를 위한 변수
+			var handled=false;
+			  // 스페이스바 or 엔터를 칠 시 #자동생성
+			  if (event.keyCode == '13') {
+				  $('#hashtag').val($('#hashtag').val()+' #');
+			  } else if(event.keyCode == '32'){
+				  handled=true; // 기능 제한
+				  $('#hashtag').val($('#hashtag').val()+' #');
+			  }
+			  
+			  if(handled){
+					event.preventDefault();
+				}
+		 });
 	</script>
    
 	<!-- kakao API -->

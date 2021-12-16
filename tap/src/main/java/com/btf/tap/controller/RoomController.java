@@ -119,15 +119,16 @@ public class RoomController {
 		model.addAttribute("roomCategoryList",roomService.getRoomCategory());
 		
 		// 숙소 및 주소 정보
-		Map<String, Object> map = roomService.getRoomOne(roomId, detailAddressId);
-		model.addAttribute("room",map.get("room"));
-		model.addAttribute("address",map.get("address"));
+		Map<String, Object> result = roomService.getRoomOne(roomId, detailAddressId);
+		model.addAttribute("room",result.get("room"));
+		model.addAttribute("address",result.get("address"));
+		model.addAttribute("hashtag",(result.get("hashtag")));
 		return "/host/room/modifyRoom";
 	}
 	
 	@PostMapping("/host/modifyRoom")
-	public String postModifyRoom(RedirectAttributes redirect, Room room, Address address) {
-		address = roomService.modifyRoom(room, address);
+	public String postModifyRoom(RedirectAttributes redirect, Room room, Address address, String hashtag) {
+		address = roomService.modifyRoom(room, address, hashtag);
 		redirect.addAttribute("roomId",room.getRoomId());
 		redirect.addAttribute("detailAddressId",address.getDetailAddressId());
 		return "redirect:/host/roomOne";

@@ -10,6 +10,9 @@ import com.btf.tap.vo.Hashtag;
 @Mapper
 public interface HashtagMapper {
 	
+	// 해시태그 삭제
+	void deleteHashtag(Map<String, Object> target);
+	
 	// 특정 target의 해시태그 목록 추출
 	List<String> selecthashtagList(Map<String, Object> target);
 	

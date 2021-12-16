@@ -7,6 +7,12 @@
 		<result column="hashtag_name" property="hashtagName"></result>
 	</resultMap>
 	
+	<!-- 해시태그 삭제 -->
+	<delete id="deleteHashtag" parameterType="hashMap">
+		DELETE FROM hashtag
+		WHERE hashtag_target_category=#{hashtagTargetCategory} AND hashtag_target=#{hashtagTarget}
+	</delete>
+	
 	<!-- 특정 target의 해시태그 목록 추출 -->
 	<select id="selecthashtagList" parameterType="hashMap" resultType="String">
 		SELECT

@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 public class RoomService {
 	@Autowired RoomMapper roomMapper;
 	@Autowired AddressMapper addressMapper;
-	@Autowired HashtagMapper hashtagMapper;
+	@Autowired HashtagService hashtagService;
 	
 	// 숙소 전체 리스트 출력(최근 생성된 숙소 순으로)
 	public Map<String, Object> getRoomList(int currentPage) {
@@ -97,22 +97,12 @@ public class RoomService {
 		String detailAddress = address.getSido()+" "+address.getSigungu()+" "+address.getRoadName()+" "+address.getDetailAddress();
 		address.setDetailAddress(detailAddress);
 		
-		// 해시태그 추출을 위한 target 요소
-		Map<String, Object> hashtagTarget = new HashMap<>();
-		hashtagTarget.put("hashtagTargetCategory", "room");
-		hashtagTarget.put("hashtagTarget", roomId);
-		List<String> hashtagList = hashtagMapper.selecthashtagList(hashtagTarget);
-		String hashtag = "";
-		for(String h : hashtagList) {
-			hashtag += " #" + h;
-		}
-		System.out.println("!!!"+hashtag);
 		// 주소 정보
 		result.put("address", address);
 		// 숙소 정보
 		result.put("room", roomMapper.selectRoomOne(roomId));
 		// 해시태그 정보
-		result.put("hashtag", hashtag);
+		result.put("hashtag", hashtagService.getHashtag("room", roomId));
 		return result;
 	}
 	
@@ -144,29 +134,14 @@ public class RoomService {
 		room.setDetailAddressId(address.getDetailAddressId());
 		roomMapper.insertRoom(room);
 		
-		/* 해시태그 데이터 추가 시작 */
-		// 문자열 공백 제거
-		hashtag = hashtag.replaceAll(" ", "");
-		String[] hashtagList = hashtag.split("#");
-		Arrays.sort(hashtagList); // 중복된 해시태그 제거
+		// 해시태그 추가
+		hashtagService.addHashtag(hashtag, "room", room.getRoomId());
 		
-		// 해시태그 값 넣기
-		Hashtag hashtagVal = new Hashtag();
-		hashtagVal.setHashtagTargetCategory("room");
-		hashtagVal.setHashtagTarget(room.getRoomId());
-		for(String h : hashtagList) {
-			// 해시태그 값이 공백이 아닐 경우에만 추가되도록 한다.
-			if(!h.equals("") && !h.equals(" ")) {
-				hashtagVal.setHashtagName(h);
-				hashtagMapper.insertHashtag(hashtagVal);
-			}
-		}
-		/* 해시태그 데이터 추가 끝 */
 		return room.getRoomId();
 	}
 	
 	// 숙소 정보 수정(숙소 and 상세 주소)
-	public Address modifyRoom(Room room, Address address) {
+	public Address modifyRoom(Room room, Address address, String hashtag) {
 		// 입력받은 도로명 주소를 분할하여 객체에 넣기
 		String[] addressList = address.getDetailAddress().split(" ");
 		address.setSido(addressList[0]);
@@ -182,6 +157,9 @@ public class RoomService {
 		// 숙소 변경사항 적용
 		roomMapper.updateRoom(room);
 		
+		// 해시태그 업데이트
+		hashtagService.modifyHashtag(hashtag, "room", room.getRoomId());
+		
 		return address;
 	}
 	
@@ -190,6 +168,9 @@ public class RoomService {
 		
 		// 숙소 상세 주소 ID
 		int detailAddressId = roomMapper.selectRoomOne(roomId).getDetailAddressId();
+		
+		// 해시태그 삭제
+		hashtagService.removeHashtag("room", roomId);
 		
 		// 숙소 정보 삭제
 		roomMapper.deleteRoom(roomId);
