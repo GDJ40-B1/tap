@@ -1,6 +1,7 @@
 package com.btf.tap.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,11 @@ import lombok.extern.slf4j.Slf4j;
 public class CouponService {
 	@Autowired CouponMapper couponMapper;
 	// add, modify, get, remove
+	
+	// 보유 쿠폰 추가
+	public void addMemberCoupon(Map<String, Object> memberCoupon) {
+		couponMapper.insertMemberCoupon(memberCoupon);
+	}
 	
 	// 쿠폰 수정
 	public void modifyCoupon(Coupon coupon) {

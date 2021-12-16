@@ -1,6 +1,7 @@
 package com.btf.tap.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -8,6 +9,9 @@ import com.btf.tap.vo.Coupon;
 
 @Mapper
 public interface CouponMapper {
+	
+	// 보유 쿠폰 추가
+	void insertMemberCoupon(Map<String, Object> memberCoupon);
 	
 	// 쿠폰 정보 수정
 	void updateCoupon(Coupon coupon);

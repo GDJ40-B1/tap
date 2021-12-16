@@ -16,15 +16,34 @@
    <!-- end : mainHeader -->
    
    <main id="main">
-         <section class="breadcrumbs">
-            <table>
-               <tr>
-                  <!-- 지도 -->
-                  <td style="width:40%;"><div id="map" style="width:100%;height:350px;"></div></td>
-                  <td style="width:10%;"></td>
-                  <td style="width:50%;">
-                     <!-- 숙소 정보 -->
-                     <table border="1" style="width:100%;">
+	   <!-- ======= Breadcrumbs ======= -->
+	    <section id="breadcrumbs" class="breadcrumbs">
+	      <div class="container">
+	
+	        <div class="d-flex justify-content-between align-items-center">
+	          <h2>숙소</h2>
+	          <ol>
+	            <li><a href="${pageContext.request.contextPath}">홈</a></li>
+	            <li><a href="${pageContext.request.contextPath}/roomList">숙소목록</a></li>
+	            <li>숙소상세</li>
+	          </ol>
+	        </div>
+	      </div>
+	    </section>
+	    <!-- End Breadcrumbs -->
+    
+         <section class="event-list">
+         	<div class="container">
+         		<!-- 지도 -->
+	            <div id="map" style="width:100%;height:350px;"></div>
+	            
+	            <div style="margin: 20px">
+	            	<c:forEach items="${couponList}" var="c">
+	            		<button id="${c.couponId }-couponBtn" type="button" class="btn btn-outline-danger">${c.couponName }</button>
+	            	</c:forEach>
+	            </div>
+	            <!-- 숙소 정보 -->
+                <table border="1" class="table">
                      <tr>
                         <td style="width:10%;">숙소명</td>
                         <td id="roomName" style="width:90%;">${room.roomName }</td>
@@ -81,12 +100,9 @@
                         <td></td>
                         <td>${hashtag }</td>
                      </tr>
-                  </table>
-                  </td>
-               </tr>
-            </table>
-            <a href="${pageContext.request.contextPath}/addReservation?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}">예약</a>
-            
+                </table>
+                <a href="${pageContext.request.contextPath}/addReservation?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}">예약</a>
+            </div>
       </section>
    </main>
    
@@ -95,6 +111,19 @@
       <jsp:include page="/partial/mainFooter.jsp"></jsp:include>
    </div>
    <!-- end : mainFooter -->
+   
+   <!-- 쿠폰 발급 버튼 클릭 시 -->
+	<script>
+		<c:forEach items="${couponList}" var="c">
+			$('#${c.couponId}-couponBtn').click(function(){
+				if(confirm("*${c.couponName}*을 받으시겠습니까?") == true){
+					$(location).attr('href', "${pageContext.request.contextPath}/member/addMemberCoupon?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}&couponId=${c.couponId}");
+				} else{
+					return;
+				}
+			});
+		</c:forEach>
+	</script>
    
    <!-- kakao API -->
    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e1c10213787b97f0d88e77cdafcb6687&libraries=services"></script>

@@ -57,6 +57,7 @@ public class RoomController {
 		model.addAttribute("room",result.get("room"));
 		model.addAttribute("address",result.get("address"));
 		model.addAttribute("hashtag",result.get("hashtag"));
+		model.addAttribute("couponList",result.get("couponList"));
 		return "room/roomOne";
 	}
 	
@@ -98,7 +99,7 @@ public class RoomController {
 	@GetMapping("/host/roomOne")
 	public String hostRoomOne(Model model,
 			@RequestParam("roomId") int roomId, @RequestParam("detailAddressId") int detailAddressId) {
-		Map<String, Object> result = roomService.getRoomOne(roomId, detailAddressId);
+		Map<String, Object> result = roomService.getHostRoomOne(roomId, detailAddressId);
 		model.addAttribute("room",result.get("room"));
 		model.addAttribute("address",result.get("address"));
 		model.addAttribute("hashtag",result.get("hashtag"));

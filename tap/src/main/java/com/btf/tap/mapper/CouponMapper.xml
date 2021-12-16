@@ -14,6 +14,15 @@
 		<result column="update_date" property="updateDate"></result>
 	</resultMap>
 	
+	<!-- 보유 쿠폰 추가 -->
+	<insert id="insertMemberCoupon" parameterType="hashMap">
+		INSERT INTO member_coupon(
+			coupon_id, member_id, create_date
+		) VALUE(
+			#{couponId}, #{memberId}, NOW()
+		)
+	</insert>
+	
 	<!-- 쿠폰 정보 수정 -->
 	<update id="updateCoupon" parameterType="com.btf.tap.vo.Coupon">
 		UPDATE coupon SET
@@ -54,10 +63,10 @@
 		INSERT INTO coupon(
 			room_id,coupon_name, coupon_effective_date, coupon_expiration_date, coupon_type,
 			discount, coupon_quantity, create_date, update_date
-			) VALUE(
-				#{roomId}, #{couponName}, #{couponEffectiveDate}, #{couponExpirationDate},
-				#{couponType}, #{discount}, #{couponQuantity}, NOW(), NOW()
-			)
+		) VALUE(
+			#{roomId}, #{couponName}, #{couponEffectiveDate}, #{couponExpirationDate},
+			#{couponType}, #{discount}, #{couponQuantity}, NOW(), NOW()
+		)
 	</insert>
 	
 </mapper>

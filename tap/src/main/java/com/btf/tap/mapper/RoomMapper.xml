@@ -1,130 +1,134 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.btf.tap.mapper.RoomMapper">
-	<resultMap type="com.btf.tap.vo.Room" id="resultRoom">
-		<result column="room_id" property="roomId"></result>
-		<result column="detail_address_id" property="detailAddressId"></result>
-		<result column="host_id" property="hostId"></result>
-		<result column="room_category" property="roomCategory"></result>
-		<result column="room_form" property="roomForm"></result>
-		<result column="room_name" property="roomName"></result>
-		<result column="room_intro" property="roomIntro"></result>
-		<result column="min_day" property="minDay"></result>
-		<result column="check_in_time" property="checkInTime"></result>
-		<result column="check_out_time" property="checkOutTime"></result>
-		<result column="people_num" property="peopleNum"></result>
-		<result column="room_price" property="roomPrice"></result>
-		<result column="create_date" property="createDate"></result>
-		<result column="update_date" property="updateDate"></result>
-		<association property="address" javaType="com.btf.tap.vo.Address">
-			<result column="address_id" property="addressId"></result>
-			<result column="detail_address_id" property="detailAddressId"></result>
-			<result column="detail_address" property="detailAddress"></result>
-			<result column="detail_address2" property="detailAddress2"></result>
-		</association>
-	</resultMap>
-	
-	<!-- 특정 host의 숙소 목록 -->
-	<select id="selectHostRoomList" parameterType="String" resultMap="resultRoom">
-		SELECT
-			room_id, detail_address_id, room_category, room_form, room_name,
-			room_intro, min_day, check_in_time, check_out_time, people_num, room_price,
-			create_date, update_date
-		FROM room WHERE host_id=#{hostId}
-		ORDER BY create_date DESC
-	</select>
-	
-	<!-- 특정 host의 숙소 목록 개수 -->
-	<select id="selectHostRoomNum" parameterType="String" resultType="int">
-		SELECT COUNT(*) FROM room WHERE host_id=#{hostId}
-	</select>
-	
-	<!-- 숙소 전체 목록 출력(최근 생성된 숙소 순으로) -->
-	<select id="selectRoomList" parameterType="hashMap" resultMap="resultRoom">
-		SELECT
-			room_id, detail_address_id, host_id, room_category, room_form, room_name,
-			room_intro, min_day, check_in_time, check_out_time, people_num, room_price,
-			create_date, update_date
-		FROM room
-		ORDER BY create_date DESC
-		LIMIT #{beginRow}, #{rowPerPage}
-	</select>
-	
-	<!-- 숙소 목록 개수 -->
-	<select id="selectRoomNum" resultType="int">
-		SELECT COUNT(*) FROM room
-	</select>
+   <resultMap type="com.btf.tap.vo.Room" id="resultRoom">
+      <result column="room_id" property="roomId"></result>
+      <result column="detail_address_id" property="detailAddressId"></result>
+      <result column="host_id" property="hostId"></result>
+      <result column="room_category" property="roomCategory"></result>
+      <result column="room_form" property="roomForm"></result>
+      <result column="room_name" property="roomName"></result>
+      <result column="room_intro" property="roomIntro"></result>
+      <result column="min_day" property="minDay"></result>
+      <result column="check_in_time" property="checkInTime"></result>
+      <result column="check_out_time" property="checkOutTime"></result>
+      <result column="people_num" property="peopleNum"></result>
+      <result column="room_price" property="roomPrice"></result>
+      <result column="create_date" property="createDate"></result>
+      <result column="update_date" property="updateDate"></result>
+      <association property="address" javaType="com.btf.tap.vo.Address">
+         <result column="address_id" property="addressId"></result>
+         <result column="detail_address_id" property="detailAddressId"></result>
+         <result column="detail_address" property="detailAddress"></result>
+         <result column="detail_address2" property="detailAddress2"></result>
+      </association>
+   </resultMap>
+   
+   <!-- 특정 host의 숙소 목록 -->
+   <select id="selectHostRoomList" parameterType="String" resultMap="resultRoom">
+      SELECT
+         room_id, detail_address_id, room_category, room_form, room_name,
+         room_intro, min_day, check_in_time, check_out_time, people_num, room_price,
+         create_date, update_date
+      FROM room WHERE host_id=#{hostId}
+      ORDER BY create_date DESC
+   </select>
+   
+   <!-- 특정 host의 숙소 목록 개수 -->
+   <select id="selectHostRoomNum" parameterType="String" resultType="int">
+      SELECT COUNT(*) FROM room WHERE host_id=#{hostId}
+   </select>
+   
+   <!-- 숙소 전체 목록 출력(최근 생성된 숙소 순으로) -->
+   <select id="selectRoomList" parameterType="hashMap" resultMap="resultRoom">
+      SELECT
+         r.room_id, r.detail_address_id, r.host_id,
+         r.room_category, r.room_form, r.room_name,
+         r.room_intro, r.min_day, r.check_in_time,
+         r.check_out_time, r.people_num, r.room_price,
+         r.create_date, r.update_date, da.detail_address2, da.detail_address_id,
+         CONCAT(a.sido,' ',a.sigungu,' ',a.road_name,' ',da.detail_address) detail_address
+      FROM (SELECT * FROM room ORDER BY create_date DESC LIMIT #{beginRow}, #{rowPerPage}) r
+      INNER JOIN detail_address da ON r.detail_address_id=da.detail_address_id
+      INNER JOIN address a ON da.address_id=a.address_id
+   </select>
+   
+   <!-- 숙소 목록 개수 -->
+   <select id="selectRoomNum" resultType="int">
+      SELECT COUNT(*) FROM room
+   </select>
 
-	<!-- 숙소 검색 결과 목록 출력(최근 생성된 숙소 순으로) -->
-	<select id="selectSearchResultRoomList" parameterType="hashMap" resultMap="resultRoom">
-		SELECT
-			r.room_id, r.detail_address_id, r.host_id,
-			r.room_category, r.room_form, r.room_name,
-			r.room_intro, r.min_day, r.check_in_time,
-			r.check_out_time, r.people_num, r.room_price,
-			r.create_date, r.update_date, da.detail_address2, da.detail_address_id,
-			CONCAT(a.sido,' ',a.sigungu,' ',a.road_name,' ',da.detail_address) detail_address
-		FROM (SELECT * FROM room WHERE room_name LIKE CONCAT('%', #{searchText}, '%')
-			ORDER BY create_date DESC LIMIT #{beginRow}, #{rowPerPage}) r
-		INNER JOIN detail_address da ON r.detail_address_id=da.detail_address_id
-		INNER JOIN address a ON da.address_id=a.address_id
-	</select>
-	
-	<!-- 숙소 검색 결과 개수 -->
-	<select id="selectSearchResultRoomNum" parameterType="String" resultType="int">
-		SELECT COUNT(*) FROM room WHERE room_name LIKE CONCAT('%', #{searchText}, '%')
-	</select>
+   <!-- 숙소 검색 결과 목록 출력(최근 생성된 숙소 순으로) -->
+   <select id="selectSearchResultRoomList" parameterType="hashMap" resultMap="resultRoom">
+      SELECT
+         r.room_id, r.detail_address_id, r.host_id,
+         r.room_category, r.room_form, r.room_name,
+         r.room_intro, r.min_day, r.check_in_time,
+         r.check_out_time, r.people_num, r.room_price,
+         r.create_date, r.update_date, da.detail_address2, da.detail_address_id,
+         CONCAT(a.sido,' ',a.sigungu,' ',a.road_name,' ',da.detail_address) detail_address
+      FROM (SELECT * FROM room WHERE room_name LIKE CONCAT('%', #{searchText}, '%')
+         ORDER BY create_date DESC LIMIT #{beginRow}, #{rowPerPage}) r
+      INNER JOIN detail_address da ON r.detail_address_id=da.detail_address_id
+      INNER JOIN address a ON da.address_id=a.address_id
+   </select>
+   
+   <!-- 숙소 검색 결과 개수 -->
+   <select id="selectSearchResultRoomNum" parameterType="String" resultType="int">
+      SELECT COUNT(*) FROM room WHERE room_name LIKE CONCAT('%', #{searchText}, '%')
+   </select>
 
-	<!-- 숙소 카테고리 목록 추출 -->
-	<select id="selectRoomCategory" resultType="String">
-		SELECT room_category roomCategory
-		FROM room_category
-	</select>
+   <!-- 숙소 카테고리 목록 추출 -->
+   <select id="selectRoomCategory" resultType="String">
+      SELECT room_category roomCategory
+      FROM room_category
+   </select>
 
-	<!-- 특정 숙소 상세 정보 추출-->
-	<select id="selectRoomOne" parameterType="int" resultType="com.btf.tap.vo.Room">
-		SELECT
-			room_id roomId, detail_address_id detailAddressId, host_id hostId,
-			room_category roomCategory, room_form roomForm, room_name roomName,
-			room_intro roomIntro, min_day minDay, check_in_time checkInTime,
-			check_out_time checkOutTime, people_num peopleNum, room_price roomPrice,
-			create_date createDate, update_date updateDate
-		FROM room
-		WHERE room_id=#{roomId}
-	</select>
+   <!-- 특정 숙소 상세 정보 추출-->
+   <select id="selectRoomOne" parameterType="int" resultType="com.btf.tap.vo.Room">
+      SELECT
+         room_id roomId, detail_address_id detailAddressId, host_id hostId,
+         room_category roomCategory, room_form roomForm, room_name roomName,
+         room_intro roomIntro, min_day minDay, check_in_time checkInTime,
+         check_out_time checkOutTime, people_num peopleNum, room_price roomPrice,
+         create_date createDate, update_date updateDate
+      FROM room
+      WHERE room_id=#{roomId}
+   </select>
 
-	<!-- 숙소 등록 -->
-	<insert id="insertRoom" parameterType="com.btf.tap.vo.Room">
-		INSERT INTO room(
-			detail_address_id, host_id, room_category, room_form, room_name, room_intro,
-			min_day, check_in_time, check_out_time, people_num, room_price, create_date, update_date
-		)VALUE(
-			#{detailAddressId}, #{hostId}, #{roomCategory}, #{roomForm}, #{roomName},
-			#{roomIntro}, #{minDay}, #{checkInTime}, #{checkOutTime}, #{peopleNum},
-			#{roomPrice}, NOW(), NOW())
-		<selectKey keyProperty="roomId" order="AFTER" resultType="int">
-			SELECT LAST_INSERT_ID()
-		</selectKey>
-	</insert>
-	
-	<!-- 숙소 정보 수정 -->
-	<update id="updateRoom" parameterType="com.btf.tap.vo.Room">
-		UPDATE room SET
-			room_category=#{roomCategory}, room_form=#{roomForm}, room_name=#{roomName},
-			room_intro=#{roomIntro}, min_day=#{minDay}, check_in_time=#{checkInTime},
-			check_out_time=#{checkOutTime}, people_num=#{peopleNum}, room_price=#{roomPrice},
-			update_date=NOW()
-		WHERE room_id= #{roomId}
-	</update>
-	
-	<!-- 숙소 삭제 -->
-	<delete id="deleteRoom" parameterType="int">
-		DELETE FROM room
-		WHERE room_id= #{roomId}
-	</delete>
-	
-	<!-- 선호 지역 인기 숙소 리스트 -->
-	<select id="" parameterType="java.util.Map" resultType="com.btf.tap.vo.Room">
-	
-	</select>
+   <!-- 숙소 등록 -->
+   <insert id="insertRoom" parameterType="com.btf.tap.vo.Room">
+      INSERT INTO room(
+         detail_address_id, host_id, room_category, room_form, room_name, room_intro,
+         min_day, check_in_time, check_out_time, people_num, room_price, create_date, update_date
+      )VALUE(
+         #{detailAddressId}, #{hostId}, #{roomCategory}, #{roomForm}, #{roomName},
+         #{roomIntro}, #{minDay}, #{checkInTime}, #{checkOutTime}, #{peopleNum},
+         #{roomPrice}, NOW(), NOW())
+      <selectKey keyProperty="roomId" order="AFTER" resultType="int">
+         SELECT LAST_INSERT_ID()
+      </selectKey>
+   </insert>
+   
+   <!-- 숙소 정보 수정 -->
+   <update id="updateRoom" parameterType="com.btf.tap.vo.Room">
+      UPDATE room SET
+         room_category=#{roomCategory}, room_form=#{roomForm}, room_name=#{roomName},
+         room_intro=#{roomIntro}, min_day=#{minDay}, check_in_time=#{checkInTime},
+         check_out_time=#{checkOutTime}, people_num=#{peopleNum}, room_price=#{roomPrice},
+         update_date=NOW()
+      WHERE room_id= #{roomId}
+   </update>
+   
+   <!-- 숙소 삭제 -->
+   <delete id="deleteRoom" parameterType="int">
+      DELETE FROM room
+      WHERE room_id= #{roomId}
+   </delete>
+   
+   <!-- 선호 지역 인기 숙소 리스트 -->
+   <select id="" parameterType="java.util.Map" resultType="com.btf.tap.vo.Room">
+   
+   </select>
+   
 </mapper>

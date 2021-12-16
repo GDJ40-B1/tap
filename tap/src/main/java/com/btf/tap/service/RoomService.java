@@ -27,6 +27,7 @@ public class RoomService {
 	@Autowired RoomMapper roomMapper;
 	@Autowired AddressMapper addressMapper;
 	@Autowired HashtagService hashtagService;
+	@Autowired CouponService couponService;
 	
 	// 숙소 전체 리스트 출력(최근 생성된 숙소 순으로)
 	public Map<String, Object> getRoomList(int currentPage) {
@@ -103,6 +104,8 @@ public class RoomService {
 		result.put("room", roomMapper.selectRoomOne(roomId));
 		// 해시태그 정보
 		result.put("hashtag", hashtagService.getHashtag("room", roomId));
+		// 쿠폰 목록 추출
+		result.put("couponList", couponService.getRoomCouponList(roomId));
 		return result;
 	}
 	
@@ -114,6 +117,24 @@ public class RoomService {
 	
 	
 	/* 호스트 관련 메서드 */
+	
+	// 특정 숙소 정보 추출
+	public Map<String, Object> getHostRoomOne(int roomId, int detailAddressId){
+		Map<String, Object> result = new HashMap<>();
+		Address address = addressMapper.selectAddressOne(detailAddressId);
+		
+		// 시도+시군구+도로명+상세주소 합치기 => kakao 지도 API 검색을 위해
+		String detailAddress = address.getSido()+" "+address.getSigungu()+" "+address.getRoadName()+" "+address.getDetailAddress();
+		address.setDetailAddress(detailAddress);
+		
+		// 주소 정보
+		result.put("address", address);
+		// 숙소 정보
+		result.put("room", roomMapper.selectRoomOne(roomId));
+		// 해시태그 정보
+		result.put("hashtag", hashtagService.getHashtag("room", roomId));
+		return result;
+	}
 	
 	// 숙소 등록(숙소 and 상세 주소)
 	public int addRoom(Room room, Address address, String hashtag) {
