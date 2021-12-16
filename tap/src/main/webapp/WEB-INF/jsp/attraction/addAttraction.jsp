@@ -53,15 +53,24 @@
 				<td>명소 소개</td>
 				<td><textarea name="attractionContent"></textarea></td>
 			</tr>
-			<tr>
-				<!-- 주소 -->
-				<td>주소</td>
-				<td><input type="text" name="detailAddress" id="address"></td>
-				<!-- 구현하기 -->				
-			</tr>
-		</table>	
-			<button type="submit">입력</button>
-	</form>
+
+		</table>
+			<div>주소</div>
+			<div>
+				<input type="text" name="detailAddress" id="address">
+			</div>			
+			<div>
+				<button type="button" id="serarchBtn">지도</button>
+			</div>
+			<div>상세주소</div>
+			<div>
+				<input type="text" name="detailAddress2" id="detailAddress2">
+			</div>
+			<div id="map" style="width:100%, height:359px;"></div>
+			
+			<br>
+			<button type="button" id="addBtn">명소등록</button>
+			
 	</section>
 	</main>
 	
