@@ -123,5 +123,8 @@
 		WHERE room_id= #{roomId}
 	</delete>
 	
+	<!-- 선호 지역 인기 숙소 리스트 -->
+	<select id="" parameterType="java.util.Map" resultType="com.btf.tap.vo.Room">
 	
+	</select>
 </mapper>

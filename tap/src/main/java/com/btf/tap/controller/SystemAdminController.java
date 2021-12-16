@@ -1,5 +1,7 @@
 package com.btf.tap.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -8,7 +10,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import com.btf.tap.common.Font;
+import com.btf.tap.service.QuestionService;
 import com.btf.tap.service.SystemAdminService;
 import com.btf.tap.vo.SystemAdmin;
 import com.btf.tap.vo.User;
@@ -18,10 +24,15 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 public class SystemAdminController {
-	@Autowired SystemAdminService systemAdminService;	
+	@Autowired SystemAdminService systemAdminService;
+	@Autowired private QuestionService questionService;
+	private final int rowPerPage = 10;	
+	
 	// 시스템관리자 세션을 통한 myPage 구현
 	@GetMapping("/systemAdminMyPage")
-	public String getSystemAdminMyPage(HttpServletRequest request, Model model) {
+	public String getSystemAdminMyPage(HttpServletRequest request, Model model,
+										@RequestParam(name="unansweredCurrentPage", defaultValue = "1") int unansweredCurrentPage,
+										@RequestParam(required = false) String writerCategory) {
 		HttpSession session = request.getSession();
 		log.debug(Font.HS + "getMyPageCont : " + session.toString() + Font.RESET);
 		
@@ -40,8 +51,15 @@ public class SystemAdminController {
 		systemAdmin = systemAdminService.getSystemAdminOne(systemAdmin.getSystemAdminId());
 		log.debug(Font.HS + "getMyPageCont : " + systemAdmin.toString() + Font.RESET);
 		
+		// 문의 미답변
+		Map<String, Object> questionMap = questionService.getUnansweredQuestionList(unansweredCurrentPage, rowPerPage, writerCategory);
+		questionMap.put("unansweredCurrentPage", unansweredCurrentPage);
+		questionMap.put("writerCategory", writerCategory);
+		log.debug(Font.JSB + questionMap.toString() + Font.RESET);
+		
 		// 시스템관리자 정보 주입
 		model.addAttribute("systemAdmin", systemAdmin);
+		model.addAttribute("questionMap", questionMap);
 		
 		// 시스템관리자 마이페이지로 이동
 		return "systemAdmin/systemAdminMyPage";
@@ -213,4 +231,5 @@ public class SystemAdminController {
 		
 		return "redirect:/systemAdminList";
 	}
+	
 }

@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -13,7 +13,7 @@
     <meta name="author" content="">
 
     <title>SB Admin 2 - Register</title>
-
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <!-- Custom fonts for this template-->
     <link href="${pageContext.request.contextPath}/resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
@@ -60,6 +60,20 @@
                                     <input type="text" class="form-control form-control-user" id="exampleInputPhone"
                                         placeholder="phone number" name="memberPhone">
                                 </div>
+                                <div class="text-center">
+                                	선호 지역
+                            	</div>
+                                <div class="form-group">
+									<select name="sido" id="sido" onchange="sidoType(this.value);">
+								  		<option value="">==선택==</option>
+								  	<c:forEach var="s" items="${sidoList}">
+								  		<option value="${s}">${s}</option>
+								  	</c:forEach>
+									</select>
+									<select name="sigungu" id="sigungu">
+										<option value="">==선택==</option>
+									</select>                                
+                                </div>
 <!--                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <input type="password" class="form-control form-control-user"
@@ -97,7 +111,29 @@
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
-
+	
+	<script>
+	function sidoType(sido) {
+		$.ajax({
+			type: 'GET',
+			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+			url : '${pageContext.request.contextPath}/sido',
+			data : { sido : sido },
+			dataType: 'json',
+			success : function(result){
+				console.log(result)
+					
+				$("#sigungu").find("option").remove().end().append("<option value=''>==선택==</option>")
+				$.each(result, function(i){
+					$("#sigungu").append("<option value='"+result[i]+"'>"+result[i]+"</option>")
+				});
+			}
+		}).fail(function (error) {
+			alert(JSON.stringify(error));
+		})
+	}
+	</script>	
+	
 </body>
 
 </html>

@@ -50,6 +50,40 @@
 		</if>
 		</where>	
 	</select>
+
+	<!-- 미답변 전체 페이지 / 카테고리별 페이지 조회 -->
+	<select id="unansweredQuestionList" parameterType="java.util.Map" resultMap="resultQuestion">
+		SELECT
+			question_id,
+			writer_id,
+			writer_category,
+			question_title,
+			secret_status,
+			answer_status,
+			create_date
+		FROM question
+		<where>
+				answer_status = 'N'
+			<if test="writerCategory != null">
+				AND writer_category = #{writerCategory}
+			</if>
+		</where>
+		ORDER BY question_id DESC
+		LIMIT #{beginRow}, #{rowPerPage}
+	</select>
+	
+	<!-- 미답변 페이지 체크 -->
+	<select id="unansweredQuestionTotalRowCount" parameterType="String" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM question
+		<where>
+			answer_status = 'N'
+		<if test="writerCategory != null">
+			AND writer_category = #{writerCategory}
+		</if>
+		</where>	
+	</select>
 	
 	<!-- 문의 글 삽입 -->
 	<insert id="insertQuestion" parameterType="com.btf.tap.vo.Question">
@@ -72,7 +106,7 @@
 		)
 	</insert>
 	
-	<!-- 문의 답변 삽입 -->
+	<!-- 문의 답변 삽입 및 답변여부 수정-->
 	<insert id="insertQuestionAnswer" parameterType="com.btf.tap.vo.QuestionAnswer">
 		INSERT INTO question_answer(
 			question_id,
@@ -86,6 +120,7 @@
 			NOW()
 		)
 	</insert>	
+	
 	
 	<!-- 특정 문의글 상세 조회 -->
 	<select id="selectQuestionOne" parameterType="int" resultMap="resultQuestion">

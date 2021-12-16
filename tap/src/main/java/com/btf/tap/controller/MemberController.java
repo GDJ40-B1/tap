@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.btf.tap.common.Font;
 import com.btf.tap.service.MemberService;
 import com.btf.tap.service.PointService;
+import com.btf.tap.service.SearchService;
 import com.btf.tap.vo.Member;
 import com.btf.tap.vo.User;
 
@@ -26,6 +27,7 @@ public class MemberController {
 	
 	@Autowired MemberService memberService;
 	@Autowired PointService pointService;
+	@Autowired private SearchService searchService;
 	
 	@PostMapping("/earnPoint")
 	public String postEarnPoint(HttpServletRequest request, Member member) {
@@ -276,7 +278,7 @@ public class MemberController {
 	}
 	
 	@GetMapping("/addMember")
-	public String getAddMember(HttpServletRequest request) {
+	public String getAddMember(HttpServletRequest request, Model model) {
 		
 		HttpSession session = request.getSession();
 		
@@ -284,6 +286,9 @@ public class MemberController {
 		if(session.getAttribute("loginUser") != null) {
 			return "redirect:/";
 		}
+		
+		List<String> sidoList = searchService.getSidoList();
+		model.addAttribute("sidoList", sidoList);
 		
 		// 회원가입 페이지로 이동
 		return "member/register";
@@ -329,14 +334,14 @@ public class MemberController {
 	
 	
 	@PostMapping("/addMember")
-	public String postAddMember(Member member ) {
+	public String postAddMember(Member member, String sido, String sigungu) {
 		
 		// 입력 디버깅
 		log.debug(Font.HW + "입력받은 회원가입 정보 => ", member.toString() + Font.RESET);
-		
+		System.out.println(sigungu);
 		
 		// 회원가입 처리 후, 결과를 저장
-		int confirm = memberService.addMember(member);
+		int confirm = memberService.addMember(member, sido, sigungu);
 		
 		// 회원가입이 안 되어었을 경우 다시 회원가입 실패 알림
 		if(confirm == 0) {

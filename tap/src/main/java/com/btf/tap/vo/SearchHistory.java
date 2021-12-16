@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class SearchHistory {
 	private String searchWord;
-	private String memberId;
+	private String userId;
 	private String createDate;
 }

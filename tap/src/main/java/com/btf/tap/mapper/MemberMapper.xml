@@ -77,6 +77,19 @@
 			NOW()
 		)
 	</insert>
+
+	<!--  회원 등록 후 선호지역 저장 -->
+	<insert id="insertPreferLocal" parameterType="java.util.Map">
+		INSERT INTO
+			prefer_local(
+				member_id,
+				si_gun_gu_id
+			)
+		VALUES (
+			#{memberId},
+			(SELECT si_gun_gu_id FROM si_gun_gu WHERE si_do = #{sido} and si_gun_gu = #{sigungu})
+		)
+	</insert>
 	
 	<!-- 회원 한 명의 정보를 수정(나이,이름, 전화번호 ) -->
 	<update id="updateMemberOne" parameterType="com.btf.tap.vo.Member">

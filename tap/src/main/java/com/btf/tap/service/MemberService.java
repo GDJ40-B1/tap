@@ -1,5 +1,8 @@
 package com.btf.tap.service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +35,7 @@ public class MemberService {
 	// 회원 한 명의 정보를 추가하기
 	// 입력: Member
 	// 결과: int(회원가입된 수)
-	public int addMember(Member member) {
+	public int addMember(Member member, String sido, String sigungu) {
 		
 		log.debug(Font.HW + "입력받은 회원가입 정보 => " + member.toString() + Font.RESET);
 		
@@ -40,6 +43,17 @@ public class MemberService {
 		
 		log.debug(Font.HW + "회원가입된 수 => " + confirm  + Font.RESET);
 		
+		Map<String, Object> paramMap = new HashMap<>();
+		
+		String memberId = member.getMemberId();
+		
+		paramMap.put("memberId", memberId);
+		paramMap.put("sido", sido);
+		paramMap.put("sigungu", sigungu);
+		
+		memberMapper.insertPreferLocal(paramMap);
+		
+		log.debug(Font.HW + "선호지역 데이터 정보 => " + paramMap.toString() + Font.RESET);
 			
 		return confirm;
 	}

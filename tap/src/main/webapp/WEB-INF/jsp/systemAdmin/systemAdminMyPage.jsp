@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -656,20 +657,53 @@
 
                             <!-- Illustrations -->
                             <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Illustrations</h6>
+                                <div id="questionList" class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">문의 미답변 리스트</h6>
+                                    <a href="${pageContext.request.contextPath}/systemAdminMyPage?writerCategory=member#questionList">회원</a>
+									<a href="${pageContext.request.contextPath}/systemAdminMyPage?writerCategory=host#questionList">숙소 호스트</a>
                                 </div>
                                 <div class="card-body">
                                     <div class="text-center">
-                                        <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
-                                            src="${pageContext.request.contextPath}/resource/img/undraw_posting_photo.svg" alt="...">
-                                    </div>
-                                    <p>Add some quality, svg illustrations to your project courtesy of <a
-                                            target="_blank" rel="nofollow" href="https://undraw.co/">unDraw</a>, a
-                                        constantly updated collection of beautiful svg images that you can use
-                                        completely free and without attribution!</p>
-                                    <a target="_blank" rel="nofollow" href="https://undraw.co/">Browse Illustrations on
-                                        unDraw &rarr;</a>
+                                    	<c:choose>
+											<c:when test="${empty questionMap.list}">
+												<div>검색 결과가 없습니다.</div>
+											</c:when>
+											
+											<c:otherwise>
+												<table border="1">
+													<tr>
+														<th>글 번호</th>
+														<th>카테고리</th>
+														<th>제목</th>
+														<th>작성자</th>
+														<th>작성일</th>
+													</tr>
+													<c:forEach var="q" items="${questionMap.list}">
+														<tr>
+															<td>${q.questionId}</td>
+															<td>${q.writerCategory}</td>
+															<td><a href="${pageContext.request.contextPath}/questionOne?questionId=${q.questionId}">${q.questionTitle}</a></td>
+															<td>${q.writerId}</td>
+															<td>${q.createDate}</td>
+														</tr>
+													</c:forEach>
+												</table>
+											</c:otherwise>
+										</c:choose>
+                                    	
+                                 		<c:if test="${questionMap.unansweredCurrentPage > 1}">
+											<a href="${pageContext.request.contextPath}/systemAdminMyPage?unansweredCurrentPage=1&writerCategory=${questionMap.writerCategory}#questionList" id="test">처음으로</a>
+											<a href="${pageContext.request.contextPath}/systemAdminMyPage?unansweredCurrentPage=${questionMap.unansweredCurrentPage-1}&writerCategory=${questionMap.writerCategory}#questionList">이전</a>
+										</c:if>
+											
+										<c:forEach var="i" begin="${questionMap.startPage}" end="${questionMap.endPage}">
+											<a href="${pageContext.request.contextPath}/systemAdminMyPage?unansweredCurrentPage=${i}&writerCategory=${questionMap.writerCategory}#questionList"><c:out value="${i}"/></a>
+										</c:forEach>
+											
+										<c:if test="${questionMap.unansweredCurrentPage < questionMap.lastPage}">
+											<a href="${pageContext.request.contextPath}/systemAdminMyPage?unansweredCurrentPage=${questionMap.unansweredCurrentPage+1}&writerCategory=${questionMap.writerCategory}#questionList">다음</a>
+											<a href="${pageContext.request.contextPath}/systemAdminMyPage?unansweredCurrentPage=${questionMap.lastPage}&writerCategory=${questionMap.writerCategory}#questionList">끝으로</a>
+										</c:if>
                                 </div>
                             </div>
 
@@ -686,7 +720,7 @@
                                         Bootstrap framework, especially the utility classes.</p>
                                 </div>
                             </div>
-
+						</div>
                         </div>
                     </div>
 
@@ -753,7 +787,6 @@
     <!-- Page level custom scripts -->
     <script src="${pageContext.request.contextPath}/resources/js/demo/chart-area-demo.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/demo/chart-pie-demo.js"></script>
-
 </body>
 
 </html>

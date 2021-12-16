@@ -265,11 +265,11 @@
 	<insert id="insertSearchKeyword" parameterType="com.btf.tap.vo.SearchHistory">
 		REPLACE INTO search_history(
 			search_word,
-			member_id,
+			user_id,
 			create_date
 		) VALUES (
 			#{searchWord},
-			#{memberId},
+			#{userId},
 			NOW()
 		)		
 	</insert>
@@ -280,18 +280,18 @@
 			search_word searchWord
 		FROM search_history
 		<where>
-			member_id = #{memberId}
+			user_id = #{userId}
 		</where>
 		ORDER BY create_date DESC
 		LIMIT 0, 6
 	</select>
 	
 	<!-- 회원 최근 검색어 삭제 -->
-	<delete id="deleteSearchKeyword" parameterType="com.btf.tap.vo.SearchHistory">
+	<delete id="deleteSearchKeyword" parameterType="java.util.Map">
 		DELETE FROM search_history
 		<where>
-			search_word = #{searchWord}
-			AND member_id = #{memberId}
+			search_word = #{keyword}
+			AND user_id = #{userId}
 		</where>
 	</delete>
 	

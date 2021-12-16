@@ -330,7 +330,7 @@ public class SearchService {
 	public void addSearchHistory(User user, String keyword) {
 		SearchHistory searchHistory = new SearchHistory();
 		searchHistory.setSearchWord(keyword);
-		searchHistory.setMemberId(user.getUserId());
+		searchHistory.setUserId(user.getUserId());
 		
 		searchMapper.insertSearchKeyword(searchHistory);
 	}
@@ -338,8 +338,8 @@ public class SearchService {
 	// 사용자 이전 검색어 기록 조회
 	public List<String> getSearchHistory(User user) {
 		List<String> list = new ArrayList<>();
-		String memberId = user.getUserId();
-		list = searchMapper.selectSearchKeyword(memberId);
+		String userId = user.getUserId();
+		list = searchMapper.selectSearchKeyword(userId);
 		log.debug(Font.JSB + list.toString() + Font.RESET);
 		
 		return list;
@@ -347,13 +347,7 @@ public class SearchService {
 	
 	// 사용자 이전 검색어 삭제
 	public void removeSearchHistory(Map<String, Object> paramMap) {
-		String keyword = (String)paramMap.get("keyword");
-		String userId = (String)paramMap.get("userId");
-		SearchHistory searchHistory = new SearchHistory();
-		searchHistory.setSearchWord(keyword);
-		searchHistory.setMemberId(userId);
-		
-		searchMapper.deleteSearchKeyword(searchHistory);
+		searchMapper.deleteSearchKeyword(paramMap);
 	}
 	
 	// DB 시도 리스트 조회
