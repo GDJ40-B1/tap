@@ -29,7 +29,7 @@
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+                <div class="sidebar-brand-text mx-3">TAP<sup></sup></div>
             </a>
 
             <!-- Divider -->
@@ -212,13 +212,6 @@
                             </div>
                         </li>
 
-                        <li class="nav-item dropdown no-arrow mx-1">
-                        <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								<span class="mr-2 d-none d-lg-inline text-gray-600 small">보유 포인트 : ${loginUser.userPoint} 원</span>
-							</a>
-						</li>
-
                         <!-- Nav Item - Alerts -->
                         <li class="nav-item dropdown no-arrow mx-1">
                             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
@@ -391,3 +384,20 @@
 			            </div>
 			        </div>
 			    </div>
+			    
+			    <!-- Bootstrap core JavaScript-->
+			    <script src="${pageContext.request.contextPath}/resources/vendor/jquery/jquery.min.js"></script>
+			    <script src="${pageContext.request.contextPath}/resources/vendor/bootstrap_sb/js/bootstrap.bundle.min.js"></script>
+			
+			    <!-- Core plugin JavaScript-->
+			    <script src="${pageContext.request.contextPath}/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
+			
+			    <!-- Custom scripts for all pages-->
+			    <script src="${pageContext.request.contextPath}/resources/js/sb-admin-2.min.js"></script>
+			
+			    <!-- Page level plugins -->
+			    <script src="${pageContext.request.contextPath}/resources/vendor/chart.js/Chart.min.js"></script>
+			
+			    <!-- Page level custom scripts -->
+			    <script src="${pageContext.request.contextPath}/resources/js/demo/chart-area-demo.js"></script>
+			    <script src="${pageContext.request.contextPath}/resources/js/demo/chart-pie-demo.js"></script>

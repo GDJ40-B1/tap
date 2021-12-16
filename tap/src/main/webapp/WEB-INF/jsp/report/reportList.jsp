@@ -20,10 +20,6 @@
       <div class="container">
         <div class="d-flex justify-content-between align-items-center">
           <h2>신고 내역</h2>
-          <ol>
-            <li><a href="/tap/index">Home</a></li>
-            <li>신고 내역</li>
-          </ol>
         </div>
       </div>
     </section><!-- End Breadcrumbs -->
@@ -41,7 +37,7 @@
     <section id="list" class="list">
       <div class="container">
 		
-		<table border="1">
+		<table border="1" style="text-align: center">
 			<tr>
 				<th>작성자ID</th>
 				<th>신고대상</th>

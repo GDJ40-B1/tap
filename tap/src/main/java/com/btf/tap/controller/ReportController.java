@@ -36,7 +36,13 @@ public class ReportController {
 			// 작성자의 정보를 알아오기 위해
 			HttpSession session = request.getSession();
 			User loginUser = (User)session.getAttribute("loginUser");
-			log.debug(Font.HS + "requestListCont : " + loginUser.toString() + Font.RESET);
+			log.debug(Font.HS + "로그인유저 정보 => " + loginUser.toString() + Font.RESET);
+			
+			// 시스템관리자가 아닐 경우 로그인 페이지로 이동
+			if(!loginUser.getUserLevel().equals("system_admin")) {
+				log.debug(Font.HS + "시스템관리자 계정이 아닙니다." + Font.RESET);
+				return "redirect:/";
+			}
 			
 			model.addAttribute("loginUser", loginUser);
 			model.addAttribute("list", map.get("list"));
@@ -55,15 +61,16 @@ public class ReportController {
 		
 		HttpSession session = request.getSession();
 		log.debug(Font.HS + "getAddCont : " + session.toString() + Font.RESET);
-		
-		// 로그인 되어있지 않을 경우, 시스템관리자일 경우 홈페이지로 이동
-		if(session.getAttribute("loginUser") == null || session.getAttribute("loginUser").equals("system_admin")) {
-			return "redirect:/";
-		}
-		
+				
 		// 세션에서 loginUser 객체 받기
 		User loginUser = (User)session.getAttribute("loginUser");
 		log.debug(Font.HS + "getAddCont : " + loginUser.toString() + Font.RESET);
+		
+		// 로그인 되어있지 않을 경우, 시스템관리자일 경우 홈페이지로 이동
+		if(loginUser == null || loginUser.getUserLevel().equals("system_admin")) {
+			log.debug(Font.HS + "로그인 정보가 없거나, 시스템관리자 계정입니다." + Font.RESET);
+			return "redirect:/";
+		}
 		
 		model.addAttribute("loginUser", loginUser);
 		
@@ -78,7 +85,7 @@ public class ReportController {
 		// 입력된 신고정보 확인
 		log.debug(Font.HS + "postAddCont : " + report.toString() + Font.RESET);
 		
-		return "redirect:/reportList";
+		return "redirect:/";
 	}	
 	
 	// 신고글 삭제하기
