@@ -9,39 +9,51 @@
 </head>
 <body>
 	 
-		<!-- start : mainHeader -->
-   <div>
-      <jsp:include page="/partial/mainHeader.jsp"></jsp:include>
-   </div>
-   <!-- end : mainHeader -->
-   <br>
-   <br>
-   <br>
-   
-   
-	<a href="${pageContext.request.contextPath}/noticeList">리스트로</a>
-	
-	<h1>공지사항 추가</h1>
-	<form action="${pageContext.request.contextPath}/addNotice" method="post">
-		<div>관리자 id :</div>
-		<div><input type="text" name="systemAdminId"></div>
-		<div>제목 :</div>
-		<div><input type="text" name="title"></div>
-		<div>내용 :</div>
-		<div><textarea rows="10" cols="20" name="content"></textarea></div>
-		<div>종류 :</div>
-		<div>
-		<select name="kind">
-			<option value="Y">Y</option>
-			<option value="N">N</option>
-		</select>
+    <!-- start : mainHeader -->
+	<div>
+	   <jsp:include page="/partial/mainHeader.jsp"></jsp:include>
 	</div>
-		<div><button type="submit">추가</button></div>
-	</form>
-	<!-- start : mainFooter -->
-   <div>
-      <jsp:include page="/partial/mainFooter.jsp"></jsp:include>
-   </div>
-   <!-- end : mainFooter -->
+    <!-- end : mainHeader -->
+   
+    <main id="main">
+    
+    <!-- ======= Breadcrumbs ======= -->
+    <section id="breadcrumbs" class="breadcrumbs">
+    	<div class="container">
+    		<div class="d-flex justify-content-between align-items-center">
+          	<h2>공지사항 추가하기</h2>
+        	</div>
+        </div>	
+        
+   		<section class="breadcrumbs">
+   			<div class="container">
+				<a href="${pageContext.request.contextPath}/noticeList">리스트로</a>
+			
+				<form action="${pageContext.request.contextPath}/addNotice" method="post">
+					<input type="hidden" name="systemAdminId" value="${loginUser.userId}">
+					<div>제목 :</div>
+					<div><input type="text" name="title"></div>
+					<div>내용 :</div>
+					<div><textarea rows="10" cols="20" name="content"></textarea></div>
+					<div>종류 :</div>
+					<div>
+						<select name="kind">
+							<option value="Y">Y</option>
+							<option value="N">N</option>
+						</select>
+					</div>
+					<div><button type="submit">추가</button></div>
+				</form>
+			</div>	
+		</section>
+	</section>	
+	
+	</main>
+	
+  	<!-- start : mainFooter -->
+    <div>
+       <jsp:include page="/partial/mainFooter.jsp"></jsp:include>
+    </div>
+    <!-- end : mainFooter -->
 </body>
 </html>

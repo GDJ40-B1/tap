@@ -1,18 +1,20 @@
 package com.btf.tap.controller;
 
 import java.util.List;
-import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.btf.tap.common.Font;
 import com.btf.tap.service.NoticeService;
 import com.btf.tap.vo.Notice;
+import com.btf.tap.vo.User;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,17 +24,24 @@ public class NoticeController {
 	@Autowired
 	NoticeService noticeService;
 	
-	@GetMapping("/addNotice")
-	public String addNotice() {
+	@GetMapping("/systemAdmin/addNotice")
+	public String addNotice(HttpServletRequest request, Model model) {
+		
+		// addNotice.jsp에서 writerId값을 세션 id값으로 대체하기 위해 생성
+		HttpSession session = request.getSession();
+		
+		User loginUser = (User)session.getAttribute("loginUser");
+		log.debug(Font.HS + "로그인한 세션 정보 => " + loginUser.toString() + Font.RESET);
+		
+		model.addAttribute("loginUser", loginUser);
+		
 		return "notice/addNotice";
 	}
-	
-	
 	@PostMapping("/addNotice")
 	public String addNotice(Notice notice) {
-		int noticeId = noticeService.addNotice(notice);
+		noticeService.addNotice(notice);
 		log.debug(Font.KSB + notice.toString() + Font.RESET);
-		return "redirect:/noticeOne?noticeId="+noticeId;
+		return "redirect:/noticeList";
 	}
 	
 	@GetMapping("/noticeOne")
@@ -42,7 +51,7 @@ public class NoticeController {
 		return "notice/noticeOne";
 	}
 	
-	@GetMapping("/modifyNotice")
+	@GetMapping("/systemAdmin/modifyNotice")
 	public String modifyNotice(Model model, int noticeId) {
 		Notice notice = noticeService.getNoticeOne(noticeId);
 		model.addAttribute("notice", notice);
@@ -56,7 +65,7 @@ public class NoticeController {
 		return "redirect:/noticeOne?noticeId="+noticeId;
 	}
 	
-	@GetMapping("/deleteNotice")
+	@GetMapping("/systemAdmin/deleteNotice")
 	public String deleteNotice(Model model, int noticeId) {
 		Notice notice = noticeService.getNoticeOne(noticeId);
 		model.addAttribute("notice", notice);
@@ -73,7 +82,7 @@ public class NoticeController {
 	
 	@GetMapping("/noticeList")
 	public String noticeList(Model model, String currentNum, String kind) {
-			
+		 	
 		int currentPage = 1;
 		if(currentNum!=null) {
 			currentPage = Integer.parseInt(currentNum);

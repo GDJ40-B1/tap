@@ -10,50 +10,58 @@
 <body>
 
 	<!-- start : mainHeader -->
-   <div>
-      <jsp:include page="/partial/mainHeader.jsp"></jsp:include>
-   </div>
-   <!-- end : mainHeader -->
+    <div>
+       <jsp:include page="/partial/mainHeader.jsp"></jsp:include>
+    </div>
+    <!-- end : mainHeader -->
    
-   <br>
-   <br>
-   <br>
-	<a href="${pageContext.request.contextPath}/noticeList">리스트로</a>
-	<h1>공지사항 상세</h1>
-	<input type="hidden" name="noticeId" value="${noticeId}" readonly="readonly">
-	<br>
-	<table border="1">
-		<tr>
-			<td>제목 :</td>
-			<td>${notice.title}</td>
-		</tr>
-		<tr>
-			<td>내용 :</td>
-			<td>${notice.content}</td>
-		</tr>
-		<tr>
-			<td>종류 :</td>
-			<td>${notice.kind}</td>
-		</tr>
-		
-	</table>
-		<div>
-			<a href="${pageContext.request.contextPath}/modifyNotice?noticeId=${notice.noticeId}">수정</a>
-			
-			<a href="${pageContext.request.contextPath}/deleteNotice?noticeId=${notice.noticeId}">삭제</a>
-		</div>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
+ 	<main id="main">
+ 	
+ 	<!-- ======= Breadcrumbs ======= -->
+    <section id="breadcrumbs" class="breadcrumbs">
+      	<div class="container">
+        	<div class="d-flex justify-content-between align-items-center">
+          	<h2>공지사항 상세보기</h2>
+        	</div>
+    	</div>
+    
+	    <section id="list" class="list">
+	      <div class="container">
+			<a href="${pageContext.request.contextPath}/noticeList">리스트로</a>
+			<input type="hidden" name="noticeId" value="${noticeId}" readonly="readonly">
+			<br>
+			<table border="1">
+				<tr>
+					<td>제목 :</td>
+					<td>${notice.title}</td>
+				</tr>
+				<tr>
+					<td>내용 :</td>
+					<td>${notice.content}</td>
+				</tr>
+				<tr>
+					<td>종류 :</td>
+					<td>${notice.kind}</td>
+				</tr>
+			</table>		
+				<c:if test="${loginUser.userLevel eq 'system_admin'}">
+					<div>
+						<a href="${pageContext.request.contextPath}/systemAdmin/modifyNotice?noticeId=${notice.noticeId}">수정</a>
+						
+						<a href="${pageContext.request.contextPath}/systemAdmin/deleteNotice?noticeId=${notice.noticeId}">삭제</a>
+					</div>
+				</c:if>
+			</div>
+	    </section>	
+	</section><!-- End Breadcrumbs -->
 	
-	<!-- start : mainFooter -->
-   <div>
-      <jsp:include page="/partial/mainFooter.jsp"></jsp:include>
-   </div>
-   <!-- end : mainFooter -->
+	</main><!-- End #main -->
 	
-	
+    <!-- start : mainFooter -->
+    <div>
+       <jsp:include page="/partial/mainFooter.jsp"></jsp:include>
+    </div>
+    <!-- end : mainFooter -->
+    
 </body>
 </html>
