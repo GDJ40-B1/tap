@@ -75,7 +75,7 @@
 			
 			<br>
 		
-	<button type="submit">수정하기</button>
+	<button type="submit" id="modifyBtn">수정하기</button>
 	</form>
 	</section>
 	</main>

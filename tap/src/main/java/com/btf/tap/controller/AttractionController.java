@@ -67,10 +67,10 @@ public class AttractionController {
 	// 수정
 	public String getModifyAttraction(Model model, int attractionId, int detailAddressId) {
 		model.addAttribute("attractionCategoryList", attractionService.getAttractionCategory());
-		System.out.println("!!!!!!!"+attractionService.getAttractionCategory());
 		Map<String, Object> map = attractionService.getAttractionOne(attractionId, detailAddressId);
 		model.addAttribute("attraction", map.get("attraction"));
 		model.addAttribute("address", map.get("address"));
+		System.out.println("!!!!!!!"+map.get("address"));
 		return "attraction/modifyAttraction";
 	}
 	
@@ -78,9 +78,9 @@ public class AttractionController {
 	public String postModifyAttraction(RedirectAttributes redirect, Attraction attraction, Address address) {
 		address = attractionService.modifyAttraction(attraction, address);
 		redirect.addAttribute("attractionId",attraction.getAttractionId());
-		redirect.addAttribute("detailAddressId", address.getDetailAddress());
+		redirect.addAttribute("detailAddressId", address.getDetailAddressId());
 		
-		return "redirect:attractionOne";
+		return "redirect:/attractionOne";
 	}
 
 }
