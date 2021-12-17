@@ -4,11 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.catalina.mapper.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.btf.tap.common.Font;
 import com.btf.tap.mapper.AddressMapper;
 import com.btf.tap.mapper.AttractionMapper;
 import com.btf.tap.vo.Address;
@@ -95,5 +95,43 @@ public class AttractionService {
 		return attraction.getAttractionId(); 
 		
 	}
-
+	
+	// 사용자 설정 선호지역 별 인기 명소 리스트
+	public Map<String, Object> getPreferLocalAttractionList(int preferAttractionCurrent, String sido, String sigungu) {
+		int defaultPage = 10;
+		final int rowPerPage = 10;
+		int startPage = ((preferAttractionCurrent - 1) / defaultPage) * defaultPage + 1;
+		int endPage = startPage + defaultPage - 1;		
+		int beginRow = (preferAttractionCurrent-1) * rowPerPage;
+		int lastPage = 0;
+		
+		Map<String, Object> page = new HashMap<>();
+		page.put("beginRow", beginRow);
+		page.put("rowPerPage", rowPerPage);
+		page.put("sido", sido);
+		page.put("sigungu", sigungu);
+		
+		List<Attraction> list = attractionMapper.selectPreferLocalAttractionList(page);
+		log.debug(Font.JSB + list.toString() + Font.RESET);
+		
+		int totalRowCount = attractionMapper.preferLocalAttractionTotalCount(page);
+		
+		lastPage = totalRowCount / rowPerPage;
+		
+		if(totalRowCount % rowPerPage != 0) {
+			lastPage+=1;
+		}
+		
+		if(endPage > lastPage) {
+			endPage = lastPage;
+		}		
+		
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("list", list);
+		paramMap.put("startPage", startPage);
+		paramMap.put("endPage", endPage);
+		paramMap.put("lastPage", lastPage);
+		
+		return paramMap;
+	}
 }

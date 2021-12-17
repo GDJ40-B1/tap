@@ -1,6 +1,7 @@
 package com.btf.tap.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -21,5 +22,8 @@ public interface AttractionMapper {
 	List<Attraction> selectAttractionList();
 	// 명소 등록
 	int insertAttraction(Attraction attraction);
-	
+	// 선호 지역 인기 명소 리스트
+	List<Attraction> selectPreferLocalAttractionList(Map<String, Object> page);
+	// 선호 지역 인기 명소 개수
+	int preferLocalAttractionTotalCount(Map<String, Object> page);
 }

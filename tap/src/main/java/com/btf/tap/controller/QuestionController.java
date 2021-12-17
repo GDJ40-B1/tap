@@ -33,11 +33,7 @@ public class QuestionController {
 											@RequestParam(required = false) String writerCategory) {
 		Map<String, Object> map = questionService.getQuestionList(currentPage, rowPerPage, writerCategory);
 		log.debug(Font.JSB + map.toString() + Font.RESET);
-		
-		HttpSession session = request.getSession();
-		User loginUser = (User)session.getAttribute("loginUser");
-		
-		model.addAttribute("loginUser", loginUser);
+
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("startPage", map.get("startPage"));

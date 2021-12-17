@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.btf.tap.common.Font;
 import com.btf.tap.mapper.MemberMapper;
 import com.btf.tap.vo.Member;
+import com.btf.tap.vo.User;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -43,6 +44,8 @@ public class MemberService {
 		
 		log.debug(Font.HW + "회원가입된 수 => " + confirm  + Font.RESET);
 		
+		
+		// 사용저 설정 선호지역 저장
 		Map<String, Object> paramMap = new HashMap<>();
 		
 		String memberId = member.getMemberId();
@@ -53,7 +56,7 @@ public class MemberService {
 		
 		memberMapper.insertPreferLocal(paramMap);
 		
-		log.debug(Font.HW + "선호지역 데이터 정보 => " + paramMap.toString() + Font.RESET);
+		log.debug(Font.JSB + "선호지역 데이터 정보 => " + paramMap.toString() + Font.RESET);
 			
 		return confirm;
 	}
@@ -169,5 +172,16 @@ public class MemberService {
 		log.debug(Font.HW + "포인트 감소된 회원 수 => " + confirm  + Font.RESET);
 		
 		return confirm;
+	}
+	
+	public Map<String, Object> getPreferLocal(User user) {
+		
+		String memberId = user.getUserId();
+		
+		Map<String, Object> paramMap = memberMapper.selectPreferLocal(memberId);
+		
+		log.debug(Font.JSB + "설정된 선호지역 => " + paramMap.toString()  + Font.RESET);
+		
+		return paramMap; 
 	}
 }

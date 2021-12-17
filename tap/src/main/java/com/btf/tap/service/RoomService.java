@@ -11,11 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.btf.tap.common.Font;
 import com.btf.tap.mapper.AddressMapper;
 import com.btf.tap.mapper.HashtagMapper;
 import com.btf.tap.mapper.RoomMapper;
 import com.btf.tap.vo.Address;
 import com.btf.tap.vo.Hashtag;
+import com.btf.tap.vo.Question;
 import com.btf.tap.vo.Room;
 
 import lombok.extern.slf4j.Slf4j;
@@ -241,4 +243,42 @@ public class RoomService {
         return pageElement;
 	}
 	
+	// 사용자 설정 선호지역 별 인기 숙소 리스트
+	public Map<String, Object> getPreferLocalRoomList(int preferRoomCurrent, String sido, String sigungu) {
+		int defaultPage = 10;
+		final int rowPerPage = 10;
+		int startPage = ((preferRoomCurrent - 1) / defaultPage) * defaultPage + 1;
+		int endPage = startPage + defaultPage - 1;		
+		int beginRow = (preferRoomCurrent-1) * rowPerPage;
+		int lastPage = 0;
+		
+		Map<String, Object> page = new HashMap<>();
+		page.put("beginRow", beginRow);
+		page.put("rowPerPage", rowPerPage);
+		page.put("sido", sido);
+		page.put("sigungu", sigungu);
+		
+		List<Room> list = roomMapper.selectPreferLocalRoomList(page);
+		log.debug(Font.JSB + list.toString() + Font.RESET);
+		
+		int totalRowCount = roomMapper.preferLocalRoomTotalCount(page);
+		
+		lastPage = totalRowCount / rowPerPage;
+		
+		if(totalRowCount % rowPerPage != 0) {
+			lastPage+=1;
+		}
+		
+		if(endPage > lastPage) {
+			endPage = lastPage;
+		}		
+		
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("list", list);
+		paramMap.put("startPage", startPage);
+		paramMap.put("endPage", endPage);
+		paramMap.put("lastPage", lastPage);
+		
+		return paramMap;
+	}
 }
