@@ -19,6 +19,12 @@ public class CouponService {
 	@Autowired CouponMapper couponMapper;
 	// add, modify, get, remove
 	
+	// 특정 숙소에서 특정 회원이 발급받지 않은 쿠폰 목록 추출
+	public List<Coupon> getNotMemberCoupon(Map<String, Object> memberCoupon){
+		List<Coupon> couqonList = couponMapper.selectNotMemberCoupon(memberCoupon);
+		return couqonList;
+	}
+	
 	// 보유 쿠폰 추가
 	public void addMemberCoupon(Map<String, Object> memberCoupon) {
 		couponMapper.insertMemberCoupon(memberCoupon);
