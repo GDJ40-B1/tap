@@ -126,14 +126,8 @@ public class MemberController {
 		member.setMemberId(user.getUserId());
 		member = memberService.getMemberOne(member);
 		
-		// 회원의 포인트 이용 내역 조회
-		List<Map> pointHistory = pointService.getPointHistoryList(user);
-		
 		// 회원 정보 주입
 		model.addAttribute("member", member);
-		
-		// 회원 포인트 이용 내역 정보 주입
-		model.addAttribute("pointHistory", pointHistory);
 		
 		// 포인트 정보 페이지로 이동
 		return "member/pointInfo";

@@ -5,10 +5,11 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.btf.tap.vo.PointHistory;
 import com.btf.tap.vo.User;
 
 @Mapper
 public interface PointMapper {
 	
-	List<Map> selectgPointHistoryList(User user);			// 회원의 포인트 이용 내역 리스트 조회하기
+	List<PointHistory> selectgPointHistoryList(User user);			// 회원의 포인트 이용 내역 리스트 조회하기
 }
