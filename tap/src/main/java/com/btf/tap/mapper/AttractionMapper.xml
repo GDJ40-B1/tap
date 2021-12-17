@@ -50,7 +50,7 @@
 			attraction
 		SET
 			detail_address_id=#{detailAddressId}, attraction_category=#{attractionCategory}, attraction_name=#{attractionName}, attraction_phone_number=#{attractionPhoneNumber},
-			attraction_content=#{attractionContent}, aproval_status=#{aprovalStatus}, update_date=Now()
+			attraction_content=#{attractionContent}, approval_status=#{approvalStatus}, update_date=Now()
 		WHERE
 			attraction_id=#{attractionId}
 		
@@ -72,10 +72,10 @@
 		INSERT INTO 
 			attraction(
 			detail_address_id, attraction_category, attraction_name, attraction_phone_number, 
-			attraction_content, approval_status, create_date, update_date
+			attraction_content, create_date, update_date
 		)VALUE(
 			#{detailAddressId}, #{attractionCategory}, #{attractionName}, #{attractionPhoneNumber},
-			#{attractionContent}, #{"N"}, NOW(), NOW())
+			#{attractionContent}, NOW(), NOW())
 		<!-- key값 return -->
 		<selectKey keyProperty="attractionId" order="AFTER" resultType="int">
 			SELECT LAST_INSERT_ID()
