@@ -60,7 +60,7 @@
 				<input type="text" name="detailAddress" id="address">
 			</div>			
 			<div>
-				<button type="button" id="serarchBtn">지도</button>
+				<button type="button" name="searchBtn"id="searchBtn">찾기</button>
 			</div>
 			<div>상세주소</div>
 			<div>
@@ -70,7 +70,7 @@
 			
 			<br>
 			<button type="button" id="addBtn">명소등록</button>
-			
+		</form>	
 	</section>
 	</main>
 	
