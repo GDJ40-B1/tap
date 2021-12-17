@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     
-        <!-- Custom fonts for this template-->
+    <!-- Custom fonts for this template-->
     <link href="${pageContext.request.contextPath}/resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
@@ -14,9 +14,6 @@
 
     <!-- Custom styles for this template-->
     <link href="${pageContext.request.contextPath}/resources/css/sb-admin-2.min.css" rel="stylesheet">
-    
-    <!-- Custom styles for this page -->
-    <link href="${pageContext.request.contextPath}/resources/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -141,15 +138,43 @@
                     <i class="fas fa-question-circle"></i>
                     <span>문의</span></a>
             </li>
-
-            <!-- Divider -->
+			
+			<!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+			
+			<!-- Heading -->
+            <div class="sidebar-heading">
+                LIST
+            </div>
+            
+			<!-- Nav Item - Members -->
+            <li class="nav-item">
+                <a class="nav-link" href="${pageContext.request.contextPath}/systemAdmin/memberList">
+                    <i class="fas fa-user-circle"></i>
+                    <span>회원목록</span></a>
+            </li>
+            
+            <!-- Nav Item - Hosts -->
+            <li class="nav-item">
+                <a class="nav-link" href="${pageContext.request.contextPath}/questionList">
+                    <i class="far fa-user-circle"></i>
+                    <span>호스트목록</span></a>
+            </li>
+            
+			<!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
-
+            
+            <!-- Sidebar Message -->
+            <div class="sidebar-card d-none d-lg-flex">
+                <img class="sidebar-card-illustration mb-2" src="${pageContext.request.contextPath}/resources/img/undraw_rocket.svg" alt="...">
+                <p class="text-center mb-2"><strong>SB Admin Pro</strong> is packed with premium features, components, and more!</p>
+                <a class="btn btn-success btn-sm" href="https://startbootstrap.com/theme/sb-admin-pro">Upgrade to Pro!</a>
+            </div>
         </ul>
         <!-- End of Sidebar -->
 

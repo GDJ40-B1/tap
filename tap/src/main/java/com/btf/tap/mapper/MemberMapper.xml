@@ -40,6 +40,17 @@
 			update_date
 		FROM
 			member
+		ORDER BY 
+			create_date DESC
+		LIMIT #{beginRow}, #{rowPerPage}	
+	</select>
+	
+	<!-- 전체 회원 수 -->
+	<select id="totalMemberCount" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM 
+			member	 
 	</select>
 	
 	<!-- 회원 비밀번호 확인하기(수정용) -->

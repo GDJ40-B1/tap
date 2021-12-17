@@ -1,6 +1,7 @@
 package com.btf.tap.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -169,5 +170,51 @@ public class MemberService {
 		log.debug(Font.HW + "포인트 감소된 회원 수 => " + confirm  + Font.RESET);
 		
 		return confirm;
+	}
+	
+	// 회원 전체 목록 불러오기
+	// 입력 : currentPage, rowPerPage
+	// 출력 : paramMap(list,lastPage,startPage,endPage) 
+	public Map<String,Object> getMemberList(int currentPage, int rowPerPage) {
+		// 데이터 시작 행
+		int beginRow = 0;
+		beginRow = (currentPage-1) * rowPerPage;
+		
+		// selectMemberList() 메소드의 page 매개변수 객체 생성
+		Map<String,Object> page = new HashMap<>();
+		page.put("beginRow", beginRow);
+		page.put("rowPerPage", rowPerPage);
+		log.debug(Font.HS + "page 객체에 저장된 값 => " + page.toString() + Font.RESET);
+		
+		List<Member> list = memberMapper.selectMemberList(page);
+		log.debug(Font.HS + "회원 전체 목록 => " + list.toString() + Font.RESET);
+		
+		// 전체 회원 수
+		int totalMemberCount = memberMapper.totalMemberCount();
+		log.debug(Font.HS + "전체 회원 수 => " + totalMemberCount + Font.RESET);
+		
+		// 총 데이터의 마지막 페이지
+		int lastPage = 0;
+		lastPage = totalMemberCount / rowPerPage;
+		if(totalMemberCount % rowPerPage != 0) {
+			lastPage += 1;
+		}
+		
+		// 페이징의 시작 페이지
+		int startPage = 0;
+		startPage = ((currentPage-1) / rowPerPage) * rowPerPage + 1;
+		
+		// 페이징의 끝 페이지
+		int endPage = 0;
+		endPage = startPage + rowPerPage - 1;
+		
+		Map<String,Object> paramMap = new HashMap<>();
+		paramMap.put("list", list);
+		paramMap.put("lastPage", lastPage);
+		paramMap.put("startPage", startPage);
+		paramMap.put("endPage", endPage);
+		log.debug(Font.HS + "paramMap 객체에 저장된 값 => " + paramMap.toString() + Font.RESET);
+		
+		return paramMap;
 	}
 }
