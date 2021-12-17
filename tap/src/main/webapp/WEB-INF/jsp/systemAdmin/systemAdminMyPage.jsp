@@ -168,7 +168,7 @@
             
             <!-- Nav Item - Hosts -->
             <li class="nav-item">
-                <a class="nav-link" href="${pageContext.request.contextPath}/questionList">
+                <a class="nav-link" href="${pageContext.request.contextPath}/systemAdmin/hostList">
                     <i class="far fa-user-circle"></i>
                     <span>호스트목록</span></a>
             </li>
