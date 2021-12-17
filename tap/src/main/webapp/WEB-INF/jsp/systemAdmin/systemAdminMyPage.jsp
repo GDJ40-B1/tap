@@ -153,12 +153,34 @@
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
+			
+			<!-- Heading -->
+            <div class="sidebar-heading">
+                LIST
+            </div>
+            
+			<!-- Nav Item - Members -->
+            <li class="nav-item">
+                <a class="nav-link" href="${pageContext.request.contextPath}/systemAdmin/memberList">
+                    <i class="fas fa-user-circle"></i>
+                    <span>회원목록</span></a>
+            </li>
+            
+            <!-- Nav Item - Hosts -->
+            <li class="nav-item">
+                <a class="nav-link" href="${pageContext.request.contextPath}/systemAdmin/hostList">
+                    <i class="far fa-user-circle"></i>
+                    <span>호스트목록</span></a>
+            </li>
+            
+			<!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
 
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
-
+            
             <!-- Sidebar Message -->
             <div class="sidebar-card d-none d-lg-flex">
                 <img class="sidebar-card-illustration mb-2" src="${pageContext.request.contextPath}/resources/img/undraw_rocket.svg" alt="...">

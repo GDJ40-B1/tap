@@ -92,7 +92,7 @@ public class RoomService {
 	}
 	
 	// 특정 숙소 정보 추출
-	public Map<String, Object> getRoomOne(int roomId, int detailAddressId){
+	public Map<String, Object> getRoomOne(int roomId, int detailAddressId, String memberId){
 		Map<String, Object> result = new HashMap<>();
 		Address address = addressMapper.selectAddressOne(detailAddressId);
 		
@@ -107,7 +107,16 @@ public class RoomService {
 		// 해시태그 정보
 		result.put("hashtag", hashtagService.getHashtag("room", roomId));
 		// 쿠폰 목록 추출
-		result.put("couponList", couponService.getRoomCouponList(roomId));
+		if(memberId.equals("")) {
+			// 로그인 되어있지 않다면, 해당 숙소의 모든 쿠폰 추출
+			result.put("couponList", couponService.getRoomCouponList(roomId));
+		} else {
+			// 로그인 되어있다면 자신의 보유쿠폰을 제외하고 추출
+			Map<String, Object> memberCoupon = new HashMap<>();
+			memberCoupon.put("memberId", memberId);
+			memberCoupon.put("roomId", roomId);
+			result.put("couponList", couponService.getNotMemberCoupon(memberCoupon));
+		}
 		return result;
 	}
 	

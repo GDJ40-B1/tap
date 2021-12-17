@@ -58,6 +58,10 @@ public class ReportService {
 		int endPage = 0;
 		endPage = startPage + rowPerPage - 1;
 		
+		if(endPage > lastPage) {
+			endPage = lastPage;
+		}
+		
 		Map<String,Object> paramMap = new HashMap<>();
 		paramMap.put("list", list);
 		paramMap.put("lastPage", lastPage);

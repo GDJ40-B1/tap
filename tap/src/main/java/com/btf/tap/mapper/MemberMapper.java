@@ -15,7 +15,8 @@ public interface MemberMapper {
 	Map<String, Object> selectPreferLocal(String memberId);	// 특정 회원 선호지역 불러오기
 	int updateMemberOne(Member member);						// 회원 한 명의 정보 수정하기(나이,이름, 전화번호)
 	int deleteMemberOne(Member member);						// 회원 한 명의 정보 삭제하기
-	List<Member> selectMemberList();						// 회원 전체 목록 불러오기
+	List<Member> selectMemberList(Map<String, Object> page);// 회원 전체 목록 불러오기
+	int totalMemberCount();									// 전체 회원 수
 	int selectMemberPw(Member member);						// 회원 비밀번호 확인하기(수정용)
 	int updateMemberPoint(Member member);					// 회원 포인트 수정하기
 	int updateMemberPw(Member member);						// 회원 비밀번호 수정하기

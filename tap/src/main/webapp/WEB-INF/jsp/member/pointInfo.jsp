@@ -13,11 +13,15 @@
     <meta name="author" content="">
 
     <title>SB Admin 2 - Dashboard</title>
+    
+    
 
-	<!-- jquery -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    
     <!-- Custom fonts for this template-->
     <link href="${pageContext.request.contextPath}/resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
@@ -231,8 +235,8 @@
 						            <h6 class="m-0 font-weight-bold text-primary">포인트 이용 내역</h6>
 						        </div>
 						        <div class="card-body">
-						            <div class="table-responsive" id="pointHsitorylistDiv">
-						                <table class="table table-bordered" id="dataTable" width="100%" >
+						            <div class="table-responsive" id="pointHistorylistDiv">
+						                <table class="table table-bordered" id="pointHistoryDataTable" width="100%"  cellspacing="0">
 						                    <thead>
 						                        <tr>
 						                            <th>금액</th>
@@ -241,16 +245,14 @@
 						                            <th>이용날짜</th>
 						                        </tr>
 						                    </thead>
-						                    <tbody>
-						                    	<c:forEach items="${pointHistory}" var="history">
-													<tr>
-														<td>${history.point}</td>
-														<td>${history.changedPoint}</td>
-														<td>${history.pointHistoryCategory}</td>
-														<td>${history.createDate}</td>
-													</tr>
-												</c:forEach>
-						                    </tbody>
+						                    <tfoot>
+						                        <tr>
+						                            <th>금액</th>
+						                            <th>변동금액</th>
+						                            <th>유형</th>
+						                            <th>이용날짜</th>
+						                        </tr>
+						                    </tfoot>
 						                </table>
 						            </div>
 						        </div>
@@ -326,7 +328,9 @@
     <script src="${pageContext.request.contextPath}/resources/vendor/bootstrap_sb/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="${pageContext.request.contextPath}/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/vendor/jquery-easing/jquery.easing.min.js">
+
+    </script>
 
     <!-- Custom scripts for all pages-->
     <script src="${pageContext.request.contextPath}/resources/js/sb-admin-2.min.js"></script>
@@ -337,7 +341,64 @@
     <!-- Page level custom scripts -->
     <script src="${pageContext.request.contextPath}/resources/js/demo/chart-area-demo.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/demo/chart-pie-demo.js"></script>
-
+    
+    
+    <!-- 데이터테이블 사용하기위한 임포트 스크립트 -->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+     <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
+    <script>
+    
+   	// dataTable 설정 스크립트
+   	jQuery(document).ready(function() {
+   		
+   		// 회원 아이디를 저장
+   		let userId= $("#loginUserId").val();
+   		
+   		// 저장된 아이디로 회원의 포인트 이용 내역을 조회하는 ajax 실행
+   		$("#pointHistoryDataTable").DataTable({
+   			ajax:{url:"${pageContext.request.contextPath}/point/getPointHistoryList",
+   				type: 'get',
+   				data: {'userId': userId},
+   			},
+   			// 날짜 최신순으로 정렬
+   			order:[[3,"desc"]],
+   			// 테이블 속 컬럼 설정
+   			columnDefs:[
+   				// 포인트(3자리 수마다 ','를 찍어주고 끝에 0을 붙임)
+   				{targets: 0,data: "point", render: $.fn.dataTable.render.number(  ',' , '.' , 0 , '' , '원' ) },
+   				// 포인트 변동 금액(증가면 +, 감소면 -를 앞에 붙임 )
+   				{targets: 1,data: "changedPoint",  render: function (data, type, rows){
+   					
+   					var money;
+   					
+   					if (rows.pointHistoryCategory=="충전") {
+   						money = "+ " + data.toLocaleString();
+   					} else{
+   						money = "- " + data.toLocaleString();
+   					}
+   					
+   					return money;
+   					},
+   				},
+   				// 포인트 이용 내용(유형)
+   				{targets: 2, data: "pointHistoryCategory"},
+   				// 포인트 이용 날짜(yyyy년 mm월 dd일 hh시 mm분 ss초)
+   				{targets: 3, data: "createDate", render: function (data,type,rows){
+   					var year = data.substring(0,4);
+   					var month = data.substring(5,7);
+   					var day = data.substring(8,10);
+   					var hour = data.substring(11,13);
+   					var muinit = data.substring(14,16);
+   					var second = data.substring(17,19);
+   					
+   					let TimeFormat = year + "년 " + month + "월 " + day + "일 " + hour + "시 " + muinit + "분 "+ second + "초";
+   					return TimeFormat;
+   				} }
+   			]
+   		});
+   	});
+   	</script>
 </body>
 
 </html>

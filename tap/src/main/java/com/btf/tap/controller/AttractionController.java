@@ -28,7 +28,7 @@ public class AttractionController {
 	}
 	
 	@PostMapping("/addAttraction")
-	public String postAddAttraction(Attraction attraction, Address address, String phone1, String phone2, String phone3) {		
+	public String postAddAttraction(Attraction attraction, Address address) {		
 		
 		// 명소 추가
 		attractionService.addAttraction(attraction, address);	
@@ -75,7 +75,7 @@ public class AttractionController {
 	}
 	
 	@PostMapping("/modifyAttraction")
-	public String postModifyAttraction(RedirectAttributes redirect, Attraction attraction, Address address, String phone1, String phone2, String phone3) {
+	public String postModifyAttraction(RedirectAttributes redirect, Attraction attraction, Address address) {
 		address = attractionService.modifyAttraction(attraction, address);
 		redirect.addAttribute("attractionId",attraction.getAttractionId());
 		redirect.addAttribute("detailAddressId", address.getDetailAddress());

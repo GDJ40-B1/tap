@@ -47,6 +47,17 @@
 			update_date
 		FROM
 			host
+		ORDER BY 
+			create_date DESC
+		LIMIT #{beginRow}, #{rowPerPage}	
+	</select>
+	
+	<!-- 전체 호스트 수 -->
+	<select id="totalHostCount" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			host	
 	</select>
 	
 	<!-- 호스트 비밀번호 확인하기(수정용) -->

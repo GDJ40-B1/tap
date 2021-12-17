@@ -1,11 +1,16 @@
 package com.btf.tap.service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.btf.tap.common.Font;
 import com.btf.tap.mapper.HostMapper;
 import com.btf.tap.vo.Host;
+import com.btf.tap.vo.Member;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -154,5 +159,55 @@ public class HostService {
 		log.debug(Font.HW + "포인트 감소된 호스트 수 => " + confirm  + Font.RESET);
 		
 		return confirm;
+	}
+	
+	// 호스트 전체 목록 불러오기
+	// 입력 : currentPage, rowPerPage
+	// 출력 : paramMap(list,lastPage,startPage,endPage) 
+	public Map<String,Object> getHostList(int currentPage, int rowPerPage) {
+		// 데이터 시작 행
+		int beginRow = 0;
+		beginRow = (currentPage-1) * rowPerPage;
+		
+		// selectHostList() 메소드의 page 매개변수 객체 생성
+		Map<String,Object> page = new HashMap<>();
+		page.put("beginRow", beginRow);
+		page.put("rowPerPage", rowPerPage);
+		log.debug(Font.HS + "page 객체에 저장된 값 => " + page.toString() + Font.RESET);
+		
+		List<Host> list = hostMapper.selectHostList(page);
+		log.debug(Font.HS + "호스트 전체 목록 => " + list.toString() + Font.RESET);
+		
+		// 전체 회원 수
+		int totalHostCount = hostMapper.totalHostCount();
+		log.debug(Font.HS + "전체 호스트 수 => " + totalHostCount + Font.RESET);
+		
+		// 총 데이터의 마지막 페이지
+		int lastPage = 0;
+		lastPage = totalHostCount / rowPerPage;
+		if(totalHostCount % rowPerPage != 0) {
+			lastPage += 1;
+		}
+		
+		// 페이징의 시작 페이지
+		int startPage = 0;
+		startPage = ((currentPage-1) / rowPerPage) * rowPerPage + 1;
+		
+		// 페이징의 끝 페이지
+		int endPage = 0;
+		endPage = startPage + rowPerPage - 1;
+		
+		if(endPage > lastPage) {
+			endPage = lastPage;
+		}
+		
+		Map<String,Object> paramMap = new HashMap<>();
+		paramMap.put("list", list);
+		paramMap.put("lastPage", lastPage);
+		paramMap.put("startPage", startPage);
+		paramMap.put("endPage", endPage);
+		log.debug(Font.HS + "paramMap 객체에 저장된 값 => " + paramMap.toString() + Font.RESET);
+		
+		return paramMap;
 	}
 }

@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.btf.tap.common.Font;
 import com.btf.tap.service.MemberService;
@@ -124,14 +126,8 @@ public class MemberController {
 		member.setMemberId(user.getUserId());
 		member = memberService.getMemberOne(member);
 		
-		// 회원의 포인트 이용 내역 조회
-		List<Map> pointHistory = pointService.getPointHistoryList(user);
-		
 		// 회원 정보 주입
 		model.addAttribute("member", member);
-		
-		// 회원 포인트 이용 내역 정보 주입
-		model.addAttribute("pointHistory", pointHistory);
 		
 		// 포인트 정보 페이지로 이동
 		return "member/pointInfo";
@@ -355,5 +351,22 @@ public class MemberController {
 		// 홈페이지로 이동
 		return "redirect:/";
 		
+	}
+	
+	private final int ROW_PER_PAGE = 10;
+	
+	// 회원 전체 목록 불러오기
+	@RequestMapping("/systemAdmin/memberList")
+	public String requestMemberList(Model model, @RequestParam(name="currentPage", defaultValue="1") int currentPage) {
+		Map<String,Object> map = memberService.getMemberList(currentPage, ROW_PER_PAGE);
+		log.debug(Font.HS + "전체 회원 목록 => " + map.toString() + Font.RESET);
+		
+		model.addAttribute("list", map.get("list"));
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("lastPage", map.get("lastPage"));
+		model.addAttribute("startPage", map.get("startPage"));
+		model.addAttribute("endPage", map.get("endPage"));
+		
+		return "member/memberList";
 	}
 }

@@ -7,17 +7,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.btf.tap.mapper.PointMapper;
+import com.btf.tap.vo.PointHistory;
 import com.btf.tap.vo.User;
 
 @Service
 public class PointService {
 	@Autowired PointMapper pointMapper;
 	
-	public List<Map> getPointHistoryList(User user) {
+	public List<PointHistory> getPointHistoryList(User user) {
 		
-		user = new User();
-		user.setUserId("akma517@naver.com");
-		List<Map> pointHistory = pointMapper.selectgPointHistoryList(user);
+		List<PointHistory> pointHistory = pointMapper.selectgPointHistoryList(user);
 		
 		return pointHistory;
 	}

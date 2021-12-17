@@ -52,8 +52,16 @@ public class RoomController {
 	}
 	
 	@GetMapping("/roomOne")
-	public String roomOne(Model model, @RequestParam("roomId") int roomId, @RequestParam("detailAddressId") int detailAddressId) {
-		Map<String, Object> result = roomService.getRoomOne(roomId, detailAddressId);
+	public String roomOne(HttpServletRequest request, Model model, @RequestParam("roomId") int roomId, @RequestParam("detailAddressId") int detailAddressId) {
+		// 멤버 정보를 가져온다
+		HttpSession session = request.getSession();
+		User user = (User)session.getAttribute("loginUser");
+		// 로그인 되어있지 않다면, userId로 공백값을 넘긴다.
+		if(user == null) {
+			user = new User();
+			user.setUserId("");
+		}
+		Map<String, Object> result = roomService.getRoomOne(roomId, detailAddressId, user.getUserId());
 		model.addAttribute("room",result.get("room"));
 		model.addAttribute("address",result.get("address"));
 		model.addAttribute("hashtag",result.get("hashtag"));
@@ -82,7 +90,6 @@ public class RoomController {
 		return "redirect:/host/roomList";
 	}
 	
-	// 페이징 삭제
 	@GetMapping("/host/roomList")
 	public String hostRoomList(HttpServletRequest request, Model model) {
 		// 호스트 정보를 가져온다
@@ -120,7 +127,7 @@ public class RoomController {
 		model.addAttribute("roomCategoryList",roomService.getRoomCategory());
 		
 		// 숙소 및 주소 정보
-		Map<String, Object> result = roomService.getRoomOne(roomId, detailAddressId);
+		Map<String, Object> result = roomService.getHostRoomOne(roomId, detailAddressId);
 		model.addAttribute("room",result.get("room"));
 		model.addAttribute("address",result.get("address"));
 		model.addAttribute("hashtag",(result.get("hashtag")));

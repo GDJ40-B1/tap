@@ -14,6 +14,15 @@
 		<result column="update_date" property="updateDate"></result>
 	</resultMap>
 	
+	<!-- 특정 숙소에서 특정 회원이 발급받지 않은 쿠폰 목록 추출 -->
+	<select id="selectNotMemberCoupon" parameterType="hashMap" resultMap="resultCoupon">
+		SELECT
+			c.coupon_id, c.room_id, c.coupon_name FROM (SELECT coupon_id, room_id, coupon_name FROM coupon WHERE room_id=#{roomId}) c
+			LEFT JOIN (SELECT * from member_coupon WHERE member_id=#{memberId}) mc
+			ON c.coupon_id = mc.coupon_id
+		WHERE mc.member_coupon_id IS NULL
+	</select>
+	
 	<!-- 보유 쿠폰 추가 -->
 	<insert id="insertMemberCoupon" parameterType="hashMap">
 		INSERT INTO member_coupon(

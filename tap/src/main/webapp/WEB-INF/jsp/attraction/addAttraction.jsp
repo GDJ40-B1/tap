@@ -42,10 +42,7 @@
 				<!-- 전화번호 형태? 예쁘게 만들기+숫자만 들어가게끔 하기 -->
 				<td>전화번호</td>
 				<td>
-					<input type="text" name="attractionPhoneNumber1">-
-					<input type="text" name="attractionPhoneNumber2">-
-					<input type="text" name="attractionPhoneNumber3">
-					
+					<input type="text" name="attractionPhoneNumber">
 				</td>
 			</tr>
 			<tr>
@@ -66,10 +63,10 @@
 			<div>
 				<input type="text" name="detailAddress2" id="detailAddress2">
 			</div>
-			<div id="map" style="width:100%, height:359px;"></div>
+			<div id="map" style="width:600px; height:359px;"></div>
 			
 			<br>
-			<button type="button" id="addBtn">명소등록</button>
+			<button type="submit" id="addBtn">명소등록</button>
 		</form>	
 	</section>
 	</main>
@@ -131,7 +128,7 @@
 	
 		        // 인포윈도우로 장소에 대한 설명을 표시합니다
 		        var infowindow = new kakao.maps.InfoWindow({
-		            content: '<div style="width:150px;text-align:center;padding:6px 0;">숙소</div>'
+		            content: '<div style="width:150px;text-align:center;padding:6px 0;">명소</div>'
 		        });
 		        infowindow.open(map, marker);
 	
