@@ -33,6 +33,7 @@
 		<form id="addRoomForm" action="${pageContext.request.contextPath}/host/addRoom" method="post">
 			<!-- 전달을 위한 값 hidden처리 -->
 			<input type="hidden" name="hostId" value="${hostId }">
+			<input type="hidden" id="amenities" name="amenities">
 			
 			<div class="form-group row">
 				<div class="col-sm-6 mb-3 mb-sm-0">
@@ -136,6 +137,32 @@
 				<div id="map" style="width:100%;height:350px;"></div>
 			</div>
 			
+			<div class="form-group row">
+				<div class="col-sm-6 mb-3 mb-sm-0">
+					<label>숙소 구성</label>
+					<div id="partList">
+						<div class="input-group mb-3">
+						  <div class="input-group-prepend">
+						    <div class="input-group-text">
+						      <input type="checkbox" aria-label="Checkbox for following text input">
+						    </div>
+						  </div>
+						  <input type="text" class="form-control" aria-label="Text input with checkbox">
+						</div>
+					</div>
+				</div>
+				
+				<div class="col-sm-6 mb-3 mb-sm-0">
+					<label>숙소 비품</label><br>
+					<c:forEach items="${amenitiesList }" var="a">
+						<div class="form-check form-check-inline">
+						  <input class="form-check-input" type="checkbox" id="${a }amenities" name="checkAmenities" value="${a }">
+						  <label class="form-check-label" for="${a }amenities">${a }</label>
+						</div>
+					</c:forEach>
+				</div>
+			</div>
+			
 			<div class="form-group">
 				<label>해시태그</label>
 				<input class="form-control" type="text" id="hashtag" name="hashtag" value="#">
@@ -153,9 +180,9 @@
     </div>
     <!-- end : hostFooter -->
    
-	<!-- input 유효성 검사 -->
 	<script>
-	
+		<!-- input 유효성 검사 -->
+		
 		// 숙소 등록을 클릭했을 때
 		$('#addBtn').click(function(){
 			if($('#roomName').val()==''){
@@ -175,13 +202,23 @@
 			} else if($('#detailAddress2').val()==''){
 				alert('상세 주소를 입력하세요');
 			} else{
+				<!-- 비품 추가 script -->
+				var chk_arr = $("input[name='checkAmenities']");
+				let chk_Val='';
+				for( var i=0; i<chk_arr.length; i++ ) {
+					if( chk_arr[i].checked == true ) {
+						chk_Val += chk_arr[i].value+'&';
+					}
+				}
+				$('#amenities').val(chk_Val);
+				
+				<!-- postAddRoom으로 이동 -->
 				$('#addRoomForm').submit();
 			}
 		});
-	</script>
-	
-	<!-- 해시태그 관련 script -->
-	<script>
+		
+		<!-- 해시태그 관련 script -->
+		
 		// hashtag input에서 데이터를 모두 지워도 #은 남도록 한다.
 		$('#hashtag').keydown(function(event) {
 			var oldvalue=$(this).val();
@@ -206,6 +243,7 @@
 					event.preventDefault();
 				}
 		 });
+		
 	</script>
 	
 	<!-- kakao map API -->
