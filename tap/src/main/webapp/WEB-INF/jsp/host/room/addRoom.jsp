@@ -34,6 +34,7 @@
 			<!-- 전달을 위한 값 hidden처리 -->
 			<input type="hidden" name="hostId" value="${hostId }">
 			<input type="hidden" id="amenities" name="amenities">
+			<input type="hidden" id="part" name="part">
 			
 			<div class="form-group row">
 				<div class="col-sm-6 mb-3 mb-sm-0">
@@ -140,24 +141,22 @@
 			<div class="form-group row">
 				<div class="col-sm-6 mb-3 mb-sm-0">
 					<label>숙소 구성</label>
-					<div id="partList">
-						<div class="input-group mb-3">
-						  <div class="input-group-prepend">
-						    <div class="input-group-text">
-						      <input type="checkbox" aria-label="Checkbox for following text input">
+					<c:forEach items="${partList }" var="p">
+						<div class="form-group row">
+						    <label for="inputPassword" class="col-sm-2 col-form-label">${p}</label>
+						    <div class="col-sm-10">
+						        <input type="number" class="form-control" id="${p }-part" value="0">
 						    </div>
-						  </div>
-						  <input type="text" class="form-control" aria-label="Text input with checkbox">
 						</div>
-					</div>
+					</c:forEach>
 				</div>
 				
 				<div class="col-sm-6 mb-3 mb-sm-0">
 					<label>숙소 비품</label><br>
 					<c:forEach items="${amenitiesList }" var="a">
 						<div class="form-check form-check-inline">
-						  <input class="form-check-input" type="checkbox" id="${a }amenities" name="checkAmenities" value="${a }">
-						  <label class="form-check-label" for="${a }amenities">${a }</label>
+						  <input class="form-check-input" type="checkbox" id="${a }-amenities" name="checkAmenities" value="${a }">
+						  <label class="form-check-label" for="${a }-amenities">${a }</label>
 						</div>
 					</c:forEach>
 				</div>
@@ -202,15 +201,23 @@
 			} else if($('#detailAddress2').val()==''){
 				alert('상세 주소를 입력하세요');
 			} else{
-				<!-- 비품 추가 script -->
+				<!-- 비품 추가-->
 				var chk_arr = $("input[name='checkAmenities']");
 				let chk_Val='';
 				for( var i=0; i<chk_arr.length; i++ ) {
 					if( chk_arr[i].checked == true ) {
-						chk_Val += chk_arr[i].value+'&';
+						chk_Val += chk_arr[i].value+'/';
 					}
 				}
 				$('#amenities').val(chk_Val);
+				
+				<!-- 구성 추가 -->
+				let part_Val= '';
+				<c:forEach items="${partList }" var="p">
+					part_Val += '${p}'+'&'+$('#${p}-part').val()+'/';
+				</c:forEach>
+				$('#part').val(part_Val);
+				console.log(part_Val);
 				
 				<!-- postAddRoom으로 이동 -->
 				$('#addRoomForm').submit();

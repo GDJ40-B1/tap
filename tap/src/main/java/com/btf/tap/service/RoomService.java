@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.btf.tap.common.Font;
 import com.btf.tap.mapper.AddressMapper;
 import com.btf.tap.mapper.HashtagMapper;
+import com.btf.tap.mapper.PartMapper;
 import com.btf.tap.mapper.RoomMapper;
 import com.btf.tap.vo.Address;
 import com.btf.tap.vo.Hashtag;
@@ -30,6 +31,7 @@ public class RoomService {
    @Autowired HashtagService hashtagService;
    @Autowired CouponService couponService;
    @Autowired AmenitiesService amenitiesService;
+   @Autowired PartService partService;
    
    // 숙소 전체 리스트 출력(최근 생성된 숙소 순으로)
    public Map<String, Object> getRoomList(int currentPage) {
@@ -152,7 +154,7 @@ public class RoomService {
    }
    
    // 숙소 등록(숙소 and 상세 주소)
-   public int addRoom(Room room, Address address, String hashtag, String amenities) {
+   public int addRoom(Room room, Address address, String hashtag, String amenities, String part) {
       // 입력받은 도로명 주소를 분할하여 객체에 넣기
       String[] addressList = address.getDetailAddress().split(" ");
       address.setSido(addressList[0]);
@@ -175,6 +177,9 @@ public class RoomService {
       
       // 비품 추가
       amenitiesService.addRoomAmenitiesList(amenities, room.getRoomId());
+      
+      // 구성 추가
+      partService.addRoomPart(part, room.getRoomId());
       
       return room.getRoomId();
    }
@@ -213,6 +218,9 @@ public class RoomService {
       
       // 해시태그 삭제
       hashtagService.removeHashtag("room", roomId);
+      
+      // 숙소별 구성 삭제
+      partService.removeRoomPart(roomId);
       
       // 숙소별 비품 삭제
       amenitiesService.removeRoomAmenities(roomId);

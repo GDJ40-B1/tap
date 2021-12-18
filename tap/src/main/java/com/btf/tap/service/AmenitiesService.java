@@ -42,7 +42,7 @@ public class AmenitiesService {
 		// 비품 목록이 비어있지 않다면
 		if(!amenities.equals("") && !amenities.equals(" ")) {
 			// 비품 문자열 분리
-			String[] amenitiesList = amenities.split("&");
+			String[] amenitiesList = amenities.split("/");
 			Map<String, Object> amenitiesMap = new HashMap<>();
 			amenitiesMap.put("roomId", roomId);
 			for(String a : amenitiesList) {

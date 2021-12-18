@@ -13,7 +13,7 @@
 	</select>
 
 	<!-- 숙소별 비품 추가 -->
-   <insert id="insertRoomAmenities" parameterType="com.btf.tap.vo.Room">
+   <insert id="insertRoomAmenities" parameterType="hashMap">
       INSERT INTO room_amenities(
          amenities_name, room_id, create_date, update_date
       )VALUE(

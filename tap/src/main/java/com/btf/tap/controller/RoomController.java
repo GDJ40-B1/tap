@@ -16,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.btf.tap.service.AmenitiesService;
 import com.btf.tap.service.HostService;
+import com.btf.tap.service.PartService;
 import com.btf.tap.service.RoomService;
 import com.btf.tap.vo.Address;
 import com.btf.tap.vo.Host;
@@ -30,6 +31,7 @@ public class RoomController {
 	@Autowired RoomService roomService;
 	@Autowired HostService hostService;
 	@Autowired AmenitiesService amenitiesService;
+	@Autowired PartService partService;
 	
 	@GetMapping("/roomList")
 	public String roomList(Model model, @RequestParam(value="currentPage", defaultValue ="1") int currentPage) {
@@ -82,14 +84,16 @@ public class RoomController {
 		// 숙소 카테고리 리스트 및 hostId
 		model.addAttribute("roomCategoryList",roomService.getRoomCategory());
 		model.addAttribute("amenitiesList", amenitiesService.getAmenitiesList());
+		model.addAttribute("partList", partService.getPartList());
 		model.addAttribute("hostId", user.getUserId());
 		return "/host/room/addRoom";
 	}
 	
 	@PostMapping("/host/addRoom")
-	public String postAddRoom(Room room, Address address, String hashtag, String amenities) {
+	public String postAddRoom(Room room, Address address,
+			String hashtag, String amenities, String part) {
 		// 숙소 추가
-		roomService.addRoom(room, address, hashtag, amenities);
+		roomService.addRoom(room, address, hashtag, amenities, part);
 		return "redirect:/host/roomList";
 	}
 	
