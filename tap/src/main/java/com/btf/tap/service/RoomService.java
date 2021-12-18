@@ -144,6 +144,10 @@ public class RoomService {
       result.put("room", roomMapper.selectRoomOne(roomId));
       // 해시태그 정보
       result.put("hashtag", hashtagService.getHashtag("room", roomId));
+      // 비품 전체 정보
+      result.put("amenitiesList", amenitiesService.getAmenitiesList());
+      // 해당 숙소의 비품 정보
+      result.put("roomAmenitiesList", amenitiesService.getRoomAmenitiesList(roomId));
       return result;
    }
    
@@ -170,15 +174,13 @@ public class RoomService {
       hashtagService.addHashtag(hashtag, "room", room.getRoomId());
       
       // 비품 추가
-      if(!amenities.equals("") && !amenities.equals(" ")) {
-         amenitiesService.addMemberCoupon(amenities, room.getRoomId());
-      }
+      amenitiesService.addRoomAmenitiesList(amenities, room.getRoomId());
       
       return room.getRoomId();
    }
    
    // 숙소 정보 수정(숙소 and 상세 주소)
-   public Address modifyRoom(Room room, Address address, String hashtag) {
+   public Address modifyRoom(Room room, Address address, String hashtag, String amenities) {
       // 입력받은 도로명 주소를 분할하여 객체에 넣기
       String[] addressList = address.getDetailAddress().split(" ");
       address.setSido(addressList[0]);
@@ -196,6 +198,9 @@ public class RoomService {
       
       // 해시태그 업데이트
       hashtagService.modifyHashtag(hashtag, "room", room.getRoomId());
+      
+      // 비품 수정
+      amenitiesService.modifyRoomAmenities(amenities, room.getRoomId());
       
       return address;
    }

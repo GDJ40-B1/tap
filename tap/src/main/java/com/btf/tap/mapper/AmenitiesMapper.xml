@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.btf.tap.mapper.AmenitiesMapper">
-   
+
+	<!-- 숙소별 비품 추출 -->
+    <select id="selectRoomAmenities" parameterType="int" resultType="String">
+		SELECT amenities_name amenitiesName FROM room_amenities WHERE room_id=#{roomId}
+	</select>
+	
 	<!-- 비품 목록 추출 -->
 	<select id="selectAmenitiesList" resultType="String">
 		SELECT amenities_name amenitiesName FROM amenities

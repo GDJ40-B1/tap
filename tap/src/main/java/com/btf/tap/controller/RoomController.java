@@ -133,13 +133,16 @@ public class RoomController {
 		Map<String, Object> result = roomService.getHostRoomOne(roomId, detailAddressId);
 		model.addAttribute("room",result.get("room"));
 		model.addAttribute("address",result.get("address"));
-		model.addAttribute("hashtag",(result.get("hashtag")));
+		model.addAttribute("hashtag",result.get("hashtag"));
+		model.addAttribute("amenitiesList",result.get("amenitiesList"));
+		model.addAttribute("roomAmenitiesList",result.get("roomAmenitiesList"));
+		
 		return "/host/room/modifyRoom";
 	}
 	
 	@PostMapping("/host/modifyRoom")
-	public String postModifyRoom(RedirectAttributes redirect, Room room, Address address, String hashtag) {
-		address = roomService.modifyRoom(room, address, hashtag);
+	public String postModifyRoom(RedirectAttributes redirect, Room room, Address address, String hashtag, String amenities) {
+		address = roomService.modifyRoom(room, address, hashtag, amenities);
 		redirect.addAttribute("roomId",room.getRoomId());
 		redirect.addAttribute("detailAddressId",address.getDetailAddressId());
 		return "redirect:/host/roomOne";

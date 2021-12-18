@@ -8,6 +8,9 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface AmenitiesMapper {
 	
+	// 숙소별 비품 추출
+	List<String> selectRoomAmenities(int roomId);
+	
 	// 비품 목록 추출
 	List<String> selectAmenitiesList();
 	
