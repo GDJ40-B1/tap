@@ -38,44 +38,56 @@
 			<tr>
 				<!-- 명소 이름 -->
 				<td>명소 이름</td>
-				<td><input type="text" name="attractionName"></td>
+				<td><input type="text" name="attractionName" value="${attraction.attractionName }"></td>
 			</tr>
 			
 			<tr>
 				<!-- 카테고리 -->
 				<td>명소 카테고리</td>
-				<td>
-					<select name="attractionCategory">
-						<c:forEach items="${attractionCategoryList}" var="list">
-							<option>${list}</option>
-						</c:forEach>
-					</select>
-				</td>
+            <td>
+               <select name="attractionCategory">
+                  <c:forEach items="${attractionCategoryList}" var="list">
+                     <c:choose>
+                        <c:when test="${list eq attraction.attractionCategory }">
+                           <option selected>${list }</option>
+                        </c:when>
+                        <c:otherwise>
+                           <option>${list }</option>
+                        </c:otherwise>
+                        </c:choose>
+                     </c:forEach>
+               </select>
+            </td>
 			</tr>
 			<tr>
 				<!-- 전화번호 형태? 예쁘게 만들기+숫자만 들어가게끔 하기 -->
 				<td>전화번호</td>
-				<td><input type="text" name="attractionPhoneNumber"></td>
+				<td><input type="text" name="attractionPhoneNumber" value="${attraction.attractionPhoneNumber }"></td>
 			</tr>
 			<tr>
 				<!-- 명소 소개 -->
 				<td>명소 소개</td>
-				<td><textarea name="attractionContent"></textarea></td>
+				<td><textarea name="attractionContent">${attraction.attractionContent }</textarea></td>
 			</tr>
 			<tr>
 		</table>
 			<div>주소</div>
 			<div>
-				<input type="text" name="detailAddress" id="address">
+				<input type="text" name="detailAddress" id="address" value="${address.detailAddress }">
 			</div>			
 			<div>
 				<button type="button" name="searchBtn"id="searchBtn">찾기</button>
 			</div>
 			<div>상세주소</div>
 			<div>
-				<input type="text" name="detailAddress2" id="detailAddress2">
+				<input type="text" name="detailAddress2" id="detailAddress2" value="${address.detailAddress2 }">
 			</div>
 			<div id="map" style="width:600px; height:359px;"></div>
+			
+			<div>
+				<label>해시태그</label>
+				<input type="text" id="hashtag" name="hashtag" value="${hashtag }">
+			</div>
 			
 			<br>
 		
@@ -89,6 +101,35 @@
       <jsp:include page="/partial/mainFooter.jsp"></jsp:include>
    </div>
    <!-- end : mainFooter -->
+   
+   <script>
+		<!-- 해시태그 관련 script -->
+		
+		// hashtag input에서 데이터를 모두 지워도 #은 남도록 한다.
+		$('#hashtag').keydown(function(event) {
+			var oldvalue=$(this).val();
+			var field=this;
+			setTimeout(function () {
+			    if(field.value.indexOf('#') !== 0) {
+			        $('#hashtag').val(oldvalue);
+			    } 
+			}, 1);
+			
+			// 스페이스바 기능 방지를 위한 변수
+			var handled=false;
+			  // 스페이스바 or 엔터를 칠 시 #자동생성
+			  if (event.keyCode == '13') {
+				  $('#hashtag').val($('#hashtag').val()+' #');
+			  } else if(event.keyCode == '32'){
+				  handled=true; // 기능 제한
+				  $('#hashtag').val($('#hashtag').val()+' #');
+			  }
+			  
+			  if(handled){
+					event.preventDefault();
+				}
+		 });
+	</script>
 		<!-- kakao API -->
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e1c10213787b97f0d88e77cdafcb6687&libraries=services"></script>
 	<script>
@@ -98,7 +139,7 @@
 	        level: 3 // 지도의 확대 레벨
 	    };  
 	
-	
+	var map = new kakao.maps.Map(mapContainer, mapOption);	
 	$('#searchBtn').click(function(){
 		// 버튼을 click했을때
 		

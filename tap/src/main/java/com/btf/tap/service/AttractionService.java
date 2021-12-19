@@ -22,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 public class AttractionService {
 	@Autowired AttractionMapper attractionMapper;
 	@Autowired AddressMapper addressMapper;
+	@Autowired HashtagService hashtagService;
 	
 	// 특정 명소 정보 추출
 	public Map<String, Object> getAttractionOne(int attractionId, int detailAddressId){
@@ -36,6 +37,8 @@ public class AttractionService {
 		map.put("address", address);
 		// 명소 정보
 		map.put("attraction", attractionMapper.selectAttractionOne(attractionId));
+		// 해시태그 정보
+		map.put("hashtag", hashtagService.getHashtag("attraction", attractionId));
 		return map;
 	}	
 	
@@ -48,12 +51,13 @@ public class AttractionService {
 	// 명소삭제
 	public void removeAttraction(int attractionId) {
 		int detailAddressId = attractionMapper.selectAttractionOne(attractionId).getDetailAddressId();
+		hashtagService.removeHashtag("attraction", attractionId);
 		attractionMapper.deleteAttraction(attractionId);
 		addressMapper.deleteDetailAddress(detailAddressId);
 	}
 	
 	// 명소 수정
-	public Address modifyAttraction(Attraction attraction, Address address) {
+	public Address modifyAttraction(Attraction attraction, Address address, String hashtag) {
 		String[] addressList = address.getDetailAddress().split(" ");
 		address.setSido(addressList[0]);
 		address.setSigungu(addressList[1]);
@@ -63,6 +67,7 @@ public class AttractionService {
 		address.setAddressId(addressMapper.searchAddressOne(address).getAddressId());
 		addressMapper.updateDetailAddress(address);
 		attractionMapper.updateAttraction(attraction);
+		hashtagService.modifyHashtag(hashtag, "attraction", attraction.getAttractionId());
 		
 		return address;
 	}		
@@ -74,7 +79,7 @@ public class AttractionService {
 	}
 	
 	// 명소 등록
-	public int addAttraction(Attraction attraction, Address address) {
+	public int addAttraction(Attraction attraction, Address address, String hashtag) {
 		
 		String[] addressList = address.getDetailAddress().split(" ");
 		address.setSido(addressList[0]);
@@ -91,6 +96,9 @@ public class AttractionService {
 		// 숙소 등록시 상세주소 값으로 사용한다
 		attraction.setDetailAddressId(address.getDetailAddressId());
 		attractionMapper.insertAttraction(attraction);
+		
+		// 해시태그 추가
+		hashtagService.addHashtag(hashtag, "attraction", attraction.getAttractionId());
 		
 		return attraction.getAttractionId(); 
 		
