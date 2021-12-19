@@ -76,10 +76,11 @@ public class AttractionController {
 	
 	@PostMapping("/modifyAttraction")
 	public String postModifyAttraction(RedirectAttributes redirect, Attraction attraction, Address address) {
+		System.out.println("!!!!!!!!!!!!!!!!"+address.getAddressId());
 		address = attractionService.modifyAttraction(attraction, address);
 		redirect.addAttribute("attractionId",attraction.getAttractionId());
 		redirect.addAttribute("detailAddressId", address.getDetailAddressId());
-		
+
 		return "redirect:/attractionOne";
 	}
 

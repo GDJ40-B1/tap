@@ -20,6 +20,10 @@
    
 	<h1>명소 수정</h1>
 	<form action="${pageContext.request.contextPath}/modifyAttraction" method="post">
+		<!-- 전달 -->
+		<input type="hidden" name="attractionId" value="${attraction.attractionId }">
+		<input type="hidden" name="detailAddressId" value="${address.detailAddressId}">
+		
 		<table border="1">
 			<tr>
 				<td>승인여부</td>
