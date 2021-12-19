@@ -2,6 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.btf.tap.mapper.PartMapper">
 
+	<resultMap type="com.btf.tap.vo.RoomPart" id="resultRoomPart">
+	  <result column="part_name" property="partName"></result>
+      <result column="room_id" property="roomId"></result>
+      <result column="quantity" property="quantity"></result>
+      <result column="create_date" property="createDate"></result>
+      <result column="update_date" property="updateDate"></result>
+   </resultMap>
+
+	<!-- 숙소별 구성 목록 추출 -->
+    <select id="selectRoomPartList" parameterType="int" resultMap="resultRoomPart">
+		SELECT part_name, quantity FROM room_part WHERE room_id=#{roomId}
+	</select>
+
 	<!-- 숙소별 구성 삭제 -->
 	<delete id="deleteRoomPart" parameterType="int">
        DELETE FROM room_part

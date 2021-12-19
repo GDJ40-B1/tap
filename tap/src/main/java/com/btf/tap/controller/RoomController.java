@@ -70,6 +70,8 @@ public class RoomController {
 		model.addAttribute("address",result.get("address"));
 		model.addAttribute("hashtag",result.get("hashtag"));
 		model.addAttribute("couponList",result.get("couponList"));
+		model.addAttribute("roomAmenitiesList",result.get("amenitiesList"));
+		model.addAttribute("roomPartList",result.get("roomPartList"));
 		return "room/roomOne";
 	}
 	
@@ -117,6 +119,9 @@ public class RoomController {
 		model.addAttribute("room",result.get("room"));
 		model.addAttribute("address",result.get("address"));
 		model.addAttribute("hashtag",result.get("hashtag"));
+		model.addAttribute("roomAmenitiesList",result.get("amenitiesList"));
+		model.addAttribute("roomPartList",result.get("roomPartList"));
+		System.out.println(result.get("amenitiesList"));
 		return "/host/room/roomOne";
 	}
 	
@@ -138,15 +143,17 @@ public class RoomController {
 		model.addAttribute("room",result.get("room"));
 		model.addAttribute("address",result.get("address"));
 		model.addAttribute("hashtag",result.get("hashtag"));
-		model.addAttribute("amenitiesList",result.get("amenitiesList"));
-		model.addAttribute("roomAmenitiesList",result.get("roomAmenitiesList"));
+		model.addAttribute("amenitiesList",amenitiesService.getAmenitiesList());
+		model.addAttribute("roomAmenitiesList",result.get("amenitiesList"));
+		model.addAttribute("partList",partService.getPartList());
+		model.addAttribute("roomPartList",result.get("roomPartList"));
 		
 		return "/host/room/modifyRoom";
 	}
 	
 	@PostMapping("/host/modifyRoom")
-	public String postModifyRoom(RedirectAttributes redirect, Room room, Address address, String hashtag, String amenities) {
-		address = roomService.modifyRoom(room, address, hashtag, amenities);
+	public String postModifyRoom(RedirectAttributes redirect, Room room, Address address, String hashtag, String amenities, String part) {
+		address = roomService.modifyRoom(room, address, hashtag, amenities, part);
 		redirect.addAttribute("roomId",room.getRoomId());
 		redirect.addAttribute("detailAddressId",address.getDetailAddressId());
 		return "redirect:/host/roomOne";

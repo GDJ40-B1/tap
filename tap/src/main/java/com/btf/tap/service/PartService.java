@@ -20,6 +20,18 @@ import lombok.extern.slf4j.Slf4j;
 public class PartService {
 	@Autowired PartMapper partMapper;
 	
+	// 숙소별 구성 목록 추출
+	public List<RoomPart> getRoomPartList(int roomId){
+		return partMapper.selectRoomPartList(roomId);
+	}
+	
+	// 숙소별 구성 수정
+	public void modifyRoomPart(String part, int roomId){
+		// 목록 삭제후 변경 사항을 추가한다
+		removeRoomPart(roomId);
+		addRoomPart(part, roomId);
+	}
+	
 	// 숙소별 구성 삭제
 	public void removeRoomPart(int roomId) {
 		partMapper.deleteRoomPart(roomId);

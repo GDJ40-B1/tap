@@ -9,6 +9,9 @@ import com.btf.tap.vo.RoomPart;
 @Mapper
 public interface PartMapper {
 	
+	// 숙소별 구성 목록 추출
+	List<RoomPart> selectRoomPartList(int roomId);
+	
 	// 숙소별 구성 삭제
 	void deleteRoomPart(int roomId);
 	

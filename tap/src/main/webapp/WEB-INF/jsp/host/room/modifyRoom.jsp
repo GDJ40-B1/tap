@@ -37,6 +37,7 @@
 			<input type="hidden" name="detailAddressId" value="${address.detailAddressId }">
 			<input type="hidden" name="hostId" value="${room.hostId }">
 			<input type="hidden" id="amenities" name="amenities">
+			<input type="hidden" id="part" name="part">
 			
 			<div class="form-group row">
 				<div class="col-sm-6 mb-3 mb-sm-0">
@@ -178,16 +179,12 @@
 			<div class="form-group row">
 				<div class="col-sm-6 mb-3 mb-sm-0">
 					<label>숙소 구성</label>
-					<div id="partList">
-						<div class="input-group mb-3">
-						  <div class="input-group-prepend">
-						    <div class="input-group-text">
-						      <input type="checkbox" aria-label="Checkbox for following text input">
-						    </div>
-						  </div>
-						  <input type="text" class="form-control" aria-label="Text input with checkbox">
+					<c:forEach items="${partList }" var="p">
+						<div class="form-group row">
+							<label for="inputPassword" class="col-sm-2 col-form-label">${p}</label>
+							<input type="number" class="form-control" id="${p }-part" value="0">
 						</div>
-					</div>
+					</c:forEach>
 				</div>
 				
 				<div class="col-sm-6 mb-3 mb-sm-0">
@@ -225,8 +222,13 @@
     </div>
     <!-- end : hostFooter -->
    
-   <!-- input 유효성 검사 -->
 	<script>
+		<!-- 숙소 구성 기본값 설정 -->
+		<c:forEach items="${roomPartList }" var="rp">
+			$('#${rp.partName }-part').val(${rp.quantity});
+		</c:forEach>
+		
+		<!-- input 유효성 검사 -->
 		// 숙소 수정을 클릭했을 때
 		$('#modifyBtn').click(function(){
 			if($('#roomName').val()==''){
@@ -251,10 +253,17 @@
 				let chk_Val='';
 				for( var i=0; i<chk_arr.length; i++ ) {
 					if( chk_arr[i].checked == true ) {
-						chk_Val += chk_arr[i].value+'&';
+						chk_Val += chk_arr[i].value+'/';
 					}
 				}
 				$('#amenities').val(chk_Val);
+				
+				<!-- 구성 추가 -->
+				let part_Val= '';
+				<c:forEach items="${partList }" var="p">
+					part_Val += '${p}'+'&'+$('#${p}-part').val()+'/';
+				</c:forEach>
+				$('#part').val(part_Val);
 				
 				<!-- postModifyRoom으로 이동 -->
 				$('#modifyRoomForm').submit();
@@ -262,7 +271,7 @@
 		});
 		
 		
-		<!-- 해시태그 관련 script -->
+		<!-- 해시태그 관련 js -->
 		
 		// hashtag input에서 데이터를 모두 지워도 #은 남도록 한다.
 		$('#hashtag').keydown(function(event) {

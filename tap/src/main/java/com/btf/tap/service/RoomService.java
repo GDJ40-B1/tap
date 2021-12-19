@@ -119,6 +119,12 @@ public class RoomService {
          memberCoupon.put("roomId", roomId);
          result.put("couponList", couponService.getNotMemberCoupon(memberCoupon));
       }
+      
+      // 숙소의 비품 정보
+      result.put("amenitiesList", amenitiesService.getRoomAmenitiesList(roomId));
+      // 숙소의 구성 정보
+      result.put("roomPartList", partService.getRoomPartList(roomId));
+      
       return result;
    }
    
@@ -146,10 +152,11 @@ public class RoomService {
       result.put("room", roomMapper.selectRoomOne(roomId));
       // 해시태그 정보
       result.put("hashtag", hashtagService.getHashtag("room", roomId));
-      // 비품 전체 정보
-      result.put("amenitiesList", amenitiesService.getAmenitiesList());
-      // 해당 숙소의 비품 정보
-      result.put("roomAmenitiesList", amenitiesService.getRoomAmenitiesList(roomId));
+      // 숙소의 비품 정보
+      result.put("amenitiesList", amenitiesService.getRoomAmenitiesList(roomId));
+      // 숙소의 구성 정보
+      result.put("roomPartList", partService.getRoomPartList(roomId));
+      
       return result;
    }
    
@@ -185,7 +192,7 @@ public class RoomService {
    }
    
    // 숙소 정보 수정(숙소 and 상세 주소)
-   public Address modifyRoom(Room room, Address address, String hashtag, String amenities) {
+   public Address modifyRoom(Room room, Address address, String hashtag, String amenities, String part) {
       // 입력받은 도로명 주소를 분할하여 객체에 넣기
       String[] addressList = address.getDetailAddress().split(" ");
       address.setSido(addressList[0]);
@@ -206,6 +213,9 @@ public class RoomService {
       
       // 비품 수정
       amenitiesService.modifyRoomAmenities(amenities, room.getRoomId());
+      
+      // 구성 수정
+      partService.modifyRoomPart(part, room.getRoomId());
       
       return address;
    }
