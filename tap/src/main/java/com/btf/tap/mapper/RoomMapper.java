@@ -11,6 +11,9 @@ import com.btf.tap.vo.Room;
 @Mapper
 public interface RoomMapper {
 	
+	// 숙소별 가격 추가
+	void insertPriceRoom(Map<String, Object> priceRoom);
+	
 	// 숙소별 가격 리스트 추출
 	List<PriceRoom> selectPriceRoomList(int roomId);
 	

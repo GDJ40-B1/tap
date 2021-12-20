@@ -21,6 +21,7 @@ import com.btf.tap.service.RoomQuestionService;
 import com.btf.tap.service.RoomService;
 import com.btf.tap.vo.Address;
 import com.btf.tap.vo.Host;
+import com.btf.tap.vo.PriceRoom;
 import com.btf.tap.vo.Room;
 import com.btf.tap.vo.User;
 
@@ -172,4 +173,17 @@ public class RoomController {
 		return "/host/room/priceRoomList";
 	}
 	
+	
+	@GetMapping("/host/addPriceRoom")
+	public String getAddPriceRoom(Model model, Room room) {
+		model.addAttribute("priceRoomDate",roomService.getPriceRoomDateList(room.getRoomId()));
+		model.addAttribute("room",room);
+		return "/host/room/addPriceRoom";
+	}
+	
+	@PostMapping("/host/addPriceRoom")
+	public String postAddPriceRoom(Room room, PriceRoom priceRoom) {
+		roomService.addPriceRoom(room.getRoomId(), priceRoom);
+		return "redirect:/host/priceRoomList?roomId="+room.getRoomId()+"&detailAddressId="+room.getDetailAddressId();
+	}
 }

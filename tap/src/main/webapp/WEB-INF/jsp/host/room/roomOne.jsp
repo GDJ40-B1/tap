@@ -76,7 +76,7 @@
 				</ul>
 			</div>
 		</div>
-		<a href="${pageContext.request.contextPath}/host/priceRoomList?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}">기간별 가격</a>
+		<a href="${pageContext.request.contextPath}/host/priceRoomList?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}">가격 목록</a>
 		<a href="${pageContext.request.contextPath}/host/couponList?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}">쿠폰 목록</a>
 		<a href="${pageContext.request.contextPath}/host/modifyRoom?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}">숙소 수정</a>
    		<a href="${pageContext.request.contextPath}/host/removeRoom?roomId=${room.roomId}">숙소 삭제</a>

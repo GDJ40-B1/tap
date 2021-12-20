@@ -43,7 +43,15 @@
          room_id, price, create_date, update_date
       FROM price_room
       WHERE room_id=#{roomId}
-      ORDER BY start_date DESC
+      ORDER BY start_date ASC
+   </select>
+   
+   <!-- 숙소별 가격 추가 -->
+   <select id="insertPriceRoom" parameterType="hashMap">
+      INSERT INTO price_room(
+         start_date, end_date, room_id, price, create_date, update_date
+      )VALUE(
+         #{startDate}, #{endDate}, #{roomId}, #{price}, NOW(), NOW())
    </select>
    
    <!-- 특정 host의 숙소 목록 -->
