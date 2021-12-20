@@ -17,7 +17,8 @@ public interface MemberMapper {
 	List<Member> selectMemberList(Map<String, Object> page);// 회원 전체 목록 불러오기
 	int totalMemberCount();									// 전체 회원 수
 	int selectMemberPw(Member member);						// 회원 비밀번호 확인하기(수정용)
-	int updateMemberPoint(Member member);					// 회원 포인트 수정하기
+	int updateMemberPointEarn(Member member);				// 회원 포인트 충전하기
+	int updateMemberPointSpend(Member member);				// 회원 포인트 전환하기
 	int updateMemberPw(Member member);						// 회원 비밀번호 수정하기
 	
 	

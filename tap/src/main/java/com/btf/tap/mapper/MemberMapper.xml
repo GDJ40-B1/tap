@@ -115,19 +115,37 @@
 			member_id=#{memberId}
 	</update>
 	
-	<!-- 회원 한 명의 정보를 수정(포인트) -->
-	<update id="updateMemberPoint" parameterType="com.btf.tap.vo.Member">
-		UPDATE
-			member
-		SET
-			member_point=#{memberPoint},
-			update_date=NOW()
-		WHERE
-			member_id=#{memberId}
+	<!-- 회원 한 명의 포인트를 충전 -->
+	<update id="updateMemberPointEarn" parameterType="com.btf.tap.vo.Member">
+		{
+			call member_update_point(
+				#{memberId},
+				#{memberPoint},
+				'충전',
+				0,
+				now()
+			)
+			
+		}
+
+	</update>
+	
+	<!-- 회원 한 명의 포인트를 전환 -->
+	<update id="updateMemberPointSpend" parameterType="com.btf.tap.vo.Member">
+		{
+			call member_update_point(
+				#{memberId},
+				#{memberPoint},
+				'전환',
+				0,
+				now()
+			)
+			
+		}
 	</update>
 	
 	<!-- 회원 한 명의 정보를 수정(비밀번호) -->
-	<update id="updateMemberPw" parameterType="com.btf.tap.vo.Member">
+	<update id="updateMemberPw" parameterType="com.btf.tap.vo.Member" statementType="CALLABLE">
 		UPDATE
 			member
 		SET
@@ -138,7 +156,7 @@
 	</update>
 	
 	<!-- 회원 한 명의 정보를 삭제 -->
-	<delete id="deleteMemberOne" parameterType="com.btf.tap.vo.Member">
+	<delete id="deleteMemberOne" parameterType="com.btf.tap.vo.Member" statementType="CALLABLE">
 		DELETE FROM
 			member
 		WHERE

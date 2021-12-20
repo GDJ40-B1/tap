@@ -126,7 +126,7 @@ public class MemberService {
 		return confirm;
 	}
 	
-	// 회원 한 명의 포인트 증가(충전)
+	// 회원 한 명의 포인트 충전
 	// 입력: Member
 	// 결과: int (포인트 증가한 회원 수)
 	public int earnMemberPoint(Member member) {
@@ -142,14 +142,14 @@ public class MemberService {
 		log.debug(Font.HW + "입력받은 회원의 증가된 포인트 정보 => " + oldMember.toString() + Font.RESET);
 		
 		// 포인트 충전 실행
-		int confirm = memberMapper.updateMemberPoint(oldMember);
+		int confirm = memberMapper.updateMemberPointEarn(oldMember);
 		
 		log.debug(Font.HW + "포인트 증가된 회원 수 => " + confirm  + Font.RESET);
 		
 		return confirm;
 	}
 	
-	// 회원 한 명의 포인트 감소(사용)
+	// 회원 한 명의 포인트 전환
 	// 입력: Member
 	// 결과: int (포인트 감소한 회원 수)
 	public int spendMemberPoint(Member member) {
@@ -165,7 +165,7 @@ public class MemberService {
 		log.debug(Font.HW + "입력받은 회원의 감소된 포인트 정보 => " + oldMember.toString() + Font.RESET);
 		
 		// 포인트 충전 실행
-		int confirm = memberMapper.updateMemberPoint(oldMember);
+		int confirm = memberMapper.updateMemberPointSpend(oldMember);
 		
 		log.debug(Font.HW + "포인트 감소된 회원 수 => " + confirm  + Font.RESET);
 		
