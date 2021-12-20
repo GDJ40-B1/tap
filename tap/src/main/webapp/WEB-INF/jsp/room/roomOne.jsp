@@ -126,6 +126,48 @@
                 <a href="${pageContext.request.contextPath}/addReservation?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}">예약</a>
             </div>
       </section>
+      
+      <section class="event-list">
+         	<div class="container">
+       		<table id="roomQna" border="1">
+       			<thead>
+       			<tr>
+       				<th>답변상태</th>
+       				<th>문의내역</th>
+       				<th>작성자</th>
+       				<th>작성일</th>
+       			</tr>
+       			</thead>
+       			<tbody>
+       			<c:forEach var="q" items="${roomQna.list}">
+       				<tr>
+       					<c:choose>
+						<c:when test="${q.answerCheck == 'N'}">
+							<td>미답변</td>
+						</c:when>
+						
+						<c:when test="${q.answerCheck == 'Y'}">
+							<td>답변완료<td>
+						</c:when>
+					</c:choose>
+					<td><a href="#roomQna" onclick="result(this)" style="text-overflow: ellipsis;">${q.content}</a></td>
+					<td>${q.memberId}</td>
+					<td>${q.createDate}</td>
+       				</tr>
+       				<tr style="display: none;">
+						<td>
+							<div>문의 : ${q.content}</div>
+							<c:forEach var="a" items="${q.roomQnaAnswer}">
+								<div>답변 : ${a.answer}</div>
+								<div>등록일 : ${a.answerCreateDate}</div>
+							</c:forEach>
+						</td>
+       				</tr>
+       			</c:forEach>
+       			</tbody>
+       		</table>
+         	</div>
+       </section>
    </main>
    
    <!-- start : mainFooter -->
@@ -187,7 +229,19 @@
            map.setCenter(coords);
        } 
    });
-     
    </script>
+ 
+   <script>
+		function result(content) {
+			var currentRow = $(content).closest('tr');
+			var detail = currentRow.next('tr');
+			
+			if(detail.is(":visible")){
+				detail.hide();
+			} else {
+				detail.show();
+			}
+		}
+   </script>      
 </body>
 </html>

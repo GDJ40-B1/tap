@@ -292,7 +292,7 @@ public class RoomService {
    
    // 사용자 설정 선호지역 별 인기 숙소 리스트
    public Map<String, Object> getPreferLocalRoomList(int preferRoomCurrent, String sido, String sigungu) {
-      int defaultPage = 10;
+      final int defaultPage = 10;
       final int rowPerPage = 10;
       int startPage = ((preferRoomCurrent - 1) / defaultPage) * defaultPage + 1;
       int endPage = startPage + defaultPage - 1;      

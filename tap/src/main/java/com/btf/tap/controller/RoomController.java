@@ -17,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.btf.tap.service.AmenitiesService;
 import com.btf.tap.service.HostService;
 import com.btf.tap.service.PartService;
+import com.btf.tap.service.RoomQuestionService;
 import com.btf.tap.service.RoomService;
 import com.btf.tap.vo.Address;
 import com.btf.tap.vo.Host;
@@ -32,6 +33,7 @@ public class RoomController {
 	@Autowired HostService hostService;
 	@Autowired AmenitiesService amenitiesService;
 	@Autowired PartService partService;
+	@Autowired RoomQuestionService roomQuestionService;
 	
 	@GetMapping("/roomList")
 	public String roomList(Model model, @RequestParam(value="currentPage", defaultValue ="1") int currentPage) {
@@ -56,7 +58,7 @@ public class RoomController {
 	}
 	
 	@GetMapping("/roomOne")
-	public String roomOne(HttpServletRequest request, Model model, @RequestParam("roomId") int roomId, @RequestParam("detailAddressId") int detailAddressId) {
+	public String roomOne(HttpServletRequest request, Model model, @RequestParam("roomId") int roomId, @RequestParam("detailAddressId") int detailAddressId,  @RequestParam(value="roomQnaCurrentPage", defaultValue ="1") int roomQnaCurrentPage) {
 		// 멤버 정보를 가져온다
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("loginUser");

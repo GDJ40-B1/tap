@@ -46,7 +46,7 @@ public class MemberService {
 		log.debug(Font.HW + "회원가입된 수 => " + confirm  + Font.RESET);
 		
 		
-		// 사용저 설정 선호지역 저장
+		// 사용자 설정 선호지역 저장
 		Map<String, Object> paramMap = new HashMap<>();
 		
 		String memberId = member.getMemberId();
