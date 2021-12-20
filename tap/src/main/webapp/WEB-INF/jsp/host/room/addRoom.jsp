@@ -138,6 +138,9 @@
 				<div id="map" style="width:100%;height:350px;"></div>
 			</div>
 			
+			<!-- 파일 -->
+			<input multiple="multiple" type="file" name="file" />
+			
 			<div class="form-group row">
 				<div class="col-sm-6 mb-3 mb-sm-0">
 					<label>숙소 구성</label>
@@ -262,6 +265,7 @@
 	        level: 3 // 지도의 확대 레벨
 	    };  
 	
+	var map = new kakao.maps.Map(mapContainer, mapOption);
 	
 	$('#searchBtn').click(function(){
 		// 버튼을 click했을때
