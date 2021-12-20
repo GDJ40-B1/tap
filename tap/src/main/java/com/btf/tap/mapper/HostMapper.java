@@ -16,6 +16,7 @@ public interface HostMapper {
 	List<Host> selectHostList(Map<String,Object> page);		// 호스트 전체 목록 불러오기
 	int totalHostCount();                                   // 전체 호스트 수
 	int selectHostPw(Host host);							// 호스트 비밀번호 확인하기(수정용)
-	int updateHostPoint(Host host);							// 호스트 포인트 수정하기
+	int updateHostPointEarn(Host host);						// 호스트 포인트 충전하기
+	int updateHostPointSpend(Host host);					// 호스트 포인트 전환하기
 	int updateHostPw(Host host);							// 호스트 비밀번호 수정하기
 }

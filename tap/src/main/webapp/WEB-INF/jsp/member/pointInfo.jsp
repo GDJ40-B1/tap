@@ -372,7 +372,7 @@
    					
    					var money;
    					
-   					if (rows.pointHistoryCategory=="충전") {
+   					if (rows.pointCategory=="충전" || rows.pointCategory=="수입") {
    						money = "+ " + data.toLocaleString();
    					} else{
    						money = "- " + data.toLocaleString();
@@ -382,7 +382,7 @@
    					},
    				},
    				// 포인트 이용 내용(유형)
-   				{targets: 2, data: "pointHistoryCategory"},
+   				{targets: 2, data: "pointCategory"},
    				// 포인트 이용 날짜(yyyy년 mm월 dd일 hh시 mm분 ss초)
    				{targets: 3, data: "createDate", render: function (data,type,rows){
    					var year = data.substring(0,4);

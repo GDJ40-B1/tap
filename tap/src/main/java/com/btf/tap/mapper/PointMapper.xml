@@ -3,16 +3,17 @@
 
 <mapper namespace="com.btf.tap.mapper.PointMapper">
 	
-	<resultMap type="com.btf.tap.vo.PointHistory" id="resultPointHistory">
+	<resultMap type="com.btf.tap.vo.Point" id="resultPoint">
 		<result column="user_id" property="userId"/>
 		<result column="point" property="point"/>
 		<result column="changed_point" property="changedPoint"/>
-		<result column="point_history_category" property="pointHistoryCategory"/>
+		<result column="point_history_category" property="pointCategory"/>
+		<result column="payment_id" property="paymentId"/>
 		<result column="create_date" property="createDate"/>
 	</resultMap>
 	
 	<!-- 입력받은 이용자의 포인트 이용 내역을 조회 -->
-	<select id="selectgPointHistoryList" parameterType="com.btf.tap.vo.User" resultMap="resultPointHistory">
+	<select id="selectgPointHistoryList" parameterType="com.btf.tap.vo.User" resultMap="resultPoint">
 		SELECT 
 			user_id,
 			point,

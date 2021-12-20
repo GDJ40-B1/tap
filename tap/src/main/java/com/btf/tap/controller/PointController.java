@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.btf.tap.service.PointService;
-import com.btf.tap.vo.PointHistory;
+import com.btf.tap.vo.Point;
 import com.btf.tap.vo.User;
 
 @RestController
@@ -20,14 +20,16 @@ public class PointController {
 	
 	
 	@GetMapping("point/getPointHistoryList")
-	public Object getPointHistoryList(User user, @ModelAttribute("PointHitsory") PointHistory pointHistoryf) {
+	public Object getPointHistoryList(User user, @ModelAttribute("Point") Point point) {
 				
 		// 이용자의 전체 포인트 이용 내역 가져오기
-		List<PointHistory> pointHistory = pointService.getPointHistoryList(user);		
+		List<Point> pointList = pointService.getPointHistoryList(user);		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-		map.put("data", pointHistory);
+		// 데이터 테이블에 이용자의 전체 포인트 이용 내역을 보내주도록 data라는 키 값에 list를 저장
+		map.put("data", pointList);
 		
+		// 오브젝트 형식으로 map을 전달
 		Object result = map; 
 		
 		return result;

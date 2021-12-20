@@ -131,7 +131,7 @@ public class HostService {
 		log.debug(Font.HW + "입력받은 호스트의 증가된 포인트 정보 => " + oldHost.toString() + Font.RESET);
 		
 		// 포인트 충전 실행
-		int confirm = hostMapper.updateHostPoint(oldHost);
+		int confirm = hostMapper.updateHostPointSpend(oldHost);
 		
 		log.debug(Font.HW + "포인트 증가된 호스트 수 => " + confirm  + Font.RESET);
 		
@@ -154,7 +154,7 @@ public class HostService {
 		log.debug(Font.HW + "입력받은 호스트의 감소된 포인트 정보 => " + oldHost.toString() + Font.RESET);
 		
 		// 포인트 충전 실행
-		int confirm = hostMapper.updateHostPoint(oldHost);
+		int confirm = hostMapper.updateHostPointEarn(oldHost);
 		
 		log.debug(Font.HW + "포인트 감소된 호스트 수 => " + confirm  + Font.RESET);
 		

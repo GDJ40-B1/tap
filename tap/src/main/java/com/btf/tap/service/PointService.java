@@ -7,16 +7,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.btf.tap.mapper.PointMapper;
-import com.btf.tap.vo.PointHistory;
+import com.btf.tap.vo.Point;
 import com.btf.tap.vo.User;
 
 @Service
 public class PointService {
 	@Autowired PointMapper pointMapper;
 	
-	public List<PointHistory> getPointHistoryList(User user) {
+	// 포인트 이용 내역 리스트 가져오기
+	public List<Point> getPointHistoryList(User user) {
 		
-		List<PointHistory> pointHistory = pointMapper.selectgPointHistoryList(user);
+		List<Point> pointHistory = pointMapper.selectgPointHistoryList(user);
 		
 		return pointHistory;
 	}

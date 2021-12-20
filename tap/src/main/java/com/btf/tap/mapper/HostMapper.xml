@@ -113,15 +113,30 @@
 			host_id=#{hostId}
 	</update>
 	
-	<!-- 호스트 한 명의 정보를 수정(포인트) -->
-	<update id="updateHostPoint" parameterType="com.btf.tap.vo.Host">
-		UPDATE
-			host
-		SET
-			host_point=#{hostPoint},
-			update_date=NOW()
-		WHERE
-			host_id=#{hostId}
+	<!-- 호스트 한 명의 포인트를 충전 -->
+	<update id="updateHostPointEarn" parameterType="com.btf.tap.vo.Host" statementType="CALLABLE">
+		{
+			CALL host_update_point(
+				#{hostId},
+				#{hostPoint},
+				'충전',
+				0,
+				NOW()
+			)
+		}
+	</update>
+	
+	<!-- 호스트 한 명의 포인트를 전환 -->
+	<update id="updateHostPointSpend" parameterType="com.btf.tap.vo.Host"  statementType="CALLABLE">
+		{
+			CALL host_update_point(
+				#{hostId},
+				#{hostPoint},
+				'전환',
+				0,
+				NOW()
+			)
+		}
 	</update>
 	
 	<!-- 호스트 한 명의 정보를 수정(비밀번호) -->
