@@ -42,7 +42,7 @@
                             <form id="modifyForm" class="user" method="post" action="${pageContext.request.contextPath}/modifySystemAdminPw">
                                 <div class="form-group">
                                     <input type="hidden" class="form-control form-control-user" id="exampleInputEmail"
-                                        placeholder="Email Address" name="systemAdminId" value="${systemAdmin.systemAdminId}">
+                                        placeholder="Email Address" name="systemAdminId" value="${systemAdminId}">
                                 </div>                 
                                 <h4 class="small font-weight-bold">현재 비밀번호</h4>               
                                 <div class="form-group">
