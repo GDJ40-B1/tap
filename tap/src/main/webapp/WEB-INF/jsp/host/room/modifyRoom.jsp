@@ -36,6 +36,8 @@
 			<input type="hidden" name="roomId" value="${room.roomId }">
 			<input type="hidden" name="detailAddressId" value="${address.detailAddressId }">
 			<input type="hidden" name="hostId" value="${room.hostId }">
+			<input type="hidden" id="amenities" name="amenities">
+			<input type="hidden" id="part" name="part">
 			
 			<div class="form-group row">
 				<div class="col-sm-6 mb-3 mb-sm-0">
@@ -174,6 +176,35 @@
 				<div id="map" style="width:100%;height:350px;"></div>
 			</div>
 			
+			<div class="form-group row">
+				<div class="col-sm-6 mb-3 mb-sm-0">
+					<label>숙소 구성</label>
+					<c:forEach items="${partList }" var="p">
+						<div class="form-group row">
+							<label for="inputPassword" class="col-sm-2 col-form-label">${p}</label>
+							<input type="number" class="form-control" id="${p }-part" value="0">
+						</div>
+					</c:forEach>
+				</div>
+				
+				<div class="col-sm-6 mb-3 mb-sm-0">
+					<label>숙소 비품</label><br>
+					<c:forEach items="${amenitiesList }" var="a">
+						<div class="form-check form-check-inline">
+							<c:choose>
+								<c:when test="${roomAmenitiesList.indexOf(a)!=-1 }">
+									<input class="form-check-input" type="checkbox" id="${a }amenities" name="checkAmenities" value="${a }" checked>
+								</c:when>
+								<c:otherwise>
+									<input class="form-check-input" type="checkbox" id="${a }amenities" name="checkAmenities" value="${a }">
+								</c:otherwise>
+							</c:choose>
+						  <label class="form-check-label" for="${a }amenities">${a }</label>
+						</div>
+					</c:forEach>
+				</div>
+			</div>
+			
 			<div class="form-group">
 				<label>해시태그</label>
 				<input class="form-control" type="text" id="hashtag" name="hashtag" value="${hashtag }">
@@ -191,8 +222,13 @@
     </div>
     <!-- end : hostFooter -->
    
-   <!-- input 유효성 검사 -->
 	<script>
+		<!-- 숙소 구성 기본값 설정 -->
+		<c:forEach items="${roomPartList }" var="rp">
+			$('#${rp.partName }-part').val(${rp.quantity});
+		</c:forEach>
+		
+		<!-- input 유효성 검사 -->
 		// 숙소 수정을 클릭했을 때
 		$('#modifyBtn').click(function(){
 			if($('#roomName').val()==''){
@@ -212,13 +248,31 @@
 			} else if($('#detailAddress2').val()==''){
 				alert('상세 주소를 입력하세요');
 			} else{
+				<!-- 비품 추가 script -->
+				var chk_arr = $("input[name='checkAmenities']");
+				let chk_Val='';
+				for( var i=0; i<chk_arr.length; i++ ) {
+					if( chk_arr[i].checked == true ) {
+						chk_Val += chk_arr[i].value+'/';
+					}
+				}
+				$('#amenities').val(chk_Val);
+				
+				<!-- 구성 추가 -->
+				let part_Val= '';
+				<c:forEach items="${partList }" var="p">
+					part_Val += '${p}'+'&'+$('#${p}-part').val()+'/';
+				</c:forEach>
+				$('#part').val(part_Val);
+				
+				<!-- postModifyRoom으로 이동 -->
 				$('#modifyRoomForm').submit();
 			}
 		});
-	</script>
-	
-	<!-- 해시태그 관련 script -->
-	<script>
+		
+		
+		<!-- 해시태그 관련 js -->
+		
 		// hashtag input에서 데이터를 모두 지워도 #은 남도록 한다.
 		$('#hashtag').keydown(function(event) {
 			var oldvalue=$(this).val();
@@ -254,6 +308,7 @@
 	        level: 3 // 지도의 확대 레벨
 	    };  
 	
+	var map = new kakao.maps.Map(mapContainer, mapOption);
 	
 	$('#searchBtn').click(function(){
 		// 버튼을 click했을때

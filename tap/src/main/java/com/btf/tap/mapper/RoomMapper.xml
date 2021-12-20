@@ -127,8 +127,27 @@
    </delete>
    
    <!-- 선호 지역 인기 숙소 리스트 -->
-   <select id="" parameterType="java.util.Map" resultType="com.btf.tap.vo.Room">
-   
+   <select id="selectPreferLocalRoomList" parameterType="java.util.Map" resultMap="resultRoom">
+	  SELECT
+		  room_id, detail_address_id, host_id, room_category, room_form, room_name,
+		  room_intro, min_day, check_in_time, check_out_time, people_num, room_price
+	  FROM view_room_info
+	  <where>
+		  sido = #{sido}
+		  AND sigungu = #{sigungu}
+	  </where>
+		  ORDER BY ranking_score DESC
+		  LIMIT #{beginRow}, #{rowPerPage}		
    </select>
-   
+  
+   <!-- 선호 지역 인기 숙소 개수 -->
+   <select id="preferLocalRoomTotalCount" parameterType="java.util.Map" resultType="int">
+	  SELECT
+		  COUNT(*)
+		  FROM view_room_info
+		  <where>
+			  sido = #{sido}
+			  AND sigungu = #{sigungu}
+		  </where>	
+   </select> 
 </mapper>

@@ -81,5 +81,30 @@
 			SELECT LAST_INSERT_ID()
 		</selectKey>
 	</insert>
+	
+	<!-- 선호 지역 인기 명소 리스트 -->
+	<select id="selectPreferLocalAttractionList" parameterType="java.util.Map" resultType="com.btf.tap.vo.Attraction">
+		SELECT
+			attraction_id attractionId, detail_address_id detailAddressId, attraction_category attractionCategory, 
+			attraction_name attractionName, attraction_phone_number attractionPhoneNumber
+		FROM view_attraction_info
+		<where>
+			sido = #{sido}
+			AND sigungu = #{sigungu}
+		</where>
+			ORDER BY ranking_score DESC
+			LIMIT #{beginRow}, #{rowPerPage}		
+	</select>
+  
+	<!-- 선호 지역 인기 명소 개수 -->
+	<select id="preferLocalAttractionTotalCount" parameterType="java.util.Map" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM view_attraction_info
+		<where>
+			sido = #{sido}
+			AND sigungu = #{sigungu}
+		</where>	
+	</select> 
 
 </mapper>

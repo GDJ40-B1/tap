@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.btf.tap.mapper.RoomReviewMapper">
+	<resultMap type="com.btf.tap.vo.RoomReview" id="resultRoomReview">
+		<id column="room_review_id" property="roomReviewId"/>
+		<result column="payment_id" property="paymentId"/>
+		<result column="answer_status" property="answerStatus"/>
+		<result column="room_review_content" property="roomReviewContent"/>
+		<result column="room_review_score" property="roomReviewScore"/>
+		<result column="create_date" property="createDate"/>
+		<result column="update_date" property="updateDate"/>
+	</resultMap>
+ 
+	<!-- 해당숙소의 전체 후기 조회하기 -->
+	<select id="selectRoomReviewList" parameterType="java.util.Map" resultMap="resultRoomReview">
+		SELECT
+			room_review_id,
+			payment_id,
+			answer_status,
+			room_review_content,
+			room_review_score,
+			create_date,
+			update_date
+		FROM
+			room_review
+		ORDER BY room_review_id DESC
+		LIMIT #{beginRow}, #{rowPerPage}	
+	</select>
+	
+	<!-- 전체 후기 수 -->
+	<select id="totalRoomReivewCount" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM 
+			room_review
+	</select>
+	
+	<!-- 숙소후기 작성하기 -->
+	<insert id="insertRoomReview" parameterType="com.btf.tap.vo.RoomReview">
+		INSERT INTO room_review(
+			payment_id,
+			answer_status,
+			room_review_content,
+			room_review_score,
+			create_date,
+			update_date
+		) VALUES (
+			#{paymentId},
+			#{answerStatus},
+			#{roomReviewContent},
+			#{roomReviewScore},
+			NOW(),
+			NOW()
+		)
+		<selectKey keyProperty="roomReviewId" order="AFTER" resultType="int">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	
+	<!-- 숙소후기 삭제하기 -->
+	<delete id="deleteRoomReview" parameterType="com.btf.tap.vo.RoomReview">
+		DELETE
+		FROM 
+			room_review
+		WHERE 
+			room_review_id = #{roomReviewId}
+	</delete>
+</mapper>

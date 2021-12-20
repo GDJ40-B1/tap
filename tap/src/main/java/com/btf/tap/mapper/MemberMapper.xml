@@ -102,6 +102,19 @@
 		)
 	</insert>
 	
+	<!-- 특정 회원 선호지역 조회 -->
+	<select id="selectPreferLocal" parameterType="String" resultType="java.util.Map">
+		SELECT
+			s.si_do sido,
+			s.si_gun_gu sigungu
+		FROM prefer_local p 
+		INNER JOIN si_gun_gu s
+		ON p.si_gun_gu_id = s.si_gun_gu_id
+		<where>
+			p.member_id = #{memberId}
+		</where>
+	</select>
+	
 	<!-- 회원 한 명의 정보를 수정(나이,이름, 전화번호 ) -->
 	<update id="updateMemberOne" parameterType="com.btf.tap.vo.Member">
 		UPDATE

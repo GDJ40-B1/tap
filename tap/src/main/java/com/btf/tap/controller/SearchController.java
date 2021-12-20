@@ -91,13 +91,13 @@ public class SearchController {
 		Map<String, Object> roomMap = searchService.getRoomDistrictSearchList(sido, sigungu, roomCurrentPage, rowPerPage, keyword);
 		log.debug(Font.JSB + roomMap.toString() + Font.RESET);
 
-		Map<String, Object> attractionMap = searchService.getAttractionDistrictSearchList(sido, sigungu, attractionCurrentPage, hashtagAttractionCurrentPage, keyword);
+		Map<String, Object> attractionMap = searchService.getAttractionDistrictSearchList(sido, sigungu, attractionCurrentPage, rowPerPage, keyword);
 		log.debug(Font.JSB + attractionMap.toString() + Font.RESET);
 		
-		Map<String, Object> hashtagRoomMap = searchService.getHashtagRoomDistrictSearchList(sido, sigungu, hashtagRoomCurrentPage, hashtagAttractionCurrentPage, keyword);
+		Map<String, Object> hashtagRoomMap = searchService.getHashtagRoomDistrictSearchList(sido, sigungu, hashtagRoomCurrentPage, rowPerPage, keyword);
 		log.debug(Font.JSB + hashtagRoomMap.toString() + Font.RESET);
 		
-		Map<String, Object> hashtagAttractionMap = searchService.getHashtagAttractionDistrictSearchList(sido, sigungu, hashtagAttractionCurrentPage, hashtagAttractionCurrentPage, keyword);
+		Map<String, Object> hashtagAttractionMap = searchService.getHashtagAttractionDistrictSearchList(sido, sigungu, hashtagAttractionCurrentPage, rowPerPage, keyword);
 		log.debug(Font.JSB + hashtagAttractionMap.toString() + Font.RESET);
 		
 		HttpSession session = request.getSession();
@@ -163,6 +163,7 @@ public class SearchController {
 	
 	// 이전 검색어 삭제 - 이동 필요
 	@RequestMapping("/removeSearchHistory")
+	@ResponseBody
 	public void RequestRemoveSearchHistory(HttpServletRequest request, @RequestParam Map<String, Object> paramMap) {
 		HttpSession session = request.getSession();
 		User loginUser = (User)session.getAttribute("loginUser");

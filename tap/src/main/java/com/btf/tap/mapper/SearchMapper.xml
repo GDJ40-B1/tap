@@ -126,23 +126,25 @@
 	<!-- 지역별 숙소명 검색 조회 -->
 	<select id="roomDistrictSearchList" parameterType="java.util.Map" resultType="com.btf.tap.vo.Room">
 		SELECT
-			room_id roomId,
-			detail_address_id detailAddressId,
-			room_category roomCategory,
-			room_form roomForm,			
-			room_name roomName,
-			room_intro roomIntro,
-			min_day minDay,
-			people_num peopleNum,
-			room_price roomPrice
-		FROM view_room_address
+			r.room_id roomId,
+			r.detail_address_id detailAddressId,
+			r.room_category roomCategory,
+			r.room_form roomForm,			
+			r.room_name roomName,
+			r.room_intro roomIntro,
+			r.min_day minDay,
+			r.people_num peopleNum,
+			r.room_price roomPrice
+		FROM room r
+		INNER JOIN detail_address da ON r.detail_address_id = da.detail_address_id
+		INNER JOIN address a ON da.address_id = a.address_id
 		<where>
-			room_name LIKE 
+			r.room_name LIKE 
 			CONCAT ('%', #{keyword}, '%')
-			AND sido LIKE #{sido}
-			AND sigungu LIKE #{sigungu}
+			AND a.sido LIKE #{sido}
+			AND a.sigungu LIKE #{sigungu}
 		</where>
-		ORDER BY create_date DESC
+		ORDER BY r.create_date DESC
 		LIMIT #{beginRow}, #{rowPerPage}
 	</select>
 	
@@ -150,114 +152,128 @@
 	<select id="roomDistrictTotalRowCount" parameterType="java.util.Map" resultType="int">
 		SELECT
 			COUNT(*)
-		FROM view_room_address
+		FROM room r
+		INNER JOIN detail_address da ON r.detail_address_id = da.detail_address_id
+		INNER JOIN address a ON da.address_id = a.address_id
 		<where>
-			room_name LIKE 
+			r.room_name LIKE 
 			CONCAT ('%', #{keyword}, '%')
-			AND sido LIKE #{sido}
-			AND sigungu LIKE #{sigungu}			
+			AND a.sido LIKE #{sido}
+			AND a.sigungu LIKE #{sigungu}			
 		</where>		
 	</select>
 
 	<!-- 지역별 명소 검색 조회 -->
 	<select id="attractionDistrictSearchList" parameterType="java.util.Map" resultType="com.btf.tap.vo.Attraction">
 		SELECT
-			attraction_id attractionId,
-			attraction_category attractionCategory,
-			attraction_name attractionName,
-			attraction_content attractionContent
-		FROM view_attraction_address
+			a.attraction_id attractionId,
+			a.attraction_category attractionCategory,
+			a.attraction_name attractionName,
+			a.attraction_content attractionContent
+		FROM attraction a
+		INNER JOIN detail_address da ON a.detail_address_id = da.detail_address_id
+		INNER JOIN address ON da.address_id = address.address_id
 		<where>
-			attraction_name LIKE
+			a.attraction_name LIKE
 			CONCAT ('%', #{keyword}, '%')
-			AND sido LIKE #{sido}
-			AND sigungu LIKE #{sigungu}				
+			AND address.sido LIKE #{sido}
+			AND address.sigungu LIKE #{sigungu}				
 		</where>
-		ORDER BY create_date DESC
+		ORDER BY a.create_date DESC
 		LIMIT #{beginRow}, #{rowPerPage}
 	</select>
 
-	<!-- 명소 검색 페이지 체크 -->
+	<!-- 지역별 명소 검색 페이지 체크 -->
 	<select id="attractionDistrictTotalRowCount" parameterType="java.util.Map" resultType="int">
 		SELECT
 			COUNT(*)
-		FROM view_attraction_address
+		FROM attraction a
+		INNER JOIN detail_address da ON a.detail_address_id = da.detail_address_id
+		INNER JOIN address ON da.address_id = address.address_id		
 		<where>
-			attraction_name LIKE
+			a.attraction_name LIKE
 			CONCAT ('%', #{keyword}, '%')
-			AND sido LIKE #{sido}
-			AND sigungu LIKE #{sigungu}				
+			AND address.sido LIKE #{sido}
+			AND address.sigungu LIKE #{sigungu}				
 		</where>		
 	</select>
 
 	<!-- 지역별 해시태그 숙소 관련 검색 조회 -->
 	<select id="hashtagRoomDistrictSearchList" parameterType="java.util.Map" resultType="com.btf.tap.vo.Room">
 		SELECT DISTINCT
-			v.room_id roomId,
-			v.detail_address_id detailAddressId,
-			v.room_category roomCategory,
-			v.room_form roomForm,
-			v.room_name roomName,
-			v.room_intro roomIntro,
-			v.min_day minDay,
-			v.people_num peopleNum,
-			v.room_price roomPrice
-		FROM view_room_address v INNER JOIN hashtag h
-		ON v.room_id = h.hashtag_target
+			r.room_id roomId,
+			r.detail_address_id detailAddressId,
+			r.room_category roomCategory,
+			r.room_form roomForm,
+			r.room_name roomName,
+			r.room_intro roomIntro,
+			r.min_day minDay,
+			r.people_num peopleNum,
+			r.room_price roomPrice
+		FROM room r
+		INNER JOIN hashtag h ON r.room_id = h.hashtag_target
+		INNER JOIN detail_address da ON r.detail_address_id = da.detail_address_id
+		INNER JOIN address a ON da.address_id = a.address_id
 		<where>
 			h.hashtag_name LIKE 
 			CONCAT ('%', #{keyword}, '%')
-			AND sido LIKE #{sido}
-			AND sigungu LIKE #{sigungu}						
+			AND a.sido LIKE #{sido}
+			AND a.sigungu LIKE #{sigungu}						
 		</where>
-		ORDER BY v.create_date DESC
+		ORDER BY r.create_date DESC
 		LIMIT #{beginRow}, #{rowPerPage}	
 	</select>
 
 	<!-- 지역별 해시태그 숙소 관련 검색 페이지 체크 -->
 	<select id="hashtagRoomDistrictTotalRowCount" parameterType="java.util.Map" resultType="int">
 		SELECT
-			COUNT(DISTINCT v.room_id)
-		FROM view_room_address v INNER JOIN hashtag h
-		ON v.room_id = h.hashtag_target
+			COUNT(DISTINCT r.room_id)
+		FROM room r
+		INNER JOIN hashtag h ON r.room_id = h.hashtag_target
+		INNER JOIN detail_address da ON r.detail_address_id = da.detail_address_id
+		INNER JOIN address a ON da.address_id = a.address_id
 		<where>
 			h.hashtag_name LIKE 
 			CONCAT ('%', #{keyword}, '%')
-			AND sido LIKE #{sido}
-			AND sigungu LIKE #{sigungu}						
+			AND a.sido LIKE #{sido}
+			AND a.sigungu LIKE #{sigungu}						
 		</where>		
 	</select>	
 
 	<!-- 지역별 해시태그 명소 관련 검색 조회 -->
 	<select id="hashtagAttractionDistrictSearchList" parameterType="java.util.Map" resultType="com.btf.tap.vo.Attraction">
 		SELECT DISTINCT
-			v.attraction_id attractionId,
-			v.attraction_category attractionCategory,
-			v.attraction_name attractionName,
-			v.attraction_content attractionContent
-		FROM view_attraction_address v INNER JOIN hashtag h
-		ON v.attraction_id = h.hashtag_target
+			a.attraction_id attractionId,
+			a.attraction_category attractionCategory,
+			a.attraction_name attractionName,
+			a.attraction_content attractionContent
+		FROM attraction a
+		INNER JOIN hashtag h ON a.attraction_id = h.hashtag_target
+		INNER JOIN detail_address da ON a.detail_address_id = da.detail_address_id
+		INNER JOIN address ON da.address_id = address.address_id
 		<where>
 			h.hashtag_name LIKE
 			CONCAT ('%', #{keyword}, '%')
-			AND sido LIKE #{sido}
-			AND sigungu LIKE #{sigungu}						
+			AND address.sido LIKE #{sido}
+			AND address.sigungu LIKE #{sigungu}						
 		</where>
-		ORDER BY v.create_date DESC
+		ORDER BY a.create_date DESC
 		LIMIT #{beginRow}, #{rowPerPage}
 	</select>
 
 	<!-- 지역별 해시태그 명소 관련 검색 페이지 체크 -->
 	<select id="hashtagAttractionDistrictTotalRowCount" parameterType="java.util.Map" resultType="int">
 		SELECT
-			COUNT(DISTINCT v.attraction_id)
-		FROM view_attraction_address v INNER JOIN hashtag h
-		ON v.attraction_id = h.hashtag_target
+			COUNT(DISTINCT a.attraction_id)
+		FROM attraction a
+		INNER JOIN hashtag h ON a.attraction_id = h.hashtag_target
+		INNER JOIN detail_address da ON a.detail_address_id = da.detail_address_id
+		INNER JOIN address ON da.address_id = address.address_id
 		<where>
 			h.hashtag_name LIKE
 			CONCAT ('%', #{keyword}, '%')
-			AND sido LIKE #{sido}
-			AND sigungu LIKE #{sigungu}						
+			AND address.sido LIKE #{sido}
+			AND address.sigungu LIKE #{sigungu}						
 		</where>		
 	</select>		
 

@@ -112,7 +112,7 @@
 				</table>
 			</c:otherwise>
 		</c:choose>
-		
+
        	<c:if test="${loginUser != null && loginUser.userLevel != 'system_admin'}">
        		<a href="${pageContext.request.contextPath}/addQuestion">문의글 작성</a>
        	</c:if>

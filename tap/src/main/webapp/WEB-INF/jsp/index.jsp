@@ -83,10 +83,94 @@
     <!-- ======= My & Family Section ======= -->
     <section id="about" class="about">
       <div class="container">
+		<h1>이달의 ${sigungu} 추천 인기 숙소</h1>
+        <div>
+        	<c:choose>
+			<c:when test="${empty preferRoomMap.list}">
+				<div>현재 추천 가능한 숙소가 없습니다.</div>
+			</c:when>
+			
+			<c:otherwise>
+            <table class="table" border="1">
+            	<tr>
+	            	<c:forEach items="${preferRoomMap.list}" var="list">
+						<td>
+							<div>숙소명 : <a href="${pageContext.request.contextPath}/roomOne?roomId=${list.roomId}&detailAddressId=${list.detailAddressId}">${list.roomName}</a></div>
+			
+							<div>카테고리 : ${list.roomCategory}</div>
+					
+							<div>가격 : ${list.roomPrice}</div>
+						</td>
+					</c:forEach>
+				</tr>
+			</table>
 
-        <div class="section-title">
-          <h2>My & Family</h2>
-          <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+            
+			<!-- 페이징 -->
+			<nav style="margin-top: 50px">
+	   			<ul class="pagination" style="justify-content: center;">
+					<c:if test="${preferRoomMap.preferRoomCurrent > 1}">
+						<a href="${pageContext.request.contextPath}/?preferRoomCurrent=1&preferAttractionCurrent=${preferAttractionMap.preferAttractionCurrent}">처음으로</a>
+						<a href="${pageContext.request.contextPath}/?preferRoomCurrent=${preferRoomMap.preferRoomCurrent-1}&preferAttractionCurrent=${preferRoomMap.preferAttractionCurrent}">이전</a>
+					</c:if>
+					
+					<c:forEach var="i" begin="${preferRoomMap.startPage}" end="${preferRoomMap.endPage}">
+						<a href="${pageContext.request.contextPath}/?preferRoomCurrent=${i}&preferAttractionCurrent=${preferAttractionMap.preferAttractionCurrent}"><c:out value="${i}"/></a>
+					</c:forEach>
+					
+					<c:if test="${preferRoomMap.preferRoomCurrent < preferRoomMap.lastPage}">
+						<a href="${pageContext.request.contextPath}/?preferRoomCurrent=${preferRoomMap.preferRoomCurrent+1}&preferAttractionCurrent=${preferAttractionMap.preferAttractionCurrent}">다음</a>
+						<a href="${pageContext.request.contextPath}/?preferRoomCurrent=${preferRoomMap.lastPage}&preferAttractionCurrent=${preferAttractionMap.preferAttractionCurrent}">끝으로</a>
+					</c:if>		
+				</ul>
+			</nav>
+			</c:otherwise>
+			</c:choose>
+        </div>
+
+		<h1>이달의 ${sigungu} 추천 인기 명소</h1>
+        <div>
+        	<c:choose>
+			<c:when test="${empty preferAttractionMap.list}">
+				<div>현재 추천 가능한 명소가 없습니다.</div>
+			</c:when>
+			
+			<c:otherwise>
+            <table class="table" border="1">
+            	<tr>
+	            	<c:forEach items="${preferAttractionMap.list}" var="list">
+						<td>
+							<div>명소 카테고리 : ${list.attractionCategory}</div>
+			
+							<div>이름 : <a href="${pageContext.request.contextPath}/attractionOne?attractionId=${list.attractionId}&detailAddressId=${list.detailAddressId}">${list.attractionName}</a></div>
+					
+							<div>전화번호 : ${list.attractionPhoneNumber}</div>
+						</td>
+					</c:forEach>
+				</tr>
+			</table>
+
+            
+			<!-- 페이징 -->
+			<nav style="margin-top: 50px">
+	   			<ul class="pagination" style="justify-content: center;">
+					<c:if test="${preferAttractionMap.preferAttractionCurrent > 1}">
+						<a href="${pageContext.request.contextPath}/?preferRoomCurrent=${preferRoomMap.preferRoomCurrent}&preferAttractionCurrent=1">처음으로</a>
+						<a href="${pageContext.request.contextPath}/?preferRoomCurrent=${preferRoomMap.preferRoomCurrent}&preferAttractionCurrent=${preferAttractionMap.preferAttractionCurrent-1}">이전</a>
+					</c:if>
+					
+					<c:forEach var="i" begin="${preferAttractionMap.startPage}" end="${preferAttractionMap.endPage}">
+						<a href="${pageContext.request.contextPath}/?preferRoomCurrent=${preferRoomMap.preferRoomCurrent}&preferAttractionCurrent=${i}"><c:out value="${i}"/></a>
+					</c:forEach>
+					
+					<c:if test="${preferAttractionMap.preferAttractionCurrent < preferAttractionMap.lastPage}">
+						<a href="${pageContext.request.contextPath}/?preferRoomCurrent=${preferRoomMap.preferRoomCurrent}&preferAttractionCurrent=${preferAttractionMap.preferAttractionCurrent+1}">다음</a>
+						<a href="${pageContext.request.contextPath}/?preferRoomCurrent=${preferRoomMap.preferRoomCurrent}&preferAttractionCurrent=${preferAttractionMap.lastPage}">끝으로</a>
+					</c:if>		
+				</ul>
+			</nav>
+			</c:otherwise>
+			</c:choose>
         </div>
 
         <div class="row content">

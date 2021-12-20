@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.btf.tap.service.AmenitiesService;
 import com.btf.tap.service.HostService;
+import com.btf.tap.service.PartService;
 import com.btf.tap.service.RoomService;
 import com.btf.tap.vo.Address;
 import com.btf.tap.vo.Host;
@@ -28,6 +30,8 @@ import lombok.extern.slf4j.Slf4j;
 public class RoomController {
 	@Autowired RoomService roomService;
 	@Autowired HostService hostService;
+	@Autowired AmenitiesService amenitiesService;
+	@Autowired PartService partService;
 	
 	@GetMapping("/roomList")
 	public String roomList(Model model, @RequestParam(value="currentPage", defaultValue ="1") int currentPage) {
@@ -66,6 +70,8 @@ public class RoomController {
 		model.addAttribute("address",result.get("address"));
 		model.addAttribute("hashtag",result.get("hashtag"));
 		model.addAttribute("couponList",result.get("couponList"));
+		model.addAttribute("roomAmenitiesList",result.get("amenitiesList"));
+		model.addAttribute("roomPartList",result.get("roomPartList"));
 		return "room/roomOne";
 	}
 	
@@ -79,14 +85,17 @@ public class RoomController {
 		
 		// 숙소 카테고리 리스트 및 hostId
 		model.addAttribute("roomCategoryList",roomService.getRoomCategory());
+		model.addAttribute("amenitiesList", amenitiesService.getAmenitiesList());
+		model.addAttribute("partList", partService.getPartList());
 		model.addAttribute("hostId", user.getUserId());
 		return "/host/room/addRoom";
 	}
 	
 	@PostMapping("/host/addRoom")
-	public String postAddRoom(Room room, Address address, String hashtag) {
+	public String postAddRoom(Room room, Address address,
+			String hashtag, String amenities, String part) {
 		// 숙소 추가
-		roomService.addRoom(room, address, hashtag);
+		roomService.addRoom(room, address, hashtag, amenities, part);
 		return "redirect:/host/roomList";
 	}
 	
@@ -110,6 +119,9 @@ public class RoomController {
 		model.addAttribute("room",result.get("room"));
 		model.addAttribute("address",result.get("address"));
 		model.addAttribute("hashtag",result.get("hashtag"));
+		model.addAttribute("roomAmenitiesList",result.get("amenitiesList"));
+		model.addAttribute("roomPartList",result.get("roomPartList"));
+		System.out.println(result.get("amenitiesList"));
 		return "/host/room/roomOne";
 	}
 	
@@ -130,13 +142,18 @@ public class RoomController {
 		Map<String, Object> result = roomService.getHostRoomOne(roomId, detailAddressId);
 		model.addAttribute("room",result.get("room"));
 		model.addAttribute("address",result.get("address"));
-		model.addAttribute("hashtag",(result.get("hashtag")));
+		model.addAttribute("hashtag",result.get("hashtag"));
+		model.addAttribute("amenitiesList",amenitiesService.getAmenitiesList());
+		model.addAttribute("roomAmenitiesList",result.get("amenitiesList"));
+		model.addAttribute("partList",partService.getPartList());
+		model.addAttribute("roomPartList",result.get("roomPartList"));
+		
 		return "/host/room/modifyRoom";
 	}
 	
 	@PostMapping("/host/modifyRoom")
-	public String postModifyRoom(RedirectAttributes redirect, Room room, Address address, String hashtag) {
-		address = roomService.modifyRoom(room, address, hashtag);
+	public String postModifyRoom(RedirectAttributes redirect, Room room, Address address, String hashtag, String amenities, String part) {
+		address = roomService.modifyRoom(room, address, hashtag, amenities, part);
 		redirect.addAttribute("roomId",room.getRoomId());
 		redirect.addAttribute("detailAddressId",address.getDetailAddressId());
 		return "redirect:/host/roomOne";

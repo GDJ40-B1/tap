@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.btf.tap.mapper.AmenitiesMapper">
+
+	<!-- 숙소별 비품 추출 -->
+    <select id="selectRoomAmenities" parameterType="int" resultType="String">
+		SELECT amenities_name amenitiesName FROM room_amenities WHERE room_id=#{roomId}
+	</select>
+	
+	<!-- 비품 목록 추출 -->
+	<select id="selectAmenitiesList" resultType="String">
+		SELECT amenities_name amenitiesName FROM amenities
+	</select>
+
+	<!-- 숙소별 비품 추가 -->
+   <insert id="insertRoomAmenities" parameterType="hashMap">
+      INSERT INTO room_amenities(
+         amenities_name, room_id, create_date, update_date
+      )VALUE(
+         #{amenitiesName}, #{roomId}, NOW(), NOW())
+   </insert>
+   
+   <!-- 숙소별 비품 삭제 -->
+   <delete id="deleteRoomAmenities" parameterType="int">
+      DELETE FROM room_amenities
+      WHERE room_id= #{roomId}
+   </delete>
+   
+</mapper>

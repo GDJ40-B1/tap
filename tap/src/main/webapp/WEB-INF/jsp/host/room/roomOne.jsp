@@ -55,6 +55,28 @@
 			</div>
 		</div>
 		
+		<div class="form-group row">
+			<div class="col-sm-6 mb-3 mb-sm-0">
+				<label>숙소 구성</label>
+				<ul class="list-group">
+					<c:forEach items="${roomPartList}" var="p">
+						<li class="list-group-item">${p.partName } x${p.quantity }</li>
+					</c:forEach>
+				</ul>
+			</div>
+			
+			<div class="col-sm-6 mb-3 mb-sm-0">
+				<label>숙소 비품</label>
+				<ul class="list-group">
+					<li class="list-group-item">
+						<c:forEach items="${roomAmenitiesList}" var="a">
+							<span>${a }</span>&nbsp;&nbsp;&nbsp;
+						</c:forEach>
+					</li>
+				</ul>
+			</div>
+		</div>
+		
 		<a href="${pageContext.request.contextPath}/host/couponList?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}">쿠폰 목록</a>
 		<a href="${pageContext.request.contextPath}/host/modifyRoom?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}">숙소 수정</a>
    		<a href="${pageContext.request.contextPath}/host/removeRoom?roomId=${room.roomId}">숙소 삭제</a>

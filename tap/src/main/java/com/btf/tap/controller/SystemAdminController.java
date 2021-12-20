@@ -115,14 +115,11 @@ public class SystemAdminController {
 		User user = (User)session.getAttribute("loginUser");
 		log.debug(Font.HS + "getModifyPwCont : " + user.toString() + Font.RESET);
 		
-		// 유저 객체속 아이디를 시스템관리자 객체에 넣어 조회하기
-		SystemAdmin systemAdmin = new SystemAdmin();
-		systemAdmin.setSystemAdminId(user.getUserId());
-		systemAdmin = systemAdminService.getSystemAdminOne(systemAdmin.getSystemAdminId());
-		log.debug(Font.HS + "getModifyPwCont : " + systemAdmin.toString() + Font.RESET);
+		String systemAdminId = user.getUserId();
+		log.debug(Font.HS + "시스템관리자 ID값 => " + systemAdminId + Font.RESET);
 		
 		// 시스템관리자 정보 주입
-		model.addAttribute("systemAdmin", systemAdmin);
+		model.addAttribute("systemAdminId", systemAdminId);
 		
 		return "systemAdmin/modifySystemAdminPw";
 	}

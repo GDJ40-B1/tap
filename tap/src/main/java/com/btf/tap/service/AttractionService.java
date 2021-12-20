@@ -4,11 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.catalina.mapper.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.btf.tap.common.Font;
 import com.btf.tap.mapper.AddressMapper;
 import com.btf.tap.mapper.AttractionMapper;
 import com.btf.tap.vo.Address;
@@ -22,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 public class AttractionService {
 	@Autowired AttractionMapper attractionMapper;
 	@Autowired AddressMapper addressMapper;
+	@Autowired HashtagService hashtagService;
 	
 	// 특정 명소 정보 추출
 	public Map<String, Object> getAttractionOne(int attractionId, int detailAddressId){
@@ -36,6 +37,8 @@ public class AttractionService {
 		map.put("address", address);
 		// 명소 정보
 		map.put("attraction", attractionMapper.selectAttractionOne(attractionId));
+		// 해시태그 정보
+		map.put("hashtag", hashtagService.getHashtag("attraction", attractionId));
 		return map;
 	}	
 	
@@ -48,12 +51,13 @@ public class AttractionService {
 	// 명소삭제
 	public void removeAttraction(int attractionId) {
 		int detailAddressId = attractionMapper.selectAttractionOne(attractionId).getDetailAddressId();
+		hashtagService.removeHashtag("attraction", attractionId);
 		attractionMapper.deleteAttraction(attractionId);
 		addressMapper.deleteDetailAddress(detailAddressId);
 	}
 	
 	// 명소 수정
-	public Address modifyAttraction(Attraction attraction, Address address) {
+	public Address modifyAttraction(Attraction attraction, Address address, String hashtag) {
 		String[] addressList = address.getDetailAddress().split(" ");
 		address.setSido(addressList[0]);
 		address.setSigungu(addressList[1]);
@@ -63,6 +67,7 @@ public class AttractionService {
 		address.setAddressId(addressMapper.searchAddressOne(address).getAddressId());
 		addressMapper.updateDetailAddress(address);
 		attractionMapper.updateAttraction(attraction);
+		hashtagService.modifyHashtag(hashtag, "attraction", attraction.getAttractionId());
 		
 		return address;
 	}		
@@ -74,7 +79,7 @@ public class AttractionService {
 	}
 	
 	// 명소 등록
-	public int addAttraction(Attraction attraction, Address address) {
+	public int addAttraction(Attraction attraction, Address address, String hashtag) {
 		
 		String[] addressList = address.getDetailAddress().split(" ");
 		address.setSido(addressList[0]);
@@ -92,8 +97,49 @@ public class AttractionService {
 		attraction.setDetailAddressId(address.getDetailAddressId());
 		attractionMapper.insertAttraction(attraction);
 		
+		// 해시태그 추가
+		hashtagService.addHashtag(hashtag, "attraction", attraction.getAttractionId());
+		
 		return attraction.getAttractionId(); 
 		
 	}
-
+	
+	// 사용자 설정 선호지역 별 인기 명소 리스트
+	public Map<String, Object> getPreferLocalAttractionList(int preferAttractionCurrent, String sido, String sigungu) {
+		int defaultPage = 10;
+		final int rowPerPage = 10;
+		int startPage = ((preferAttractionCurrent - 1) / defaultPage) * defaultPage + 1;
+		int endPage = startPage + defaultPage - 1;		
+		int beginRow = (preferAttractionCurrent-1) * rowPerPage;
+		int lastPage = 0;
+		
+		Map<String, Object> page = new HashMap<>();
+		page.put("beginRow", beginRow);
+		page.put("rowPerPage", rowPerPage);
+		page.put("sido", sido);
+		page.put("sigungu", sigungu);
+		
+		List<Attraction> list = attractionMapper.selectPreferLocalAttractionList(page);
+		log.debug(Font.JSB + list.toString() + Font.RESET);
+		
+		int totalRowCount = attractionMapper.preferLocalAttractionTotalCount(page);
+		
+		lastPage = totalRowCount / rowPerPage;
+		
+		if(totalRowCount % rowPerPage != 0) {
+			lastPage+=1;
+		}
+		
+		if(endPage > lastPage) {
+			endPage = lastPage;
+		}		
+		
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("list", list);
+		paramMap.put("startPage", startPage);
+		paramMap.put("endPage", endPage);
+		paramMap.put("lastPage", lastPage);
+		
+		return paramMap;
+	}
 }

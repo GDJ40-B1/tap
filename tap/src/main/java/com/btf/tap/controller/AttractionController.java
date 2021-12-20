@@ -28,10 +28,11 @@ public class AttractionController {
 	}
 	
 	@PostMapping("/addAttraction")
-	public String postAddAttraction(Attraction attraction, Address address) {		
-		
+	public String postAddAttraction(Attraction attraction, Address address, String hashtag) {		
+		System.out.println("!!!!!!!!!!!!!!!!!!!!"+hashtag);
 		// 명소 추가
-		attractionService.addAttraction(attraction, address);	
+		attractionService.addAttraction(attraction, address, hashtag);
+		System.out.println("!!!!!!!!!!!!!!!!!!!!"+hashtag);
 		// 추가된 뒤 명소 리스트페이지로 돌아감
 		return "redirect:/attractionList";
 	}
@@ -43,6 +44,7 @@ public class AttractionController {
 		Map<String, Object> map = attractionService.getAttractionOne(attractionId, detailAddressId);
 		model.addAttribute("attraction",map.get("attraction"));
 		model.addAttribute("address", map.get("address"));
+		model.addAttribute("hashtag",map.get("hashtag"));
 		return "attraction/attractionOne";
 	}	
 	
@@ -67,20 +69,20 @@ public class AttractionController {
 	// 수정
 	public String getModifyAttraction(Model model, int attractionId, int detailAddressId) {
 		model.addAttribute("attractionCategoryList", attractionService.getAttractionCategory());
-		System.out.println("!!!!!!!"+attractionService.getAttractionCategory());
 		Map<String, Object> map = attractionService.getAttractionOne(attractionId, detailAddressId);
 		model.addAttribute("attraction", map.get("attraction"));
 		model.addAttribute("address", map.get("address"));
+		model.addAttribute("hashtag", map.get("hashtag"));
 		return "attraction/modifyAttraction";
 	}
 	
 	@PostMapping("/modifyAttraction")
-	public String postModifyAttraction(RedirectAttributes redirect, Attraction attraction, Address address) {
-		address = attractionService.modifyAttraction(attraction, address);
+	public String postModifyAttraction(RedirectAttributes redirect, Attraction attraction, Address address, String hashtag) {
+		address = attractionService.modifyAttraction(attraction, address, hashtag);
 		redirect.addAttribute("attractionId",attraction.getAttractionId());
-		redirect.addAttribute("detailAddressId", address.getDetailAddress());
-		
-		return "redirect:attractionOne";
+		redirect.addAttribute("detailAddressId", address.getDetailAddressId());
+
+		return "redirect:/attractionOne";
 	}
 
 }
