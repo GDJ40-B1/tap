@@ -18,6 +18,7 @@ import com.btf.tap.mapper.PartMapper;
 import com.btf.tap.mapper.RoomMapper;
 import com.btf.tap.vo.Address;
 import com.btf.tap.vo.Hashtag;
+import com.btf.tap.vo.PriceRoom;
 import com.btf.tap.vo.Room;
 
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +33,12 @@ public class RoomService {
    @Autowired CouponService couponService;
    @Autowired AmenitiesService amenitiesService;
    @Autowired PartService partService;
+   
+   /*---숙소별 가격 시작---*/
+   public List<PriceRoom> getPriceRoomList(int roomId) {
+	   return roomMapper.selectPriceRoomList(roomId);
+   }
+   /*---숙소별 가격 끝---*/
    
    // 숙소 전체 리스트 출력(최근 생성된 숙소 순으로)
    public Map<String, Object> getRoomList(int currentPage) {

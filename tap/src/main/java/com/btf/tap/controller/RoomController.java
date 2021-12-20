@@ -66,12 +66,15 @@ public class RoomController {
 			user.setUserId("");
 		}
 		Map<String, Object> result = roomService.getRoomOne(roomId, detailAddressId, user.getUserId());
+		Map<String, Object> roomQna = roomQuestionService.getRoomQnaList(roomQnaCurrentPage, roomId);
+		
 		model.addAttribute("room",result.get("room"));
 		model.addAttribute("address",result.get("address"));
 		model.addAttribute("hashtag",result.get("hashtag"));
 		model.addAttribute("couponList",result.get("couponList"));
 		model.addAttribute("roomAmenitiesList",result.get("amenitiesList"));
 		model.addAttribute("roomPartList",result.get("roomPartList"));
+		model.addAttribute("roomQna", roomQna);
 		return "room/roomOne";
 	}
 	
@@ -157,6 +160,14 @@ public class RoomController {
 		redirect.addAttribute("roomId",room.getRoomId());
 		redirect.addAttribute("detailAddressId",address.getDetailAddressId());
 		return "redirect:/host/roomOne";
+	}
+	
+	/*------숙소별 가격-------*/
+	@GetMapping("/host/priceRoomList")
+	public String priceRoomList(Model model, Room room) {
+		model.addAttribute("priceRoomList", roomService.getPriceRoomList(room.getRoomId()));
+		model.addAttribute("room",room);
+		return "/host/room/priceRoomList";
 	}
 	
 }

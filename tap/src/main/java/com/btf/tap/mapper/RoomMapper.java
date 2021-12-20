@@ -5,10 +5,14 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.btf.tap.vo.PriceRoom;
 import com.btf.tap.vo.Room;
 
 @Mapper
 public interface RoomMapper {
+	
+	// 숙소별 가격 리스트 추출
+	List<PriceRoom> selectPriceRoomList(int roomId);
 	
 	// host의 숙소 전체 목록 출력
 	List<Room> selectHostRoomList(String hostId);

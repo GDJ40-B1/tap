@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.btf.tap.mapper.RoomMapper">
+   <!-- 숙소 resultMap -->
    <resultMap type="com.btf.tap.vo.Room" id="resultRoom">
       <result column="room_id" property="roomId"></result>
       <result column="detail_address_id" property="detailAddressId"></result>
@@ -23,6 +24,27 @@
          <result column="detail_address2" property="detailAddress2"></result>
       </association>
    </resultMap>
+   
+   <!-- 숙소별 가격 resultMap -->
+   <resultMap type="com.btf.tap.vo.PriceRoom" id="resultPriceRoom">
+      <result column="price_room_id" property="priceRoomId"></result>
+   	  <result column="start_date" property="startDate"></result>
+      <result column="end_date" property="endDate"></result>
+      <result column="room_id" property="roomId"></result>
+      <result column="price" property="price"></result>
+      <result column="create_date" property="createDate"></result>
+      <result column="update_date" property="updateDate"></result>
+   </resultMap>
+
+   <!-- 숙소별 가격 목록 추출 -->
+   <select id="selectPriceRoomList" parameterType="int" resultMap="resultPriceRoom">
+      SELECT
+         price_room_id, start_date, end_date,
+         room_id, price, create_date, update_date
+      FROM price_room
+      WHERE room_id=#{roomId}
+      ORDER BY start_date DESC
+   </select>
    
    <!-- 특정 host의 숙소 목록 -->
    <select id="selectHostRoomList" parameterType="String" resultMap="resultRoom">

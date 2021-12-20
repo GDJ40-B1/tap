@@ -37,6 +37,9 @@ public class CouponService {
 	
 	// 쿠폰 삭제
 	public void removeCoupon(int couponId) {
+		// 보유 쿠폰에서 특정 쿠폰 전부 삭제(쿠폰 삭제시)
+		couponMapper.deleteMemberCoupon(couponId);
+		// 쿠폰 삭제
 		couponMapper.deleteCoupon(couponId);
 	}
 	
