@@ -308,6 +308,7 @@
 	        level: 3 // 지도의 확대 레벨
 	    };  
 	
+	var map = new kakao.maps.Map(mapContainer, mapOption);
 	
 	$('#searchBtn').click(function(){
 		// 버튼을 click했을때
