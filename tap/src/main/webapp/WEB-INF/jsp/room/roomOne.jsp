@@ -123,7 +123,7 @@
 						</ul>
 					</div>
 				</div>
-                <a href="${pageContext.request.contextPath}/addReservation?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}">예약</a>
+                <a href="${pageContext.request.contextPath}/member/addReservation?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}">예약</a>
             </div>
       </section>
       

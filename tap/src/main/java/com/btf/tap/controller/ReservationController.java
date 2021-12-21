@@ -37,7 +37,7 @@ public class ReservationController {
 		return "reservation/reservationList";
 	}
 	//예약 추가
-	@GetMapping("/addReservation")
+	@GetMapping("/member/addReservation")
 	String addReservation(Model model, int roomId,  int detailAddressId)	{
 		
 		
@@ -45,6 +45,10 @@ public class ReservationController {
 		//서비스에 값 보내고 map에 저장
 		model.addAttribute("room",map.get("room"));
 	    model.addAttribute("address",map.get("address"));
+	    model.addAttribute("ReservationDateList",map.get("ReservationDateList"));
+	    model.addAttribute("ReservationListOfDate",map.get("ReservationListOfDate"));
+	    System.out.println("예약일"+map.get("ReservationDateList"));
+	    System.out.println("날짜리스트"+map.get("ReservationListOfDate"));
 	    
 	    //저장한 map 모델로 뷰 전송
 	    log.debug(Font.KSB +" reservationController map에 id값 담아 서비스 처리 후 뷰로 전송 "+ map.toString() + Font.RESET);
@@ -53,9 +57,10 @@ public class ReservationController {
 	}
 	//예약 추가 버튼 작동
 	@PostMapping("/addReservation")
-	String addReservation(Reservation reservation)	{
-		
-		
+	String addReservation(HttpSession session, Reservation reservation)	{
+		// 회원정보 세션으로 가져오기
+		User user = (User)session.getAttribute("loginUser");
+		reservation.setMemberId(user.getUserId()); // 회원ID 예약 객체에 저장
 		//서비스 단에 reservation 정보를 보내고 int값으로 다시 저장한다.
 		int reservationId = reservationService.postAddReservation(reservation);
 		//디버그 id값 점검

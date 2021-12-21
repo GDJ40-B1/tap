@@ -361,19 +361,20 @@ public class RoomService {
 	       // Calendar의 기본 날짜를 startDt로 셋팅해준다.
 	       cal.set(startYear, startMonth -1, startDate);
 	        
-	       for(int i=0;i<10;i++) {
+	       while(true) {
 	           // 날짜를 yyyy-MM-dd 형식으로 포맷
 	    	   SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	    	   // 포맷한 날짜를 String으로 변환 후, return될 리스트에 추가
 	    	   String dateStr = dateFormat.format(cal.getTime());
+	    	   String resultStr = dateStr;
 	    	   // Datepicker의 사용을 위해 월 또는 일이 한 자리수라면, 앞의 0을 빼야함.<8,5>
-	    	   if(dateStr.substring(8,9).equals("0")) {
-	    		   dateStr = dateStr.substring(0,8)+dateStr.substring(9,10);
+	    	   if(resultStr.substring(8,9).equals("0")) {
+	    		   resultStr = resultStr.substring(0,8)+resultStr.substring(9,10);
 	    	   }
-	    	   if(dateStr.substring(5,6).equals("0")) {
-	    		   dateStr = dateStr.substring(0,5)+dateStr.substring(6);
+	    	   if(resultStr.substring(5,6).equals("0")) {
+	    		   resultStr = resultStr.substring(0,5)+resultStr.substring(6);
 	    	   }
-	    	   priceRoomDate.add(dateStr);
+	    	   priceRoomDate.add(resultStr);
 	           // 현재 날짜가 마지막 날과 같다면 종료
 	           if(dateStr.equals(priceEndDate)) {
 	        	   break;
