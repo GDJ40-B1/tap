@@ -120,19 +120,13 @@ public class HostService {
 	// 결과: int (포인트 증가한 호스트 수)
 	public int earnHostPoint(Host host) {
 		
+		// 입력받은 충전할 포인트 확인
 		log.debug(Font.HW + "입력받은 포인트 증가 정보 => " + host.toString() + Font.RESET);
 		
-		// 입력받은 호스트의 기존 포인트 확인하기
-		Host oldHost = hostMapper.selectHostOne(host);
-		log.debug(Font.HW + "입력받은 호스트의 기존 포인트 정보 => " + oldHost.toString() + Font.RESET);
-		
-		// 기존 포인트에서 입력받은 포인트를 추가
-		oldHost.setHostPoint(oldHost.getHostPoint() + host.getHostPoint());
-		log.debug(Font.HW + "입력받은 호스트의 증가된 포인트 정보 => " + oldHost.toString() + Font.RESET);
-		
 		// 포인트 충전 실행
-		int confirm = hostMapper.updateHostPointSpend(oldHost);
+		int confirm = hostMapper.updateHostPointEarn(host);
 		
+		// 결과 확인
 		log.debug(Font.HW + "포인트 증가된 호스트 수 => " + confirm  + Font.RESET);
 		
 		return confirm;
@@ -143,19 +137,29 @@ public class HostService {
 	// 결과: int (포인트 감소한 호스트 수)
 	public int spendHostPoint(Host host) {
 		
+		// 전환할 포인트 확인
 		log.debug(Font.HW + "입력받은 포인트 감소 정보 => " + host.toString() + Font.RESET);
 		
 		// 입력받은 호스트의 기존 포인트 확인하기
 		Host oldHost = hostMapper.selectHostOne(host);
 		log.debug(Font.HW + "입력받은 호스트의 기존 포인트 정보 => " + oldHost.toString() + Font.RESET);
 		
-		// 기존 포인트에서 입력받은 포인트를 추가
+		// 기존 포인트에서 입력받은 포인트를 빼기
 		oldHost.setHostPoint(oldHost.getHostPoint() - host.getHostPoint());
 		log.debug(Font.HW + "입력받은 호스트의 감소된 포인트 정보 => " + oldHost.toString() + Font.RESET);
 		
-		// 포인트 충전 실행
-		int confirm = hostMapper.updateHostPointEarn(oldHost);
+		// 전환 성공 여부를 저장할 변수
+		int confirm = 0;
 		
+		// 가진 포인트 이상의 금액을 전환하려고 할 경우, 실패를 알리는 0을 반환
+		if (oldHost.getHostPoint() < 0) {
+			return confirm;
+		}
+		
+		// 포인트 전환 실행
+		confirm = hostMapper.updateHostPointSpend(host);
+		
+		// 결과 확인
 		log.debug(Font.HW + "포인트 감소된 호스트 수 => " + confirm  + Font.RESET);
 		
 		return confirm;

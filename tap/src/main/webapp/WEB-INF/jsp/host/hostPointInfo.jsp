@@ -55,7 +55,7 @@
 									<form class="user" action="${pageContext.request.contextPath}/earnHostPoint" method="post">
 									    <div class="form-group">
 									        <input type="hidden" class="form-control form-control-user"
-									            id="exampleInputEmail" aria-describedby="emailHelp"
+									            id="loginUserId" aria-describedby="emailHelp"
 									            placeholder="Enter Email Address..." name="hostId"  value="${loginUser.userId}">
 									    </div>
 									    <div class="form-group">
@@ -87,29 +87,11 @@
 		                        </div>
 		                    </div>
                         </div>
+						
+						
 
-                        <div class="col-xl-4 col-lg-6">
-                            <!-- Illustrations -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">사용 내역</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="text-center">
-                                        <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
-                                            src="${pageContext.request.contextPath}/resource/img/undraw_posting_photo.svg" alt="...">
-                                    </div>
-                                    <p>Add some quality, svg illustrations to your project courtesy of <a
-                                            target="_blank" rel="nofollow" href="https://undraw.co/">unDraw</a>, a
-                                        constantly updated collection of beautiful svg images that you can use
-                                        completely free and without attribution!</p>
-                                    <a target="_blank" rel="nofollow" href="https://undraw.co/">Browse Illustrations on
-                                        unDraw &rarr;</a>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="col-xl-4 col-lg-4">
+						<!-- pie chart -->                        
+                        <div class="col-xl-8 col-lg-7 ">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Dropdown -->
                                 <div
@@ -237,7 +219,41 @@
                             </div>
                         </div>
                     </div>
-
+                    
+                    <!-- pointHisory Row -->
+					<div class="row">
+						<div class="col-xl-12 col-lg-12">
+							<!-- DataTales Example -->
+						    <div class="card shadow mb-4">
+						        <div class="card-header py-3">
+						            <h6 class="m-0 font-weight-bold text-primary">포인트 이용 내역</h6>
+						        </div>
+						        <div class="card-body">
+						            <div class="table-responsive" id="pointHistorylistDiv">
+						                <table class="table table-bordered" id="pointHistoryDataTable" width="100%"  cellspacing="0">
+						                    <thead>
+						                        <tr>
+						                            <th>금액</th>
+						                            <th>변동금액</th>
+						                            <th>유형</th>
+						                            <th>이용날짜</th>
+						                        </tr>
+						                    </thead>
+						                    <tfoot>
+						                        <tr>
+						                            <th>금액</th>
+						                            <th>변동금액</th>
+						                            <th>유형</th>
+						                            <th>이용날짜</th>
+						                        </tr>
+						                    </tfoot>
+						                </table>
+						            </div>
+						        </div>
+						    </div>
+                        </div>
+                    </div>
+                        
                     <!-- Content Row -->
 
                     <div class="row">
@@ -317,6 +333,63 @@
     <!-- Page level custom scripts -->
     <script src="${pageContext.request.contextPath}/resources/js/demo/chart-area-demo.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/demo/chart-pie-demo.js"></script>
+    
+    <!-- 데이터테이블 사용하기위한 임포트 스크립트 -->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
+    <script>
+    
+   	// dataTable 설정 스크립트
+   	jQuery(document).ready(function() {
+   		
+   		// 회원 아이디를 저장
+   		let userId= $("#loginUserId").val();
+   		
+   		// 저장된 아이디로 회원의 포인트 이용 내역을 조회하는 ajax 실행
+   		$("#pointHistoryDataTable").DataTable({
+   			ajax:{url:"${pageContext.request.contextPath}/point/getPointHistoryList",
+   				type: 'get',
+   				data: {'userId': userId},
+   			},
+   			// 날짜 최신순으로 정렬
+   			order:[[3,"desc"]],
+   			// 테이블 속 컬럼 설정
+   			columnDefs:[
+   				// 포인트(3자리 수마다 ','를 찍어주고 끝에 0을 붙임)
+   				{targets: 0,data: "point", render: $.fn.dataTable.render.number(  ',' , '.' , 0 , '' , '원' ) },
+   				// 포인트 변동 금액(증가면 +, 감소면 -를 앞에 붙임 )
+   				{targets: 1,data: "changedPoint",  render: function (data, type, rows){
+   					
+   					var money;
+   					
+   					if (rows.pointCategory=="충전" || rows.pointCategory=="수입") {
+   						money = "+ " + data.toLocaleString();
+   					} else{
+   						money = "- " + data.toLocaleString();
+   					}
+   					
+   					return money;
+   					},
+   				},
+   				// 포인트 이용 내용(유형)
+   				{targets: 2, data: "pointCategory"},
+   				// 포인트 이용 날짜(yyyy년 mm월 dd일 hh시 mm분 ss초)
+   				{targets: 3, data: "createDate", render: function (data,type,rows){
+   					var year = data.substring(0,4);
+   					var month = data.substring(5,7);
+   					var day = data.substring(8,10);
+   					var hour = data.substring(11,13);
+   					var muinit = data.substring(14,16);
+   					var second = data.substring(17,19);
+   					
+   					let TimeFormat = year + "년 " + month + "월 " + day + "일 " + hour + "시 " + muinit + "분 "+ second + "초";
+   					return TimeFormat;
+   				} }
+   			]
+   		});
+   	});
+   	</script>
 
 </body>
 
