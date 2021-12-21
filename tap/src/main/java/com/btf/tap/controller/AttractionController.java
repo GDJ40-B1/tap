@@ -66,7 +66,16 @@ public class AttractionController {
 		model.addAttribute("list",list);
 		return "systemAdmin/attraction/attractionList";
 	}
-	// [일반]상세보기
+	
+	// 승인 대기 리스트 출력
+	@GetMapping("/systemAdmin/approvalAttractionList")
+	public String approvalAttractionList(Model model) {
+		List<Attraction> list = attractionService.getApprovalAttractionList();
+		model.addAttribute("list", list);
+		return "systemAdmin/attraction/approvalAttractionList";
+	}
+	
+	// 상세보기
 	@GetMapping("/systemAdmin/attractionOne")
 	public String systemAdminGetAttractionOne(Model model, int attractionId, int detailAddressId) {
 		Map<String, Object> map = attractionService.getAttractionOne(attractionId, detailAddressId);
@@ -102,5 +111,17 @@ public class AttractionController {
 
 		return "redirect:/systemAdmin/attractionOne";
 	}
-
+	@GetMapping("/systemAdmin/addAttraction")
+	public String getSystemAdminAddAttraction(Model model) {
+		model.addAttribute("attractionCategoryList", attractionService.getAttractionCategory());
+		return "/systemAdmin/attraction/addAttraction";
+	}
+	
+	@PostMapping("/systemAdmin/addAttraction")
+	public String postSystemAdminAddAttraction(Attraction attraction, Address address, String hashtag) {		
+		// 명소 추가
+		attractionService.addAttraction(attraction, address, hashtag);
+		// 추가된 뒤 명소 리스트페이지로 돌아감
+		return "redirect:/systemAdmin/attractionList";
+	}
 }

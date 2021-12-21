@@ -104,6 +104,13 @@ public class AttractionService {
 		
 	}
 	
+	// 승인 대기중인 명소리스트
+	public List<Attraction> getApprovalAttractionList(){
+		List<Attraction> list = attractionMapper.selectApprovalAttractionList();
+		return list;
+	}	
+	
+	
 	// 사용자 설정 선호지역 별 인기 명소 리스트
 	public Map<String, Object> getPreferLocalAttractionList(int preferAttractionCurrent, String sido, String sigungu) {
 		int defaultPage = 10;

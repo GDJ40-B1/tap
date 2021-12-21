@@ -16,9 +16,9 @@
    <main id="main">
    <section class="breadcrumbs">
    
-   	<h1>명소 둘러보기</h1>
+   	<h1>승인 대기중인 명소리스트</h1>
 	
-	<form action="${pageContext.request.contextPath}/systemAdmin/attractionList" method="post">
+	<form action="${pageContext.request.contextPath}/systemAdmin/approvalAttractionList" method="post">
 		<table border="1">
 			<tr>
 				<th>명소 카테고리</th>

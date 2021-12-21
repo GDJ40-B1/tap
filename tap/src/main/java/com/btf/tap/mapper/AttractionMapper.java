@@ -23,6 +23,8 @@ public interface AttractionMapper {
 	// 선호 지역 인기 명소 개수
 	int preferLocalAttractionTotalCount(Map<String, Object> page);	
 	// [시스템 관리자]
+	// 명소 승인 대기 목록
+	List<Attraction> selectApprovalAttractionList();
 	// 명소 삭제
 	void deleteAttraction(int attractionId);
 	// 명소 수정

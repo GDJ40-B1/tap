@@ -19,7 +19,7 @@
    <section class="breadcrumbs">
    
 	<h1>명소 수정</h1>
-	<form action="${pageContext.request.contextPath}/modifyAttraction" method="post">
+	<form action="${pageContext.request.contextPath}/systemAdmin/modifyAttraction" method="post">
 		<!-- 전달 -->
 		<input type="hidden" name="attractionId" value="${attraction.attractionId }">
 		<input type="hidden" name="detailAddressId" value="${address.detailAddressId}">

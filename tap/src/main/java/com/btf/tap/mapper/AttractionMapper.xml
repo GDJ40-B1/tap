@@ -59,12 +59,26 @@
 	<!-- [비회원, 회원, 관리자] 명소 전체 목록 -->
 	<select id="selectAttractionList" resultType="com.btf.tap.vo.Attraction">
 		SELECT
-			attraction_id attractionId, detail_address_id detailAddressId, attraction_category attractionCategory, attraction_name attractionName, attraction_phone_number attractionPhoneNumber
+			attraction_id attractionId, detail_address_id detailAddressId, attraction_category attractionCategory, attraction_name attractionName, attraction_phone_number attractionPhoneNumber, approval_status approvalStatus
 		FROM
 			attraction
+		WHERE
+			approval_status='Y'
 		ORDER BY
 			create_date DESC
 	
+	</select>
+	
+	<!-- [관리자] 승인 대기중인 명소 목록 -->
+	<select id="selectApprovalAttractionList" resultType="com.btf.tap.vo.Attraction">
+		SELECT
+			attraction_id attractionId, detail_address_id detailAddressId, attraction_category attractionCategory, attraction_name attractionName, attraction_phone_number attractionPhoneNumber, approval_status approvalStatus
+		FROM
+			attraction
+		WHERE
+			approval_status='N'
+		ORDER BY
+			create_date DESC	
 	</select>
 	
 	<!-- [회원, 관리자] 명소 등록 -->
