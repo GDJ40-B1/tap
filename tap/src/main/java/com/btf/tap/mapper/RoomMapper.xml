@@ -35,7 +35,19 @@
       <result column="create_date" property="createDate"></result>
       <result column="update_date" property="updateDate"></result>
    </resultMap>
-
+   
+   <!-- 특정 숙소별 가격 삭제 -->
+   <delete id="deletePriceRoomOne" parameterType="int">
+      DELETE FROM price_room
+      WHERE price_room_id= #{priceRoomId}
+   </delete>
+   
+   <!-- 특정 숙소의 숙소별 가격 전부 삭제 -->
+   <delete id="deletePriceRoom" parameterType="int">
+      DELETE FROM price_room
+      WHERE room_id= #{roomId}
+   </delete>
+	
    <!-- 숙소별 가격 목록 추출 -->
    <select id="selectPriceRoomList" parameterType="int" resultMap="resultPriceRoom">
       SELECT

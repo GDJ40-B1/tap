@@ -11,6 +11,12 @@ import com.btf.tap.vo.Room;
 @Mapper
 public interface RoomMapper {
 	
+	// 특정 숙소별 가격 삭제
+	void deletePriceRoomOne(int priceRoomId);
+	
+	// 특정 숙소의 숙소별 가격 전부 삭제
+	void deletePriceRoom(int roomId);
+	
 	// 숙소별 가격 추가
 	void insertPriceRoom(Map<String, Object> priceRoom);
 	

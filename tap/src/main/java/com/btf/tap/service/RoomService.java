@@ -273,6 +273,9 @@ public class RoomService {
       // 숙소 상세 주소 ID
       int detailAddressId = roomMapper.selectRoomOne(roomId).getDetailAddressId();
       
+      // 숙소별 가격 삭제
+      roomMapper.deletePriceRoom(roomId);
+      
       // 해시태그 삭제
       hashtagService.removeHashtag("room", roomId);
       
@@ -363,9 +366,14 @@ public class RoomService {
 	    	   SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	    	   // 포맷한 날짜를 String으로 변환 후, return될 리스트에 추가
 	    	   String dateStr = dateFormat.format(cal.getTime());
+	    	   // Datepicker의 사용을 위해 월 또는 일이 한 자리수라면, 앞의 0을 빼야함.<8,5>
+	    	   if(dateStr.substring(8,9).equals("0")) {
+	    		   dateStr = dateStr.substring(0,8)+dateStr.substring(9,10);
+	    	   }
+	    	   if(dateStr.substring(5,6).equals("0")) {
+	    		   dateStr = dateStr.substring(0,5)+dateStr.substring(6);
+	    	   }
 	    	   priceRoomDate.add(dateStr);
-	    	   
-	           System.out.println(dateStr);
 	           // 현재 날짜가 마지막 날과 같다면 종료
 	           if(dateStr.equals(priceEndDate)) {
 	        	   break;
@@ -378,6 +386,7 @@ public class RoomService {
 	   return priceRoomDate;
    }
    
+   // 숙소별 가격 추가
    public void addPriceRoom(int roomId, PriceRoom priceRoom) {
 	   Map<String,Object> map = new HashMap<>();
 	   map.put("roomId", roomId);
@@ -386,6 +395,11 @@ public class RoomService {
 	   map.put("price", priceRoom.getPrice());
 	   
 	   roomMapper.insertPriceRoom(map);
+   }
+   
+   // 숙소별 가격 삭제
+   public void removePriceRoom(int priceRoomId) {
+	   roomMapper.deletePriceRoomOne(priceRoomId);
    }
    
    /*---숙소별 가격 끝---*/
