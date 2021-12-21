@@ -69,7 +69,7 @@
    <!-- 특정 host의 숙소 목록 -->
    <select id="selectHostRoomList" parameterType="String" resultMap="resultRoom">
       SELECT
-         room_id, detail_address_id, room_category, room_form, room_name,
+         room_id, detail_address_id, host_id, room_category, room_form, room_name,
          room_intro, min_day, check_in_time, check_out_time, people_num, room_price,
          create_date, update_date
       FROM room WHERE host_id=#{hostId}

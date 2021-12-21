@@ -86,35 +86,42 @@ public class RoomController {
 		return "room/roomOne";
 	}
 	
-	   @PostMapping("/roomOne")
-	   public String postRoomOne(RoomQnaAnswer roomQnaAnswer, int roomId, int detailAddressId) {
-	      roomQuestionService.addRoomQnaAnswer(roomQnaAnswer);
-	      log.debug(Font.JSB + roomQnaAnswer.toString() + Font.RESET);
-	      
-	      return "redirect:/roomOne?roomId="+roomId+"&detailAddressId="+detailAddressId+"#roomQna";
-	   }      
-	   
-	   @GetMapping("/removeRoomQnaAnswer")
-	   public String getRemoveRoomQnaAnswer(int roomQnaId, int roomId, int detailAddressId) {
-	      roomQuestionService.removeRoomQnaAnswer(roomQnaId);
-	      
-	      return "redirect:/roomOne?roomId="+roomId+"&detailAddressId="+detailAddressId+"#roomQna";
-	   }
-	   
-	   @GetMapping("/roomQnaPopup")
-	   public String getRoomQnaPopup(Model model, int roomId) {
-	      model.addAttribute("roomId", roomId);
-	      
-	      return "room/roomQnaPopup";
-	   }
-	   
-	   @RequestMapping("/roomQnaPopup")
-	   @ResponseBody
-	   public void postRoomQnaPopup(RoomQuestion roomQuestion) {
-	      log.debug(Font.JSB + roomQuestion.toString() + Font.RESET);
-	      
-	      roomQuestionService.addRoomQuestion(roomQuestion);
-	   }
+	@PostMapping("/roomOne")
+	public String postRoomOne(RoomQnaAnswer roomQnaAnswer, int roomId, int detailAddressId) {
+		roomQuestionService.addRoomQnaAnswer(roomQnaAnswer);
+		log.debug(Font.JSB + roomQnaAnswer.toString() + Font.RESET);
+		
+		return "redirect:/roomOne?roomId="+roomId+"&detailAddressId="+detailAddressId+"#roomQna";
+	}		
+	
+	@GetMapping("/removeRoomQuestion")
+	public String getRemoveRoomQuestion(int roomQna, int roomId, int detailAddressId) {
+		roomQuestionService.removeRoomQuestion(roomQna);
+		
+		return "redirect:/roomOne?roomId="+roomId+"&detailAddressId="+detailAddressId+"#roomQna";
+	}
+	
+	@GetMapping("/removeRoomQnaAnswer")
+	public String getRemoveRoomQnaAnswer(int roomQnaId, int roomId, int detailAddressId) {
+		roomQuestionService.removeRoomQnaAnswer(roomQnaId);
+		
+		return "redirect:/roomOne?roomId="+roomId+"&detailAddressId="+detailAddressId+"#roomQna";
+	}
+	
+	@GetMapping("/roomQnaPopup")
+	public String getRoomQnaPopup(Model model, int roomId) {
+		model.addAttribute("roomId", roomId);
+		
+		return "room/roomQnaPopup";
+	}
+	
+	@RequestMapping("/roomQnaPopup")
+	@ResponseBody
+	public void postRoomQnaPopup(RoomQuestion roomQuestion) {
+		log.debug(Font.JSB + roomQuestion.toString() + Font.RESET);
+		
+		roomQuestionService.addRoomQuestion(roomQuestion);
+	}
 	
 	/*-----HOST측면----- */
 	
