@@ -24,28 +24,20 @@
 		<input type="hidden" name="attractionId" value="${attraction.attractionId }">
 		<input type="hidden" name="detailAddressId" value="${address.detailAddressId}">
 		
-		<table border="1">
-			<tr>
-				<td>승인여부</td>
-				<td>
-					<select name="approvalStatus" id="approvalStatus">
-						<option value='Y'>Y</option>
-						<option value='N'>N</option>
-					</select>
-				</td>
-			</tr>
-			
-			<tr>
-				<!-- 명소 이름 -->
-				<td>명소 이름</td>
-				<td><input type="text" name="attractionName" value="${attraction.attractionName }"></td>
-			</tr>
-			
-			<tr>
-				<!-- 카테고리 -->
-				<td>명소 카테고리</td>
-            <td>
-               <select name="attractionCategory">
+		<div>
+			<label>승인여부</label>
+			<input type="radio" name="approvalStatus" value="Y">Y
+			<input type="radio" name="approvalStatus" value="N">N
+		</div>
+		
+		<div>
+			<label>명소 이름</label>
+			<input type="text" name="attractionName" value="${attraction.attractionName }">
+		</div>
+		
+		<div>
+			<label>카테고리</label>
+				<select name="attractionCategory">
                   <c:forEach items="${attractionCategoryList}" var="list">
                      <c:choose>
                         <c:when test="${list eq attraction.attractionCategory }">
@@ -56,9 +48,11 @@
                         </c:otherwise>
                         </c:choose>
                      </c:forEach>
-               </select>
-            </td>
-			</tr>
+                </select>			
+		</div>
+		
+		<table border="1">			
+			
 			<tr>
 				<!-- 전화번호 형태? 예쁘게 만들기+숫자만 들어가게끔 하기 -->
 				<td>전화번호</td>
