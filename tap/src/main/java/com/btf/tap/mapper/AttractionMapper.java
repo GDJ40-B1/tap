@@ -14,10 +14,6 @@ public interface AttractionMapper {
 	List<String> selectAttractionCategory();
 	// 명소 상세 보기
 	Attraction selectAttractionOne(int attractionId);
-	// 명소 삭제
-	void deleteAttraction(int attractionId);
-	// 명소 수정
-	void updateAttraction(Attraction attraction);
 	// 명소 전체 목록
 	List<Attraction> selectAttractionList();
 	// 명소 등록
@@ -25,5 +21,12 @@ public interface AttractionMapper {
 	// 선호 지역 인기 명소 리스트
 	List<Attraction> selectPreferLocalAttractionList(Map<String, Object> page);
 	// 선호 지역 인기 명소 개수
-	int preferLocalAttractionTotalCount(Map<String, Object> page);
+	int preferLocalAttractionTotalCount(Map<String, Object> page);	
+	// [시스템 관리자]
+	// 명소 승인 대기 목록
+	List<Attraction> selectApprovalAttractionList();
+	// 명소 삭제
+	void deleteAttraction(int attractionId);
+	// 명소 수정
+	void updateAttraction(Attraction attraction);
 }

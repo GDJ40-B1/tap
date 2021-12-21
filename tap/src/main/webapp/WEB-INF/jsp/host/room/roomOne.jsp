@@ -79,7 +79,7 @@
 		<a href="${pageContext.request.contextPath}/host/priceRoomList?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}">가격 목록</a>
 		<a href="${pageContext.request.contextPath}/host/couponList?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}">쿠폰 목록</a>
 		<a href="${pageContext.request.contextPath}/host/modifyRoom?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}">숙소 수정</a>
-   		<a href="${pageContext.request.contextPath}/host/removeRoom?roomId=${room.roomId}">숙소 삭제</a>
+   		<button id="delBtn" type="button" class="btn btn-link">숙소 삭제</button>
 	</div>
 	<!-- end : content -->
 	
@@ -88,6 +88,18 @@
        <jsp:include page="/partial/hostFooter.jsp"></jsp:include>
     </div>
     <!-- end : hostFooter -->
+    
+    
+    <!-- 숙소 삭제 클릭 시 -->
+	<script>
+		$('#delBtn').click(function(){
+			if(confirm("숙소를 삭제하시겠습니까? (해당 숙소의 모든 정보가 날아갑니다)") == true){
+				$(location).attr('href', "${pageContext.request.contextPath}/host/removeRoom?roomId=${room.roomId}");
+			} else{
+				return;
+			}
+		});
+	</script>
    
    <!-- kakao API -->
    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e1c10213787b97f0d88e77cdafcb6687&libraries=services"></script>

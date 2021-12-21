@@ -134,18 +134,11 @@ public class MemberService {
 	// 결과: int (포인트 증가한 회원 수)
 	public int earnMemberPoint(Member member) {
 		
+		
 		log.debug(Font.HW + "입력받은 포인트 증가 정보 => " + member.toString() + Font.RESET);
 		
-		// 입력받은 회원의 기존 포인트 확인하기
-		Member oldMember = memberMapper.selectMemberOne(member);
-		log.debug(Font.HW + "입력받은 회원의 기존 포인트 정보 => " + oldMember.toString() + Font.RESET);
-		
-		// 기존 포인트에서 입력받은 포인트를 추가
-		oldMember.setMemberPoint(oldMember.getMemberPoint() + member.getMemberPoint());
-		log.debug(Font.HW + "입력받은 회원의 증가된 포인트 정보 => " + oldMember.toString() + Font.RESET);
-		
 		// 포인트 충전 실행
-		int confirm = memberMapper.updateMemberPointEarn(oldMember);
+		int confirm = memberMapper.updateMemberPointEarn(member);
 		
 		log.debug(Font.HW + "포인트 증가된 회원 수 => " + confirm  + Font.RESET);
 		
@@ -157,19 +150,29 @@ public class MemberService {
 	// 결과: int (포인트 감소한 회원 수)
 	public int spendMemberPoint(Member member) {
 		
+		// 전환할 포인트 확인
 		log.debug(Font.HW + "입력받은 포인트 감소 정보 => " + member.toString() + Font.RESET);
 		
 		// 입력받은 회원의 기존 포인트 확인하기
 		Member oldMember = memberMapper.selectMemberOne(member);
-		log.debug(Font.HW + "입력받은 회원의 기존 포인트 정보 => " + oldMember.toString() + Font.RESET);
+		log.debug(Font.HW + "입력받은 의 기존 포인트 정보 => " + oldMember.toString() + Font.RESET);
 		
-		// 기존 포인트에서 입력받은 포인트를 추가
+		// 기존 포인트에서 입력받은 포인트를 빼기
 		oldMember.setMemberPoint(oldMember.getMemberPoint() - member.getMemberPoint());
 		log.debug(Font.HW + "입력받은 회원의 감소된 포인트 정보 => " + oldMember.toString() + Font.RESET);
 		
-		// 포인트 충전 실행
-		int confirm = memberMapper.updateMemberPointSpend(oldMember);
+		// 전환 성공 여부를 저장할 변수
+		int confirm = 0;
 		
+		// 가진 포인트 이상의 금액을 전환하려고 할 경우, 실패를 알리는 0을 반환
+		if (oldMember.getMemberPoint() < 0) {
+			return confirm;
+		}
+		
+		// 포인트 전환 실행
+		confirm = memberMapper.updateMemberPointSpend(member);
+		
+		// 결과 확인
 		log.debug(Font.HW + "포인트 감소된 회원 수 => " + confirm  + Font.RESET);
 		
 		return confirm;

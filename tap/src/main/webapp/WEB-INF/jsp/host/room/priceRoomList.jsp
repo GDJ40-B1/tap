@@ -69,7 +69,7 @@
 									<td>${list.startDate }</td>
 									<td>${list.endDate }</td>
 									<td>${list.price }</td>
-									<td><a href="${pageContext.request.contextPath}/host/couponOne?roomId=${room.roomId}&detailAddressId=${room.detailAddressId }&priceRoomId=${list.priceRoomId }">삭제하기</a></td>
+									<td><button id="${list.priceRoomId }-delBtn" type="button" class="btn btn-link">삭제하기</button></td>
 								</tr>
 							</c:forEach>
 	                    </tbody>
@@ -93,5 +93,18 @@
        <jsp:include page="/partial/hostFooter.jsp"></jsp:include>
     </div>
     <!-- end : hostFooter -->
+    
+    <!-- 숙소별 가격 삭제 클릭 시 -->
+	<script>
+		<c:forEach items="${priceRoomList}" var="pr">
+			$('#${pr.priceRoomId }-delBtn').click(function(){
+				if(confirm("해당 가격을 삭제하시겠습니까?") == true){
+					$(location).attr('href', "${pageContext.request.contextPath}/host/removePriceRoom?roomId=${room.roomId}&detailAddressId=${room.detailAddressId }&priceRoomId=${pr.priceRoomId }");
+				} else{
+					return;
+				}
+			});
+		</c:forEach>
+	</script>
 </body>
 </html>

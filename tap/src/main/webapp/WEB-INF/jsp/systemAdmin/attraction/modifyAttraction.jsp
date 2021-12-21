@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
@@ -6,7 +7,7 @@
 <head>
 <script src="http://code.jquery.com/jquery-latest.js"></script> 
 <meta charset="UTF-8">
-<title>addAttraction</title>
+<title>modifyAttraction</title>
 </head>
 <body>
 	<!-- start : mainHeader -->
@@ -16,65 +17,76 @@
    <!-- end : mainHeader -->
    <main id="main">
    <section class="breadcrumbs">
-  
-   	<h1>명소 등록</h1>
-	<form action="${pageContext.request.contextPath}/addAttraction" method="post">
+   
+	<h1>명소 수정</h1>
+	<form action="${pageContext.request.contextPath}/systemAdmin/modifyAttraction" method="post">
+		<!-- 전달 -->
+		<input type="hidden" name="attractionId" value="${attraction.attractionId }">
+		<input type="hidden" name="detailAddressId" value="${address.detailAddressId}">
+		
+		<div>
+			<label>승인여부</label>
+			<input type="radio" name="approvalStatus" value="Y">Y
+			<input type="radio" name="approvalStatus" value="N">N
+		</div>
 		
 		<div>
 			<label>명소 이름</label>
-			<div>
-				<input type="text" name="attractionName">			
-			</div>
+			<input type="text" name="attractionName" value="${attraction.attractionName }">
 		</div>
+		
 		<div>
 			<label>카테고리</label>
-			<div>
 				<select name="attractionCategory">
-					<c:forEach items="${attractionCategoryList}" var="list">
-						<option>${list }</option>
-					</c:forEach>
-				</select>
-			</div>
+                  <c:forEach items="${attractionCategoryList}" var="list">
+                     <c:choose>
+                        <c:when test="${list eq attraction.attractionCategory }">
+                           <option selected>${list }</option>
+                        </c:when>
+                        <c:otherwise>
+                           <option>${list }</option>
+                        </c:otherwise>
+                        </c:choose>
+                     </c:forEach>
+                </select>			
 		</div>
 		
-		<div>
-			<!-- 전화번호 형태? 예쁘게 만들기+숫자만 들어가게끔 하기 -->
-			<label>전화번호</label>
+		<table border="1">			
+			
+			<tr>
+				<!-- 전화번호 형태? 예쁘게 만들기+숫자만 들어가게끔 하기 -->
+				<td>전화번호</td>
+				<td><input type="text" name="attractionPhoneNumber" value="${attraction.attractionPhoneNumber }"></td>
+			</tr>
+			<tr>
+				<!-- 명소 소개 -->
+				<td>명소 소개</td>
+				<td><textarea name="attractionContent">${attraction.attractionContent }</textarea></td>
+			</tr>
+			<tr>
+		</table>
+			<div>주소</div>
 			<div>
-				<input type="text" name="attractionPhoneNumber">
-			</div>
-		</div>
-		
-		<div>
-			<label>명소 소개</label>
-			<div>
-			<textarea name="attractionContent"></textarea>
-			</div>
-		</div>
-		<div>
-			<label>주소</label>
-			<div>
-				<input type="text" name="detailAddress" id="address">
+				<input type="text" name="detailAddress" id="address" value="${address.detailAddress }">
 			</div>			
 			<div>
 				<button type="button" name="searchBtn"id="searchBtn">찾기</button>
 			</div>
 			<div>상세주소</div>
 			<div>
-				<input type="text" name="detailAddress2" id="detailAddress2">
+				<input type="text" name="detailAddress2" id="detailAddress2" value="${address.detailAddress2 }">
 			</div>
 			<div id="map" style="width:600px; height:359px;"></div>
 			
 			<div>
 				<label>해시태그</label>
-			<div>
-            	<input type="text" id="hashtag" name="hashtag" value="#">			
+				<input type="text" id="hashtag" name="hashtag" value="${hashtag }">
 			</div>
-         	</div>		
-		</div>			
+			
 			<br>
-			<button type="submit" id="addBtn">명소등록</button>
-		</form>	
+		
+	<button type="submit" id="modifyBtn">수정하기</button>
+	</form>
 	</section>
 	</main>
 	
@@ -82,10 +94,11 @@
    <div>
       <jsp:include page="/partial/mainFooter.jsp"></jsp:include>
    </div>
+   <!-- end : mainFooter -->
    
-   <!-- end : mainFooter -->	
    <script>
 		<!-- 해시태그 관련 script -->
+		
 		// hashtag input에서 데이터를 모두 지워도 #은 남도록 한다.
 		$('#hashtag').keydown(function(event) {
 			var oldvalue=$(this).val();
@@ -110,8 +123,7 @@
 					event.preventDefault();
 				}
 		 });
-		
-	</script>	
+	</script>
 		<!-- kakao API -->
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e1c10213787b97f0d88e77cdafcb6687&libraries=services"></script>
 	<script>
@@ -121,7 +133,7 @@
 	        level: 3 // 지도의 확대 레벨
 	    };  
 	
-	var map = new kakao.maps.Map(mapContainer, mapOption);
+	var map = new kakao.maps.Map(mapContainer, mapOption);	
 	$('#searchBtn').click(function(){
 		// 버튼을 click했을때
 		
@@ -173,6 +185,6 @@
 		});  
 	});
 	  
-	</script>
-</body>
+	</script>   
+   </body>
 </html>

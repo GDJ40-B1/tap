@@ -27,6 +27,7 @@
 			r.secret_check,
 			r.content,
 			r.create_date,
+			ra.room_qna_id,
 			ra.answer,
 			ra.answer_create_date
 		FROM room_qna r
@@ -47,4 +48,51 @@
 			room_id = #{roomId}
 		</where>	
 	</select>
+
+	<!-- 숙소 문의 글 삽입 -->
+	<insert id="insertRoomQna" parameterType="com.btf.tap.vo.RoomQuestion">
+		INSERT INTO room_qna(
+			member_id,
+			room_id,
+			secret_check,
+			content,
+			create_date,
+			update_date
+		) VALUES (
+			#{memberId},
+			#{roomId},
+			#{secretCheck},
+			#{content},
+			NOW(),
+			NOW()
+		)
+	</insert>
+	
+	<!-- 숙소 문의 답변 삽입 및 답변여부 수정-->
+	<insert id="insertRoomQnaAnswer" parameterType="com.btf.tap.vo.RoomQnaAnswer">
+		INSERT INTO room_qna_answer(
+			room_qna_id,
+			answer,
+			answer_create_date
+		) VALUES (
+			#{roomQnaId},
+			#{answer},
+			NOW()
+		)
+	</insert>
+
+	<!-- 문의 - 문의 답변 삭제 -->
+	<delete id="deleteRoomQuestion" parameterType="int">
+		DELETE FROM room_qna
+		<where>
+			room_qna = #{roomQna}
+		</where>
+	</delete>
+	
+	<delete id="deleteRoomQnaAnswer" parameterType="int">
+		DELETE FROM room_qna_answer
+		<where>
+			room_qna_id = #{roomQnaId}
+		</where>
+	</delete>
 </mapper>

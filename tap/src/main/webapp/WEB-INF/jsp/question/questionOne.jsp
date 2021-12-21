@@ -115,7 +115,6 @@
 		<form id="questionAnswerForm" action="${pageContext.request.contextPath}/questionOne" method="post">
 			<div class="form-group">
 				<input type="hidden" name="questionId" value="${question.questionId}">
-				<!-- 세션에서 관리자명 가져와야 함 -->
 				<input type="hidden" name="systemAdminId" value="${loginUser.userId}">
 				<label for="questionAnswer">답변 작성 : </label>
 					<textarea class="form-control" rows="5" placeholder="답변을 작성해주세요" id="questionAnswerContent" name="questionAnswerContent"></textarea>
@@ -146,7 +145,7 @@
 				<tr>
 					<td>${a.systemAdminId}</td>
 					<td>${a.questionAnswerContent}</td>
-					<c:if test="${a.systemAdminId != null && loginUser.userLevel == 'system_admin'}">
+					<c:if test="${loginUser != null && loginUser.userLevel == 'system_admin'}">
 						<td><a href="javascript:removeAnswer();">삭제</a></td>
 					</c:if>
 				</tr>

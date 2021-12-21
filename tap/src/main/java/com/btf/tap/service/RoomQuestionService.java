@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.btf.tap.common.Font;
 import com.btf.tap.mapper.RoomQuestionMapper;
+import com.btf.tap.vo.RoomQnaAnswer;
 import com.btf.tap.vo.RoomQuestion;
 
 import lombok.extern.slf4j.Slf4j;
@@ -24,10 +25,10 @@ public class RoomQuestionService {
 	public Map<String, Object> getRoomQnaList(int roomQnaCurrentPage, int roomId) {
 		final int defaultPage = 10;
 		final int rowPerPage = 10;
-		int startPage = ((roomQnaCurrentPage - 1) / defaultPage) * defaultPage + 1;
-		int endPage = startPage + defaultPage - 1;		
+		int roomQnaStartPage = ((roomQnaCurrentPage - 1) / defaultPage) * defaultPage + 1;
+		int roomQnaEndPage = roomQnaStartPage + defaultPage - 1;		
 		int beginRow = (roomQnaCurrentPage-1) * rowPerPage;
-		int lastPage = 0;
+		int roomQnaLastPage = 0;
 		
 		Map<String, Object> page = new HashMap<>();
 		page.put("beginRow", beginRow);
@@ -39,22 +40,42 @@ public class RoomQuestionService {
 		
 		int totalRowCount = roomQuestionMapper.totalRowCount(roomId);
 		
-		lastPage = totalRowCount / rowPerPage;
+		roomQnaLastPage = totalRowCount / rowPerPage;
 		
 		if(totalRowCount % rowPerPage != 0) {
-			lastPage+=1;
+			roomQnaLastPage+=1;
 		}
 		
-		if(endPage > lastPage) {
-			endPage = lastPage;
+		if(roomQnaEndPage > roomQnaLastPage) {
+			roomQnaEndPage = roomQnaLastPage;
 		}		
 		
 		Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("list", list);
-		paramMap.put("startPage", startPage);
-		paramMap.put("endPage", endPage);
-		paramMap.put("lastPage", lastPage);
+		paramMap.put("roomQnaStartPage", roomQnaStartPage);
+		paramMap.put("roomQnaEndPage", roomQnaEndPage);
+		paramMap.put("roomQnaLastPage", roomQnaLastPage);
 		
 		return paramMap;
+	}
+	
+	// 숙소 문의 글 삽입
+	public void addRoomQuestion(RoomQuestion roomQuestion) {
+		roomQuestionMapper.insertRoomQna(roomQuestion);
+	}	
+	
+	// 숙소 문의 답변 삽입
+	public void addRoomQnaAnswer(RoomQnaAnswer roomQnaAnswer) {
+		roomQuestionMapper.insertRoomQnaAnswer(roomQnaAnswer);
+	}
+
+	// 숙소 문의 글 삭제
+	public void removeRoomQuestion(int roomQna) {
+		roomQuestionMapper.deleteRoomQuestion(roomQna);
+	}		
+	
+	// 숙소 문의 답변 삭제
+	public void removeRoomQnaAnswer(int roomQnaId) {
+		roomQuestionMapper.deleteRoomQnaAnswer(roomQnaId);
 	}
 }

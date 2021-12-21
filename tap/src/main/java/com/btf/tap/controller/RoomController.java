@@ -11,9 +11,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.btf.tap.common.Font;
 import com.btf.tap.service.AmenitiesService;
 import com.btf.tap.service.HostService;
 import com.btf.tap.service.PartService;
@@ -23,6 +26,8 @@ import com.btf.tap.vo.Address;
 import com.btf.tap.vo.Host;
 import com.btf.tap.vo.PriceRoom;
 import com.btf.tap.vo.Room;
+import com.btf.tap.vo.RoomQnaAnswer;
+import com.btf.tap.vo.RoomQuestion;
 import com.btf.tap.vo.User;
 
 import lombok.extern.slf4j.Slf4j;
@@ -81,7 +86,44 @@ public class RoomController {
 		return "room/roomOne";
 	}
 	
-	/*-----HOST측면 및 공통----- */
+	@PostMapping("/roomOne")
+	public String postRoomOne(RoomQnaAnswer roomQnaAnswer, int roomId, int detailAddressId) {
+		roomQuestionService.addRoomQnaAnswer(roomQnaAnswer);
+		log.debug(Font.JSB + roomQnaAnswer.toString() + Font.RESET);
+		
+		return "redirect:/roomOne?roomId="+roomId+"&detailAddressId="+detailAddressId+"#roomQna";
+	}		
+	
+	@GetMapping("/removeRoomQuestion")
+	public String getRemoveRoomQuestion(int roomQna, int roomId, int detailAddressId) {
+		roomQuestionService.removeRoomQuestion(roomQna);
+		
+		return "redirect:/roomOne?roomId="+roomId+"&detailAddressId="+detailAddressId+"#roomQna";
+	}
+	
+	@GetMapping("/removeRoomQnaAnswer")
+	public String getRemoveRoomQnaAnswer(int roomQnaId, int roomId, int detailAddressId) {
+		roomQuestionService.removeRoomQnaAnswer(roomQnaId);
+		
+		return "redirect:/roomOne?roomId="+roomId+"&detailAddressId="+detailAddressId+"#roomQna";
+	}
+	
+	@GetMapping("/roomQnaPopup")
+	public String getRoomQnaPopup(Model model, int roomId) {
+		model.addAttribute("roomId", roomId);
+		
+		return "room/roomQnaPopup";
+	}
+	
+	@RequestMapping("/roomQnaPopup")
+	@ResponseBody
+	public void postRoomQnaPopup(RoomQuestion roomQuestion) {
+		log.debug(Font.JSB + roomQuestion.toString() + Font.RESET);
+		
+		roomQuestionService.addRoomQuestion(roomQuestion);
+	}
+	
+	/*-----HOST측면----- */
 	
 	@GetMapping("/host/addRoom")
 	public String getAddRoom(HttpServletRequest request, Model model) {
@@ -177,6 +219,7 @@ public class RoomController {
 	@GetMapping("/host/addPriceRoom")
 	public String getAddPriceRoom(Model model, Room room) {
 		model.addAttribute("priceRoomDate",roomService.getPriceRoomDateList(room.getRoomId()));
+		model.addAttribute("priceRoomList", roomService.getPriceRoomList(room.getRoomId()));
 		model.addAttribute("room",room);
 		return "/host/room/addPriceRoom";
 	}
@@ -184,6 +227,12 @@ public class RoomController {
 	@PostMapping("/host/addPriceRoom")
 	public String postAddPriceRoom(Room room, PriceRoom priceRoom) {
 		roomService.addPriceRoom(room.getRoomId(), priceRoom);
+		return "redirect:/host/priceRoomList?roomId="+room.getRoomId()+"&detailAddressId="+room.getDetailAddressId();
+	}
+	
+	@GetMapping("/host/removePriceRoom")
+	public String removePriceRoom(Room room, int priceRoomId){
+		roomService.removePriceRoom(priceRoomId);
 		return "redirect:/host/priceRoomList?roomId="+room.getRoomId()+"&detailAddressId="+room.getDetailAddressId();
 	}
 }

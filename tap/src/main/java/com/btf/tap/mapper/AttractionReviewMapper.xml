@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.btf.tap.mapper.AttractionReviewMapper">
+	<resultMap type="com.btf.tap.vo.AttractionReview" id="resultAttractionReview">
+	      <result column="selected_attraction_id" property="selectedAttractionId"></result>
+	      <result column="review_content" property="reviewContent"></result>
+	      <result column="create_date" property="createDate"></result>
+	      <result column="update_date" property="updateDate"></result>
+	   </resultMap>
+	   
+	<!-- 명소 리뷰 추가 --> 
+	<insert id="insertAttractionReview" parameterType="com.btf.tap.vo.AttractionReview">
+		INSERT INTO
+			attraction_review(
+			selected_attraction_id, review_content, create_date, update_date
+		)VALUE(
+			#{selectedAttractionId}, #{reviewContent}, NOW(), NOW()
+			)
+		<!-- key값 return -->
+		<selectKey keyProperty="selectedAttractionId" order="AFTER" resultType="int">
+			SELECT LAST_INSERT_ID()
+		</selectKey>	
+	</insert>
+	
+	<!-- 명소 리뷰 삭제 -->
+	<delete id="deleteAttractionReview" parameterType="int">
+		DELETE FROM
+			attractionReview
+		WHERE
+			selected_attraction_id=#{selectedAttractionId}	
+	</delete>
+	
+	<!-- 명소 리뷰 수정 -->
+	<update id="updateAttractionReview" parameterType="com.btf.tap.vo.AttractionReview">
+		UPDATE
+			attractionReview
+		SET
+			review_content=#{reviewContent}, updateDate=NOW()
+		WHERE
+			selected_attraction_id=#{selectedAttractionId}
+	</update>
+	<!--  -->
+	
+</mapper>
