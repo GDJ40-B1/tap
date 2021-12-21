@@ -23,15 +23,17 @@ public class RoomReviewService {
 	// 해당숙소의 전체 후기 조회하기
 	// 입력 : currentPage, rowPerPage  
 	// 출력 : paramMap(list,lastPage,startPage,endPage) 
-	public Map<String,Object> getRoomReviewList(int currentPage, int rowPerPage) {
+	public Map<String,Object> getRoomReviewList(int roomReviewCurrentPage) {
+		final int ROW_PER_PAGE = 5;
+		
 		// 데이터의 첫 번째 행
 		int beginRow = 0;
-		beginRow = (currentPage-1)*rowPerPage;
+		beginRow = (roomReviewCurrentPage-1)*ROW_PER_PAGE;
 		
 		// selectRoomReviewList() 메소드의 파라미터 객체(page) 생성
 		Map<String,Object> page = new HashMap<>();
 		page.put("beginRow", beginRow);
-		page.put("rowPerPage", rowPerPage);
+		page.put("rowPerPage", ROW_PER_PAGE);
 		log.debug(Font.HS + "page 객체에 저장된 값 => " + page.toString() + Font.RESET);
 		
 		List<RoomReview> list = roomReviewMapper.selectRoomReviewList(page);
@@ -43,18 +45,18 @@ public class RoomReviewService {
 		
 		// 총 데이터의 마지막 페이지
 		int lastPage = 0;
-		lastPage = totalRoomReviewCount / rowPerPage;
-		if(totalRoomReviewCount % rowPerPage != 0) {
+		lastPage = totalRoomReviewCount / ROW_PER_PAGE;
+		if(totalRoomReviewCount % ROW_PER_PAGE != 0) {
 			lastPage += 1;
 		}
 		
 		// 페이징의 시작 페이지
 		int startPage = 0;
-		startPage = ((currentPage-1)/rowPerPage) * rowPerPage + 1;
+		startPage = ((roomReviewCurrentPage-1)/ROW_PER_PAGE) * ROW_PER_PAGE + 1;
 		
 		// 페이징의 끝 페이지
 		int endPage = 0;
-		endPage = startPage + rowPerPage - 1;
+		endPage = startPage + ROW_PER_PAGE - 1;
 		
 		if(endPage > lastPage) {
 			endPage = lastPage;

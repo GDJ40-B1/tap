@@ -9,21 +9,29 @@
 		<result column="room_review_score" property="roomReviewScore"/>
 		<result column="create_date" property="createDate"/>
 		<result column="update_date" property="updateDate"/>
+		<collection property="roomReviewComment" ofType="com.btf.tap.vo.RoomReviewComment">
+			<id column="room_review_id" property="roomReviewId"/>
+			<result column="room_review_comment_content" property="roomReviewCommentContent"/>
+			<result column="comment_create_date" property="commentCreateDate"/>
+		</collection>
 	</resultMap>
  
 	<!-- 해당숙소의 전체 후기 조회하기 -->
 	<select id="selectRoomReviewList" parameterType="java.util.Map" resultMap="resultRoomReview">
 		SELECT
-			room_review_id,
-			payment_id,
-			answer_status,
-			room_review_content,
-			room_review_score,
-			create_date,
-			update_date
+			r.room_review_id,
+			r.payment_id,
+			r.answer_status,
+			r.room_review_content,
+			r.room_review_score,
+			r.create_date,
+			r.update_date,
+			rc.room_review_comment_content,
+			rc.comment_create_date
 		FROM
-			room_review
-		ORDER BY room_review_id DESC
+			room_review r LEFT JOIN room_review_comment rc 
+			ON r.room_review_id = rc.room_review_id	
+		ORDER BY r.create_date DESC
 		LIMIT #{beginRow}, #{rowPerPage}	
 	</select>
 	
@@ -32,7 +40,7 @@
 		SELECT
 			COUNT(*)
 		FROM 
-			room_review
+			room_review	
 	</select>
 	
 	<!-- 숙소후기 작성하기 -->

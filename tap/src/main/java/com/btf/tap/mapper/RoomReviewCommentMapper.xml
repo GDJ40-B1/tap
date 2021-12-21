@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.btf.tap.mapper.RoomReviewCommentMapper">
+	<insert id="insertRoomReviewComment" parameterType="com.btf.tap.vo.RoomReviewComment">
+		INSERT INTO room_review(
+			room_review_id,
+			room_review_comment_content,
+			create_date,
+			update_date
+		) VALUES(
+			#{roomReviewId},
+			#{roomReviewCommentContent},
+			NOW(),
+			NOW()
+		) 
+	</insert>
+	
+	<delete id="deleteRoomReviewComment" parameterType="com.btf.tap.vo.RoomReviewComment">
+		DELETE
+		FROM room_review_comment
+		WHERE 
+			room_review_id = #{roomReviewId}
+	</delete>
+</mapper>
