@@ -14,6 +14,11 @@
 		<result column="update_date" property="updateDate"></result>
 	</resultMap>
 	
+	<delete id="deleteMemberCoupon" parameterType="int">
+		DELETE FROM member_coupon
+		WHERE coupon_id= #{couponId}
+	</delete>
+	
 	<!-- 특정 숙소에서 특정 회원이 발급받지 않은 쿠폰 목록 추출 -->
 	<select id="selectNotMemberCoupon" parameterType="hashMap" resultMap="resultCoupon">
 		SELECT

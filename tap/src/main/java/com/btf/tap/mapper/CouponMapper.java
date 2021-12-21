@@ -10,6 +10,9 @@ import com.btf.tap.vo.Coupon;
 @Mapper
 public interface CouponMapper {
 	
+	// 보유쿠폰에서 특정 쿠폰 삭제
+	void deleteMemberCoupon(int couponId);
+	
 	// 특정 숙소에서 특정 회원이 발급받지 않은 쿠폰 목록 추출
 	List<Coupon> selectNotMemberCoupon(Map<String, Object> memberCoupon);
 	

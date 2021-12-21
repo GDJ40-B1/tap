@@ -1,6 +1,12 @@
 package com.btf.tap.service;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -18,6 +24,7 @@ import com.btf.tap.mapper.PartMapper;
 import com.btf.tap.mapper.RoomMapper;
 import com.btf.tap.vo.Address;
 import com.btf.tap.vo.Hashtag;
+import com.btf.tap.vo.PriceRoom;
 import com.btf.tap.vo.Room;
 
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +39,46 @@ public class RoomService {
    @Autowired CouponService couponService;
    @Autowired AmenitiesService amenitiesService;
    @Autowired PartService partService;
+   
+   
+   // 사용자 설정 선호지역 별 인기 숙소 리스트
+   public Map<String, Object> getPreferLocalRoomList(int preferRoomCurrent, String sido, String sigungu) {
+      final int defaultPage = 10;
+      final int rowPerPage = 10;
+      int startPage = ((preferRoomCurrent - 1) / defaultPage) * defaultPage + 1;
+      int endPage = startPage + defaultPage - 1;      
+      int beginRow = (preferRoomCurrent-1) * rowPerPage;
+      int lastPage = 0;
+      
+      Map<String, Object> page = new HashMap<>();
+      page.put("beginRow", beginRow);
+      page.put("rowPerPage", rowPerPage);
+      page.put("sido", sido);
+      page.put("sigungu", sigungu);
+      
+      List<Room> list = roomMapper.selectPreferLocalRoomList(page);
+      log.debug(Font.JSB + list.toString() + Font.RESET);
+      
+      int totalRowCount = roomMapper.preferLocalRoomTotalCount(page);
+      
+      lastPage = totalRowCount / rowPerPage;
+      
+      if(totalRowCount % rowPerPage != 0) {
+         lastPage+=1;
+      }
+      
+      if(endPage > lastPage) {
+         endPage = lastPage;
+      }      
+      
+      Map<String, Object> paramMap = new HashMap<>();
+      paramMap.put("list", list);
+      paramMap.put("startPage", startPage);
+      paramMap.put("endPage", endPage);
+      paramMap.put("lastPage", lastPage);
+      
+      return paramMap;
+   }
    
    // 숙소 전체 리스트 출력(최근 생성된 숙소 순으로)
    public Map<String, Object> getRoomList(int currentPage) {
@@ -283,43 +330,64 @@ public class RoomService {
         return pageElement;
    }
    
-   // 사용자 설정 선호지역 별 인기 숙소 리스트
-   public Map<String, Object> getPreferLocalRoomList(int preferRoomCurrent, String sido, String sigungu) {
-      int defaultPage = 10;
-      final int rowPerPage = 10;
-      int startPage = ((preferRoomCurrent - 1) / defaultPage) * defaultPage + 1;
-      int endPage = startPage + defaultPage - 1;      
-      int beginRow = (preferRoomCurrent-1) * rowPerPage;
-      int lastPage = 0;
-      
-      Map<String, Object> page = new HashMap<>();
-      page.put("beginRow", beginRow);
-      page.put("rowPerPage", rowPerPage);
-      page.put("sido", sido);
-      page.put("sigungu", sigungu);
-      
-      List<Room> list = roomMapper.selectPreferLocalRoomList(page);
-      log.debug(Font.JSB + list.toString() + Font.RESET);
-      
-      int totalRowCount = roomMapper.preferLocalRoomTotalCount(page);
-      
-      lastPage = totalRowCount / rowPerPage;
-      
-      if(totalRowCount % rowPerPage != 0) {
-         lastPage+=1;
-      }
-      
-      if(endPage > lastPage) {
-         endPage = lastPage;
-      }      
-      
-      Map<String, Object> paramMap = new HashMap<>();
-      paramMap.put("list", list);
-      paramMap.put("startPage", startPage);
-      paramMap.put("endPage", endPage);
-      paramMap.put("lastPage", lastPage);
-      
-      return paramMap;
+   /*---숙소별 가격 시작---*/
+   
+   // 숙소별 가격 목록 추출
+   public List<PriceRoom> getPriceRoomList(int roomId) {
+	   return roomMapper.selectPriceRoomList(roomId);
    }
+   
+   // 숙소별 가격 목록의 날짜 리스트 구현
+   public List<String> getPriceRoomDateList(int roomId){
+	   List<PriceRoom> priceRoom = getPriceRoomList(roomId);
+	   
+	   List<String> priceRoomDate = new ArrayList<>();
+	   
+	   for(PriceRoom pr : priceRoom) {
+		   String priceStartDate = pr.getStartDate();
+	       String priceEndDate = pr.getEndDate();
+	       // 시작 날짜를 년,월,일로 분리
+	       int startYear = Integer.parseInt(priceStartDate.substring(0,4));
+	       int startMonth= Integer.parseInt(priceStartDate.substring(5,7));
+	       int startDate = Integer.parseInt(priceStartDate.substring(8,10));
+	       
+	       // 캘린더 객체 생성
+	       Calendar cal = Calendar.getInstance();
+	        
+	       // Calendar의 Month는 0부터 시작하므로, 값을 맞추기 위해 실제 월 값에 -1을 해준다.
+	       // Calendar의 기본 날짜를 startDt로 셋팅해준다.
+	       cal.set(startYear, startMonth -1, startDate);
+	        
+	       for(int i=0;i<10;i++) {
+	           // 날짜를 yyyy-MM-dd 형식으로 포맷
+	    	   SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	    	   // 포맷한 날짜를 String으로 변환 후, return될 리스트에 추가
+	    	   String dateStr = dateFormat.format(cal.getTime());
+	    	   priceRoomDate.add(dateStr);
+	    	   
+	           System.out.println(dateStr);
+	           // 현재 날짜가 마지막 날과 같다면 종료
+	           if(dateStr.equals(priceEndDate)) {
+	        	   break;
+	           }
+	           
+	           // Calendar의 날짜를 하루 증가시킨다.
+	           cal.add(Calendar.DATE, 1);
+	       }
+	   }
+	   return priceRoomDate;
+   }
+   
+   public void addPriceRoom(int roomId, PriceRoom priceRoom) {
+	   Map<String,Object> map = new HashMap<>();
+	   map.put("roomId", roomId);
+	   map.put("startDate", priceRoom.getStartDate());
+	   map.put("endDate", priceRoom.getEndDate());
+	   map.put("price", priceRoom.getPrice());
+	   
+	   roomMapper.insertPriceRoom(map);
+   }
+   
+   /*---숙소별 가격 끝---*/
    
 }

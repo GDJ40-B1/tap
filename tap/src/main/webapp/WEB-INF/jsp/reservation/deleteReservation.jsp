@@ -22,7 +22,7 @@
    
    <form action="${pageContext.request.contextPath}/deleteReservation?reservationId=${reservation.reservationId}" method="post">
    	   <div>회원 아이디 :</div>
-	   <div><input type="text" name="memberId" readonly="readonly" value="${reservation.memberId}"></div>
+	   <div><input type="text" name="memberId" readonly="readonly" value="${loginUser.userId}"></div>
 	   <div>체크인 :</div>
 	   <input type="date" name="checkInDate" readonly="readonly" value="${reservation.checkInDate}">
 	   <div>체크아웃 :</div>

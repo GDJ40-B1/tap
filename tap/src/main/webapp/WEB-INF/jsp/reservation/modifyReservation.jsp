@@ -25,7 +25,7 @@
 	   
 	   <div>회원 아이디 :</div>
 	   <div>
-	   		<input type="text" name="memberId" readonly="readonly" value="${reservation.memberId}">
+	   		<input type="text" name="memberId" readonly="readonly" value="${loginUser.userId}">
 	   </div>
 	   
 	   <div>체크인 날짜 : </div>

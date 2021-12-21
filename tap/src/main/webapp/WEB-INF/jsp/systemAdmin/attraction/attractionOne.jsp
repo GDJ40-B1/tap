@@ -19,8 +19,10 @@
    
 	<h1>명소 상세보기</h1>
 	<div>${hashtag }</div>	
-	<form action="${pageContext.request.contextPath}/attractionOne" method="post">
-			
+	<form action="${pageContext.request.contextPath}/systemAdmin/attractionOne" method="post">
+		<a href="${pageContext.request.contextPath }/systemAdmin/modifyAttraction?attractionId=${attraction.attractionId }&detailAddressId=${address.detailAddressId}">수정하기</a>
+		<a href="${pageContext.request.contextPath }/systemAdmin/removeAttraction?attractionId=${attraction.attractionId }">삭제하기</a>
+		
 		<!-- 지도 -->
 		<div id="map" style="width:100%;height:400px;"></div>
 		<table border="1">

@@ -17,9 +17,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.btf.tap.service.AmenitiesService;
 import com.btf.tap.service.HostService;
 import com.btf.tap.service.PartService;
+import com.btf.tap.service.RoomQuestionService;
 import com.btf.tap.service.RoomService;
 import com.btf.tap.vo.Address;
 import com.btf.tap.vo.Host;
+import com.btf.tap.vo.PriceRoom;
 import com.btf.tap.vo.Room;
 import com.btf.tap.vo.User;
 
@@ -32,6 +34,7 @@ public class RoomController {
 	@Autowired HostService hostService;
 	@Autowired AmenitiesService amenitiesService;
 	@Autowired PartService partService;
+	@Autowired RoomQuestionService roomQuestionService;
 	
 	@GetMapping("/roomList")
 	public String roomList(Model model, @RequestParam(value="currentPage", defaultValue ="1") int currentPage) {
@@ -56,7 +59,7 @@ public class RoomController {
 	}
 	
 	@GetMapping("/roomOne")
-	public String roomOne(HttpServletRequest request, Model model, @RequestParam("roomId") int roomId, @RequestParam("detailAddressId") int detailAddressId) {
+	public String roomOne(HttpServletRequest request, Model model, @RequestParam("roomId") int roomId, @RequestParam("detailAddressId") int detailAddressId,  @RequestParam(value="roomQnaCurrentPage", defaultValue ="1") int roomQnaCurrentPage) {
 		// 멤버 정보를 가져온다
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("loginUser");
@@ -66,12 +69,15 @@ public class RoomController {
 			user.setUserId("");
 		}
 		Map<String, Object> result = roomService.getRoomOne(roomId, detailAddressId, user.getUserId());
+		Map<String, Object> roomQna = roomQuestionService.getRoomQnaList(roomQnaCurrentPage, roomId);
+		
 		model.addAttribute("room",result.get("room"));
 		model.addAttribute("address",result.get("address"));
 		model.addAttribute("hashtag",result.get("hashtag"));
 		model.addAttribute("couponList",result.get("couponList"));
 		model.addAttribute("roomAmenitiesList",result.get("amenitiesList"));
 		model.addAttribute("roomPartList",result.get("roomPartList"));
+		model.addAttribute("roomQna", roomQna);
 		return "room/roomOne";
 	}
 	
@@ -159,4 +165,25 @@ public class RoomController {
 		return "redirect:/host/roomOne";
 	}
 	
+	/*------숙소별 가격-------*/
+	@GetMapping("/host/priceRoomList")
+	public String priceRoomList(Model model, Room room) {
+		model.addAttribute("priceRoomList", roomService.getPriceRoomList(room.getRoomId()));
+		model.addAttribute("room",room);
+		return "/host/room/priceRoomList";
+	}
+	
+	
+	@GetMapping("/host/addPriceRoom")
+	public String getAddPriceRoom(Model model, Room room) {
+		model.addAttribute("priceRoomDate",roomService.getPriceRoomDateList(room.getRoomId()));
+		model.addAttribute("room",room);
+		return "/host/room/addPriceRoom";
+	}
+	
+	@PostMapping("/host/addPriceRoom")
+	public String postAddPriceRoom(Room room, PriceRoom priceRoom) {
+		roomService.addPriceRoom(room.getRoomId(), priceRoom);
+		return "redirect:/host/priceRoomList?roomId="+room.getRoomId()+"&detailAddressId="+room.getDetailAddressId();
+	}
 }

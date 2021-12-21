@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.btf.tap.mapper.RoomQuestionMapper">
+	<resultMap type="com.btf.tap.vo.RoomQuestion" id="resultRoomQuestion">
+		<id column="room_qna" property="roomQna"/>
+		<result column="member_id" property="memberId"/>
+		<result column="room_id" property="roomId"/>
+		<result column="answer_check" property="answerCheck"/>
+		<result column="secret_check" property="secretCheck"/>
+		<result column="content" property="content"/>
+		<result column="create_date" property="createDate"/>
+		<result column="update_date" property="updateDate"/>
+		<collection property="roomQnaAnswer" ofType="com.btf.tap.vo.RoomQnaAnswer">
+			<id column="room_qna_id" property="roomQnaId"/>
+			<result column="answer" property="answer"/>
+			<result column="answer_create_date" property="answerCreateDate"/>
+		</collection>
+	</resultMap>
+	
+	<!-- 특정 숙소 전체 문의내역 조회 -->
+	<select id="selectRoomQnaList" parameterType="java.util.Map" resultMap="resultRoomQuestion">
+		SELECT
+			r.room_qna,
+			r.member_id,
+			r.room_id,
+			r.answer_check,
+			r.secret_check,
+			r.content,
+			r.create_date,
+			ra.answer,
+			ra.answer_create_date
+		FROM room_qna r
+		LEFT JOIN room_qna_answer ra ON r.room_qna = ra.room_qna_id 
+		<where>
+			r.room_id = #{roomId}
+		</where>
+		ORDER BY r.create_date DESC
+		LIMIT #{beginRow}, #{rowPerPage}
+	</select>
+
+	<!-- 페이지 체크 -->
+	<select id="totalRowCount" parameterType="String" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM room_qna
+		<where>
+			room_id = #{roomId}
+		</where>	
+	</select>
+</mapper>
