@@ -11,9 +11,53 @@
 		<result column="people_num" property="peopleNum"></result>
 		<result column="create_date" property="createDate"></result>
 		<result column="update_date" property="updateDate"></result>
+	<association property="room" javaType="com.btf.tap.vo.Room">
+          <result column="room_id" property="roomId"></result>
+      <result column="detail_address_id" property="detailAddressId"></result>
+      <result column="host_id" property="hostId"></result>
+      <result column="room_category" property="roomCategory"></result>
+      <result column="room_form" property="roomForm"></result>
+      <result column="room_name" property="roomName"></result>
+      <result column="room_intro" property="roomIntro"></result>
+      <result column="min_day" property="minDay"></result>
+      <result column="check_in_time" property="checkInTime"></result>
+      <result column="check_out_time" property="checkOutTime"></result>
+      <result column="people_num" property="peopleNum"></result>
+      <result column="room_price" property="roomPrice"></result>
+      <result column="create_date" property="createDate"></result>
+      <result column="update_date" property="updateDate"></result>
+      </association>
+	
 		
 	</resultMap>
 	
+	<!-- 예약 숙소 리스트 아직 안함...-->
+	<select id="selectReservationList" parameterType="hashMap" resultMap="resultReservation">
+		SELECT
+			res.reservaion_id,
+			r.room_name,
+			res.check_in_date,
+			res.check_out_date,
+			r.check_in_time,
+			r.check_out_time,
+			r.room_form,
+			res.people_num,
+			r.room_price,
+			res.update_date
+			
+			
+			
+		FROM reservation res
+		ORDER BY create_date DESC
+		
+		INNERJOIN room r ON res.room_id=r.room_id
+		 
+	</select>
+	
+	 <!-- 숙소 목록 개수 -->
+   <select id="selectReservationNum" resultType="int">
+      SELECT COUNT(*) FROM reservation
+   </select>
 	
 	<!-- 예약하기 -->
 	<!--  <insert id="insertReservation" parameterType="com.btf.tap.vo.Reservation" >
@@ -64,19 +108,7 @@
 		WHERE reservation_id = #{reservationId}
 	</select>
 	
-	<!-- 예약 숙소 리스트 아직 안함...-->
-	<select id="selectReservationList" parameterType="hashMap" resultMap="resultReservation">
-		SELECT
-			res.reservation_id, r.room_name, CONCAT(a.sido,' ',a.sigungu,' ',a.road_name,' ',da.detail_address) detail_address,
-			res.check_in_date, res.check_out_date, r.check_in_time, r.check_out_time, r.room_form, res.people_num,
-			r.room_price, res.updadte_date
-			
-		FROM reservation	res
-			ORDER BY create_date DESC 
-		INNER JOIN room	r ON res.room_id=r.room_id
-		INNER JOIN detail_address da ON r.detail_address_id=da.detail_address_id
-		INNER JOIN address a ON da.address_id=a.address_id
-	</select>
+	
 	
 	<!-- 예약 수정하기 -->
 	<update id="updateReservation" parameterType="com.btf.tap.vo.Reservation">

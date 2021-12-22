@@ -25,7 +25,7 @@ public class ReservationController {
 	@Autowired
 	ReservationService reservationService;
 	//예약 정보 리스트 제작중
-	@GetMapping("/reservationList")
+	@GetMapping("reservationList")
 	public String getReservationList(Model model, @RequestParam(value="currentPage", defaultValue ="1") int currentPage) {
 		
 		
@@ -34,6 +34,8 @@ public class ReservationController {
 		result.put("currentPage", currentPage);
 		
 		model.addAttribute("result", result);
+		log.debug(Font.KSB +" reservationController 단 값을 뷰로 전송"+ Font.RESET);
+		
 		return "reservation/reservationList";
 	}
 	//예약 추가

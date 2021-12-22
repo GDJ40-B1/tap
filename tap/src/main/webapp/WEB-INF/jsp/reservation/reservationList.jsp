@@ -31,7 +31,7 @@
 				<th>가격</th>
 				<th>수정일</th>
 			</tr>
-			<c:forEach var="r" items="${reservationList}">
+			<c:forEach var="r" items="${result.reservationList}">
 			<tr>
 				<td>${r.reservationId}</td>
 				<td>${r.roomName}</td>

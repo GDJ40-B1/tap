@@ -12,4 +12,6 @@ public class Reservation {
 	private int peopleNum; // 인원수 
 	private String createDate; // 만든 날짜
 	private String updateDate;// 수정 날짜 
+	
+	private Room room;
 }
