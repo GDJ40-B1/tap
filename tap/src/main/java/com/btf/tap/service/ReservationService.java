@@ -88,7 +88,7 @@ public class ReservationService {
 	// 전체 예약 정보 리스트 제작중
 	public Map<String, Object> getReservationList(int currentPage) {
 		// 페이징에 필요한 요소들
-		final int ROW_PER_PAGE = 1;
+		final int ROW_PER_PAGE = 10;
 		final int PAGE_PER_PAGE = 10;
 		int beginRow = (currentPage-1)*ROW_PER_PAGE;
 		
@@ -117,10 +117,40 @@ public class ReservationService {
 	
 	
 	
-	private Map<String, Object> pageOperation(int totalData, int rOW_PER_PAGE, int currentPage, int pAGE_PER_PAGE) {
-			// TODO Auto-generated method stub
-			return null;
-		}
+	// 페이징 알고리즘
+	   public Map<String, Object> pageOperation(int totalData, int ROW_PER_PAGE, int currentPage, int PAGE_PER_PAGE){
+	      Map<String, Object> pageElement = new HashMap<>();
+	      
+	      /*---페이지 연산 시작---*/
+	      // 마지막 페이지 구하는 연산
+	      int lastPage= totalData/ROW_PER_PAGE;
+	        if(totalData%ROW_PER_PAGE!=0){
+	           lastPage +=1;
+	        }
+	        
+	        // 현재 페이지가 PAGE_PER_PAGE 기준 몇번째 묶음인지
+	        int currentnumPage;
+	        if(currentPage%PAGE_PER_PAGE==0){
+	          currentnumPage =(currentPage/PAGE_PER_PAGE)-1;
+	       } else{
+	          currentnumPage = currentPage/PAGE_PER_PAGE;
+	       }
+	        
+	        // 마지막 페이지가 PAGE_PER_PAGE 기준 몇번째 묶음인지
+	        int lastnumPage;
+	        if(lastPage%PAGE_PER_PAGE==0){
+	          lastnumPage =(lastPage/PAGE_PER_PAGE)-1;
+	       } else{
+	          lastnumPage = lastPage/PAGE_PER_PAGE;
+	       }
+	        /*---페이지 연산 끝---*/
+	        
+	        pageElement.put("lastPage", lastPage);
+	        pageElement.put("currentnumPage", currentnumPage);
+	        pageElement.put("lastnumPage", lastnumPage);
+	        
+	        return pageElement;
+	   }
 	//예약 수정하기.
 	public void modifyReservation(Reservation reservation) {
 		reservationMapper.updateReservation(reservation);
