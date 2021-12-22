@@ -16,6 +16,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.btf.tap.common.Font;
 import com.btf.tap.mapper.AddressMapper;
@@ -39,7 +40,7 @@ public class RoomService {
    @Autowired CouponService couponService;
    @Autowired AmenitiesService amenitiesService;
    @Autowired PartService partService;
-   
+   @Autowired ImageService imageService;
    
    // 사용자 설정 선호지역 별 인기 숙소 리스트
    public Map<String, Object> getPreferLocalRoomList(int preferRoomCurrent, String sido, String sigungu) {
@@ -208,7 +209,8 @@ public class RoomService {
    }
    
    // 숙소 등록(숙소 and 상세 주소)
-   public int addRoom(Room room, Address address, String hashtag, String amenities, String part) {
+   public int addRoom(Room room, Address address, String hashtag,
+		   String amenities, String part, MultipartHttpServletRequest mtRequest) {
       // 입력받은 도로명 주소를 분할하여 객체에 넣기
       String[] addressList = address.getDetailAddress().split(" ");
       address.setSido(addressList[0]);
@@ -234,6 +236,9 @@ public class RoomService {
       
       // 구성 추가
       partService.addRoomPart(part, room.getRoomId());
+      
+      // 이미지 추가
+      imageService.addImage(mtRequest);
       
       return room.getRoomId();
    }

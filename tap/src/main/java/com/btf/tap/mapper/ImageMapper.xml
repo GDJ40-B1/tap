@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.btf.tap.mapper.ImageMapper">
+	<resultMap type="com.btf.tap.vo.Image" id="resultImage">
+		<result column="image_name" property="imageName"></result>
+		<result column="image_real_name" property="imageRealName"></result>
+		<result column="image_target" property="imageTarget"></result>
+		<result column="image_target_category" property="imageTargetCategory"></result>
+		<result column="image_path" property="imagePath"></result>
+		<result column="create_date" property="createDate"></result>
+	</resultMap>
+	
+	<!-- 이미지 추가 -->
+	<insert id="insertImage" parameterType="hashMap">
+		INSERT INTO image(
+			image_name, image_real_name, image_target, image_target_category,
+			image_path, create_date
+		) VALUE(
+			#{imageName}, #{imageRealName}, #{imageTarget}, #{imageTargetCategory},
+			#{imagePath}, NOW()
+		)
+	</insert>
+	
+</mapper>

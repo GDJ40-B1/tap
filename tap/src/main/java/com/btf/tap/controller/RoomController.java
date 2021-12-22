@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.btf.tap.common.Font;
@@ -100,7 +101,9 @@ public class RoomController {
 		log.debug(Font.JSB + roomQnaAnswer.toString() + Font.RESET);
 		
 		return "redirect:/roomOne?roomId="+roomId+"&detailAddressId="+detailAddressId+"#roomQna";
-	}		
+	}
+	
+	/* Question 관련 */
 	
 	@GetMapping("/removeRoomQuestion")
 	public String getRemoveRoomQuestion(HttpSession session, int roomQna, String memberId, int roomId, int detailAddressId) {
@@ -180,9 +183,10 @@ public class RoomController {
 	
 	@PostMapping("/host/addRoom")
 	public String postAddRoom(Room room, Address address,
-			String hashtag, String amenities, String part) {
+			String hashtag, String amenities, String part,
+			MultipartHttpServletRequest mtRequest) {
 		// 숙소 추가
-		roomService.addRoom(room, address, hashtag, amenities, part);
+		roomService.addRoom(room, address, hashtag, amenities, part, mtRequest);
 		return "redirect:/host/roomList";
 	}
 	
