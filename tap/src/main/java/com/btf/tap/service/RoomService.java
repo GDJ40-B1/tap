@@ -238,7 +238,7 @@ public class RoomService {
       partService.addRoomPart(part, room.getRoomId());
       
       // 이미지 추가
-      imageService.addImage(mtRequest);
+      imageService.addImage(mtRequest, "room", room.getRoomId());
       
       return room.getRoomId();
    }

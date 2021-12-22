@@ -30,7 +30,7 @@
 		<h1 class="h3 mb-4 text-gray-800">숙소 등록</h1>
 		<br>
 		
-		<form id="addRoomForm" action="${pageContext.request.contextPath}/host/addRoom" method="post">
+		<form id="addRoomForm" action="${pageContext.request.contextPath}/host/addRoom" method="post" enctype="multipart/form-data">
 			<!-- 전달을 위한 값 hidden처리 -->
 			<input type="hidden" name="hostId" value="${hostId }">
 			<input type="hidden" id="amenities" name="amenities">
@@ -137,9 +137,15 @@
 			<div class="form-group">
 				<div id="map" style="width:100%;height:350px;"></div>
 			</div>
-			
-			<!-- 파일 -->
-			<input multiple="multiple" type="file" name="file" />
+			<div class="form-group">
+				<label>숙소 사진</label>
+				<div class="input-group mb-3">
+				  <div class="custom-file">
+				    <input multiple="multiple" type="file" name="file" class="custom-file-input" id="inputGroupFile02">
+				    <label class="custom-file-label" for="inputGroupFile02">사진을 한꺼번에 드래그해서 넣어주세요.</label>
+				  </div>
+				</div>
+			</div>
 			
 			<div class="form-group row">
 				<div class="col-sm-6 mb-3 mb-sm-0">
