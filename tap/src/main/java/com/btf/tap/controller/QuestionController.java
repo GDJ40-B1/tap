@@ -2,7 +2,6 @@ package com.btf.tap.controller;
 
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +28,8 @@ public class QuestionController {
 	
 	// 전체 문의 글 내역
 	@RequestMapping("/questionList")
-	public String requestQuestionList(Model model, HttpServletRequest request, @RequestParam(name="currentPage", defaultValue = "1") int currentPage,
-											@RequestParam(required = false) String writerCategory) {
+	public String requestQuestionList(Model model, @RequestParam(name="currentPage", defaultValue = "1") int currentPage,
+												   @RequestParam(required = false) String writerCategory) {
 		Map<String, Object> map = questionService.getQuestionList(currentPage, rowPerPage, writerCategory);
 		log.debug(Font.JSB + map.toString() + Font.RESET);
 
@@ -46,14 +45,22 @@ public class QuestionController {
 	
 	// 특정 문의 글
 	@GetMapping("/questionOne")
-	public String getQuestionOne(Model model, HttpServletRequest request, int questionId) {
+	public String getQuestionOne(Model model, HttpSession session, int questionId, String secretStatus, String writerId) {
+		User loginUser = (User)session.getAttribute("loginUser");
+		
+		// 비회원이 비밀글 접근 시도한 경우
+		if(loginUser == null && secretStatus.equals("Y")) {
+			return "redirect:/login";
+		}
+		
+		// 작성자가 아닌 가입자가 비밀글 접근 시도한 경우
+		if(loginUser != null && secretStatus.equals("Y") && !writerId.equals(loginUser.getUserId())) {
+			return "redirect:/";
+		}
+		
 		Question question = questionService.getQuestionOne(questionId);
 		log.debug(Font.JSB + question.toString() + Font.RESET);
 		
-		HttpSession session = request.getSession();
-		User loginUser = (User)session.getAttribute("loginUser");
-		
-		model.addAttribute("loginUser", loginUser);
 		model.addAttribute("question", question);
 		
 		return "question/questionOne";
@@ -61,12 +68,13 @@ public class QuestionController {
 	
 	// 문의 글 작성
 	@GetMapping("/addQuestion")
-	public String getAddQuestion(Model model, HttpServletRequest request) {
-		
-		HttpSession session = request.getSession();
+	public String getAddQuestion(HttpSession session, Model model) {
 		User loginUser = (User)session.getAttribute("loginUser");
 		
-		model.addAttribute("loginUser", loginUser);
+		// 비회원이 작성 페이지 접근 시도한 경우
+		if(loginUser == null) {
+			return "redirect:/login";
+		}
 		
 		return "question/addQuestion";
 	}
@@ -89,14 +97,22 @@ public class QuestionController {
 	
 	// 특정 문의 글 수정
 	@GetMapping("/modifyQuestion")
-	public String getUpdateQuestion(Model model, HttpServletRequest request, int questionId) {
+	public String getUpdateQuestion(HttpSession session, Model model, int questionId, String writerId) {
+		User loginUser = (User)session.getAttribute("loginUser");
+		
+		// 비회원이 특정 문의글 수정 시도한 경우
+		if(loginUser == null) {
+			return "redirect:/login";
+		}
+		
+		// 작성자가 아닌 가입자가 특정 문의글 수정 시도한 경우
+		if(loginUser != null && !loginUser.getUserLevel().equals("system_admin") && !writerId.equals(loginUser.getUserId())) {
+			return "redirect:/";
+		}
+		
 		Question question = questionService.getQuestionOne(questionId);
 		log.debug(Font.JSB + question.toString() + Font.RESET);
 		
-		HttpSession session = request.getSession();
-		User loginUser = (User)session.getAttribute("loginUser");
-		
-		model.addAttribute("loginUser", loginUser);
 		model.addAttribute("question", question);
 		
 		return "question/modifyQuestion";
@@ -113,7 +129,19 @@ public class QuestionController {
 	
 	// 특정 문의 글 삭제
 	@GetMapping("/removeQuestion")
-	public String getRemoveQuestion(int questionId) {
+	public String getRemoveQuestion(HttpSession session, int questionId, String writerId) {
+		User loginUser = (User)session.getAttribute("loginUser");
+		
+		// 비회원이 특정 문의글 삭제 시도한 경우
+		if(loginUser == null) {
+			return "redirect:/login";
+		}
+		
+		// 작성자가 아닌 가입자가 특정 문의글 삭제 시도한 경우
+		if(loginUser != null && !loginUser.getUserLevel().equals("system_admin") && !writerId.equals(loginUser.getUserId())) {
+			return "redirect:/";
+		}
+		
 		questionService.removeQuestion(questionId);
 		
 		return "redirect:/questionList";
@@ -121,7 +149,19 @@ public class QuestionController {
 	
 	// 특정 문의 답변 삭제
 	@GetMapping("/removeQuestionAnswer")
-	public String getRemoveQuestionAnswer(int questionId) {
+	public String getRemoveQuestionAnswer(HttpSession session, int questionId) {
+		User loginUser = (User)session.getAttribute("loginUser");
+		
+		// 비회원이 특정 문의 답변 삭제 시도한 경우
+		if(loginUser == null) {
+			return "redirect:/login";
+		}
+		
+		// 관리자가 아닌 가입자가 특정 문의글 삭제 시도한 경우
+		if(loginUser != null && !loginUser.getUserLevel().equals("system_admin")) {
+			return "redirect:/";
+		}
+		
 		questionService.removeQuestionAnswer(questionId);
 		
 		return "redirect:/questionOne?questionId="+questionId;

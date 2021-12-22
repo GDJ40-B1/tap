@@ -98,7 +98,7 @@
 							<td>${q.writerCategory}</td>
 							<c:choose>
 								<c:when test="${q.secretStatus == 'N' || q.secretStatus == 'Y' && loginUser.userId == q.writerId || loginUser.userLevel == 'system_admin'}">
-									<td><a href="${pageContext.request.contextPath}/questionOne?questionId=${q.questionId}">${q.questionTitle}</a></td>
+									<td><a href="${pageContext.request.contextPath}/questionOne?questionId=${q.questionId}&secretStatus=${q.secretStatus}&writerId=${q.writerId}">${q.questionTitle}</a></td>
 								</c:when>
 								
 								<c:when test="${q.secretStatus == 'Y' && loginUser == null || loginUser.userId != q.writerId}">

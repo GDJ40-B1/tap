@@ -131,6 +131,15 @@
          	<div class="container">
          	<c:if test="${loginUser != null && loginUser.userLevel == 'member'}">
          		<button type="button" class="btn btn-danger" id='insertRoomQna'>문의 작성</button>
+         		<c:choose>
+					<c:when test="${favorite == '0'}">
+						<button type="button" class="btn btn-danger" id='insertFavorites'>찜 등록</button>
+					</c:when>
+					
+					<c:when test="${favorite == '1'}">
+						<button type="button" class="btn btn-danger" id='deleteFavorites'>찜 취소</button>
+					</c:when>
+				</c:choose>
          	</c:if>
        		<table id="roomQna" border="1">
        			<tr>
@@ -142,17 +151,17 @@
        			<c:forEach var="q" items="${roomQna.list}">
        				<tr>
        					<c:choose>
-						<c:when test="${q.answerCheck == 'N'}">
-							<td>미답변</td>
-						</c:when>
-						
-						<c:when test="${q.answerCheck == 'Y'}">
-							<td>답변완료<td>
-						</c:when>
-					</c:choose>
+							<c:when test="${q.answerCheck == 'N'}">
+								<td>미답변</td>
+							</c:when>
+							
+							<c:when test="${q.answerCheck == 'Y'}">
+								<td>답변완료<td>
+							</c:when>
+						</c:choose>
 					
 					<c:choose>
-						<c:when test="${q.secretCheck == 'N' || q.secretCheck == 'Y' && loginUser.userId == q.memberId || loginUser != null && loginUser.userLevel != 'member'}">
+						<c:when test="${q.secretCheck == 'N' || q.secretCheck == 'Y' && loginUser.userId == q.memberId || loginUser.userId == room.hostId || loginUser.userLevel == 'system_admin'}">
 							<td><a href="#roomQna" onclick="result(this)" style="text-overflow: ellipsis;">${q.content}</a></td>
 						</c:when>
 						
@@ -166,7 +175,9 @@
        				<tr style="display: none;">
 						<td colspan = "4">
 							<div>문의 : ${q.content}</div>
-							<div><a href="javascript:removeQuestion(${q.roomQna});">삭제</a></div>
+							<c:if test="${loginUser != null && q.memberId == loginUser.userId || loginUser.userId == room.hostId || loginUser.userLevel == 'system_admin'}">
+								<div><a href="javascript:removeQuestion(${q.roomQna},'${q.memberId}');">삭제</a></div>
+							</c:if>
 							<c:if test="${q.roomQnaAnswer.isEmpty() && loginUser != null && room.hostId == loginUser.userId}">
 									<div>
 										<form id="roomQnaAnswerForm" action="${pageContext.request.contextPath}/roomOne" method="post">
@@ -186,8 +197,8 @@
 							<c:forEach var="a" items="${q.roomQnaAnswer}">
 								<div>답변 : ${a.answer}</div>
 								<div>등록일 : ${a.answerCreateDate}</div>
-								<c:if test="${loginUser != null && room.hostId == loginUser.userId}">
-									<div><a href="javascript:removeAnswer(${a.roomQnaId});">삭제</a></div>
+								<c:if test="${loginUser != null && room.hostId == loginUser.userId || loginUser.userLevel == 'System_Admin'}">
+									<div><a href="javascript:removeAnswer(${a.roomQnaId}, '${room.hostId}');">삭제</a></div>
 								</c:if>
 							</c:forEach>
 						</td>
@@ -287,7 +298,9 @@
 				detail.show();
 			}
 		}
-		
+	</script>	
+	
+	<script>	
 		$('#btn').click(function(){
 			if($('#answer').val() == '') {
 				alert('답변을 입력하세요');
@@ -296,22 +309,57 @@
 					
 			$('#roomQnaAnswerForm').submit();
 		});
-		
-		function removeAnswer(roomQnaId){
+    </script>
+    
+    <script>	
+		function removeAnswer(roomQnaId, hostId){
 			if(confirm("작성하신 답변을 삭제 하시겠습니까?") == true){
-				location.href="${pageContext.request.contextPath}/removeRoomQnaAnswer?roomQnaId="+roomQnaId+"&roomId=${room.roomId}&detailAddressId=${address.detailAddressId}";
+				location.href="${pageContext.request.contextPath}/removeRoomQnaAnswer?roomQnaId="+roomQnaId+"&hostId="+hostId+"&roomId=${room.roomId}&detailAddressId=${address.detailAddressId}";
 			} else {
 				return;	
 			}
 		}
-		
-		function removeQuestion(roomQna){
+   </script>	
+   
+   <script>	
+		function removeQuestion(roomQna, memberId){
 			if(confirm("작성하신 문의를 삭제 하시겠습니까?") == true){
-				location.href="${pageContext.request.contextPath}/removeRoomQuestion?roomQna="+roomQna+"&roomId=${room.roomId}&detailAddressId=${address.detailAddressId}";
+				location.href="${pageContext.request.contextPath}/removeRoomQuestion?roomQna="+roomQna+"&memberId="+memberId+"&roomId=${room.roomId}&detailAddressId=${address.detailAddressId}";
 			} else {
 				return;	
 			}
 		}
-   </script>      
+   </script>
+   
+   <script>
+	   $('#insertFavorites').click(function() {
+
+	
+	           var form = {
+	               roomId : ${room.roomId},
+	               memberId : ${loginUser.userId},
+	               favoritesUrl : window.location.href,
+	               favoritesTitle : ${room.roomName}
+	           };
+	
+	           $.ajax({
+	               type : "POST",
+	               url : "${pageContext.request.contextPath}/",
+	               cache : false,
+	               contentType : 'application/json; charset=utf-8',
+	               data : form,
+	               success : function(result) {
+	                   console.log(result);
+
+	               },
+	               error : function(e) {
+	                   console.log(e);
+
+	                   location.reload(); // 실패시 새로고침하기
+	               }
+	           })
+	       }
+	   });   
+   </script>    
 </body>
 </html>

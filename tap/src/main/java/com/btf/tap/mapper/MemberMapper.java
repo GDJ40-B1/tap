@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.btf.tap.vo.Favorites;
 import com.btf.tap.vo.Member;
 
 @Mapper
@@ -21,6 +22,7 @@ public interface MemberMapper {
 	int updateMemberPointEarn(Member member);				// 회원 포인트 충전하기
 	int updateMemberPointSpend(Member member);				// 회원 포인트 전환하기
 	int updateMemberPw(Member member);						// 회원 비밀번호 수정하기
-	
+	int insertFavorites(Favorites favorites);				// 회원 즐겨찾기 등록
+	int selectFavorites(Favorites favorites);				// 회원 특정 페이지 즐겨찾기 등록 여부 조회
 	
 }

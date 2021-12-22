@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.btf.tap.common.Font;
 import com.btf.tap.service.AmenitiesService;
 import com.btf.tap.service.HostService;
+import com.btf.tap.service.MemberService;
 import com.btf.tap.service.PartService;
 import com.btf.tap.service.RoomQuestionService;
 import com.btf.tap.service.RoomService;
@@ -40,6 +41,7 @@ public class RoomController {
 	@Autowired AmenitiesService amenitiesService;
 	@Autowired PartService partService;
 	@Autowired RoomQuestionService roomQuestionService;
+	@Autowired MemberService memberService;
 	
 	@GetMapping("/roomList")
 	public String roomList(Model model, @RequestParam(value="currentPage", defaultValue ="1") int currentPage) {
@@ -76,6 +78,12 @@ public class RoomController {
 		Map<String, Object> result = roomService.getRoomOne(roomId, detailAddressId, user.getUserId());
 		Map<String, Object> roomQna = roomQuestionService.getRoomQnaList(roomQnaCurrentPage, roomId);
 		
+		// 회원인 경우에 해당 페이지 즐겨찾기 여부 조회 결과값 반환
+		if(!user.getUserId().equals("") && user.getUserLevel().equals("member")) {
+			int favorite = memberService.getFavorites(user.getUserId(), roomId);
+			model.addAttribute("favorite", favorite);
+		}
+		
 		model.addAttribute("room",result.get("room"));
 		model.addAttribute("address",result.get("address"));
 		model.addAttribute("hashtag",result.get("hashtag"));
@@ -95,21 +103,52 @@ public class RoomController {
 	}		
 	
 	@GetMapping("/removeRoomQuestion")
-	public String getRemoveRoomQuestion(int roomQna, int roomId, int detailAddressId) {
+	public String getRemoveRoomQuestion(HttpSession session, int roomQna, String memberId, int roomId, int detailAddressId) {
+		User loginUser = (User)session.getAttribute("loginUser");
+		
+		// 비회원이 특정 문의글 삭제 시도한 경우
+		if(loginUser == null) {
+			return "redirect:/login";
+		}
+		
+		// 작성자가 아닌 가입자가 특정 문의글 삭제 시도한 경우
+		if(loginUser != null && !loginUser.getUserLevel().equals("system_admin") && !memberId.equals(loginUser.getUserId())) {
+			return "redirect:/";
+		}
+		
 		roomQuestionService.removeRoomQuestion(roomQna);
 		
 		return "redirect:/roomOne?roomId="+roomId+"&detailAddressId="+detailAddressId+"#roomQna";
 	}
 	
 	@GetMapping("/removeRoomQnaAnswer")
-	public String getRemoveRoomQnaAnswer(int roomQnaId, int roomId, int detailAddressId) {
+	public String getRemoveRoomQnaAnswer(HttpSession session, int roomQnaId, String hostId, int roomId, int detailAddressId) {
+		User loginUser = (User)session.getAttribute("loginUser");
+		
+		// 비회원이 문의 답변 삭제 접근한 경우
+		if(loginUser == null) {
+			return "redirect:/login";
+		}
+		
+		// 해당 호스트가 아닌 가입자가 문의 답변 삭제 접근한 경우
+		if(loginUser != null && !hostId.equals(loginUser.getUserId()) || !loginUser.getUserLevel().equals("system_admin")) {
+			return "redirect:/";
+		}
+		
 		roomQuestionService.removeRoomQnaAnswer(roomQnaId);
 		
 		return "redirect:/roomOne?roomId="+roomId+"&detailAddressId="+detailAddressId+"#roomQna";
 	}
 	
 	@GetMapping("/roomQnaPopup")
-	public String getRoomQnaPopup(Model model, int roomId) {
+	public String getRoomQnaPopup(HttpSession session, Model model, int roomId) {
+		User loginUser = (User)session.getAttribute("loginUser");
+		
+		// 비회원 또는 호스트, 관리자가 문의 작성을 접근한 경우
+		if(loginUser == null || !loginUser.getUserLevel().equals("member")) {
+			return "redirect:/";
+		}
+		
 		model.addAttribute("roomId", roomId);
 		
 		return "room/roomQnaPopup";

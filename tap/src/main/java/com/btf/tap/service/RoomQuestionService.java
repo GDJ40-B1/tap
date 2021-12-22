@@ -55,6 +55,7 @@ public class RoomQuestionService {
 		paramMap.put("roomQnaStartPage", roomQnaStartPage);
 		paramMap.put("roomQnaEndPage", roomQnaEndPage);
 		paramMap.put("roomQnaLastPage", roomQnaLastPage);
+		paramMap.put("roomQnaCurrentPage", roomQnaCurrentPage);
 		
 		return paramMap;
 	}

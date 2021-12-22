@@ -31,7 +31,7 @@ public class SearchController {
 	
 	// 전체 검색 결과
 	@RequestMapping("/searchList")
-	public String requestSearchList(Model model, HttpServletRequest request, @RequestParam(name="roomCurrentPage", defaultValue="1") int roomCurrentPage, 
+	public String requestSearchList(Model model, HttpSession session, @RequestParam(name="roomCurrentPage", defaultValue="1") int roomCurrentPage, 
 																			 @RequestParam(name="attractionCurrentPage", defaultValue="1") int attractionCurrentPage, 
 																			 @RequestParam(name="hashtagRoomCurrentPage", defaultValue = "1") int hashtagRoomCurrentPage,
 																			 @RequestParam(name="hashtagAttractionCurrentPage", defaultValue = "1") int hashtagAttractionCurrentPage, String keyword){
@@ -48,7 +48,6 @@ public class SearchController {
 		Map<String, Object> hashtagAttractionMap = searchService.getHashtagAttractionSearchList(hashtagAttractionCurrentPage, rowPerPage, keyword);		
 		log.debug(Font.JSB + hashtagAttractionMap.toString() + Font.RESET);
 		
-		HttpSession session = request.getSession();
 		User loginUser = (User)session.getAttribute("loginUser");
 		
 		if(loginUser != null && loginUser.getUserLevel().equals("member")) {
@@ -56,26 +55,19 @@ public class SearchController {
 		}
 	
 		model.addAttribute("keyword", keyword);
-		model.addAttribute("roomList", roomMap.get("roomList"));
+		
+		model.addAttribute("roomMap", roomMap);
 		model.addAttribute("roomCurrentPage", roomCurrentPage);
-		model.addAttribute("roomStartPage", roomMap.get("roomStartPage"));
-		model.addAttribute("roomEndPage", roomMap.get("roomEndPage"));
-		model.addAttribute("roomLastPage", roomMap.get("roomLastPage"));
-		model.addAttribute("attractionList", attractionMap.get("attractionList"));
+		
+		model.addAttribute("attractionMap", attractionMap);
 		model.addAttribute("attractionCurrentPage", attractionCurrentPage);
-		model.addAttribute("attractionStartPage", attractionMap.get("attractionStartPage"));
-		model.addAttribute("attractionEndPage", attractionMap.get("attractionEndPage"));
-		model.addAttribute("attractionLastPage", attractionMap.get("attractionLastPage"));
-		model.addAttribute("hashtagRoomList", hashtagRoomMap.get("hashtagRoomList"));
+
+		model.addAttribute("hashtagRoomMap", hashtagRoomMap);
 		model.addAttribute("hashtagRoomCurrentPage", hashtagRoomCurrentPage);
-		model.addAttribute("hashtagRoomStartPage", hashtagRoomMap.get("hashtagRoomStartPage"));
-		model.addAttribute("hashtagRoomEndPage", hashtagRoomMap.get("hashtagRoomEndPage"));
-		model.addAttribute("hashtagRoomLastPage", hashtagRoomMap.get("hashtagRoomLastPage"));
-		model.addAttribute("hashtagAttractionList", hashtagAttractionMap.get("hashtagAttractionList"));
+
+		model.addAttribute("hashtagAttractionMap", hashtagAttractionMap);
 		model.addAttribute("hashtagAttractionCurrentPage", hashtagAttractionCurrentPage);
-		model.addAttribute("hashtagAttractionStartPage", hashtagAttractionMap.get("hashtagAttractionStartPage"));
-		model.addAttribute("hashtagAttractionEndPage", hashtagAttractionMap.get("hashtagAttractionEndPage"));
-		model.addAttribute("hashtagAttractionLastPage", hashtagAttractionMap.get("hashtagAttractionLastPage"));
+
 		
 		return "search/searchList";
 	}
@@ -116,27 +108,21 @@ public class SearchController {
 		List<String> sidoList = searchService.getSidoList();
 		model.addAttribute("sidoList", sidoList);
 		
+		
+		
 		model.addAttribute("keyword", keyword);
-		model.addAttribute("roomList", roomMap.get("roomList"));
+		
+		model.addAttribute("roomMap", roomMap);
 		model.addAttribute("roomCurrentPage", roomCurrentPage);
-		model.addAttribute("roomStartPage", roomMap.get("roomStartPage"));
-		model.addAttribute("roomEndPage", roomMap.get("roomEndPage"));
-		model.addAttribute("roomLastPage", roomMap.get("roomLastPage"));
-		model.addAttribute("attractionList", attractionMap.get("attractionList"));
+
+		model.addAttribute("attractionMap", attractionMap);
 		model.addAttribute("attractionCurrentPage", attractionCurrentPage);
-		model.addAttribute("attractionStartPage", attractionMap.get("attractionStartPage"));
-		model.addAttribute("attractionEndPage", attractionMap.get("attractionEndPage"));
-		model.addAttribute("attractionLastPage", attractionMap.get("attractionLastPage"));
-		model.addAttribute("hashtagRoomList", hashtagRoomMap.get("hashtagRoomList"));
+
+		model.addAttribute("hashtagRoomMap", hashtagRoomMap);
 		model.addAttribute("hashtagRoomCurrentPage", hashtagRoomCurrentPage);
-		model.addAttribute("hashtagRoomStartPage", hashtagRoomMap.get("hashtagRoomStartPage"));
-		model.addAttribute("hashtagRoomEndPage", hashtagRoomMap.get("hashtagRoomEndPage"));
-		model.addAttribute("hashtagRoomLastPage", hashtagRoomMap.get("hashtagRoomLastPage"));
-		model.addAttribute("hashtagAttractionList", hashtagAttractionMap.get("hashtagAttractionList"));
+
+		model.addAttribute("hashtagAttractionMap", hashtagAttractionMap);
 		model.addAttribute("hashtagAttractionCurrentPage", hashtagAttractionCurrentPage);
-		model.addAttribute("hashtagAttractionStartPage", hashtagAttractionMap.get("hashtagAttractionStartPage"));
-		model.addAttribute("hashtagAttractionEndPage", hashtagAttractionMap.get("hashtagAttractionEndPage"));
-		model.addAttribute("hashtagAttractionLastPage", hashtagAttractionMap.get("hashtagAttractionLastPage"));
 		
 		return "search/searchListByDistrict";
 	}

@@ -177,4 +177,41 @@
 			member_pw=#{memberPw}
 	</delete>
 
+	<!-- 특정 회원 즐겨찾기 등록 -->
+	<insert id="insertFavorites" parameterType="com.btf.tap.vo.Favorites">
+		INSERT INTO
+			favorites(
+				member_id,
+				room_id,
+				favorites_url,
+				favorites_title,
+				create_date,
+				update_date
+			)
+		VALUES (
+			#{memberId},
+			#{roomId},
+			#{favoritesUrl},
+			#{favoritesTitle},
+			NOW(),
+			NOW()
+		)
+	</insert>
+	
+	<!-- 특정 회원 해당 페이지 즐겨찾기 등록 여부 조회 -->
+	<select id="selectFavorites" parameterType="com.btf.tap.vo.Favorites" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			favorites
+		<where>
+			room_id = #{roomId}
+			AND member_id = #{memberId}
+		</where>	
+	</select>
+	
+	<!-- 특정 회원 즐겨찾기 리스트 조회 -->
+	
+	
+	<!-- 특정 회원 등록 즐겨찾기 삭제 -->
 </mapper>

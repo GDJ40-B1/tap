@@ -62,12 +62,12 @@
 	<div id="roomList" class="container">
 		
 		<c:choose>
-			<c:when test="${empty roomList}">
+			<c:when test="${empty roomMap.roomList}">
 				<div>검색 결과가 없습니다.</div>
 			</c:when>
 			
 			<c:otherwise>
-				<c:forEach var="r" items="${roomList}">
+				<c:forEach var="r" items="${roomMap.roomList}">
 					<div>[${r.roomCategory}] [${r.roomForm}]</div>
 					<div><a href="${pageContext.request.contextPath}/myRoomOne?roomId=${r.roomId}&detailAddressId=${r.detailAddressId}">${r.roomName}</a></div>
 					<div>${r.roomIntro}</div>
@@ -78,11 +78,11 @@
 					<a href="${pageContext.request.contextPath}/searchList?keyword=${keyword}&roomCurrentPage=${roomCurrentPage-1}&attractionCurrentPage=${attractionCurrentPage}&hashtagRoomCurrentPage=${hashtagRoomCurrentPage}&hashtagAttractionCurrentPage=${hashtagAttractionCurrentPage}#roomList">이전</a>
 				</c:if>
 				
-				<c:forEach var="i" begin="${roomStartPage}" end="${roomEndPage}">
+				<c:forEach var="i" begin="${roomMap.roomStartPage}" end="${roomMap.roomEndPage}">
 					<a href="${pageContext.request.contextPath}/searchList?keyword=${keyword}&roomCurrentPage=${i}&attractionCurrentPage=${attractionCurrentPage}&hashtagRoomCurrentPage=${hashtagRoomCurrentPage}&hashtagAttractionCurrentPage=${hashtagAttractionCurrentPage}#roomList"><c:out value="${i}"/></a>
 				</c:forEach>
 				
-				<c:if test="${roomCurrentPage < roomLastPage}">
+				<c:if test="${roomCurrentPage < roomMap.roomLastPage}">
 					<a href="${pageContext.request.contextPath}/searchList?keyword=${keyword}&roomCurrentPage=${roomCurrentPage+1}&attractionCurrentPage=${attractionCurrentPage}&hashtagRoomCurrentPage=${hashtagRoomCurrentPage}&hashtagAttractionCurrentPage=${hashtagAttractionCurrentPage}#roomList">다음</a>
 				</c:if>					
 			</c:otherwise>
@@ -104,12 +104,12 @@
 	<div class="container">
 
 		<c:choose>
-			<c:when test="${empty attractionList}">
+			<c:when test="${empty attractionMap.attractionList}">
 				<div>검색 결과가 없습니다.</div>
 			</c:when>
 			
 			<c:otherwise>
-				<c:forEach var="a" items="${attractionList}">
+				<c:forEach var="a" items="${attractionMap.attractionList}">
 					<div>[${a.attractionCategory}] <a href="/tap/">${a.attractionName}</a></div>
 					<div>${a.attractionContent}</div>
 				</c:forEach>
@@ -118,11 +118,11 @@
 					<a href="${pageContext.request.contextPath}/searchList?keyword=${keyword}&roomCurrentPage=${roomCurrentPage}&attractionCurrentPage=${attractionCurrentPage-1}&hashtagRoomCurrentPage=${hashtagRoomCurrentPage}&hashtagAttractionCurrentPage=${hashtagAttractionCurrentPage}#attractionList">이전</a>
 				</c:if>
 				
-				<c:forEach var="i" begin="${attractionStartPage}" end="${attractionEndPage}">
+				<c:forEach var="i" begin="${attractionMap.attractionStartPage}" end="${attractionMap.attractionEndPage}">
 					<a href="${pageContext.request.contextPath}/searchList?keyword=${keyword}&roomCurrentPage=${roomCurrentPage}&attractionCurrentPage=${i}&hashtagRoomCurrentPage=${hashtagRoomCurrentPage}&hashtagAttractionCurrentPage=${hashtagAttractionCurrentPage}#attractionList"><c:out value="${i}"/></a>
 				</c:forEach>
 				
-				<c:if test="${attractionCurrentPage < attractionLastPage}">
+				<c:if test="${attractionCurrentPage < attractionMap.attractionLastPage}">
 					<a href="${pageContext.request.contextPath}/searchList?keyword=${keyword}&roomCurrentPage=${roomCurrentPage}&attractionCurrentPage=${attractionCurrentPage+1}&hashtagRoomCurrentPage=${hashtagRoomCurrentPage}&hashtagAttractionCurrentPage=${hashtagAttractionCurrentPage}#attractionList">다음</a>
 				</c:if>						
 			</c:otherwise>
@@ -144,12 +144,12 @@
 	<div class="container">
 
 		<c:choose>
-			<c:when test="${empty hashtagRoomList}">
+			<c:when test="${empty hashtagRoomMap.hashtagRoomList}">
 				<div>검색 결과가 없습니다.</div>
 			</c:when>
 			
 			<c:otherwise>
-				<c:forEach var="r" items="${hashtagRoomList}">
+				<c:forEach var="r" items="${hashtagRoomMap.hashtagRoomList}">
 					<div>[${r.roomCategory}] [${r.roomForm}]</div>
 					<div><a href="${pageContext.request.contextPath}/myRoomOne?roomId=${r.roomId}&detailAddressId=${r.detailAddressId}">${r.roomName}</a></div>
 					<div>${r.roomIntro}</div>
@@ -160,11 +160,11 @@
 					<a href="${pageContext.request.contextPath}/searchList?keyword=${keyword}&roomCurrentPage=${roomCurrentPage}&attractionCurrentPage=${attractionCurrentPage}&hashtagRoomCurrentPage=${hashtagRoomCurrentPage-1}&hashtagAttractionCurrentPage=${hashtagAttractionCurrentPage}#hashtagRoomList">이전</a>
 				</c:if>
 				
-				<c:forEach var="i" begin="${hashtagRoomStartPage}" end="${hashtagRoomEndPage}">
+				<c:forEach var="i" begin="${hashtagRoomMap.hashtagRoomStartPage}" end="${hashtagRoomMap.hashtagRoomEndPage}">
 					<a href="${pageContext.request.contextPath}/searchList?keyword=${keyword}&roomCurrentPage=${roomCurrentPage}&attractionCurrentPage=${attractionCurrentPage}&hashtagRoomCurrentPage=${i}&hashtagAttractionCurrentPage=${hashtagAttractionCurrentPage}#hashtagRoomList"><c:out value="${i}"/></a>
 				</c:forEach>
 				
-				<c:if test="${hashtagRoomCurrentPage < hashtagRoomLastPage}">
+				<c:if test="${hashtagRoomCurrentPage < hashtagRoomMap.hashtagRoomLastPage}">
 					<a href="${pageContext.request.contextPath}/searchList?keyword=${keyword}&roomCurrentPage=${roomCurrentPage}&attractionCurrentPage=${attractionCurrentPage}&hashtagRoomCurrentPage=${hashtagRoomCurrentPage+1}&hashtagAttractionCurrentPage=${hashtagAttractionCurrentPage}#hashtagRoomList">다음</a>
 				</c:if>			
 			</c:otherwise>
@@ -186,12 +186,12 @@
 	<div class="container">
 
 		<c:choose>
-			<c:when test="${empty hashtagAttractionList}">
+			<c:when test="${empty hashtagAttractionMap.hashtagAttractionList}">
 				<div>검색 결과가 없습니다.</div>
 			</c:when>
 			
 			<c:otherwise>
-				<c:forEach var="a" items="${hashtagAttractionList}">
+				<c:forEach var="a" items="${hashtagAttractionMap.hashtagAttractionList}">
 					<div>[${a.attractionCategory}] <a href="/tap/">${a.attractionName}</a></div>
 					<div>${a.attractionContent}</div>
 				</c:forEach>
@@ -200,11 +200,11 @@
 					<a href="${pageContext.request.contextPath}/searchList?keyword=${keyword}&roomCurrentPage=${roomCurrentPage}&attractionCurrentPage=${attractionCurrentPage}&hashtagRoomCurrentPage=${hashtagRoomCurrentPage}&hashtagAttractionCurrentPage=${hashtagAttractionCurrentPage-1}#hashtagAttractionList">이전</a>
 				</c:if>
 				
-				<c:forEach var="i" begin="${hashtagAttractionStartPage}" end="${hashtagAttractionEndPage}">
+				<c:forEach var="i" begin="${hashtagAttractionMap.hashtagAttractionStartPage}" end="${hashtagAttractionMap.hashtagAttractionEndPage}">
 					<a href="${pageContext.request.contextPath}/searchList?keyword=${keyword}&roomCurrentPage=${roomCurrentPage}&attractionCurrentPage=${attractionCurrentPage}&hashtagRoomCurrentPage=${hashtagRoomCurrentPage}&hashtagAttractionCurrentPage=${i}#hashtagAttractionList"><c:out value="${i}"/></a>
 				</c:forEach>
 				
-				<c:if test="${hashtagAttractionCurrentPage < hashtagAttractionLastPage}">
+				<c:if test="${hashtagAttractionCurrentPage < hashtagAttractionMap.hashtagAttractionLastPage}">
 					<a href="${pageContext.request.contextPath}/searchList?keyword=${keyword}&roomCurrentPage=${roomCurrentPage}&attractionCurrentPage=${attractionCurrentPage}&hashtagRoomCurrentPage=${hashtagRoomCurrentPage}&hashtagAttractionCurrentPage=${hashtagAttractionCurrentPage+1}#hashtagAttractionList">다음</a>
 				</c:if>									
 			</c:otherwise>

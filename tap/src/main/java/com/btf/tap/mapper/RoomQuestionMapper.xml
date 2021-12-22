@@ -40,7 +40,7 @@
 	</select>
 
 	<!-- 페이지 체크 -->
-	<select id="totalRowCount" parameterType="String" resultType="int">
+	<select id="totalRowCount" parameterType="int" resultType="int">
 		SELECT
 			COUNT(*)
 		FROM room_qna

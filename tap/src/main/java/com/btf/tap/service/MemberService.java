@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.btf.tap.common.Font;
 import com.btf.tap.mapper.MemberMapper;
+import com.btf.tap.vo.Favorites;
 import com.btf.tap.vo.Member;
 import com.btf.tap.vo.User;
 
@@ -228,6 +229,7 @@ public class MemberService {
 		return paramMap;
 	}
 	
+	// 회원 등록 선호지역 조회
 	public Map<String, Object> getPreferLocal(User user) {
 		
 		String memberId = user.getUserId();
@@ -237,5 +239,27 @@ public class MemberService {
 		log.debug(Font.JSB + "설정된 선호지역 => " + paramMap.toString()  + Font.RESET);
 		
 		return paramMap; 
+	}
+	
+	// 회원 즐겨찾기 등록
+	public void addFavorites(Favorites favorites) {
+		log.debug(Font.JSB + "입력받은 즐겨찾기 페이지 정보 => " + favorites.toString()  + Font.RESET);
+		
+		memberMapper.insertFavorites(favorites);
+	}
+	
+	// 회원 특정 페이지 즐겨찾기 등록 여부 조회
+	public int getFavorites(String memberId, int roomId) {
+		Favorites favorites = new Favorites();
+		favorites.setMemberId(memberId);
+		favorites.setRoomId(roomId);
+		
+		log.debug(Font.JSB + "입력받은 즐겨찾기 페이지 정보 => " + favorites.toString()  + Font.RESET);
+		
+		int result = memberMapper.selectFavorites(favorites);
+		
+		log.debug(Font.JSB + "즐겨찾기 여부 조회 결과 => " + result + Font.RESET);
+			
+		return result;
 	}
 }
