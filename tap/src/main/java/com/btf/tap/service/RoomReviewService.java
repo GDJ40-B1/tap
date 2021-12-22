@@ -23,8 +23,10 @@ public class RoomReviewService {
 	// 해당숙소의 전체 후기 조회하기
 	// 입력 : currentPage, rowPerPage  
 	// 출력 : paramMap(list,lastPage,startPage,endPage) 
-	public Map<String,Object> getRoomReviewList(int roomReviewCurrentPage) {
+	public Map<String,Object> getRoomReviewList(int roomReviewCurrentPage, int roomId) {
 		final int ROW_PER_PAGE = 5;
+		
+		log.debug(Font.HS + "입력된 파라미터 값 => " + roomReviewCurrentPage + "," + roomId + Font.RESET);
 		
 		// 데이터의 첫 번째 행
 		int beginRow = 0;
@@ -34,13 +36,15 @@ public class RoomReviewService {
 		Map<String,Object> page = new HashMap<>();
 		page.put("beginRow", beginRow);
 		page.put("rowPerPage", ROW_PER_PAGE);
+		page.put("roomId", roomId);
 		log.debug(Font.HS + "page 객체에 저장된 값 => " + page.toString() + Font.RESET);
 		
 		List<RoomReview> list = roomReviewMapper.selectRoomReviewList(page);
 		
+		
 		// 전체 후기 수
 		int totalRoomReviewCount = 0;
-		totalRoomReviewCount = roomReviewMapper.totalRoomReivewCount();
+		totalRoomReviewCount = roomReviewMapper.totalRoomReivewCount(roomId);
 		log.debug(Font.HS + "전체 후기 개수 => " + totalRoomReviewCount + Font.RESET);
 		
 		// 총 데이터의 마지막 페이지
@@ -67,6 +71,8 @@ public class RoomReviewService {
 		paramMap.put("lastPage", lastPage);
 		paramMap.put("startPage", startPage);
 		paramMap.put("endPage", endPage);
+		paramMap.put("roomReviewCurrentPage", roomReviewCurrentPage);
+	
 		log.debug(Font.HS + "paramMap 객체에 저장된 값 => " + paramMap.toString() + Font.RESET);
 		
 		return paramMap;
@@ -94,13 +100,13 @@ public class RoomReviewService {
 	}
 	
 	// 숙소후기 삭제하기
-	// 입력 : roomReview(숙소후기 삭제 입력 정보)
+	// 입력 : roomReviewId
 	// 출력 : check(숙소후기글 삭제 개수)
-	public int removeRoomReview(RoomReview roomReview) {
-		// 입력받은 숙소후기 정보
-		log.debug(Font.HS + "입력받은 숙소후기 정보 => " + roomReview.toString() + Font.RESET);
+	public int removeRoomReview(int roomReviewId) {
+		// 입력받은 roomReviewId
+		log.debug(Font.HS + "입력받은 roomReviewId 값 => " + roomReviewId + Font.RESET);
 		
-		int check = roomReviewMapper.deleteRoomReview(roomReview);
+		int check = roomReviewMapper.deleteRoomReview(roomReviewId);
 		
 		// 숙소후기글 삭제 개수
 		log.debug(Font.HS + "숙소후기글 삭제 개수 => " + check + Font.RESET);

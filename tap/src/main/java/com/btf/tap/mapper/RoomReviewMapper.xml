@@ -19,28 +19,33 @@
 	<!-- 해당숙소의 전체 후기 조회하기 -->
 	<select id="selectRoomReviewList" parameterType="java.util.Map" resultMap="resultRoomReview">
 		SELECT
-			r.room_review_id,
-			r.payment_id,
-			r.answer_status,
-			r.room_review_content,
-			r.room_review_score,
-			r.create_date,
-			r.update_date,
-			rc.room_review_comment_content,
-			rc.comment_create_date
-		FROM
-			room_review r LEFT JOIN room_review_comment rc 
-			ON r.room_review_id = rc.room_review_id	
-		ORDER BY r.create_date DESC
+			 rr.room_review_id,
+			 rr.payment_id,
+			 rr.answer_status,
+			 rr.room_review_content,
+			 rr.room_review_score,
+			 rr.create_date,
+			 rr.update_date
+		FROM room_review rr
+			 LEFT JOIN payment p ON rr.payment_id = p.payment_id
+			 LEFT JOIN reservation rs ON p.reservation_id = rs.reservation_id
+			 LEFT JOIN room r ON rs.room_id = r.room_id
+		WHERE
+			 r.room_id = #{roomId}	
+		ORDER BY rr.create_date DESC
 		LIMIT #{beginRow}, #{rowPerPage}	
 	</select>
 	
 	<!-- 전체 후기 수 -->
-	<select id="totalRoomReivewCount" resultType="int">
+	<select id="totalRoomReivewCount" parameterType="int" resultType="int">
 		SELECT
-			COUNT(*)
-		FROM 
-			room_review	
+			 COUNT(rr.room_review_id)
+		FROM room_review rr 
+			 INNER JOIN payment p ON rr.payment_id = p.payment_id
+			 INNER JOIN reservation rs ON p.reservation_id = rs.reservation_id
+			 INNER JOIN room r ON rs.room_id = r.room_id
+		WHERE
+			 r.room_id = #{roomId}	 	
 	</select>
 	
 	<!-- 숙소후기 작성하기 -->
@@ -60,17 +65,15 @@
 			NOW(),
 			NOW()
 		)
-		<selectKey keyProperty="roomReviewId" order="AFTER" resultType="int">
-			SELECT LAST_INSERT_ID()
-		</selectKey>
 	</insert>
 	
 	<!-- 숙소후기 삭제하기 -->
-	<delete id="deleteRoomReview" parameterType="com.btf.tap.vo.RoomReview">
+	<delete id="deleteRoomReview" parameterType="int">
 		DELETE
 		FROM 
 			room_review
 		WHERE 
 			room_review_id = #{roomReviewId}
 	</delete>
+	
 </mapper>

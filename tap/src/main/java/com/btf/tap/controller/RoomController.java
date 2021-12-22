@@ -23,6 +23,7 @@ import com.btf.tap.service.HostService;
 import com.btf.tap.service.MemberService;
 import com.btf.tap.service.PartService;
 import com.btf.tap.service.RoomQuestionService;
+import com.btf.tap.service.RoomReviewService;
 import com.btf.tap.service.RoomService;
 import com.btf.tap.vo.Address;
 import com.btf.tap.vo.Host;
@@ -43,6 +44,7 @@ public class RoomController {
 	@Autowired PartService partService;
 	@Autowired RoomQuestionService roomQuestionService;
 	@Autowired MemberService memberService;
+	@Autowired RoomReviewService roomReviewService;
 	
 	@GetMapping("/roomList")
 	public String roomList(Model model, @RequestParam(value="currentPage", defaultValue ="1") int currentPage) {
@@ -67,7 +69,9 @@ public class RoomController {
 	}
 	
 	@GetMapping("/roomOne")
-	public String roomOne(HttpServletRequest request, Model model, @RequestParam("roomId") int roomId, @RequestParam("detailAddressId") int detailAddressId,  @RequestParam(value="roomQnaCurrentPage", defaultValue ="1") int roomQnaCurrentPage) {
+	public String roomOne(HttpServletRequest request, Model model, @RequestParam("roomId") int roomId, @RequestParam("detailAddressId") int detailAddressId,  
+								@RequestParam(value="roomQnaCurrentPage", defaultValue ="1") int roomQnaCurrentPage,
+								@RequestParam(value="roomReviewCurrentPage", defaultValue="1") int roomReviewCurrentPage) {
 		// 멤버 정보를 가져온다
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("loginUser");
@@ -78,6 +82,7 @@ public class RoomController {
 		}
 		Map<String, Object> result = roomService.getRoomOne(roomId, detailAddressId, user.getUserId());
 		Map<String, Object> roomQna = roomQuestionService.getRoomQnaList(roomQnaCurrentPage, roomId);
+		Map<String, Object> roomReview = roomReviewService.getRoomReviewList(roomReviewCurrentPage, roomId);
 		
 		// 회원인 경우에 해당 페이지 즐겨찾기 여부 조회 결과값 반환
 		if(!user.getUserId().equals("") && user.getUserLevel().equals("member")) {
@@ -92,6 +97,8 @@ public class RoomController {
 		model.addAttribute("roomAmenitiesList",result.get("amenitiesList"));
 		model.addAttribute("roomPartList",result.get("roomPartList"));
 		model.addAttribute("roomQna", roomQna);
+		model.addAttribute("roomReview", roomReview);
+		
 		return "room/roomOne";
 	}
 	
@@ -165,6 +172,18 @@ public class RoomController {
 		roomQuestionService.addRoomQuestion(roomQuestion);
 	}
 	
+	/* 숙소 관련 */
+	// 숙소 후기 삭제하기
+	@PostMapping("/removeRoomReview")
+	public String postRemoveRoomReview(int roomId, int detailAddressId, int roomReviewId) {
+		// 입력받은 roomReviewId 값
+		log.debug(Font.HS + "입력받은 roomReviewId 값 => " + roomReviewId + Font.HS);
+		
+		roomReviewService.removeRoomReview(roomReviewId);
+			
+		return "redirect:/roomOne?roomId="+roomId+"&detailAddressId="+detailAddressId; 
+	}
+		
 	/*-----HOST측면----- */
 	
 	@GetMapping("/host/addRoom")

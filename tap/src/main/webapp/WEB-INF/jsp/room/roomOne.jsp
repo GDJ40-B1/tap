@@ -220,6 +220,109 @@
        		
          	</div>
        </section>
+       
+       <!-- *** 숙소 후기 *** -->
+  	   <section class="event-list">
+			<div class="container">
+	   		<c:forEach var="r" items="${roomReview.list}">
+	   			<c:choose>
+	   				<c:when test="${loginUser.userId == room.hostId}">
+	   					<div>
+							<form id="removeForm" action="${pageContext.request.contextPath}/removeRoomReview" method="post">
+								<input type="hidden" name="roomId" value="${room.roomId}">
+								<input type="hidden" name="detailAddressId" value="${address.detailAddressId}">
+								<input type="hidden" name="roomReviewId" value="${r.roomReviewId}">
+								
+								<div class="d-flex justify-content-between align-items-center">
+									답변상태 : 
+	   								${r.answerStatus}
+									<ol style="list-style: none;">
+										<li>
+											<button id="removeBtn" type="button">삭제</button>
+										</li>
+									</ol>
+								</div>
+								숙소후기 평점 : 
+								<c:choose>
+									<c:when test="${r.roomReviewScore == 1}">
+										<td>★☆☆☆☆</td>
+									</c:when>
+									<c:when test="${r.roomReviewScore == 2}">
+										<td>★★☆☆☆</td>
+									</c:when>
+									<c:when test="${r.roomReviewScore == 3}">
+										<td>★★★☆☆</td>
+									</c:when>
+									<c:when test="${r.roomReviewScore == 4}">
+										<td>★★★★☆</td>
+									</c:when>
+									<c:when test="${r.roomReviewScore == 5}">
+										<td>★★★★★</td>
+									</c:when>
+								</c:choose>
+								<div>
+									숙소후기 내용 :
+									${r.roomReviewContent}
+								</div>
+								<div>
+									----------------------------------
+								</div>
+							</form>
+						</div>
+	   				</c:when>
+	   				<c:otherwise>
+	   					<div>
+	   						답변상태 : 
+	   						${r.answerStatus}
+	   					</div>
+	   					<div>
+							숙소후기 평점 : 
+							<c:choose>
+								<c:when test="${r.roomReviewScore == 1}">
+									<td>★☆☆☆☆</td>
+								</c:when>
+								<c:when test="${r.roomReviewScore == 2}">
+									<td>★★☆☆☆</td>
+								</c:when>
+								<c:when test="${r.roomReviewScore == 3}">
+									<td>★★★☆☆</td>
+								</c:when>
+								<c:when test="${r.roomReviewScore == 4}">
+									<td>★★★★☆</td>
+								</c:when>
+								<c:when test="${r.roomReviewScore == 5}">
+									<td>★★★★★</td>
+								</c:when>
+							</c:choose>
+						</div>
+						<div>
+							숙소후기 내용 :
+							${r.roomReviewContent}
+						</div>
+						<div>
+							----------------------------------
+						</div>
+	   				</c:otherwise>
+				</c:choose>
+			</c:forEach>
+			
+			<!-- ======= Paging Section ======= -->
+			<c:if test="${roomReviw.roomReviewCurrentPage > 1}">
+				<a href="${pageContext.request.contextPath}/roomOne?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}&roomOne?roomReviewCurrentPage=1">처음으로</a>
+				<a href="${pageContext.request.contextPath}/roomOne?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}&roomReviewCurrentPage=${roomReviw.roomReviewCurrentPage-1}">이전</a>
+			</c:if>
+			
+			<c:forEach var="i" begin="${roomReview.startPage}" end="${roomReview.endPage}">
+				<a href="${pageContext.request.contextPath}/roomOne?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}&roomReviewCurrentPage=${i}"><c:out value="${i}"/></a>
+			</c:forEach>
+			
+			<c:if test="${roomReviw.roomReviewCurrentPage < roomReview.lastPage}">
+				<a href="${pageContext.request.contextPath}/roomOne?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}&roomReviewCurrentPage=${roomReviw.roomReviewCurrentPage+1}">다음</a>
+				<a href="${pageContext.request.contextPath}/roomOne?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}&roomReviewCurrentPage=${roomReview.lastPage}">끝으로</a>
+			</c:if>		
+			<!-- End Paging Section -->
+			</div>
+		</section>	
    </main>
    
    <!-- start : mainFooter -->
@@ -360,6 +463,18 @@
 	           })
 	       }
 	   });   
-   </script>    
+   </script>
+   
+   <!-- *** 숙소후기 *** -->
+   <!--숙소후기 삭제 버튼 클릭 시 -->
+    <script>
+	 $('#removeBtn').click(function(){
+	   	if(confirm('후기를 삭제하시면 다시 작성할 수 없습니다. 그래도 삭제하시겠습니까?') == true) { // 확인
+			$('#removeForm').submit();
+		} else { // 취소
+			return;
+		}
+	 });	
+    </script>     
 </body>
 </html>
