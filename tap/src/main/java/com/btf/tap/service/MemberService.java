@@ -82,7 +82,7 @@ public class MemberService {
 	// 회원 한 명의 정보를 수정하기
 	// 입력: Member
 	// 결과: Member(변경된 회원의 객체)
-	public Member modifyMemberInfo(Member member) {
+	public Member modifyMemberInfo(Member member, String sido, String sigungu) {
 		log.debug(Font.HW + "입력받은 회원정보 변경 정보 => " + member.toString() + Font.RESET);
 		
 		int confirm = memberMapper.updateMemberOne(member);
@@ -92,6 +92,17 @@ public class MemberService {
 		member = memberMapper.selectMemberOne(member);
 		
 		log.debug(Font.HW + "변경된 회원 정보 => " + member.toString() + Font.RESET);
+		
+		// 회원 선호지역 정보 수정
+		Map<String, Object> paramMap = new HashMap<>();
+		
+		String memberId = member.getMemberId();
+		
+		paramMap.put("memberId", memberId);
+		paramMap.put("sido", sido);
+		paramMap.put("sigungu", sigungu);
+		
+		memberMapper.updatePreferLocal(paramMap);
 		
 		return member;
 	}
@@ -272,8 +283,9 @@ public class MemberService {
 		favoritesMapper.deleteFavorites(paramMap);
 	}
 	
-   public Map<String, Object> getFavoritesList(int favCurrentPage, String memberId) {
-	   	final int defaultPage = 10;
+	// 특정 회원 등록 즐겨찾기 리스트
+	public Map<String, Object> getFavoritesList(int favCurrentPage, String memberId) {
+		final int defaultPage = 10;
 		final int rowPerPage = 10;
 		int favStartPage = ((favCurrentPage - 1) / defaultPage) * defaultPage + 1;
 		int favEndPage = favStartPage + defaultPage - 1;		
@@ -286,7 +298,7 @@ public class MemberService {
 		page.put("memberId", memberId);
 		
 		List<Favorites> list = favoritesMapper.selectFavoritesList(page);
-		log.debug(Font.JSB + list.toString() + Font.RESET);
+		log.debug(Font.JSB  + "회원 즐겨찾기 리스트 => " + list.toString() + Font.RESET);
 		
 		int totalRowCount = favoritesMapper.favTotalRowCount(memberId);
 		
@@ -308,5 +320,5 @@ public class MemberService {
 		paramMap.put("favCurrentPage", favCurrentPage);
 		
 		return paramMap;
-	   }	
+	}	
 }

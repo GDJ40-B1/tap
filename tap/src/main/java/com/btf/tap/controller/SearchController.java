@@ -5,7 +5,6 @@ import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -32,24 +31,28 @@ public class SearchController {
 	// 전체 검색 결과
 	@RequestMapping("/searchList")
 	public String requestSearchList(Model model, HttpSession session, @RequestParam(name="roomCurrentPage", defaultValue="1") int roomCurrentPage, 
-																			 @RequestParam(name="attractionCurrentPage", defaultValue="1") int attractionCurrentPage, 
-																			 @RequestParam(name="hashtagRoomCurrentPage", defaultValue = "1") int hashtagRoomCurrentPage,
-																			 @RequestParam(name="hashtagAttractionCurrentPage", defaultValue = "1") int hashtagAttractionCurrentPage, String keyword){
-		
+																	  @RequestParam(name="attractionCurrentPage", defaultValue="1") int attractionCurrentPage, 
+																	  @RequestParam(name="hashtagRoomCurrentPage", defaultValue = "1") int hashtagRoomCurrentPage,
+																	  @RequestParam(name="hashtagAttractionCurrentPage", defaultValue = "1") int hashtagAttractionCurrentPage, String keyword){
+		// 숙소 검색 결과
 		Map<String, Object> roomMap = searchService.getRoomSearchList(roomCurrentPage, rowPerPage, keyword);
 		log.debug(Font.JSB + roomMap.toString() + Font.RESET);
 
+		// 명소 검색 결과
 		Map<String, Object> attractionMap = searchService.getAttractionSearchList(attractionCurrentPage, rowPerPage, keyword);
 		log.debug(Font.JSB + attractionMap.toString() + Font.RESET);
 		
+		// 해시태그 숙소 검색 결과
 		Map<String, Object> hashtagRoomMap = searchService.getHashtagRoomSearchList(hashtagRoomCurrentPage, rowPerPage, keyword);
 		log.debug(Font.JSB + hashtagRoomMap.toString() + Font.RESET);
 		
+		// 해시태그 명소 검색 결과
 		Map<String, Object> hashtagAttractionMap = searchService.getHashtagAttractionSearchList(hashtagAttractionCurrentPage, rowPerPage, keyword);		
 		log.debug(Font.JSB + hashtagAttractionMap.toString() + Font.RESET);
 		
 		User loginUser = (User)session.getAttribute("loginUser");
 		
+		// 회원의 경우 검색어 기록 저장
 		if(loginUser != null && loginUser.getUserLevel().equals("member")) {
 			searchService.addSearchHistory(loginUser, keyword);
 		}
@@ -74,27 +77,31 @@ public class SearchController {
 	
 	// 지역별 검색 결과
 	@RequestMapping("/searchListByDistrict")
-	public String requestSearchListByDistrict(Model model, HttpServletRequest request, @RequestParam(name="roomCurrentPage", defaultValue="1") int roomCurrentPage, 
+	public String requestSearchListByDistrict(Model model, HttpSession session, @RequestParam(name="roomCurrentPage", defaultValue="1") int roomCurrentPage, 
 																					   @RequestParam(name="attractionCurrentPage", defaultValue="1") int attractionCurrentPage, 
 																					   @RequestParam(name="hashtagRoomCurrentPage", defaultValue = "1") int hashtagRoomCurrentPage,
 																					   @RequestParam(name="hashtagAttractionCurrentPage", defaultValue = "1") int hashtagAttractionCurrentPage,
 																					   String sido, String sigungu, String keyword) {
 		
+		// 지역별 숙소 검색 결과
 		Map<String, Object> roomMap = searchService.getRoomDistrictSearchList(sido, sigungu, roomCurrentPage, rowPerPage, keyword);
 		log.debug(Font.JSB + roomMap.toString() + Font.RESET);
 
+		// 지역별 명소 검색 결과
 		Map<String, Object> attractionMap = searchService.getAttractionDistrictSearchList(sido, sigungu, attractionCurrentPage, rowPerPage, keyword);
 		log.debug(Font.JSB + attractionMap.toString() + Font.RESET);
 		
+		// 지역별 해시태그 숙소 검색 결과
 		Map<String, Object> hashtagRoomMap = searchService.getHashtagRoomDistrictSearchList(sido, sigungu, hashtagRoomCurrentPage, rowPerPage, keyword);
 		log.debug(Font.JSB + hashtagRoomMap.toString() + Font.RESET);
 		
+		// 지역별 해시태그 명소 검색 결과 
 		Map<String, Object> hashtagAttractionMap = searchService.getHashtagAttractionDistrictSearchList(sido, sigungu, hashtagAttractionCurrentPage, rowPerPage, keyword);
 		log.debug(Font.JSB + hashtagAttractionMap.toString() + Font.RESET);
-		
-		HttpSession session = request.getSession();
+
 		User loginUser = (User)session.getAttribute("loginUser");
 		
+		// 회원의 경우 검색어 기록 저장
 		if(loginUser != null && keyword != null) {
 			searchService.addSearchHistory(loginUser, keyword);
 		}
@@ -134,6 +141,7 @@ public class SearchController {
 		res.setContentType("text/html;charset=UTF-8");
 		String sido = (String)paramMap.get("sido");
 		
+		// 넘어온 시도명으로 하위 시군구 조회 후 json 반환
 		List<String> sigunguList = searchService.getSigunguList(sido);
 
 		JSONArray jsonArray = new JSONArray();

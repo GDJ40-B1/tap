@@ -128,6 +128,17 @@
 			member_id=#{memberId}
 	</update>
 	
+	<!-- 특정 회원 선호지역 수정 -->
+	<update id="updatePreferLocal" parameterType="java.util.Map">
+		UPDATE
+			prefer_local
+		SET
+			si_gun_gu_id = (SELECT si_gun_gu_id FROM si_gun_gu WHERE si_do = #{sido} and si_gun_gu = #{sigungu})
+		<where>
+			member_id = #{memberId}
+		</where>
+	</update>
+	
 	<!-- 회원 한 명의 포인트를 충전 -->
 	<update id="updateMemberPointEarn" parameterType="com.btf.tap.vo.Member">
 		{

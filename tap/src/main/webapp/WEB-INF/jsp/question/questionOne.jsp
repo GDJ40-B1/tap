@@ -99,7 +99,7 @@
 		</table>
        	
        	<c:if test="${question.writerId == loginUser.userId || loginUser.userLevel == 'system_admin'}">
-       		<a href="${pageContext.request.contextPath}/modifyQuestion?questionId=${question.questionId}&writerId=${question.writerId}">문의글 수정</a>
+       		<a href="${pageContext.request.contextPath}/nonMember/modifyQuestion?questionId=${question.questionId}&writerId=${question.writerId}">문의글 수정</a>
 			<a href="javascript:removeButton();">문의글 삭제</a>
        	</c:if>
 		
@@ -158,7 +158,7 @@
 	<script>
 		function removeButton(){
 			if(confirm("문의 글을 삭제 하시겠습니까?") == true){
-				location.href="${pageContext.request.contextPath}/removeQuestion?questionId=${question.questionId}&writerId=${question.writerId}";
+				location.href="${pageContext.request.contextPath}/nonMember/removeQuestion?questionId=${question.questionId}&writerId=${question.writerId}";
 			} else {
 				return;	
 			}
@@ -175,7 +175,7 @@
 		
 		function removeAnswer(){
 			if(confirm("작성하신 답변을 삭제 하시겠습니까?") == true){
-				location.href="${pageContext.request.contextPath}/removeQuestionAnswer?questionId=${question.questionId}";
+				location.href="${pageContext.request.contextPath}/nonMember/removeQuestionAnswer?questionId=${question.questionId}";
 			} else {
 				return;	
 			}

@@ -29,6 +29,9 @@
 
   <!-- Template Main CSS File -->
   <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet">
+  
+  <!-- Jquery -->
+  <script src="http://code.jquery.com/jquery-latest.js"></script> 
 
   <!-- =======================================================
   * Template Name: MeFamily - v4.7.0
@@ -112,10 +115,8 @@
 				</table>
 			</c:otherwise>
 		</c:choose>
-
-       	<c:if test="${loginUser != null && loginUser.userLevel != 'system_admin'}">
-       		<a href="${pageContext.request.contextPath}/addQuestion">문의글 작성</a>
-       	</c:if>
+		
+		<button type="button" class="btn btn-danger" id='addQuestion'>문의글 작성</button>
 		
       </div>
     </section><!-- End Table Section -->
@@ -150,6 +151,25 @@
       <jsp:include page="/partial/mainFooter.jsp"></jsp:include>
     </div>
   <!-- end : mainFooter -->
+
+  <script>
+	$('#addQuestion').click(function() {
+		if ("${loginUser.userId}" == "") {
+			if (confirm("로그인 한 회원만 이용가능합니다. 로그인 하시겠습니까?")) {
+				location.href = '${pageContext.request.contextPath}/login';
+			} else {
+				location.reload();
+			}
+			// 관리자가 문의 글 등록을 시도한 경우    
+			} else if ("${loginUser.userLevel}" == "system_admin") {
+				console.log("userLevel: " + "${loginUser.userLevel}");
+				alert('시스템 관리자는 문의 글을 작성하실 수 없습니다.');
+				return;
+				} else {
+					location.href="${pageContext.request.contextPath}/nonMember/addQuestion";
+				}
+		});   
+   </script>  
 
 
   <!-- Vendor JS Files -->

@@ -200,9 +200,7 @@ public class MemberController {
 	}
 	
 	@GetMapping("/modifyMemberInfo")
-	public String getModifyMemberInfo(HttpServletRequest request, Model model) {
-	
-		HttpSession session = request.getSession();
+	public String getModifyMemberInfo(HttpSession session, Model model) {
 			
 		// 로그인 되있있지 않을 경우, 홈페이지로 이동
 		if(session.getAttribute("loginUser") == null) {
@@ -217,8 +215,15 @@ public class MemberController {
 		member.setMemberId(user.getUserId());
 		member = memberService.getMemberOne(member);
 		
+		Map<String, Object> localMap = memberService.getPreferLocal(user);
+		log.debug(Font.JSB + "설정된 선호지역 => " + localMap.toString()  + Font.RESET);
+		
+		List<String> sidoList = searchService.getSidoList();
+		
 		// 회원 정보 주입
 		model.addAttribute("member", member);
+		model.addAttribute("localMap", localMap);
+		model.addAttribute("sidoList", sidoList);
 		
 		// 회원정보 변경 페이지로 이동
 		return "member/modifyMemberInfo";
@@ -227,7 +232,7 @@ public class MemberController {
 	
 	
 	@PostMapping("/modifyMemberInfo")
-	public String postModifyMemberInfo(HttpServletRequest request, Member member, Model model) {
+	public String postModifyMemberInfo(HttpServletRequest request, Member member, String sido, String sigungu, Model model) {
 	
 		HttpSession session = request.getSession();
 			
@@ -240,7 +245,7 @@ public class MemberController {
 		log.debug(Font.HW + "입력받은 회원변경 정보 => ", member.toString() + Font.RESET);
 		
 		// 회원정보 변경
-		member = memberService.modifyMemberInfo(member);
+		member = memberService.modifyMemberInfo(member, sido, sigungu);
 		
 		// 회원 정보 주입
 		model.addAttribute("member", member);
