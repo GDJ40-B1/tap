@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <!DOCTYPE html>
 <html>
@@ -223,7 +224,7 @@
        </section>
        
        <!-- *** 숙소 후기 *** -->
-  	   <section class="event-list">
+  	   <section class="event-list" id="roomReview">
 			<div class="container">
 	   		<c:forEach var="r" items="${roomReview.list}">
 	   			<c:choose>
@@ -236,13 +237,22 @@
 								
 								<div class="d-flex justify-content-between align-items-center">
 									답변상태 : 
-	   								${r.answerStatus}
+									<c:choose>
+										<c:when test="${r.answerStatus == 'N'}">
+											<td>미답변</td>
+										</c:when>
+										
+										<c:when test="${r.answerStatus == 'Y'}">
+											<td>답변완료<td>
+										</c:when>
+									</c:choose>
 									<ol style="list-style: none;">
 										<li>
 											<button id="removeBtn" type="button">삭제</button>
 										</li>
 									</ol>
 								</div>
+							</form>	
 								숙소후기 평점 : 
 								<c:choose>
 									<c:when test="${r.roomReviewScore == 1}">
@@ -263,20 +273,46 @@
 								</c:choose>
 								<div>
 									숙소후기 내용 :
-									${r.roomReviewContent}
+									<a href="#roomReview" onclick="result(this)" style="text-overflow: ellipsis;">${r.roomReviewContent}</a>
 								</div>
 								<div>
-									----------------------------------
-								</div>
-							</form>
+									<c:if test="${r.answerStatus == 'N'}">
+										<div>
+											<form id="roomReviewCommentContentForm" action="${pageContext.request.contextPath}/addRoomReviewComment" method="post">
+												<div class="form-group">
+													<input type="hidden" name="roomId" value="${room.roomId}">
+													<input type="hidden" name="detailAddressId" value="${address.detailAddressId}">
+													<input type="hidden" name="roomReviewId" value="${r.roomReviewId}">
+													<label for="reviewCommentContent">답변 작성 : </label>
+														<textarea class="form-control" rows="5" placeholder="답변을 작성해주세요" id="roomReviewCommentContent" name="roomReviewCommentContent"></textarea>
+												</div>
+												<div>
+													<button id="commentBtn" type ="button">작성</button>
+												</div>
+											</form>		
+										</div>
+									</c:if>
+									<c:forEach var="rc" items="${r.roomReviewComment}">
+										숙소후기 답변
+										<textarea class="form-control" rows="5" cols="50" name="roomReviewCommentContent" readonly="readonly">${rc.roomReviewCommentContent}</textarea>
+									</c:forEach>
+								</div><br>
 						</div>
 	   				</c:when>
 	   				<c:otherwise>
 	   					<div>
 	   						답변상태 : 
-	   						${r.answerStatus}
+							<c:choose>
+								<c:when test="${r.answerStatus == 'N'}">
+									<td>미답변</td>
+								</c:when>
+								
+								<c:when test="${r.answerStatus == 'Y'}">
+									<td>답변완료<td>
+								</c:when>
+							</c:choose>
 	   					</div>
-	   					<div>
+	   					<div class="d-flex justify-content-between align-items-center">
 							숙소후기 평점 : 
 							<c:choose>
 								<c:when test="${r.roomReviewScore == 1}">
@@ -295,14 +331,24 @@
 									<td>★★★★★</td>
 								</c:when>
 							</c:choose>
+							<ol style="list-style: none;">
+								<li>
+									<c:set var="ocreateDate" value="${r.createDate}"/>
+									<c:set var="createDate" value="${fn:substring(ocreateDate,0,10)}"/>
+									${createDate}					
+								</li>
+							</ol>
 						</div>
 						<div>
 							숙소후기 내용 :
-							${r.roomReviewContent}
+							<a href="#roomReview" onclick="result(this)" style="text-overflow: ellipsis;">${r.roomReviewContent}</a>
 						</div>
 						<div>
-							----------------------------------
-						</div>
+							<c:forEach var="rc" items="${r.roomReviewComment}">
+								숙소후기 답변
+								<textarea class="form-control" rows="5" cols="50" name="roomReviewCommentContent" readonly="readonly">${rc.roomReviewCommentContent}</textarea>
+							</c:forEach>
+						</div><br>
 	   				</c:otherwise>
 				</c:choose>
 			</c:forEach>
@@ -546,5 +592,17 @@
 		}
 	 });	
     </script>     
+    
+    <!--숙소후기 답변 작성 버튼 클릭 시 -->
+    <script>
+	    $('#commentBtn').click(function(){
+			if($('#roomReviewCommentContent').val() == '') {
+				alert('후기답변을 입력하세요');
+				return;
+			}
+					
+			$('#roomReviewCommentContentForm').submit();
+		});
+    </script>  
 </body>
 </html>

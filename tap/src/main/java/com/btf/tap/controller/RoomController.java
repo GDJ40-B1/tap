@@ -30,6 +30,7 @@ import com.btf.tap.vo.PriceRoom;
 import com.btf.tap.vo.Room;
 import com.btf.tap.vo.RoomQnaAnswer;
 import com.btf.tap.vo.RoomQuestion;
+import com.btf.tap.vo.RoomReviewComment;
 import com.btf.tap.vo.User;
 
 import lombok.extern.slf4j.Slf4j;
@@ -168,15 +169,42 @@ public class RoomController {
 		roomQuestionService.addRoomQuestion(roomQuestion);
 	}
 	
-	/* 숙소 관련 */
+	/* 숙소 후기 관련 */
 	// 숙소 후기 삭제하기
 	@PostMapping("/removeRoomReview")
-	public String postRemoveRoomReview(int roomId, int detailAddressId, int roomReviewId) {
+	public String postRemoveRoomReview(HttpSession session, int roomId, int detailAddressId, int roomReviewId) {
+		// 로그인한 정보 loginUser 객체에 담기
+		User loginUser = (User)session.getAttribute("loginUser");
+		
+		// 비회원이 특정 숙소후기 글을 삭제시도할 경우
+		if(loginUser == null) {
+			return "redirect:/login";
+		}
+		
 		// 입력받은 roomReviewId 값
-		log.debug(Font.HS + "입력받은 roomReviewId 값 => " + roomReviewId + Font.HS);
+		log.debug(Font.HS + "입력받은 roomReviewId 값 => " + roomReviewId + Font.RESET);
 		
 		roomReviewService.removeRoomReview(roomReviewId);
 			
+		return "redirect:/roomOne?roomId="+roomId+"&detailAddressId="+detailAddressId; 
+	}
+	
+	// 숙소후기 답변 작성하기
+	@PostMapping("/addRoomReviewComment")
+	public String postAddRommReviewComment(HttpSession session, RoomReviewComment roomReviewComment, int roomId, int detailAddressId, int roomReviewId) {
+		// 로그인한 정보 loginUser 객체에 담기
+		User loginUser = (User)session.getAttribute("loginUser");
+		
+		// 비회원, 회원, 시스템관리자가 답변 작성하지 못하게 하기 위해
+		if(loginUser == null || loginUser.getUserLevel().equals("member") || loginUser.getUserLevel().equals("symstem_admin")) {
+			return "redirect:/login";
+		}
+		
+		// 입력받은 roomReviewComment 정보
+		log.debug(Font.HS + "입력받은 roomReviewComment 정보 => " + roomReviewComment.toString() + Font.RESET);
+		
+		roomReviewService.addRoomReviewComment(roomReviewComment);
+		
 		return "redirect:/roomOne?roomId="+roomId+"&detailAddressId="+detailAddressId; 
 	}
 		

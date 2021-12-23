@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.btf.tap.common.Font;
 import com.btf.tap.mapper.RoomReviewMapper;
 import com.btf.tap.vo.RoomReview;
+import com.btf.tap.vo.RoomReviewComment;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -110,6 +111,45 @@ public class RoomReviewService {
 		
 		// 숙소후기글 삭제 개수
 		log.debug(Font.HS + "숙소후기글 삭제 개수 => " + check + Font.RESET);
+		
+		if(check == 1) {
+			log.debug(Font.HS + "정상적으로 삭제 성공!" + Font.RESET);
+		} else {
+			log.debug(Font.HS + "삭제 실패!" + Font.RESET);
+		}
+		
+		return check;
+	}
+	
+	// ***** 숙소후기 답변 *****
+	// 숙소후기 답변 작성하기
+	public int addRoomReviewComment(RoomReviewComment roomReviewComment) {
+		// 입력받은 roomReviewComment 객체 값
+		log.debug(Font.HS + "입력받은 roomReviewComment 객체 값 => " + roomReviewComment.toString() + Font.RESET);
+		
+		int check = roomReviewMapper.insertRoomReviewComment(roomReviewComment);
+		
+		// 숙소후기 답변 추가 개수
+		log.debug(Font.HS + "숙소후기 답변글 추가 개수 => " + check + Font.RESET);
+		
+		if(check == 1) {
+			log.debug(Font.HS + "정상적으로 추가 성공!" + Font.RESET);
+		} else {
+			log.debug(Font.HS + "추가 실패!" + Font.RESET);
+		}
+		
+		return check;
+	}
+	
+	// 숙소후기 답변 삭제하기
+	public int removeRoomReviewComment(int roomReviewId) {
+		// 입력받은 roomReviewId
+		log.debug(Font.HS + "입력받은 roomReviewId => " + roomReviewId + Font.RESET);
+		
+		int check = roomReviewMapper.deleteRoomReviewComment(roomReviewId);
+		
+		// 숙소후기 답변글 삭제 개수
+		log.debug(Font.HS + "숙소후기 답변글 삭제 개수 => " + check + Font.RESET);
 		
 		if(check == 1) {
 			log.debug(Font.HS + "정상적으로 삭제 성공!" + Font.RESET);
