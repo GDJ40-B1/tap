@@ -13,7 +13,9 @@
     <meta name="author" content="">
 
     <title>SB Admin 2 - Dashboard</title>
-
+	
+	<script src="http://code.jquery.com/jquery-latest.js"></script> 
+	
     <!-- Custom fonts for this template-->
     <link href="${pageContext.request.contextPath}/resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
@@ -312,20 +314,43 @@
 
                             <!-- Illustrations -->
                             <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Illustrations</h6>
+                                <div id="favoritesList" class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">숙소 즐겨찾기 리스트</h6>
                                 </div>
                                 <div class="card-body">
                                     <div class="text-center">
-                                        <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
-                                            src="${pageContext.request.contextPath}/resource/img/undraw_posting_photo.svg" alt="...">
+                                    	<c:choose>
+											<c:when test="${empty favMap.list}">
+												<div>등록하신 숙소가 없습니다.</div>
+											</c:when>
+											
+											<c:otherwise>
+												<table border="1">
+													<tr>
+														<th>숙소</th>
+													</tr>
+													<c:forEach var="f" items="${favMap.list}">
+														<tr>
+															<td><button type="button" class="btn btn-danger" value="${f.roomId}" id='removeFavorites'>취소</button></td>
+															<td><a href="${f.favoritesUrl}">${f.favoritesTitle}</a></td>
+														</tr>
+													</c:forEach>
+												</table>
+											</c:otherwise>
+										</c:choose>
+                                    	
+                                 		<c:if test="${favMap.favCurrentPage > 1}">
+											<a href="${pageContext.request.contextPath}/myPage?favCurrentPage=${favMap.favCurrentPage-1}#favoritesList">이전</a>
+										</c:if>
+											
+										<c:forEach var="i" begin="${favMap.favStartPage}" end="${favMap.favEndPage}">
+											<a href="${pageContext.request.contextPath}/myPage?favCurrentPage=${i}#favoritesList"><c:out value="${i}"/></a>
+										</c:forEach>
+											
+										<c:if test="${favMap.favCurrentPage < favMap.favLastPage}">
+											<a href="${pageContext.request.contextPath}/myPage?ufavCurrentPage=${favMap.favCurrentPage+1}#favoritesList">다음</a>
+										</c:if>
                                     </div>
-                                    <p>Add some quality, svg illustrations to your project courtesy of <a
-                                            target="_blank" rel="nofollow" href="https://undraw.co/">unDraw</a>, a
-                                        constantly updated collection of beautiful svg images that you can use
-                                        completely free and without attribution!</p>
-                                    <a target="_blank" rel="nofollow" href="https://undraw.co/">Browse Illustrations on
-                                        unDraw &rarr;</a>
                                 </div>
                             </div>
 
@@ -392,7 +417,41 @@
             </div>
         </div>
     </div>
+	
+	<script>
+	   $('#removeFavorites').click(function() {
+           var roomId = $(this).val();
+           var memberId = "${member.memberId}";
 
+           console.log("roomId: " + roomId);
+           console.log("memberId: " + memberId);
+
+           var form = {
+               roomId : roomId,
+               memberId : memberId,
+           };
+
+           $.ajax({
+               type : 'POST',
+               contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+               url : '${pageContext.request.contextPath}/removeFavorites',
+               cache : false,
+               data : form,
+               success : function(result) {
+                   console.log(result);
+                   console.log("즐겨찾기 삭제 완료")
+                   alert('즐겨찾기 등록을 취소했습니다.');
+                   location.reload();
+               },
+               error : function(e) {
+                   console.log(e);
+                   alert('문제가 발생했습니다.');
+                   location.reload();
+               }
+           })
+	   });   
+    </script>  
+	
     <!-- Bootstrap core JavaScript-->
     <script src="${pageContext.request.contextPath}/resources/vendor/jquery/jquery.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/vendor/bootstrap_sb/js/bootstrap.bundle.min.js"></script>

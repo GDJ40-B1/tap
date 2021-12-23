@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.btf.tap.common.Font;
 import com.btf.tap.service.MemberService;
@@ -249,7 +250,7 @@ public class MemberController {
 	}
 	
 	@GetMapping("/myPage")
-	public String getMyPage(HttpServletRequest request, Model model) {
+	public String getMyPage(HttpServletRequest request, Model model, @RequestParam(value="favCurrentPage", defaultValue ="1") int favCurrentPage) {
 	
 		HttpSession session = request.getSession();
 			
@@ -266,8 +267,12 @@ public class MemberController {
 		member.setMemberId(user.getUserId());
 		member = memberService.getMemberOne(member);
 		
+		Map<String, Object> favMap = memberService.getFavoritesList(favCurrentPage, user.getUserId());
+		
 		// 회원 정보 주입
 		model.addAttribute("member", member);
+		// 즐겨찾기 리스트 및 페이징
+		model.addAttribute("favMap", favMap);
 		
 		// 마이페이지로 이동
 		return "member/myPage";
@@ -369,4 +374,22 @@ public class MemberController {
 		
 		return "member/memberList";
 	}
+	
+	// 특정 회원 즐겨찾기 등록
+	@RequestMapping("/addFavorites")
+	@ResponseBody
+	public void requestAddFavorites(@RequestParam Map<String, Object> paramMap) {
+		log.debug(paramMap.toString());
+		
+		memberService.addFavorites(paramMap);
+	}
+	
+	// 특정 회원 즐겨찾기 삭제
+	@RequestMapping("/removeFavorites")
+	@ResponseBody
+	public void requestRemoveFavorites(@RequestParam Map<String, Object> paramMap) {
+		log.debug(paramMap.toString());
+		
+		memberService.removeFavorites(paramMap);
+	}	
 }

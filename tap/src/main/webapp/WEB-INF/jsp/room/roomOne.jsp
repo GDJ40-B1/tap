@@ -126,21 +126,22 @@
                 <a href="${pageContext.request.contextPath}/member/addReservation?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}">예약</a>
             </div>
       </section>
-      
+ 
       <section class="event-list">
          	<div class="container">
-         	<c:if test="${loginUser != null && loginUser.userLevel == 'member'}">
-         		<button type="button" class="btn btn-danger" id='insertRoomQna'>문의 작성</button>
-         		<c:choose>
-					<c:when test="${favorite == '0'}">
-						<button type="button" class="btn btn-danger" id='insertFavorites'>찜 등록</button>
-					</c:when>
-					
-					<c:when test="${favorite == '1'}">
-						<button type="button" class="btn btn-danger" id='deleteFavorites'>찜 취소</button>
-					</c:when>
-				</c:choose>
-         	</c:if>
+         	<!-- 즐겨찾기 등록은 이미지로 변경할 필요가 있음 -->
+        	<c:choose>
+				<c:when test="${favorite == '0'}">
+					<button type="button" class="btn btn-danger" id='addFavorites'>즐겨찾기 등록</button>
+				</c:when>
+				
+				<c:when test="${favorite == '1'}">
+					<button type="button" class="btn btn-danger" id='removeFavorites'>즐겨찾기 취소</button>
+				</c:when>
+			</c:choose>
+
+         	<button type="button" class="btn btn-danger" id='insertRoomQna'>문의 작성</button>
+
        		<table id="roomQna" border="1">
        			<tr>
        				<td>답변상태</td>
@@ -189,7 +190,7 @@
 													<textarea class="form-control" rows="5" placeholder="답변을 작성해주세요" id="answer" name="answer"></textarea>
 											</div>
 											<div>
-												<button id="btn" type ="button">작성</button>
+												<button id="addRoomQnaAnswer" type ="button">작성</button>
 											</div>
 										</form>		
 									</div>
@@ -386,11 +387,25 @@
    });
    </script>
  
-   <script>
+    <script>
 	    $('#insertRoomQna').click(function() {
-	    	window.open("${pageContext.request.contextPath}/roomQnaPopup?roomId="+${room.roomId},"_blank","toolbar=yes,menubar=yes,width=700,height=500").focus();
+			if ("${loginUser.userId}" == "") {
+		    	if (confirm("로그인 한 회원만 이용가능합니다. 로그인 하시겠습니까?")) {
+		        	location.href = '${pageContext.request.contextPath}/login';
+		        } else {
+		        	location.reload();
+		        }
+		    } else if ("${loginUser.userLevel}" != "member") {
+		   		console.log("userLevel: " + "${loginUser.userLevel}");
+		    	alert('문의 등록은 일반 회원만 가능합니다.');
+				return;
+		    } else {
+	    		window.open("${pageContext.request.contextPath}/roomQnaPopup?roomId="+${room.roomId},"_blank","toolbar=yes,menubar=yes,width=700,height=500").focus();
+		    }
 	    });
-   
+	</script>
+	
+	<script>
 		function result(content) {
 			var currentRow = $(content).closest('tr');
 			var detail = currentRow.next('tr');
@@ -404,7 +419,7 @@
 	</script>	
 	
 	<script>	
-		$('#btn').click(function(){
+		$('#addRoomQnaAnswer').click(function(){
 			if($('#answer').val() == '') {
 				alert('답변을 입력하세요');
 				return;
@@ -434,36 +449,91 @@
 		}
    </script>
    
-   <script>
-	   $('#insertFavorites').click(function() {
-
+  <script>
+	   $('#addFavorites').click(function() {
+		   // 비로그인 회원이 즐겨찾기 등록을 시도한 경우
+	       if ("${loginUser.userId}" == "") {
+	           if (confirm("로그인 한 회원만 이용가능합니다. 로그인 하시겠습니까?")) {
+	               location.href = '${pageContext.request.contextPath}/login';
+	           } else {
+	               location.reload();
+	           }
+	       // 호스트, 관리자가 즐겨찾기 등록을 시도한 경우    
+	       } else if ("${loginUser.userLevel}" != "member") {
+	    	    console.log("userLevel: " + "${loginUser.userLevel}");
+	    	    alert('즐겨찾기 등록은 일반 회원만 가능합니다.');
+				return;
+	       } else {
+	           var roomId = "${room.roomId}";
+	           var memberId = "${loginUser.userId}";
+	           var favoritesTitle = "${room.roomName}";
+	
+	           console.log("roomId: " + roomId);
+	           console.log("memberId: " + memberId);
+	           console.log("favoritesTitle: " + favoritesTitle);
 	
 	           var form = {
-	               roomId : ${room.roomId},
-	               memberId : ${loginUser.userId},
+	               roomId : roomId,
+	               memberId : memberId,
 	               favoritesUrl : window.location.href,
-	               favoritesTitle : ${room.roomName}
+	               favoritesTitle : favoritesTitle
 	           };
 	
 	           $.ajax({
-	               type : "POST",
-	               url : "${pageContext.request.contextPath}/",
+	               type : 'POST',
+	               contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+	               url : '${pageContext.request.contextPath}/addFavorites',
 	               cache : false,
-	               contentType : 'application/json; charset=utf-8',
 	               data : form,
 	               success : function(result) {
 	                   console.log(result);
-
+	                   console.log("즐겨찾기 성공!")
+	                   alert('즐겨찾기 리스트에 등록되었습니다.');
+	                   location.reload();
 	               },
 	               error : function(e) {
 	                   console.log(e);
-
-	                   location.reload(); // 실패시 새로고침하기
+	                   alert('문제가 발생했습니다.');
+	                   location.reload();
 	               }
 	           })
 	       }
 	   });   
-   </script>
+   </script>  
+
+  <script>
+	   $('#removeFavorites').click(function() {
+	           var roomId = "${room.roomId}";
+	           var memberId = "${loginUser.userId}";
+	
+	           console.log("roomId: " + roomId);
+	           console.log("memberId: " + memberId);
+	
+	           var form = {
+	               roomId : roomId,
+	               memberId : memberId,
+	           };
+	
+	           $.ajax({
+	               type : 'POST',
+	               contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+	               url : '${pageContext.request.contextPath}/removeFavorites',
+	               cache : false,
+	               data : form,
+	               success : function(result) {
+	                   console.log(result);
+	                   console.log("즐겨찾기 삭제 완료")
+	                   alert('즐겨찾기 등록을 취소했습니다.');
+	                   location.reload();
+	               },
+	               error : function(e) {
+	                   console.log(e);
+	                   alert('문제가 발생했습니다.');
+	                   location.reload();
+	               }
+	           })
+	   });   
+   </script>  
    
    <!-- *** 숙소후기 *** -->
    <!--숙소후기 삭제 버튼 클릭 시 -->

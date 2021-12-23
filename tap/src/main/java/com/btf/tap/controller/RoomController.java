@@ -26,7 +26,6 @@ import com.btf.tap.service.RoomQuestionService;
 import com.btf.tap.service.RoomReviewService;
 import com.btf.tap.service.RoomService;
 import com.btf.tap.vo.Address;
-import com.btf.tap.vo.Host;
 import com.btf.tap.vo.PriceRoom;
 import com.btf.tap.vo.Room;
 import com.btf.tap.vo.RoomQnaAnswer;
@@ -83,12 +82,8 @@ public class RoomController {
 		Map<String, Object> result = roomService.getRoomOne(roomId, detailAddressId, user.getUserId());
 		Map<String, Object> roomQna = roomQuestionService.getRoomQnaList(roomQnaCurrentPage, roomId);
 		Map<String, Object> roomReview = roomReviewService.getRoomReviewList(roomReviewCurrentPage, roomId);
+		int favorite = memberService.getFavorites(user.getUserId(), roomId);
 		
-		// 회원인 경우에 해당 페이지 즐겨찾기 여부 조회 결과값 반환
-		if(!user.getUserId().equals("") && user.getUserLevel().equals("member")) {
-			int favorite = memberService.getFavorites(user.getUserId(), roomId);
-			model.addAttribute("favorite", favorite);
-		}
 		
 		model.addAttribute("room",result.get("room"));
 		model.addAttribute("address",result.get("address"));
@@ -98,6 +93,7 @@ public class RoomController {
 		model.addAttribute("roomPartList",result.get("roomPartList"));
 		model.addAttribute("roomQna", roomQna);
 		model.addAttribute("roomReview", roomReview);
+		model.addAttribute("favorite", favorite);
 		
 		return "room/roomOne";
 	}

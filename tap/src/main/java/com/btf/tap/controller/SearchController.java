@@ -150,8 +150,7 @@ public class SearchController {
 	// 이전 검색어 삭제 - 이동 필요
 	@RequestMapping("/removeSearchHistory")
 	@ResponseBody
-	public void RequestRemoveSearchHistory(HttpServletRequest request, @RequestParam Map<String, Object> paramMap) {
-		HttpSession session = request.getSession();
+	public void RequestRemoveSearchHistory(HttpSession session , @RequestParam Map<String, Object> paramMap) {
 		User loginUser = (User)session.getAttribute("loginUser");
 		
 		paramMap.put("userId", loginUser.getUserId());

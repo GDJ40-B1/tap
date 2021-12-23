@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.btf.tap.common.Font;
+import com.btf.tap.mapper.FavoritesMapper;
 import com.btf.tap.mapper.MemberMapper;
 import com.btf.tap.vo.Favorites;
 import com.btf.tap.vo.Member;
@@ -20,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberService {
 	
 	@Autowired MemberMapper memberMapper;
+	@Autowired FavoritesMapper favoritesMapper;
 	
 	// 회원 한 명의 정보를 불러오기
 	// 입력: Member
@@ -242,10 +244,10 @@ public class MemberService {
 	}
 	
 	// 회원 즐겨찾기 등록
-	public void addFavorites(Favorites favorites) {
-		log.debug(Font.JSB + "입력받은 즐겨찾기 페이지 정보 => " + favorites.toString()  + Font.RESET);
+	public void addFavorites(Map<String, Object> paramMap) {
+		log.debug(Font.JSB + "입력받은 즐겨찾기 페이지 정보 => " + paramMap.toString()  + Font.RESET);
 		
-		memberMapper.insertFavorites(favorites);
+		favoritesMapper.insertFavorites(paramMap);
 	}
 	
 	// 회원 특정 페이지 즐겨찾기 등록 여부 조회
@@ -256,10 +258,55 @@ public class MemberService {
 		
 		log.debug(Font.JSB + "입력받은 즐겨찾기 페이지 정보 => " + favorites.toString()  + Font.RESET);
 		
-		int result = memberMapper.selectFavorites(favorites);
+		int result = favoritesMapper.selectFavorites(favorites);
 		
 		log.debug(Font.JSB + "즐겨찾기 여부 조회 결과 => " + result + Font.RESET);
 			
 		return result;
 	}
+	
+	// 회원 즐겨찾기 삭제
+	public void removeFavorites(Map<String, Object> paramMap) {
+		log.debug(Font.JSB + "입력받은 즐겨찾기 정보 => " + paramMap.toString()  + Font.RESET);
+		
+		favoritesMapper.deleteFavorites(paramMap);
+	}
+	
+   public Map<String, Object> getFavoritesList(int favCurrentPage, String memberId) {
+	   	final int defaultPage = 10;
+		final int rowPerPage = 10;
+		int favStartPage = ((favCurrentPage - 1) / defaultPage) * defaultPage + 1;
+		int favEndPage = favStartPage + defaultPage - 1;		
+		int beginRow = (favCurrentPage-1) * rowPerPage;
+		int favLastPage = 0;
+		
+		Map<String, Object> page = new HashMap<>();
+		page.put("beginRow", beginRow);
+		page.put("rowPerPage", rowPerPage);
+		page.put("memberId", memberId);
+		
+		List<Favorites> list = favoritesMapper.selectFavoritesList(page);
+		log.debug(Font.JSB + list.toString() + Font.RESET);
+		
+		int totalRowCount = favoritesMapper.favTotalRowCount(memberId);
+		
+		favLastPage = totalRowCount / rowPerPage;
+		
+		if(totalRowCount % rowPerPage != 0) {
+			favLastPage+=1;
+		}
+		
+		if(favEndPage > favLastPage) {
+			favEndPage = favLastPage;
+		}		
+		
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("list", list);
+		paramMap.put("favStartPage", favStartPage);
+		paramMap.put("favEndPage", favEndPage);
+		paramMap.put("favLastPage", favLastPage);
+		paramMap.put("favCurrentPage", favCurrentPage);
+		
+		return paramMap;
+	   }	
 }
