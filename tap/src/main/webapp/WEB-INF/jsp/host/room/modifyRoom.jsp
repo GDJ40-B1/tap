@@ -31,7 +31,7 @@
 		<h1 class="h3 mb-4 text-gray-800">숙소 수정</h1>
 		<br>
 		
-		<form id="modifyRoomForm" action="${pageContext.request.contextPath}/host/modifyRoom" method="post">
+		<form id="modifyRoomForm" action="${pageContext.request.contextPath}/host/modifyRoom" method="post" enctype="multipart/form-data">
 			<!-- 전달을 위한 값 hidden처리 -->
 			<input type="hidden" name="roomId" value="${room.roomId }">
 			<input type="hidden" name="detailAddressId" value="${address.detailAddressId }">
@@ -174,6 +174,16 @@
 			
 			<div class="form-group">
 				<div id="map" style="width:100%;height:350px;"></div>
+			</div>
+			
+			<div class="form-group">
+				<label>숙소 사진</label>
+				<div class="input-group mb-3">
+				  <div class="custom-file">
+				    <input multiple="multiple" type="file" name="file" class="custom-file-input">
+				    <label class="custom-file-label" for="inputGroupFile02">사진을 한꺼번에 드래그해서 넣어주세요.</label>
+				  </div>
+				</div>
 			</div>
 			
 			<div class="form-group row">

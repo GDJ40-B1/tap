@@ -22,6 +22,16 @@ import lombok.extern.slf4j.Slf4j;
 public class ImageService {
 	@Autowired ImageMapper imageMapper;
 	
+	// 타겟의 이미지 수정하기
+	public void modifyTargetImage(MultipartHttpServletRequest mtRequest, String imageTargetCategory, int imageTarget) {
+		List<MultipartFile> fileList = mtRequest.getFiles("file");
+		
+		if(fileList.get(0).getOriginalFilename()!=null && !fileList.get(0).getOriginalFilename().equals("")) {
+			removeImage(imageTargetCategory, imageTarget);
+			addImage(mtRequest, imageTargetCategory, imageTarget);
+		}
+	}
+	
 	// 특정 타겟의 이미지명 불러오기
 	public List<Image> getTargetImage(String imageTargetCategory, int imageTarget){
 		Image image = new Image();
@@ -31,7 +41,7 @@ public class ImageService {
 	}
 	
 	// 타겟의 이미지 삭제하기
-	public void deleteImage(String imageTargetCategory, int imageTarget) {
+	public void removeImage(String imageTargetCategory, int imageTarget) {
 		List<Image> imageList = getTargetImage(imageTargetCategory, imageTarget);
 		
 		for(Image i : imageList) {

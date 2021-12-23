@@ -204,6 +204,8 @@ public class RoomService {
       result.put("amenitiesList", amenitiesService.getRoomAmenitiesList(roomId));
       // 숙소의 구성 정보
       result.put("roomPartList", partService.getRoomPartList(roomId));
+      // 이미기 정보
+      result.put("imageList", imageService.getTargetImage("room", roomId));
       
       return result;
    }
@@ -244,7 +246,8 @@ public class RoomService {
    }
    
    // 숙소 정보 수정(숙소 and 상세 주소)
-   public Address modifyRoom(Room room, Address address, String hashtag, String amenities, String part) {
+   public Address modifyRoom(Room room, Address address, String hashtag,
+		   String amenities, String part, MultipartHttpServletRequest mtRequest) {
       // 입력받은 도로명 주소를 분할하여 객체에 넣기
       String[] addressList = address.getDetailAddress().split(" ");
       address.setSido(addressList[0]);
@@ -269,6 +272,9 @@ public class RoomService {
       // 구성 수정
       partService.modifyRoomPart(part, room.getRoomId());
       
+      // 이미지 수정
+      imageService.modifyTargetImage(mtRequest, "room", room.getRoomId());
+      
       return address;
    }
    
@@ -279,7 +285,7 @@ public class RoomService {
       int detailAddressId = roomMapper.selectRoomOne(roomId).getDetailAddressId();
       
       // 숙소 이미지 삭제
-      imageService.deleteImage("room", roomId);
+      imageService.removeImage("room", roomId);
       
       // 숙소별 가격 삭제
       roomMapper.deletePriceRoom(roomId);

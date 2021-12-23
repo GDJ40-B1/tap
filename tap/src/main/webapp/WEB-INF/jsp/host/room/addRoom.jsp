@@ -137,11 +137,12 @@
 			<div class="form-group">
 				<div id="map" style="width:100%;height:350px;"></div>
 			</div>
+			
 			<div class="form-group">
 				<label>숙소 사진</label>
 				<div class="input-group mb-3">
 				  <div class="custom-file">
-				    <input multiple="multiple" type="file" name="file" class="custom-file-input" id="inputGroupFile02">
+				    <input multiple="multiple" type="file" name="file" class="custom-file-input">
 				    <label class="custom-file-label" for="inputGroupFile02">사진을 한꺼번에 드래그해서 넣어주세요.</label>
 				  </div>
 				</div>

@@ -220,16 +220,17 @@ public class RoomController {
 	
 	@GetMapping("/host/roomOne")
 	public String hostRoomOne(Model model,
-			@RequestParam("roomId") int roomId, @RequestParam("detailAddressId") int detailAddressId) {
-		Map<String, Object> result = roomService.getHostRoomOne(roomId, detailAddressId);
-		model.addAttribute("room",result.get("room"));
-		model.addAttribute("address",result.get("address"));
-		model.addAttribute("hashtag",result.get("hashtag"));
-		model.addAttribute("roomAmenitiesList",result.get("amenitiesList"));
-		model.addAttribute("roomPartList",result.get("roomPartList"));
-		System.out.println(result.get("amenitiesList"));
-		return "/host/room/roomOne";
-	}
+	         @RequestParam("roomId") int roomId, @RequestParam("detailAddressId") int detailAddressId) {
+	      Map<String, Object> result = roomService.getHostRoomOne(roomId, detailAddressId);
+	      model.addAttribute("room",result.get("room"));
+	      model.addAttribute("address",result.get("address"));
+	      model.addAttribute("hashtag",result.get("hashtag"));
+	      model.addAttribute("roomAmenitiesList",result.get("amenitiesList"));
+	      model.addAttribute("roomPartList",result.get("roomPartList"));
+	      model.addAttribute("imageList",result.get("imageList"));
+	      System.out.println(result.get("amenitiesList"));
+	      return "/host/room/roomOne";
+	   }
 	
 	
 	@GetMapping("/host/removeRoom")
@@ -258,12 +259,13 @@ public class RoomController {
 	}
 	
 	@PostMapping("/host/modifyRoom")
-	public String postModifyRoom(RedirectAttributes redirect, Room room, Address address, String hashtag, String amenities, String part) {
-		address = roomService.modifyRoom(room, address, hashtag, amenities, part);
-		redirect.addAttribute("roomId",room.getRoomId());
-		redirect.addAttribute("detailAddressId",address.getDetailAddressId());
-		return "redirect:/host/roomOne";
-	}
+	public String postModifyRoom(RedirectAttributes redirect, Room room, Address address,
+	         String hashtag, String amenities, String part, MultipartHttpServletRequest mtRequest) {
+	      address = roomService.modifyRoom(room, address, hashtag, amenities, part, mtRequest);
+	      redirect.addAttribute("roomId",room.getRoomId());
+	      redirect.addAttribute("detailAddressId",address.getDetailAddressId());
+	      return "redirect:/host/roomOne";
+	   }
 	
 	/*------숙소별 가격-------*/
 	@GetMapping("/host/priceRoomList")
