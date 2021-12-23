@@ -67,14 +67,8 @@ public class QuestionController {
 	}
 	
 	// 문의 글 작성
-	@GetMapping("/addQuestion")
-	public String getAddQuestion(HttpSession session, Model model) {
-		User loginUser = (User)session.getAttribute("loginUser");
-		
-		// 비회원이 작성 페이지 접근 시도한 경우
-		if(loginUser == null) {
-			return "redirect:/login";
-		}
+	@GetMapping("/nonMember/addQuestion")
+	public String getAddQuestion(Model model) {
 		
 		return "question/addQuestion";
 	}
@@ -96,15 +90,10 @@ public class QuestionController {
 	}
 	
 	// 특정 문의 글 수정
-	@GetMapping("/modifyQuestion")
+	@GetMapping("/nonMember/modifyQuestion")
 	public String getUpdateQuestion(HttpSession session, Model model, int questionId, String writerId) {
 		User loginUser = (User)session.getAttribute("loginUser");
-		
-		// 비회원이 특정 문의글 수정 시도한 경우
-		if(loginUser == null) {
-			return "redirect:/login";
-		}
-		
+
 		// 작성자가 아닌 가입자가 특정 문의글 수정 시도한 경우
 		if(loginUser != null && !loginUser.getUserLevel().equals("system_admin") && !writerId.equals(loginUser.getUserId())) {
 			return "redirect:/";
@@ -128,15 +117,10 @@ public class QuestionController {
 	
 	
 	// 특정 문의 글 삭제
-	@GetMapping("/removeQuestion")
+	@GetMapping("/nonMember/removeQuestion")
 	public String getRemoveQuestion(HttpSession session, int questionId, String writerId) {
 		User loginUser = (User)session.getAttribute("loginUser");
-		
-		// 비회원이 특정 문의글 삭제 시도한 경우
-		if(loginUser == null) {
-			return "redirect:/login";
-		}
-		
+
 		// 작성자가 아닌 가입자가 특정 문의글 삭제 시도한 경우
 		if(loginUser != null && !loginUser.getUserLevel().equals("system_admin") && !writerId.equals(loginUser.getUserId())) {
 			return "redirect:/";
@@ -148,15 +132,10 @@ public class QuestionController {
 	}
 	
 	// 특정 문의 답변 삭제
-	@GetMapping("/removeQuestionAnswer")
+	@GetMapping("/nonMember/removeQuestionAnswer")
 	public String getRemoveQuestionAnswer(HttpSession session, int questionId) {
 		User loginUser = (User)session.getAttribute("loginUser");
-		
-		// 비회원이 특정 문의 답변 삭제 시도한 경우
-		if(loginUser == null) {
-			return "redirect:/login";
-		}
-		
+
 		// 관리자가 아닌 가입자가 특정 문의글 삭제 시도한 경우
 		if(loginUser != null && !loginUser.getUserLevel().equals("system_admin")) {
 			return "redirect:/";

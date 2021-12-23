@@ -100,6 +100,7 @@ public class RoomController {
 	
 	@PostMapping("/roomOne")
 	public String postRoomOne(RoomQnaAnswer roomQnaAnswer, int roomId, int detailAddressId) {
+		// 특정 숙소 문의 등록
 		roomQuestionService.addRoomQnaAnswer(roomQnaAnswer);
 		log.debug(Font.JSB + roomQnaAnswer.toString() + Font.RESET);
 		
@@ -108,14 +109,9 @@ public class RoomController {
 	
 	/* Question 관련 */
 	
-	@GetMapping("/removeRoomQuestion")
+	@GetMapping("/nonMember/removeRoomQuestion")
 	public String getRemoveRoomQuestion(HttpSession session, int roomQna, String memberId, int roomId, int detailAddressId) {
 		User loginUser = (User)session.getAttribute("loginUser");
-		
-		// 비회원이 특정 문의글 삭제 시도한 경우
-		if(loginUser == null) {
-			return "redirect:/login";
-		}
 		
 		// 작성자가 아닌 가입자가 특정 문의글 삭제 시도한 경우
 		if(loginUser != null && !loginUser.getUserLevel().equals("system_admin") && !memberId.equals(loginUser.getUserId())) {
@@ -127,15 +123,10 @@ public class RoomController {
 		return "redirect:/roomOne?roomId="+roomId+"&detailAddressId="+detailAddressId+"#roomQna";
 	}
 	
-	@GetMapping("/removeRoomQnaAnswer")
+	@GetMapping("/nonMember/removeRoomQnaAnswer")
 	public String getRemoveRoomQnaAnswer(HttpSession session, int roomQnaId, String hostId, int roomId, int detailAddressId) {
 		User loginUser = (User)session.getAttribute("loginUser");
-		
-		// 비회원이 문의 답변 삭제 접근한 경우
-		if(loginUser == null) {
-			return "redirect:/login";
-		}
-		
+
 		// 해당 호스트가 아닌 가입자가 문의 답변 삭제 접근한 경우
 		if(loginUser != null && !hostId.equals(loginUser.getUserId()) || !loginUser.getUserLevel().equals("system_admin")) {
 			return "redirect:/";
@@ -146,12 +137,12 @@ public class RoomController {
 		return "redirect:/roomOne?roomId="+roomId+"&detailAddressId="+detailAddressId+"#roomQna";
 	}
 	
-	@GetMapping("/roomQnaPopup")
+	@GetMapping("/nonMember/roomQnaPopup")
 	public String getRoomQnaPopup(HttpSession session, Model model, int roomId) {
 		User loginUser = (User)session.getAttribute("loginUser");
 		
 		// 비회원 또는 호스트, 관리자가 문의 작성을 접근한 경우
-		if(loginUser == null || !loginUser.getUserLevel().equals("member")) {
+		if(!loginUser.getUserLevel().equals("member")) {
 			return "redirect:/";
 		}
 		

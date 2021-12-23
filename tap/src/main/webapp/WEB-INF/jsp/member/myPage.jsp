@@ -320,7 +320,7 @@
                                 <div class="card-body">
                                     <div class="text-center">
                                     	<c:choose>
-											<c:when test="${empty favMap.list}">
+                                    		<c:when test="${empty favMap.list}">
 												<div>등록하신 숙소가 없습니다.</div>
 											</c:when>
 											
@@ -339,9 +339,9 @@
 											</c:otherwise>
 										</c:choose>
                                     	
-                                 		<c:if test="${favMap.favCurrentPage > 1}">
-											<a href="${pageContext.request.contextPath}/myPage?favCurrentPage=${favMap.favCurrentPage-1}#favoritesList">이전</a>
-										</c:if>
+                                    	<c:if test="${favMap.favCurrentPage > 1}">
+                                    		<a href="${pageContext.request.contextPath}/myPage?favCurrentPage=${favMap.favCurrentPage-1}#favoritesList">이전</a>
+                                    	</c:if>
 											
 										<c:forEach var="i" begin="${favMap.favStartPage}" end="${favMap.favEndPage}">
 											<a href="${pageContext.request.contextPath}/myPage?favCurrentPage=${i}#favoritesList"><c:out value="${i}"/></a>
@@ -350,9 +350,9 @@
 										<c:if test="${favMap.favCurrentPage < favMap.favLastPage}">
 											<a href="${pageContext.request.contextPath}/myPage?ufavCurrentPage=${favMap.favCurrentPage+1}#favoritesList">다음</a>
 										</c:if>
-                                    </div>
-                                </div>
-                            </div>
+									</div>
+								</div>
+							</div>
 
                             <!-- Approach -->
                             <div class="card shadow mb-4">

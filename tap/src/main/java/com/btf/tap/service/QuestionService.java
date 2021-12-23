@@ -117,7 +117,7 @@ public class QuestionService {
 	
 	// 특정 문의 글 조회
 	public Question getQuestionOne(int questionId) {
-		Question question = null;
+		Question question = new Question();
 		question = questionMapper.selectQuestionOne(questionId);
 		
 		return question;

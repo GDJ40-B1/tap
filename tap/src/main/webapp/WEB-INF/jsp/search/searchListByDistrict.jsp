@@ -231,20 +231,24 @@
 		  		<span><a href="#" onclick="searchKeyword(this)">${s}</a> <a href="#" onclick="removeKeyword('${s}')">x</a></span>
 		  	</c:forEach>
 	  	</div>
+	  	
 	  <script>
-		$('#btn').click(function(){
-			if($('#sido').val() == '') {
+	  		$('#btn').click(function(){
+	  			if($('#sido').val() == '') {
 				alert('시도를 선택하세요');
 				return;
 			}
-			if($('#sigungu').val() == '') {
+			
+	  		if($('#sigungu').val() == '') {
 				alert('시군구를 선택하세요');
 				return;
 			}
+	  		
 			if($('#keyword').val() == '') {
 				alert('검색어를 입력하세요');
 				return;
 			}
+			
 			$('#searchByDistrictForm').submit();
 		});
 	  
@@ -259,6 +263,7 @@
 			  type: 'GET',
 			  contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 			  url : '${pageContext.request.contextPath}/sido',
+			  cache : false,
 			  data : { sido : sido },
 			  dataType: 'json',
 			  success : function(result){
@@ -279,6 +284,7 @@
 			  type: 'GET',
 			  contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 			  url : '${pageContext.request.contextPath}/removeSearchHistory',
+			  cache : false,
 			  data : { keyword : keyword },
 			  success : function(result){
 				  console.log(result)

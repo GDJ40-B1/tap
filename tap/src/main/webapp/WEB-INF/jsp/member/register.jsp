@@ -13,7 +13,7 @@
     <meta name="author" content="">
 
     <title>SB Admin 2 - Register</title>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="http://code.jquery.com/jquery-latest.js"></script> 
     <!-- Custom fonts for this template-->
     <link href="${pageContext.request.contextPath}/resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
@@ -60,9 +60,7 @@
                                     <input type="text" class="form-control form-control-user" id="exampleInputPhone"
                                         placeholder="phone number" name="memberPhone">
                                 </div>
-                                <div class="text-center">
-                                	선호 지역
-                            	</div>
+								<h4 class="small font-weight-bold">선호지역</h4>
                                 <div class="form-group">
 									<select name="sido" id="sido" onchange="sidoType(this.value);">
 								  		<option value="">==선택==</option>
