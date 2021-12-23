@@ -278,6 +278,9 @@ public class RoomService {
       // 숙소 상세 주소 ID
       int detailAddressId = roomMapper.selectRoomOne(roomId).getDetailAddressId();
       
+      // 숙소 이미지 삭제
+      imageService.deleteImage("room", roomId);
+      
       // 숙소별 가격 삭제
       roomMapper.deletePriceRoom(roomId);
       

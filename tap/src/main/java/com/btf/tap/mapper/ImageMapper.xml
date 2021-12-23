@@ -6,19 +6,33 @@
 		<result column="image_real_name" property="imageRealName"></result>
 		<result column="image_target" property="imageTarget"></result>
 		<result column="image_target_category" property="imageTargetCategory"></result>
-		<result column="image_path" property="imagePath"></result>
-		<result column="create_date" property="createDate"></result>
+		<result column="create_time" property="createTime"></result>
 	</resultMap>
+	
+	<!-- 특정 타겟의 이미지명 불러오기 -->
+   <select id="selectTargetImage" parameterType="com.btf.tap.vo.Image" resultMap="resultImage">
+      SELECT
+         image_name, image_real_name
+      FROM image
+      WHERE image_target_category=#{imageTargetCategory} AND image_target=#{imageTarget}
+      ORDER BY create_time ASC
+   </select>
 	
 	<!-- 이미지 추가 -->
 	<insert id="insertImage" parameterType="com.btf.tap.vo.Image">
 		INSERT INTO image(
 			image_name, image_real_name, image_target, image_target_category,
-			image_path, create_date
+			create_time
 		) VALUE(
 			#{imageName}, #{imageRealName}, #{imageTarget}, #{imageTargetCategory},
-			#{imagePath}, NOW()
+			#{createTime}
 		)
 	</insert>
+	
+	<!-- 이미지 삭제 -->
+   <delete id="deleteImage" parameterType="String">
+      DELETE FROM image
+      WHERE image_name= #{imageName}
+   </delete>
 	
 </mapper>
