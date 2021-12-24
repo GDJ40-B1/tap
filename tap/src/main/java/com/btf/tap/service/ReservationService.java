@@ -85,7 +85,7 @@ public class ReservationService {
 		return reservation;
 	}
 		
-	// 전체 예약 정보 리스트 제작중
+	// 전체 예약 정보 리스트
 	public Map<String, Object> getReservationList(int currentPage) {
 		// 페이징에 필요한 요소들
 		final int ROW_PER_PAGE = 10;
@@ -98,14 +98,20 @@ public class ReservationService {
 		selectReservationList.put("rowPerPage", ROW_PER_PAGE);
 		
 		List<Reservation> reservationList = reservationMapper.selectReservationList(selectReservationList);
-		int totalData = reservationMapper.selectReservationNum();
+		log.debug(Font.KSB +" reservationService단  reservationList 값 "+  reservationList.toString() + Font.RESET);
+		log.debug(Font.KSB +" reservationService단 selectReservationList 값 "+  selectReservationList.toString() + Font.RESET);
 		
+		int totalData = reservationMapper.selectReservationNum();
+		log.debug(Font.KSB +" reservationService단 totalData 들어오는 값 "+  totalData + Font.RESET);
 		// 페이지 연산
 		Map<String, Object> page = pageOperation(totalData, ROW_PER_PAGE, currentPage, PAGE_PER_PAGE);
+		log.debug(Font.KSB +" reservationService단 page 들어오는 값 "+  page.toString() + Font.RESET);
 		
 		// return으로 넘길 값 map으로 묶어 보내기
 		Map<String, Object> result = new HashMap<>();
-		result.put("reservation", reservationList);
+		log.debug(Font.KSB +" reservationService단  result 값 "+  result.toString() + Font.RESET);
+		
+		result.put("reservationList", reservationList);
 		result.put("rowPerPage", ROW_PER_PAGE);
 	    result.put("lastPage", page.get("lastPage"));
 	    result.put("lastnumPage", page.get("lastnumPage"));

@@ -25,11 +25,15 @@
 			 rr.room_review_content,
 			 rr.room_review_score,
 			 rr.create_date,
-			 rr.update_date
+			 rr.update_date,
+			 rrc.room_review_id,
+			 rrc.room_review_comment_content,
+			 rrc.comment_create_date
 		FROM room_review rr
 			 LEFT JOIN payment p ON rr.payment_id = p.payment_id
 			 LEFT JOIN reservation rs ON p.reservation_id = rs.reservation_id
-			 LEFT JOIN room r ON rs.room_id = r.room_id
+			 LEFT JOIN room r ON rs.room_id = r.room_id 
+			 LEFT JOIN room_review_comment rrc ON rr.room_review_id = rrc.room_review_id
 		WHERE
 			 r.room_id = #{roomId}	
 		ORDER BY rr.create_date DESC
@@ -76,4 +80,26 @@
 			room_review_id = #{roomReviewId}
 	</delete>
 	
+	<!-- ******** 숙소후기 답변 ******** -->
+	<!-- 숙소후기 답변 작성하기 -->
+	<insert id="insertRoomReviewComment" parameterType="com.btf.tap.vo.RoomReviewComment">
+		INSERT INTO room_review_comment(
+			room_review_id,
+			room_review_comment_content,
+			comment_create_date
+		) VALUES(
+			#{roomReviewId},
+			#{roomReviewCommentContent},
+			NOW()
+		) 
+	</insert>
+	
+	<!-- 숙소후기 답변 삭제하기 -->
+	<delete id="deleteRoomReviewComment" parameterType="int">
+		DELETE 
+		FROM 
+			room_review_comment
+		WHERE
+			room_review_id = #{roomReviewId}	
+	</delete>
 </mapper>

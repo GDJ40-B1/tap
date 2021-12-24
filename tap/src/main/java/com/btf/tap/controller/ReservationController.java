@@ -34,7 +34,7 @@ public class ReservationController {
 		result.put("currentPage", currentPage);
 		
 		model.addAttribute("result", result);
-		
+		log.debug(Font.KSB +" reservationController단  result 값 "+  result.toString() + Font.RESET);
 		
 		return "reservation/reservationList";
 	}
@@ -69,7 +69,7 @@ public class ReservationController {
 		log.debug(Font.KSB + "addReservation post 작동 "+ reservationId + Font.RESET);
 		//정보를 다시 예약 상세보기로 보내준다.
 		reservationService.getReservationOne(reservationId);
-		//세션 값 뷰 전송
+		
 		
 		return "redirect:/reservationOne?reservationId="+reservationId; // 일을 다 마치고 예약 추가를 성공했을시 예약정보 상세보기 페이지로 넘어간다. 추가로 아이디값 보내줌
 	}
