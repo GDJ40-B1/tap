@@ -30,10 +30,8 @@ public class AttractionController {
 	
 	@PostMapping("/addAttraction")
 	public String postAddAttraction(Attraction attraction, Address address, String hashtag) {		
-		System.out.println("!!!!!!!!!!!!!!!!!!!!"+hashtag);
 		// 명소 추가
 		attractionService.addAttraction(attraction, address, hashtag);
-		System.out.println("!!!!!!!!!!!!!!!!!!!!"+hashtag);
 		// 추가된 뒤 명소 리스트페이지로 돌아감
 		return "redirect:/attractionList";
 	}
@@ -85,7 +83,7 @@ public class AttractionController {
 		return "/systemAdmin/attraction/attractionOne";
 	}		
 	@GetMapping("/systemAdmin/removeAttraction")
-	public String getRemoveRoom(int attractionId) {
+	public String getRemoveAttraction(int attractionId) {
 		// 명소 삭제
 		attractionService.removeAttraction(attractionId);
 		// 목록으로 되돌아가기
