@@ -98,6 +98,8 @@ public class ReservationService {
 		selectReservationList.put("rowPerPage", ROW_PER_PAGE);
 		
 		List<Reservation> reservationList = reservationMapper.selectReservationList(selectReservationList);
+		log.debug(Font.KSB +" reservationService단 셀렉트 리스트 "+  reservationList.toString() + Font.RESET);
+		
 		int totalData = reservationMapper.selectReservationNum();
 		
 		// 페이지 연산
@@ -105,7 +107,7 @@ public class ReservationService {
 		
 		// return으로 넘길 값 map으로 묶어 보내기
 		Map<String, Object> result = new HashMap<>();
-		result.put("reservation", reservationList);
+		result.put("reservationList", reservationList);
 		result.put("rowPerPage", ROW_PER_PAGE);
 	    result.put("lastPage", page.get("lastPage"));
 	    result.put("lastnumPage", page.get("lastnumPage"));

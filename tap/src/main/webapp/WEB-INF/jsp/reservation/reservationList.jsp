@@ -54,13 +54,13 @@
 			<c:forEach items="${result.reservationList}" var="reservation" >
 			<tr>
 				<td>${reservation.reservationId}</td>
-				<td><a href="${pageContext.request.contextPath}/reservationOne?reservationId=${reservationId}">${reservation.roomName}</a></td>
+				<td><a href="${pageContext.request.contextPath}/reservationOne?reservationId=${reservationId}">${reservation.room.roomName}</a></td>
 				<td>${reservation.checkInDate} ~ ${reservation.checkOutDate}</td>
-				<td>${reservation.checkInTime}</td>
-				<td>${reservation.checkOutTime}</td>
-				<td>${reservation.roomForm}</td>
+				<td>${reservation.room.checkInTime}</td>
+				<td>${reservation.room.checkOutTime}</td>
+				<td>${reservation.room.roomForm}</td>
 				<td>${reservation.peopleNum}</td>
-				<td>${reservation.roomPrice}</td>
+				<td>${reservation.room.roomPrice}</td>
 				<td>${reservation.updateDate}</td>
 			</tr>
 		</c:forEach>
