@@ -43,9 +43,9 @@
 		
 	</table>
 		<div>
-			<a href="${pageContext.request.contextPath}/modifyReservation?reservationId=${reservation.reservationId}">수정</a>
+			<!--  <a href="${pageContext.request.contextPath}/modifyReservation?reservationId=${reservation.reservationId}">예약수정</a> -->
 			
-			<a href="${pageContext.request.contextPath}/deleteReservation?reservationId=${reservation.reservationId}">삭제</a>
+			<a href="${pageContext.request.contextPath}/deleteReservation?reservationId=${reservation.reservationId}">예약삭제</a>
 		</div>
 		<br>
 		<br>

@@ -70,7 +70,7 @@
 	 </td>
 	               </tr>
 	            </table>
-	            
+	            <a href="${pageContext.request.contextPath}/addReservation"></a>
 				<!-- 페이징 -->
 				<nav style="margin-top: 50px">
 		   			<ul class="pagination" style="justify-content: center;">

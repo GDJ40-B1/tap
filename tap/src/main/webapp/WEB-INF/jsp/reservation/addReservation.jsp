@@ -120,6 +120,12 @@
 			} else if($("#dateRangePicker2").val() == "") {
 				alert("체크아웃 날짜를 입력하세요");
 				return;
+			} else if($("#peopleNum").val() == "")	{
+				alert("인원수를 입력해주세요");
+				return;
+			} else if(Number($("#peopleNum").val()) > ${room.peopleNum})	{
+				alert("최대 인원수를 확인해주세요");			
+				return;
 			} else {
 				$("#addReservationForm").submit();
 			}
