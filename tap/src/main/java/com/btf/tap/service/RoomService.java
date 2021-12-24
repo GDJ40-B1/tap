@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -279,13 +281,13 @@ public class RoomService {
    }
    
    // 숙소 삭제(숙소 and 상세 주소)
-   public void removeRoom(int roomId) {
+   public void removeRoom(HttpServletRequest request, int roomId) {
       
       // 숙소 상세 주소 ID
       int detailAddressId = roomMapper.selectRoomOne(roomId).getDetailAddressId();
       
       // 숙소 이미지 삭제
-      imageService.removeImage("room", roomId);
+      imageService.removeImage(request, "room", roomId);
       
       // 숙소별 가격 삭제
       roomMapper.deletePriceRoom(roomId);

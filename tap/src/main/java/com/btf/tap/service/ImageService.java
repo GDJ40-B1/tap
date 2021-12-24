@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +29,7 @@ public class ImageService {
 		List<MultipartFile> fileList = mtRequest.getFiles("file");
 		
 		if(fileList.get(0).getOriginalFilename()!=null && !fileList.get(0).getOriginalFilename().equals("")) {
-			removeImage(imageTargetCategory, imageTarget);
+			removeImage(mtRequest, imageTargetCategory, imageTarget);
 			addImage(mtRequest, imageTargetCategory, imageTarget);
 		}
 	}
@@ -41,12 +43,12 @@ public class ImageService {
 	}
 	
 	// 타겟의 이미지 삭제하기
-	public void removeImage(String imageTargetCategory, int imageTarget) {
+	public void removeImage(HttpServletRequest request, String imageTargetCategory, int imageTarget) {
 		List<Image> imageList = getTargetImage(imageTargetCategory, imageTarget);
 		
 		for(Image i : imageList) {
 			log.debug(Font.HJ + "삭제할 사진명 :" + i.getImageRealName() + Font.RESET);
-	        String deleteImgName = "C:/Users/fjdks/Desktop/image/"+imageTargetCategory+"/"+ i.getImageName();
+	        String deleteImgName = request.getSession().getServletContext().getRealPath("/resources/image/") +imageTargetCategory+"/"+ i.getImageName();
 	        File deleteImg = new File (deleteImgName);
 	        if (deleteImg.exists() && deleteImg.isFile()){
 	        	deleteImg.delete();// 사진 삭제
@@ -78,8 +80,8 @@ public class ImageService {
             
             // 밀리세컨드로 시간을 쪼갠 정보
             String safeTime = "" + System.currentTimeMillis();
-            image.setCreateTime(safeTime);
             String safeFile = path + safeTime + originFileName;
+            image.setCreateTime(safeTime);
             
             // 저장하려는 경로에 디렉터리가 없으면 생성
             File dir = new File(path);

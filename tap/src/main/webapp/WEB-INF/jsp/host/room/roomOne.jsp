@@ -28,7 +28,7 @@
 			</ol>
 		</nav>
 		<c:forEach items="${imageList }" var="img">
-			<img src="/image/room/${img.imageName }" />
+			<img src="<spring:url value='/resources/image/room/${img.imageName }'/>" width="300px" height="300px">
 		</c:forEach>
 		<!-- 지도 -->
 		<div id="map" style="width:100%;height:400px;"></div>

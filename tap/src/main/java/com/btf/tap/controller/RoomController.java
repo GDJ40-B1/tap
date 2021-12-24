@@ -253,9 +253,9 @@ public class RoomController {
 	
 	
 	@GetMapping("/host/removeRoom")
-	public String removeRoom(int roomId) {
+	public String removeRoom(HttpServletRequest request, int roomId) {
 		// 숙소 삭제
-		roomService.removeRoom(roomId);
+		roomService.removeRoom(request, roomId);
 		return "redirect:/host/roomList";
 	}
 	
