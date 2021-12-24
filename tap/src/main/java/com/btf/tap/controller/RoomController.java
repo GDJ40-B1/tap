@@ -162,8 +162,8 @@ public class RoomController {
 	
 	/* 숙소 후기 관련 */
 	// 숙소 후기 삭제하기
-	@PostMapping("/removeRoomReview")
-	public String postRemoveRoomReview(HttpSession session, int roomId, int detailAddressId, int roomReviewId) {
+	@GetMapping("/removeRoomReview")
+	public String getRemoveRoomReview(HttpSession session, int roomReviewId, int roomId, int detailAddressId) {
 		// 로그인한 정보 loginUser 객체에 담기
 		User loginUser = (User)session.getAttribute("loginUser");
 		
@@ -197,6 +197,22 @@ public class RoomController {
 		roomReviewService.addRoomReviewComment(roomReviewComment);
 		
 		return "redirect:/roomOne?roomId="+roomId+"&detailAddressId="+detailAddressId; 
+	}
+	
+	// 숙소후기 답변 삭제하기
+	@GetMapping("/removeRoomReviewComment")
+	public String getRemoveRoomReviewComment(HttpSession session, int roomId, int detailAddressId, int roomReviewId) {
+		// 로그인한 정보 loginUser 객체에 담기
+		User loginUser = (User)session.getAttribute("loginUser");
+		
+		// 비회원, 회원, 시스템관리자가 답변을 삭제하지 못하게 하기 위해
+		if(loginUser == null || loginUser.getUserLevel().equals("member") || loginUser.getUserLevel().equals("symstem_admin")) {
+			return "redirect:/login";
+		}
+		
+		roomReviewService.removeRoomReviewComment(roomReviewId);
+		
+		return "redirect:/roomOne?roomId="+roomId+"&detailAddressId="+detailAddressId;
 	}
 		
 	/*-----HOST측면----- */

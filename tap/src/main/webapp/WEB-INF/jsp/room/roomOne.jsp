@@ -232,36 +232,34 @@
        </section>
        
        <!-- *** 숙소 후기 *** -->
-  	   <section class="event-list" id="roomReview">
+  	   <section class="event-list">
 			<div class="container">
 	   		<c:forEach var="r" items="${roomReview.list}">
 	   			<c:choose>
 	   				<c:when test="${loginUser.userId == room.hostId}">
 	   					<div>
-							<form id="removeForm" action="${pageContext.request.contextPath}/removeRoomReview" method="post">
-								<input type="hidden" name="roomId" value="${room.roomId}">
-								<input type="hidden" name="detailAddressId" value="${address.detailAddressId}">
-								<input type="hidden" name="roomReviewId" value="${r.roomReviewId}">
-								
-								<div class="d-flex justify-content-between align-items-center">
-									답변상태 : 
-									<c:choose>
-										<c:when test="${r.answerStatus == 'N'}">
-											<td>미답변</td>
-										</c:when>
-										
-										<c:when test="${r.answerStatus == 'Y'}">
-											<td>답변완료<td>
-										</c:when>
-									</c:choose>
-									<ol style="list-style: none;">
-										<li>
-											<button id="removeBtn" type="button">삭제</button>
-										</li>
-									</ol>
-								</div>
-							</form>	
-								숙소후기 평점 : 
+							<input type="hidden" name="roomId" value="${room.roomId}">
+							<input type="hidden" name="detailAddressId" value="${address.detailAddressId}">
+							<input type="hidden" name="roomReviewId" value="${r.roomReviewId}">
+							
+							<div class="d-flex justify-content-between align-items-center">
+								답변상태 : 
+								<c:choose>
+									<c:when test="${r.answerStatus == 'N'}">
+										<td>미답변</td>
+									</c:when>
+									
+									<c:when test="${r.answerStatus == 'Y'}">
+										<td>답변완료<td>
+									</c:when>
+								</c:choose>
+								<ol style="list-style: none;">
+									<li>
+										<a class="btn btn-outline-dark" href="javascript:deleteRoomReview('${r.roomReviewId}');">숙소후기 삭제</a>
+									</li>
+								</ol>
+							</div>
+								<span>숙소후기 평점 :</span> 
 								<c:choose>
 									<c:when test="${r.roomReviewScore == 1}">
 										<td>★☆☆☆☆</td>
@@ -281,31 +279,41 @@
 								</c:choose>
 								<div>
 									숙소후기 내용 :
-									<a href="#roomReview" onclick="result(this)" style="text-overflow: ellipsis;">${r.roomReviewContent}</a>
+									${r.roomReviewContent}
 								</div>
 								<div>
 									<c:if test="${r.answerStatus == 'N'}">
-										<div>
-											<form id="roomReviewCommentContentForm" action="${pageContext.request.contextPath}/addRoomReviewComment" method="post">
-												<div class="form-group">
-													<input type="hidden" name="roomId" value="${room.roomId}">
-													<input type="hidden" name="detailAddressId" value="${address.detailAddressId}">
-													<input type="hidden" name="roomReviewId" value="${r.roomReviewId}">
-													<label for="reviewCommentContent">답변 작성 : </label>
-														<textarea class="form-control" rows="5" placeholder="답변을 작성해주세요" id="roomReviewCommentContent" name="roomReviewCommentContent"></textarea>
-												</div>
-												<div>
-													<button id="commentBtn" type ="button">작성</button>
-												</div>
-											</form>		
-										</div>
+										<form class="insertCommentForm" action="${pageContext.request.contextPath}/addRoomReviewComment" method="post">
+											<div class="form-group">
+												<input type="hidden" name="roomId" value="${room.roomId}">
+												<input type="hidden" name="detailAddressId" value="${address.detailAddressId}">
+												<input type="hidden" name="roomReviewId" value="${r.roomReviewId}">
+												<label for="reviewCommentContent">답변 작성 : </label>
+													<textarea class="form-control" rows="5" placeholder="답변을 작성해주세요" class="insertComment" name="roomReviewCommentContent"></textarea>
+											</div>
+											<div>
+												<button class="insertCommentBtn" type ="button">작성</button>
+											</div>
+										</form>
 									</c:if>
-									<c:forEach var="rc" items="${r.roomReviewComment}">
-										숙소후기 답변
-										<textarea class="form-control" rows="5" cols="50" name="roomReviewCommentContent" readonly="readonly">${rc.roomReviewCommentContent}</textarea>
-									</c:forEach>
-								</div><br>
-						</div>
+									<div>
+										<c:forEach var="rc" items="${r.roomReviewComment}">
+											<div class="d-flex justify-content-between align-items-center">
+												<span>숙소후기 답변</span>
+												<ol style="list-style: none;">
+													<li>
+														<a class="btn btn-outline-dark" href="javascript:deleteRoomReviewComment('${r.roomReviewId}');">숙소후기 답변삭제</a>
+													</li>
+												</ol>
+											</div>
+											<textarea class="form-control" rows="5" cols="50" name="roomReviewCommentContent" readonly="readonly">${rc.roomReviewCommentContent}</textarea>
+										</c:forEach>
+									</div>
+									<div>
+										<hr style="height: 3px;">
+									</div>
+								</div>
+							</div>
 	   				</c:when>
 	   				<c:otherwise>
 	   					<div>
@@ -349,14 +357,17 @@
 						</div>
 						<div>
 							숙소후기 내용 :
-							<a href="#roomReview" onclick="result(this)" style="text-overflow: ellipsis;">${r.roomReviewContent}</a>
+							${r.roomReviewContent}
 						</div>
 						<div>
 							<c:forEach var="rc" items="${r.roomReviewComment}">
 								숙소후기 답변
 								<textarea class="form-control" rows="5" cols="50" name="roomReviewCommentContent" readonly="readonly">${rc.roomReviewCommentContent}</textarea>
 							</c:forEach>
-						</div><br>
+						</div>
+						<div>
+							<hr style="height: 3px;">
+						</div>
 	   				</c:otherwise>
 				</c:choose>
 			</c:forEach>
@@ -587,25 +598,35 @@
    <!-- *** 숙소후기 *** -->
    <!--숙소후기 삭제 버튼 클릭 시 -->
     <script>
-	 $('#removeBtn').click(function(){
-	   	if(confirm('후기를 삭제하시면 다시 작성할 수 없습니다. 그래도 삭제하시겠습니까?') == true) { // 확인
-			$('#removeForm').submit();
-		} else { // 취소
-			return;
-		}
-	 });	
+	 	function deleteRoomReview(roomReviewId) {
+	 		if(confirm('후기를 삭제하시면 다시 작성할 수 없습니다. 그래도 삭제하시겠습니까?') == true){
+	 			location.href="${pageContext.request.contextPath}/removeRoomReview?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}&roomReviewId="+roomReviewId+"";
+	 		} else {
+	 			return;
+	 		}	
+	 	}	
     </script>     
     
     <!--숙소후기 답변 작성 버튼 클릭 시 -->
     <script>
-	    $('#commentBtn').click(function(){
-			if($('#roomReviewCommentContent').val() == '') {
+	    $('.insertCommentBtn').click(function(){
+			if($(this).parents('.insertCommentForm').find('textarea').val() == '') {
 				alert('후기답변을 입력하세요');
 				return;
-			}
-					
-			$('#roomReviewCommentContentForm').submit();
+			}	
+			$(this).parents('.insertCommentForm').submit();
 		});
-    </script>  
+    </script>
+    
+    <!--숙소후기 답변 삭제 버튼 클릭 시 -->
+    <script>
+	    function deleteRoomReviewComment(roomReviewId) {
+	 		if(confirm('후기답변을 삭제하시면 다시 작성할 수 없습니다. 그래도 삭제하시겠습니까?') == true){
+	 			location.href="${pageContext.request.contextPath}/removeRoomReviewComment?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}&roomReviewId="+roomReviewId+"";
+	 		} else {
+	 			return;
+	 		}	
+	 	}	
+    </script>
 </body>
 </html>
