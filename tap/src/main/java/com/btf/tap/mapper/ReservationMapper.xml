@@ -27,11 +27,17 @@
       <result column="create_date" property="createDate"></result>
       <result column="update_date" property="updateDate"></result>
       </association>
+    <association property="address" javaType="com.btf.tap.vo.Address">
+         <result column="address_id" property="addressId"></result>
+         <result column="detail_address_id" property="detailAddressId"></result>
+         <result column="detail_address" property="detailAddress"></result>
+         <result column="detail_address2" property="detailAddress2"></result>
+      </association>
 	
 		
 	</resultMap>
 	
-	<!-- 예약 숙소 리스트 아직 안함...-->
+	<!-- 예약 숙소 리스트-->
 	<select id="selectReservationList" parameterType="hashMap" resultMap="resultReservation">
 		SELECT
 		   res.reservation_id,
@@ -48,7 +54,7 @@
 		   r.room_price, 
 		   res.update_date
 		FROM 
-			(SELECT * FROM reservation ORDER BY create_date DESC) res
+			(SELECT * FROM reservation ORDER BY create_date DESC LIMIT #{beginRow}, #{rowPerPage}) res
 		INNER JOIN 
 			room r ON res.room_id=r.room_id
 		INNER JOIN 
