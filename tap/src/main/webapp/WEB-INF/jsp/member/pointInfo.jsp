@@ -118,6 +118,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                
                                 <!-- Card Body -->
                                 <div class="card-body">
                                     <div class="chart-pie pt-4 pb-2">
@@ -340,7 +341,6 @@
 
     <!-- Page level custom scripts -->
     <script src="${pageContext.request.contextPath}/resources/js/demo/chart-area-demo.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/js/demo/chart-pie-demo.js"></script>
     
     
     <!-- 데이터테이블 사용하기위한 임포트 스크립트 -->
@@ -397,8 +397,91 @@
    				} }
    			]
    		});
+   		
+   		$.ajax({
+   		    type: 'get', //post method
+   		    url: '${pageContext.request.contextPath}/point/getPointHistoryCategoryCount',
+   		 	data: {'userId': userId},
+   		    success: function (result, textStatus)
+   		    {
+   		        console.log(result);
+   		    	
+   		        let charge = result.countData.charge;
+	   		    let trans = result.countData.trans;
+	   		    let earn = result.countData.earn;
+		   		let spend = result.countData.spend;
+		   		let refund = result.countData.refund;
+		   		
+		   		var ctx = document.getElementById("myPieChart");
+			   	var myPieChart = new Chart(ctx, {
+			   	  type: 'doughnut',
+			   	  data: {
+			   	    labels: ["충전", "전환", "수입", "지출", "환불"],
+			   	    datasets: [{
+			   	      data: [charge, trans, earn, spend, refund],
+			   	      backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', '#1cc88a', '#36b9cc'],
+			   	      hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf', '#17a673', '#2c9faf'],
+			   	      hoverBorderColor: "rgba(234, 236, 244, 1)",
+			   	    }],
+			   	  },
+			   	  options: {
+			   	    maintainAspectRatio: false,
+			   	    tooltips: {
+			   	      backgroundColor: "rgb(255,255,255)",
+			   	      bodyFontColor: "#858796",
+			   	      borderColor: '#dddfeb',
+			   	      borderWidth: 1,
+			   	      xPadding: 15,
+			   	      yPadding: 15,
+			   	      displayColors: false,
+			   	      caretPadding: 10,
+			   	    },
+			   	    legend: {
+			   	      display: false
+			   	    },
+			   	    cutoutPercentage: 80,
+			   	  },
+			   	});
+   		    }
+   		});
    	});
    	</script>
+	
+   	<!-- pie chart --> 
+   	<!--    
+   	<script>
+	   	var ctx = document.getElementById("myPieChart");
+	   	var myPieChart = new Chart(ctx, {
+	   	  type: 'doughnut',
+	   	  data: {
+	   	    labels: ["Direct", "Referral", "Social"],
+	   	    datasets: [{
+	   	      data: [55, 30, 15],
+	   	      backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
+	   	      hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+	   	      hoverBorderColor: "rgba(234, 236, 244, 1)",
+	   	    }],
+	   	  },
+	   	  options: {
+	   	    maintainAspectRatio: false,
+	   	    tooltips: {
+	   	      backgroundColor: "rgb(255,255,255)",
+	   	      bodyFontColor: "#858796",
+	   	      borderColor: '#dddfeb',
+	   	      borderWidth: 1,
+	   	      xPadding: 15,
+	   	      yPadding: 15,
+	   	      displayColors: false,
+	   	      caretPadding: 10,
+	   	    },
+	   	    legend: {
+	   	      display: false
+	   	    },
+	   	    cutoutPercentage: 80,
+	   	  },
+	   	});
+   	</script>
+	-->
 </body>
 
 </html>

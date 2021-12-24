@@ -15,13 +15,33 @@
 	<!-- 입력받은 이용자의 포인트 이용 내역을 조회 -->
 	<select id="selectgPointHistoryList" parameterType="com.btf.tap.vo.User" resultMap="resultPoint">
 		SELECT 
-			user_id,
+			user_id userId,
 			point,
 			changed_point,
 			point_history_category,
 			create_date
 		FROM
 			view_user_point_history
+		WHERE
+			user_id=#{userId}
+	</select>
+	
+	<!-- 입력받은 이용자의 포인트 이용 유형별 횟수 조회하기 -->
+	<!-- charge : 충전 -->
+	<!-- trans : 전환 -->
+	<!-- spend : 지출 -->
+	<!-- earn : 수입 -->
+	<!-- refund : 환불 -->
+	<select id="selectPointHistoryCategoryCount" parameterType="com.btf.tap.vo.User" resultType="hashmap">
+		SELECT 
+			user_id,
+			charge,
+			trans,
+			spend,
+			earn,
+			refund
+		FROM
+			view_user_point_history_count
 		WHERE
 			user_id=#{userId}
 	</select>
