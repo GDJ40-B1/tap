@@ -134,7 +134,7 @@ public class QuestionService {
 	}
 	
 	// 문의 답변 삭제
-	public void removeQuestionAnswer(int questionId) {
-		questionMapper.deleteQuestionAnswer(questionId);
+	public void removeQuestionAnswer(int answerQuestionId) {
+		questionMapper.deleteQuestionAnswer(answerQuestionId);
 	}
 }

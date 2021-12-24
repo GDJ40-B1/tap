@@ -100,7 +100,7 @@ public class RoomController {
 	
 	@PostMapping("/roomOne")
 	public String postRoomOne(RoomQnaAnswer roomQnaAnswer, int roomId, int detailAddressId) {
-		// 특정 숙소 문의 등록
+		// 특정 숙소 문의 답변 등록
 		roomQuestionService.addRoomQnaAnswer(roomQnaAnswer);
 		log.debug(Font.JSB + roomQnaAnswer.toString() + Font.RESET);
 		
@@ -128,7 +128,7 @@ public class RoomController {
 		User loginUser = (User)session.getAttribute("loginUser");
 
 		// 해당 호스트가 아닌 가입자가 문의 답변 삭제 접근한 경우
-		if(loginUser != null && !hostId.equals(loginUser.getUserId()) || !loginUser.getUserLevel().equals("system_admin")) {
+		if(loginUser != null && !loginUser.getUserLevel().equals("system_admin") && !hostId.equals(loginUser.getUserId())) {
 			return "redirect:/";
 		}
 		
@@ -285,5 +285,25 @@ public class RoomController {
 	public String removePriceRoom(Room room, int priceRoomId){
 		roomService.removePriceRoom(priceRoomId);
 		return "redirect:/host/priceRoomList?roomId="+room.getRoomId()+"&detailAddressId="+room.getDetailAddressId();
+	}
+	
+	@GetMapping("/host/unansweredRoomQna")
+	public String getUnansweredRoomQna(HttpSession session, Model model, @RequestParam(value="unansweredCurrentPage", defaultValue ="1") int unansweredCurrentPage) {
+		User loginUser = (User)session.getAttribute("loginUser");
+		
+		Map<String, Object> roomQna = roomQuestionService.getUnansweredRoomQnaList(unansweredCurrentPage, loginUser.getUserId());
+		
+		model.addAttribute("roomQna", roomQna);
+		
+		return "/host/room/unansweredRoomQna";
+	}
+	
+	@PostMapping("/host/unansweredRoomQna")
+	public String postUnansweredRoomQna(RoomQnaAnswer roomQnaAnswer) {
+		// 특정 숙소 문의 답변 등록
+		roomQuestionService.addRoomQnaAnswer(roomQnaAnswer);
+		log.debug(Font.JSB + roomQnaAnswer.toString() + Font.RESET);
+		
+		return "redirect:/host/unansweredRoomQna";
 	}
 }

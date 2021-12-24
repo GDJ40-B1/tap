@@ -9,7 +9,7 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
   <title>${question.questionTitle}</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="http://code.jquery.com/jquery-latest.js"></script> 
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -99,7 +99,7 @@
 		</table>
        	
        	<c:if test="${question.writerId == loginUser.userId || loginUser.userLevel == 'system_admin'}">
-       		<a href="${pageContext.request.contextPath}/nonMember/modifyQuestion?questionId=${question.questionId}&writerId=${question.writerId}">문의글 수정</a>
+       		<a href="${pageContext.request.contextPath}/nonMember/modifyQuestion?questionId=${question.questionId}&writerId=${question.writerId}&secretStatus=${question.secretStatus}">문의글 수정</a>
 			<a href="javascript:removeButton();">문의글 삭제</a>
        	</c:if>
 		
@@ -108,13 +108,15 @@
 	
 	
 	<!-- ======= Answer Section ======= -->
-	<c:if test="${loginUser.userLevel == 'system_admin'}">
+	<c:if test="${empty question.questionAnswer && loginUser.userLevel == 'system_admin'}">
     <section id="list" class="list">
       <div class="container">
 
 		<form id="questionAnswerForm" action="${pageContext.request.contextPath}/questionOne" method="post">
 			<div class="form-group">
-				<input type="hidden" name="questionId" value="${question.questionId}">
+				<input type="hidden" name="answerQuestionId" value="${question.questionId}">
+				<input type="hidden" name="writerId" value="${question.writerId}">
+				<input type="hidden" name="secretStatus" value="${question.secretStatus}">
 				<input type="hidden" name="systemAdminId" value="${loginUser.userId}">
 				<label for="questionAnswer">답변 작성 : </label>
 					<textarea class="form-control" rows="5" placeholder="답변을 작성해주세요" id="questionAnswerContent" name="questionAnswerContent"></textarea>
@@ -134,24 +136,30 @@
   	<!-- ======= Table Section ======= -->
     <section id="list" class="list">
       <div class="container">
-		
-		<table border="1">
-			<tr>
-				<th>관리자</th>
-				<th>내용</th>
-				<th>삭제</th>
-			</tr>
-			<c:forEach var="a" items="${question.questionAnswer}">
-				<tr>
-					<td>${a.systemAdminId}</td>
-					<td>${a.questionAnswerContent}</td>
-					<c:if test="${loginUser != null && loginUser.userLevel == 'system_admin'}">
-						<td><a href="javascript:removeAnswer();">삭제</a></td>
-					</c:if>
-				</tr>
-			</c:forEach>
-		</table>
-		
+		<c:choose>
+			<c:when test="${empty question.questionAnswer}">
+				<div>답변 대기중 입니다.</div>
+			</c:when>
+			
+			<c:otherwise>
+				<table border="1">
+					<tr>
+						<th>관리자</th>
+						<th>내용</th>
+						<th>삭제</th>
+					</tr>
+					<c:forEach var="a" items="${question.questionAnswer}">
+						<tr>
+							<td>${a.systemAdminId}</td>
+							<td>${a.questionAnswerContent}</td>
+							<c:if test="${loginUser != null && loginUser.userLevel == 'system_admin'}">
+								<td><a href="javascript:removeAnswer();">삭제</a></td>
+							</c:if>
+						</tr>
+					</c:forEach>
+				</table>
+		</c:otherwise>
+		</c:choose>
       </div>
     </section><!-- End Table Section -->
 	
@@ -175,7 +183,7 @@
 		
 		function removeAnswer(){
 			if(confirm("작성하신 답변을 삭제 하시겠습니까?") == true){
-				location.href="${pageContext.request.contextPath}/nonMember/removeQuestionAnswer?questionId=${question.questionId}";
+				location.href="${pageContext.request.contextPath}/nonMember/removeQuestionAnswer?answerQuestionId=${question.questionId}&writerId=${question.writerId}&secretStatus=${question.secretStatus}";
 			} else {
 				return;	
 			}

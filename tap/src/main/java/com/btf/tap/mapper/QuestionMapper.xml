@@ -12,10 +12,10 @@
 		<result column="create_date" property="createDate"/>
 		<result column="update_date" property="updateDate"/>
 		<collection property="questionAnswer" ofType="com.btf.tap.vo.QuestionAnswer">
-			<id column="question_id" property="questionId"/>
+			<id column="answer_question_id" property="answerQuestionId"/>
 			<result column="system_admin_id" property="systemAdminId"/>
 			<result column="question_answer_content" property="questionAnswerContent"/>
-			<result column="create_date" property="createDate"/>
+			<result column="answer_create_date" property="answerCreateDate"/>
 		</collection>
 	</resultMap>
 	
@@ -109,12 +109,12 @@
 	<!-- 문의 답변 삽입 및 답변여부 수정-->
 	<insert id="insertQuestionAnswer" parameterType="com.btf.tap.vo.QuestionAnswer">
 		INSERT INTO question_answer(
-			question_id,
+			answer_question_id,
 			system_admin_id,
 			question_answer_content,
-			create_date
+			answer_create_date
 		) VALUES (
-			#{questionId},
+			#{answerQuestionId},
 			#{systemAdminId},
 			#{questionAnswerContent},
 			NOW()
@@ -135,7 +135,7 @@
 			a.system_admin_id,
 			a.question_answer_content
 		FROM question q LEFT JOIN question_answer a
-		ON q.question_id = a.question_id
+		ON q.question_id = a.answer_question_id
 		<where>
 			q.question_id = #{questionId}
 		</where>
@@ -165,7 +165,7 @@
 	<delete id="deleteQuestionAnswer" parameterType="int">
 		DELETE FROM question_answer
 		<where>
-			question_id = #{questionId}
+			answer_question_id = #{answerQuestionId}
 		</where>
 	</delete>
 </mapper>
