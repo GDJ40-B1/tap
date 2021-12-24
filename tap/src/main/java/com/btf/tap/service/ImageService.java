@@ -59,7 +59,7 @@ public class ImageService {
 	public void addImage(MultipartHttpServletRequest mtRequest, String imageTargetCategory, int imageTarget) {
 		List<MultipartFile> fileList = mtRequest.getFiles("file");
 
-        String path = "C:/Users/fjdks/Desktop/image/"+imageTargetCategory+"/";
+        String path = mtRequest.getSession().getServletContext().getRealPath("/resources/image/"+imageTargetCategory+"/");
         
         for (MultipartFile mf : fileList) {
             String originFileName = mf.getOriginalFilename(); // 원본 파일 명
@@ -80,6 +80,13 @@ public class ImageService {
             String safeTime = "" + System.currentTimeMillis();
             image.setCreateTime(safeTime);
             String safeFile = path + safeTime + originFileName;
+            
+            // 저장하려는 경로에 디렉터리가 없으면 생성
+            File dir = new File(path);
+        	if (!dir.exists()) {
+        		dir.mkdirs();
+        	}
+        	
             try {
             	// 이미지 파일 해당 위치에 저장
                 mf.transferTo(new File(safeFile));

@@ -27,11 +27,9 @@
 				<li class="breadcrumb-item active" aria-current="page">숙소상세보기</li>
 			</ol>
 		</nav>
-		<resources mapping="/image/room/**" location="file:///C:/Users/fjdks/Desktop/"/>
 		<c:forEach items="${imageList }" var="img">
-			<img src="<spring:url value='/image/room/${img.imageName }'/>" />
+			<img src="/image/room/${img.imageName }" />
 		</c:forEach>
-		
 		<!-- 지도 -->
 		<div id="map" style="width:100%;height:400px;"></div>
 		<br>

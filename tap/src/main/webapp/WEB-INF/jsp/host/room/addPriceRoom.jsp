@@ -104,6 +104,12 @@
 			console.log("${prd}");
 		</c:forEach>
 		
+		// 이미 선택된 기간의 시작일만 추출하여 list로 저장
+		var disableStartList = new Array();
+		<c:forEach items="${priceRoomList}" var="prl">
+			disableStartList.push("${prl.startDate}");
+		</c:forEach>
+		
 		// 이미 가격이 설정된 날짜 
 		// 날짜를 나타내기 전에(beforeShowDay) 실행할 함수
 		function disableSomeDay(date) {
@@ -150,14 +156,17 @@
 	            
 	        	// 종료일을 나타내는 Datepicker의 maxDate를 동적으로 설정하기 위한 코드
 	            var endMaxDate = null;
-	            <c:forEach items="${priceRoomList}" var="prl">
-	        		var startDate = new Date('${prl.startDate}');
+	            for(var i=0;i<disableStartList.length;i++){
+	            	var startDate = new Date(disableStartList[i]);
 	        		var selectedDay = new Date(selectedDate);
+	        		console.log(startDate);
 	        		// 선택할 수 없는 날짜들의 시작일만 추출하여, 선택된 날짜가 시작일보다 작으면 시작일을 maxDate로 설정
 	        		if(selectedDay<startDate){
 	        			endMaxDate = startDate;
+	        			console.log("이게 endDay입니다."+startDate);
+	        			break;
 	        		}
-	    		</c:forEach>
+	            }
 	    		
 	    		// maxDate가 설정되지 않았다면, 선택된 시작일 이후에 선택 불가능한 날짜가 없는것이니,
 	    		// 오늘 날짜로부터 1년 후까지만 선택 가능하도록 maxDate를 설정
