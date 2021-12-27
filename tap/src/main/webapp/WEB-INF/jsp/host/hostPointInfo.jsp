@@ -91,12 +91,12 @@
 						
 
 						<!-- pie chart -->                        
-                        <div class="col-xl-8 col-lg-7 ">
-                            <div class="card shadow mb-4">
+                        <div class="col-xl-8 col-lg-8" >
+                            <div class="card shadow mb-4" style="height: 95%">
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">포인트 이용 비율</h6>
                                     <div class="dropdown no-arrow">
                                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -112,21 +112,11 @@
                                         </div>
                                     </div>
                                 </div>
+                                
                                 <!-- Card Body -->
-                                <div class="card-body">
-                                    <div class="chart-pie pt-4 pb-2">
-                                        <canvas id="myPieChart"></canvas>
-                                    </div>
-                                    <div class="mt-4 text-center small">
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-primary"></i> Direct
-                                        </span>
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-success"></i> Social
-                                        </span>
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-info"></i> Referral
-                                        </span>
+                                <div class="card-body align-middle" style="vertical-align:middle;">
+                                    <div class="chart-pie pt-4 pb-2"  style="min-height:360px">  
+                                        <canvas id="myPieChart" ></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -136,89 +126,102 @@
                     <!-- Content Row --> 
                     <div class="row">
 
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
+                        <!-- 충전 금액 카드 -->
+                        <div class="col-xl-4 col-md-6 mb-4">
                             <div class="card border-left-primary shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Earnings (Monthly)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                                            <div class="text-xl font-weight-bold text-primary text-uppercase mb-1">
+                                                충전 금액</div>
+                                            <div id="chargeSummary" class="h4 mb-0 font-weight-bold text-gray-800"></div>
                                         </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                                        </div>
+
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Earnings (Annual)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
+                        <!-- 전환 금액 카드 -->
+                        <div class="col-xl-4 col-md-6 mb-4">
                             <div class="card border-left-info shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks
-                                            </div>
-                                            <div class="row no-gutters align-items-center">
-                                                <div class="col-auto">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="progress progress-sm mr-2">
-                                                        <div class="progress-bar bg-info" role="progressbar"
-                                                            style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-                                                            aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <div class="text-xl font-weight-bold text-info text-uppercase mb-1">
+                                                전환 금액</div>
+                                            <div id="transSummary" class="h4 mb-0 font-weight-bold text-gray-800"></div>
                                         </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 수입 금액 카드 -->
+                        <div class="col-xl-4 col-md-6 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xl font-weight-bold text-success text-uppercase mb-1">
+                                                수입 금액</div>
+                                            <div id="earnSummary" class="h4 mb-0 font-weight-bold text-gray-800"></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Pending Requests Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
+                        <!-- 지출 금액 카드 -->
+                        <div class="col-xl-4 col-md-6 mb-4">
+                            <div class="card border-left-danger shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xl font-weight-bold text-danger text-uppercase mb-1">지출 금액
+                                            </div>
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="col-auto">
+                                                    <div id="spendSummary" class="h4 mb-0 mr-3 font-weight-bold text-gray-800"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 환불 금액 카드 -->
+                        <div class="col-xl-4 col-md-6 mb-4">
                             <div class="card border-left-warning shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                                Pending Requests</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                                            <div class="text-xl font-weight-bold text-warning text-uppercase mb-1">
+                                                환불 금액</div>
+                                            <div id="refundSummary" class="h4 mb-0 font-weight-bold text-gray-800"></div>
                                         </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-comments fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                         <!-- 이용 횟수 카드 -->
+                        <div class="col-xl-4 col-md-6 mb-4">
+                            <div class="card border-left-secondary  shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xl font-weight-bold text-secondary  text-uppercase mb-1">
+                                                이용 횟수</div>
+                                            <div id="countSummary" class="h4 mb-0 font-weight-bold text-gray-800"></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                     
                     <!-- pointHisory Row -->
 					<div class="row">
@@ -332,7 +335,6 @@
 
     <!-- Page level custom scripts -->
     <script src="${pageContext.request.contextPath}/resources/js/demo/chart-area-demo.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/js/demo/chart-pie-demo.js"></script>
     
     <!-- 데이터테이블 사용하기위한 임포트 스크립트 -->
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
@@ -388,6 +390,89 @@
    				} }
    			]
    		});
+   		
+   		// 포인트 이용 유형별 횟수를 도넛 차트로
+   		$.ajax({
+   		    type: 'get', //post method
+   		    url: '${pageContext.request.contextPath}/point/getPointHistoryCategoryCount',
+   		 	data: {'userId': userId},
+   		    success: function (result, textStatus)
+   		    {
+   		        console.log(result);
+   		    	
+   		        let charge = result.countData.charge;
+	   		    let trans = result.countData.trans;
+	   		    let earn = result.countData.earn;
+		   		let spend = result.countData.spend;
+		   		let refund = result.countData.refund;
+		   		
+		   		var ctx = document.getElementById("myPieChart");
+			   	var myPieChart = new Chart(ctx, {
+			   	  type: 'doughnut',
+			   	  data: {
+			   	    labels: ["충전", "전환", "수입", "지출", "환불"],
+			   	    datasets: [{
+			   	      data: [charge, trans, earn, spend, refund],
+			   	      backgroundColor: ['#4e73df', '#36b9cc', '#1cc88a', '#e74a3b', '#f6c23e'],
+			   	    }],
+			   	  },
+			   	  options: {
+			   	    maintainAspectRatio: false,
+			   	    tooltips: {
+			   	      backgroundColor: "rgb(255,255,255)",
+			   	      bodyFontColor: "#858796",
+			   	      borderColor: '#dddfeb',
+			   	      borderWidth: 1,
+			   	      xPadding: 15,
+			   	      yPadding: 15,
+			   	      displayColors: false,
+			   	      caretPadding: 10,
+			   	    },
+			   		pieceLabel: { mode: 'percentage',fontColor: '#000'},
+			   	    legend: {
+			   	      display: true,
+			   	      position: 'left',
+			   	      labels:{
+			   	    	padding: 25, 
+			   	    	usePointStyle: true, 
+			   	    	pointStyle: "circle",
+			   	    	font: { size: 20 }
+			   	      }
+			   	    },
+			   	    cutoutPercentage: 65,
+			   	  }
+			   	});
+   		    }
+   		});
+   		
+   		// 포인트 이용 유형별 금액을 카드로
+   		$.ajax({
+   		    type: 'get', //post method
+   		    url: '${pageContext.request.contextPath}/point/getPointHistoryCategorySummary',
+   		 	data: {'userId': userId},
+   		 	success: function(result, textStatus) {
+   		 			console.log(result);
+   		 			
+   		 			let count = result.summaryData.count;
+   	   		        let charge = result.summaryData.charge;
+   		   		    let trans = result.summaryData.trans;
+   		   		    let earn = result.summaryData.earn;
+   			   		let spend = result.summaryData.spend;
+   			   		let refund = result.summaryData.refund;
+   			   		
+   			   		console.log(count);
+   			   		console.log(charge);
+   			   		
+   			   		// toLocaleString 은 숫자 데이터를 클라이언트의 국가에 맞춰서 일정 단위마다 ','를 찍어주는 함수
+   			   		$("#chargeSummary").append(charge.toLocaleString() + " 원");
+   			   		$("#transSummary").append(trans.toLocaleString() + " 원");
+   			   		$("#earnSummary").append(earn.toLocaleString() + " 원");
+   			   		$("#spendSummary").append(spend.toLocaleString() + " 원");
+   			   		$("#refundSummary").append(refund.toLocaleString() + " 원");
+   			 		$("#countSummary").append(count.toLocaleString() + " 회");
+   			   		
+   		 		}
+   		 	});
    	});
    	</script>
 

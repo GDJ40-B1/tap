@@ -36,7 +36,7 @@ public class PointController {
 	}
 	
 	@GetMapping("point/getPointHistoryCategoryCount")
-	public Object getPointHistoryRate(User user, @ModelAttribute("point") Point point) {
+	public Object getPointHistoryCategoryCount(User user, @ModelAttribute("point") Point point) {
 		
 		// 이용자의 포인트 이용 유형별 횟수 가져오기
 		Map<String, Integer> pointHistoryCategoryCount  = pointService.getPointHistoryCategoryCount(user);
@@ -52,6 +52,30 @@ public class PointController {
 		
 		// 데이터 테이블에 이용자의 전체 포인트 이용 내역을 보내주도록 data라는 키 값에 map을 저장
 		map.put("countData", pointHistoryCategoryCount);
+		
+		// 오브젝트 형식으로 map을 전달
+		Object result = map;
+		
+		return result;
+	}
+	
+	@GetMapping("point/getPointHistoryCategorySummary")
+	public Object getPointHistoryCategorySummary(User user, @ModelAttribute("point") Point point) {
+		
+		// 이용자의 포인트 이용 유형별 횟수 가져오기
+		Map<String, Double> pointHistoryCategorySummary  = pointService.getPointHistoryCategorySummary(user);
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		// map 파라미터
+		// userId : 이용자 ID
+		// charge : 충전
+		// trans : 전환
+		// spend : 지출 
+		// earn : 수입
+		// refund : 환불
+		
+		// 데이터 테이블에 이용자의 전체 포인트 이용 내역을 보내주도록 data라는 키 값에 map을 저장
+		map.put("summaryData", pointHistoryCategorySummary);
 		
 		// 오브젝트 형식으로 map을 전달
 		Object result = map;

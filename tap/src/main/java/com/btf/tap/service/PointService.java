@@ -31,9 +31,20 @@ public class PointService {
 		
 		
 		
-		Map<String, Integer> pointHistoryCategoryList = pointMapper.selectPointHistoryCategoryCount(user);
+		Map<String, Integer> pointHistoryCategoryCount = pointMapper.selectPointHistoryCategoryCount(user);
 		
-		return pointHistoryCategoryList; 
+		return pointHistoryCategoryCount; 
+		
+	}
+	
+	// 포인트 이용 유형별 금액 가져오기
+	// 입력: User => userId
+	// 출력: Map<Stirng, Integer> => userId : 이용자 ID ,charge : 충전, trans : 전환, spend : 지출, earn : 수입, refund : 환불
+	public Map<String, Double> getPointHistoryCategorySummary(User user) {
+				
+		Map<String, Double> pointHistoryCategorySummary = pointMapper.selectPointHistoryCategorySummary(user);
+		
+		return pointHistoryCategorySummary; 
 		
 	}
 	
