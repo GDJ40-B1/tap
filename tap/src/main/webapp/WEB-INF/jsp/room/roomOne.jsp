@@ -206,7 +206,7 @@
 								<c:forEach var="a" items="${q.roomQnaAnswer}">
 									<div>답변 : ${a.answer}</div>
 									<div>등록일 : ${a.answerCreateDate}</div>
-									<c:if test="${loginUser != null && room.hostId == loginUser.userId || loginUser.userLevel == 'System_Admin'}">
+									<c:if test="${loginUser != null && loginUser.userLevel == 'System_Admin'}">
 										<div><a href="javascript:removeAnswer(${a.roomQnaId}, '${room.hostId}');">삭제</a></div>
 									</c:if>
 								</c:forEach>

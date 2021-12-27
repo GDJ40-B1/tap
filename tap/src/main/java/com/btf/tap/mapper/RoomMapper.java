@@ -62,4 +62,6 @@ public interface RoomMapper {
 	// 사용자 설정 선호지역 별 인기 숙소 개수
 	int preferLocalRoomTotalCount(Map<String, Object> paramMap);
 	
+	// 마지막으로 등록한 숙소 ID값 출력
+	int selectRoomId(String hostId);
 }
