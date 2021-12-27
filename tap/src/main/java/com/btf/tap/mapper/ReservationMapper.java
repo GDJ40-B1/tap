@@ -17,4 +17,5 @@ public interface ReservationMapper {
 	void updateReservation(Reservation reservation); //예약 수정
 	void deleteReservation(Reservation reservation); //예약 삭제
 	Reservation selectReservationOne(int reservationId); //예약정보 상세내역
+	List<Map<String, Object>> selectRoomReservationCheck(Map<String, Object> paramMap); //특정 숙소 월별 예약 인원수 조회
 }

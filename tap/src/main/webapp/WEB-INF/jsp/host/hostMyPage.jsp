@@ -161,23 +161,16 @@
                         <div class="col-xl-8 col-lg-7">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Dropdown -->
-                                <div
+                                <div id="roomChart"
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
+                                    <h6 class="m-0 font-weight-bold text-primary">월별 숙소 이용객 수</h6>
+										<select name="room" id="room">
+											<c:forEach var="s" items="${roomList}">
+												<option value="${s.roomId}">${s.roomName}</option>
+											</c:forEach>
+										</select>
+										<select name="year" id="year"></select>
+										<button class="btn btn-primary" id="roomAndYearBtn" type="button">조회</button>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
@@ -377,7 +370,56 @@
     <!-- Bootstrap core JavaScript-->
     <script src="${pageContext.request.contextPath}/resources/vendor/jquery/jquery.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/vendor/bootstrap_sb/js/bootstrap.bundle.min.js"></script>
-
+	<script>
+		$(function(){
+			selectYear();
+		});   
+	
+		function selectYear(){
+			var date = new Date();
+			var year = date.getFullYear();
+			for(var i=(year); i >= (year-10); i--) {
+				$("#year").append("<option value='"+i+"'>" + i + "</option>");
+			}
+		}
+	</script>
+	
+	<script>	
+		$('#roomAndYearBtn').click(function(){
+			var roomId = $("#room option:selected").val();
+			var year = $("#year option:selected").val();
+			
+			location.href="${pageContext.request.contextPath}/hostMyPage?roomId="+roomId+"&year="+year+"#roomChart";
+		});
+    </script>
+	
+	<script>
+	var arr = new Array();
+	var list = ${list};
+	
+	for(var i=0; i<list.length; i++){
+		arr[i] = list[i].monthList;
+	}
+	
+	var arr2 = new Array();
+	for(var i=0; i<list.length; i++){
+		arr2[i] = list[i].userNum;
+	}
+	
+	const barChar = new Chart(myAreaChart, {
+		  type: "bar", // pie, line, donut, polarArea ...
+		  data: {
+		    labels: arr,
+		    datasets: [
+		      {
+		        label: "영화력",
+		        data: arr2,
+		      },
+		    ],
+		  },
+		});
+	</script>
+	
     <!-- Core plugin JavaScript-->
     <script src="${pageContext.request.contextPath}/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
 
@@ -388,7 +430,6 @@
     <script src="${pageContext.request.contextPath}/resources/vendor/chart.js/Chart.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="${pageContext.request.contextPath}/resources/js/demo/chart-area-demo.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/demo/chart-pie-demo.js"></script>
 
 </body>

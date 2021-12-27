@@ -142,6 +142,19 @@
       ORDER BY check_in_date ASC
    </select>
 	
+	<!-- 특정 숙소 월별 예약 인원수 조회 -->
+	<select id="selectRoomReservationCheck" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT 
+			DATE_FORMAT(create_date, '%Y-%m') monthList, 
+			SUM(people_num) userNum 
+		FROM reservation
+		<where>
+			room_id = #{roomId}
+			AND YEAR(create_date) = #{year}
+		</where>
+		GROUP BY monthList;
+	</select>
+	
 	<!-- 예약정보 상세보기 -->
 	<!--  <select id="selectReservationOne" parameterType="int" resultMap="resultReservation">
 		SELECT

@@ -421,4 +421,10 @@ public class RoomService {
    
    /*---숙소별 가격 끝---*/
    
+   // 마지막 등록한 숙소 ID값 조회
+   public int getRoomId(String hostId) {
+	   int roomId = roomMapper.selectRoomId(hostId);
+	   
+	   return roomId;
+   }
 }

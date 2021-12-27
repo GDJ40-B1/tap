@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.btf.tap.mapper.CategoryMapper">
+	
+	<!-- 숙소 카테고리 목록 -->
+	<select id="selectRoomCategoryList" resultType="String">
+		SELECT room_category roomCategory FROM room_category
+	</select>
+	
+</mapper>
