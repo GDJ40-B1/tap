@@ -102,4 +102,42 @@
 		WHERE
 			room_review_id = #{roomReviewId}	
 	</delete>
+	
+	<!-- ******** 특정 회원의 숙소후기 ******** -->
+	<!-- 전체 숙소후기 목록 조회하기 -->
+	<select id="selectMemberRoomReviewList" parameterType="java.util.Map" resultMap="resultRoomReview">
+		SELECT
+			 rr.room_review_id,
+			 rr.payment_id,
+			 rr.answer_status,
+			 rr.room_review_content,
+			 rr.room_review_score,
+			 rr.create_date,
+			 rr.update_date,
+			 rrc.room_review_id,
+			 rrc.room_review_comment_content,
+			 rrc.comment_create_date
+		FROM room_review rr
+			 LEFT JOIN payment p ON rr.payment_id = p.payment_id
+			 LEFT JOIN reservation rs ON p.reservation_id = rs.reservation_id
+			 LEFT JOIN room r ON rs.room_id = r.room_id 
+			 LEFT JOIN room_review_comment rrc ON rr.room_review_id = rrc.room_review_id
+		WHERE
+			 rs.member_id = #{memberId}
+		ORDER BY rr.create_date DESC
+		LIMIT #{beginRow}, #{rowPerPage}
+	</select>
+	
+	<!-- 전체 숙소후기 개수 -->
+	<select id="memberTotalRoomReviewCount" parameterType="String" resultType="int">
+		SELECT 
+			 COUNT(*) 
+		FROM 
+			 room_review rr
+			 INNER JOIN payment p ON rr.payment_id = p.payment_id
+			 INNER JOIN reservation rs ON p.reservation_id = rs.reservation_id
+			 INNER JOIN room r ON rs.room_id = r.room_id 
+		WHERE
+			 rs.member_id = #{memberId}
+	</select>
 </mapper>

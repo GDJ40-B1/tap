@@ -130,7 +130,19 @@
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
-
+			
+			 <!-- Heading -->
+            <div class="sidebar-heading">
+                Reviews
+            </div>
+            
+            <!-- Nav Item - Tables -->
+            <li class="nav-item">
+                <a class="nav-link" href="${pageContext.request.contextPath}/member/memberRoomReviewList">
+                    <i class="fas fa-fw fa-table"></i>
+                  	<span>나의 숙소후기</span></a>
+            </li>
+			
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>

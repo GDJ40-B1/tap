@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.btf.tap.common.Font;
 import com.btf.tap.service.MemberService;
 import com.btf.tap.service.PointService;
+import com.btf.tap.service.RoomReviewService;
 import com.btf.tap.service.SearchService;
 import com.btf.tap.vo.Member;
 import com.btf.tap.vo.User;
@@ -31,6 +32,7 @@ public class MemberController {
 	@Autowired MemberService memberService;
 	@Autowired PointService pointService;
 	@Autowired private SearchService searchService;
+	@Autowired private RoomReviewService roomReviewService;
 	
 	@PostMapping("/earnPoint")
 	public String postEarnPoint(HttpServletRequest request, Member member) {
@@ -397,4 +399,26 @@ public class MemberController {
 		
 		memberService.removeFavorites(paramMap);
 	}	
+	
+	// *** 특정 회원의 숙소 후기 관련 ***
+	// 나의 숙소후기 목록보기
+	@RequestMapping("/member/memberRoomReviewList")
+	public String requestMemberRoomReviewList(HttpSession session, Model model, @RequestParam(value="currentPage", defaultValue = "1") int currentPage) {
+		// 로그인한 정보 loginUser 객체에 담기
+		User loginUser = (User)session.getAttribute("loginUser");
+		
+		String memberId = loginUser.getUserId();
+		log.debug(Font.HS + "현재 회원 아이디 => " + memberId + Font.RESET);
+		
+		Map<String,Object> memberRoomReivew = roomReviewService.getMemberRoomReviewList(currentPage, memberId);
+		
+		model.addAttribute("memberId", memberId);
+		model.addAttribute("list", memberRoomReivew.get("list"));
+		model.addAttribute("lastPage", memberRoomReivew.get("lastPage"));
+		model.addAttribute("startPage", memberRoomReivew.get("startPage"));
+		model.addAttribute("endPage", memberRoomReivew.get("endPage"));
+		model.addAttribute("currentPage", currentPage);
+		
+		return "member/myRoomReview";
+	}
 }
