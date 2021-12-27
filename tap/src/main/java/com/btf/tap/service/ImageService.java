@@ -48,7 +48,7 @@ public class ImageService {
 		
 		for(Image i : imageList) {
 			log.debug(Font.HJ + "삭제할 사진명 :" + i.getImageRealName() + Font.RESET);
-	        String deleteImgName = request.getSession().getServletContext().getRealPath("/resources/image/") +imageTargetCategory+"/"+ i.getImageName();
+	        String deleteImgName = request.getSession().getServletContext().getRealPath("/resources/img/") +imageTargetCategory+"/"+ i.getImageName();
 	        File deleteImg = new File (deleteImgName);
 	        if (deleteImg.exists() && deleteImg.isFile()){
 	        	deleteImg.delete();// 사진 삭제
@@ -61,7 +61,7 @@ public class ImageService {
 	public void addImage(MultipartHttpServletRequest mtRequest, String imageTargetCategory, int imageTarget) {
 		List<MultipartFile> fileList = mtRequest.getFiles("file");
 
-        String path = mtRequest.getSession().getServletContext().getRealPath("/resources/image/"+imageTargetCategory+"/");
+        String path = mtRequest.getSession().getServletContext().getRealPath("/resources/img/"+imageTargetCategory+"/");
         
         for (MultipartFile mf : fileList) {
             String originFileName = mf.getOriginalFilename(); // 원본 파일 명
