@@ -44,8 +44,8 @@
 	</table>
 		<div>
 			<!--  <a href="${pageContext.request.contextPath}/modifyReservation?reservationId=${reservation.reservationId}">예약수정</a> -->
-			
-			<a href="${pageContext.request.contextPath}/deleteReservation?reservationId=${reservation.reservationId}">예약삭제</a>
+			<!-- reservationOne까지는 누구나 볼 수 있지만 예약삭제는 로그인 한 사람만 볼 수 있도록 하려함 삭제는 회원이 자기가 한 예약을 그리고 호스트가 삭제할 수 있도록 하겠다.  -->
+			<c:if test="${loginUser.userId == q.memberId || loginUser.userId == room.hostId || loginUser.userLevel == 'system_admin}"><a href="${pageContext.request.contextPath}/deleteReservation?reservationId=${reservation.reservationId}">예약삭제</a></c:if>
 		</div>
 		<br>
 		<br>

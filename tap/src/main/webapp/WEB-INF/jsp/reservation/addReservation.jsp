@@ -110,7 +110,7 @@
 	   <div><button id="btn" type="button">예약</button></div>
 		
 	</form>
-	
+	<!-- 유효성 검사 -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script>
 		$("#btn").click(function(){
