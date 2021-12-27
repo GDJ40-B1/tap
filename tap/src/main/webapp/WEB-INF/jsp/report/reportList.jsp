@@ -13,8 +13,6 @@
        <jsp:include page="/partial/systemAdminHeader.jsp"></jsp:include>
     </div>
     <!-- end : mainHeader -->
-    
-    <main id="main">
 	
 	<!-- start : content -->
 	<div id="content" class="container-fluid">
@@ -117,8 +115,6 @@
 		    <!-- End Paging Section -->
 	    </div>	
 	</div>
-    
-	</main><!-- End #main -->
 
   	<!-- start : mainFooter -->
 	<div>
