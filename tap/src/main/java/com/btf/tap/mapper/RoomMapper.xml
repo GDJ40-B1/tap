@@ -194,9 +194,9 @@
    </select>
    
    <!-- 마지막으로 등록한 숙소 ID값 조회 -->
-   <select id="selectRoomId" parameterType="String" resultType="int">
+   <select id="selectLastRoom" parameterType="String" resultType="int">
 		SELECT 
-			room_id 
+			room_id
 		FROM room
 		<where>
 			host_id = #{hostId}

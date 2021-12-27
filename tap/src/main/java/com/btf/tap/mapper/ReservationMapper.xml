@@ -145,12 +145,14 @@
 	<!-- 특정 숙소 월별 예약 인원수 조회 -->
 	<select id="selectRoomReservationCheck" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT 
-			DATE_FORMAT(create_date, '%Y-%m') monthList, 
-			SUM(people_num) userNum 
-		FROM reservation
+			DATE_FORMAT(rv.create_date, '%Y-%m') monthList, 
+			SUM(rv.people_num) userNum,
+			r.room_name roomName
+		FROM reservation rv
+		INNER JOIN room r ON rv.room_id = r.room_id
 		<where>
-			room_id = #{roomId}
-			AND YEAR(create_date) = #{year}
+			rv.room_id = #{roomId}
+			AND YEAR(rv.create_date) = #{year}
 		</where>
 		GROUP BY monthList;
 	</select>

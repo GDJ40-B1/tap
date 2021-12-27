@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,7 +12,7 @@
     <meta name="author" content="">
 
     <title>SB Admin 2 - Dashboard</title>
-
+    
     <!-- Custom fonts for this template-->
     <link href="${pageContext.request.contextPath}/resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
@@ -163,7 +162,7 @@
                                 <!-- Card Header - Dropdown -->
                                 <div id="roomChart"
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">월별 숙소 이용객 수</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">${year}년 ${roomName} 월별 숙소 이용객 수</h6>
 										<select name="room" id="room">
 											<c:forEach var="s" items="${roomList}">
 												<option value="${s.roomId}">${s.roomName}</option>
@@ -175,7 +174,7 @@
                                 <!-- Card Body -->
                                 <div class="card-body">
                                     <div class="chart-area">
-                                        <canvas id="myAreaChart"></canvas>
+                                        <canvas id="myBarChart"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -393,41 +392,100 @@
 		});
     </script>
 	
+	<!-- Page level plugins -->
+    <script src="${pageContext.request.contextPath}/resources/vendor/chart.js/Chart.min.js"></script>
+	
 	<script>
 	var arr = new Array();
-	var list = ${list};
-	
-	for(var i=0; i<list.length; i++){
-		arr[i] = list[i].monthList;
-	}
-	
 	var arr2 = new Array();
-	for(var i=0; i<list.length; i++){
-		arr2[i] = list[i].userNum;
-	}
 	
-	const barChar = new Chart(myAreaChart, {
-		  type: "bar", // pie, line, donut, polarArea ...
-		  data: {
-		    labels: arr,
-		    datasets: [
-		      {
-		        label: "영화력",
-		        data: arr2,
-		      },
-		    ],
-		  },
-		});
+	<c:forEach items="${list}" var="m">
+		arr.push("${m.monthList}");
+		arr2.push("${m.userNum}");
+	</c:forEach>
+	
+	console.log(arr);
+	console.log(arr2);
+
+	var ctx = document.getElementById("myBarChart");
+	var myBarChart = new Chart(ctx, {
+	  type: 'bar',
+	  data: {
+	    labels: arr,
+	    datasets: [{
+	      label: "월 이용객 수",
+	      backgroundColor: "#4e73df",
+	      hoverBackgroundColor: "#2e59d9",
+	      borderColor: "#4e73df",
+	      data: arr2,
+	    }],
+	  },
+	  options: {
+	    maintainAspectRatio: false,
+	    layout: {
+	      padding: {
+	        left: 10,
+	        right: 25,
+	        top: 25,
+	        bottom: 0
+	      }
+	    },
+	    scales: {
+	      xAxes: [{
+	        time: {
+	          unit: 'month'
+	        },
+	        gridLines: {
+	          display: false,
+	          drawBorder: false
+	        },
+	        ticks: {
+	          maxTicksLimit: 6
+	        },
+	        maxBarThickness: 25,
+	      }],
+	      yAxes: [{
+	        ticks: {
+	          min: 0,
+	          max: 100,
+	          maxTicksLimit: 5,
+	          padding: 10,
+	        },
+	        gridLines: {
+	          color: "rgb(234, 236, 244)",
+	          zeroLineColor: "rgb(234, 236, 244)",
+	          drawBorder: false,
+	          borderDash: [2],
+	          zeroLineBorderDash: [2]
+	        }
+	      }],
+	    },
+	    legend: {
+	      display: false
+	    },
+	    tooltips: {
+	      titleMarginBottom: 10,
+	      titleFontColor: '#6e707e',
+	      titleFontSize: 14,
+	      backgroundColor: "rgb(255,255,255)",
+	      bodyFontColor: "#858796",
+	      borderColor: '#dddfeb',
+	      borderWidth: 1,
+	      xPadding: 15,
+	      yPadding: 15,
+	      displayColors: false,
+	      caretPadding: 10,
+	    },
+	  }
+	});
+
 	</script>
 	
     <!-- Core plugin JavaScript-->
     <script src="${pageContext.request.contextPath}/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
-
+    
     <!-- Custom scripts for all pages-->
     <script src="${pageContext.request.contextPath}/resources/js/sb-admin-2.min.js"></script>
-
-    <!-- Page level plugins -->
-    <script src="${pageContext.request.contextPath}/resources/vendor/chart.js/Chart.min.js"></script>
 
     <!-- Page level custom scripts -->
     <script src="${pageContext.request.contextPath}/resources/js/demo/chart-pie-demo.js"></script>

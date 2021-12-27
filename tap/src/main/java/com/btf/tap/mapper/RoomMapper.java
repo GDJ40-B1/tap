@@ -63,5 +63,5 @@ public interface RoomMapper {
 	int preferLocalRoomTotalCount(Map<String, Object> paramMap);
 	
 	// 마지막으로 등록한 숙소 ID값 출력
-	int selectRoomId(String hostId);
+	int selectLastRoom(String hostId);
 }
