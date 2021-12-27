@@ -217,5 +217,16 @@ public class ReservationService {
 	   }
 	   return reservationDate;
    }
-	
+   
+   	// 특정 숙소 월별 예약 인원수 조회
+	public List<Map<String, Object>> getRoomReservationCheck(int roomId, int year) {
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("roomId", roomId);
+		paramMap.put("year", year);
+		
+		List<Map<String, Object>> list = reservationMapper.selectRoomReservationCheck(paramMap);
+		log.debug(Font.JSB + list.toString() + Font.RESET);
+		
+		return list;		
+	}
 }
