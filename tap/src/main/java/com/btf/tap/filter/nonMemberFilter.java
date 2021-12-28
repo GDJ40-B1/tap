@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 
-@WebFilter("/nonMember/*")
+@WebFilter(urlPatterns= "/nonMember/*")
 public class nonMemberFilter implements Filter {
 	
 	@Override

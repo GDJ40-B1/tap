@@ -14,4 +14,5 @@ public class Reservation {
 	private String updateDate;// 수정 날짜 
 	
 	private Room room;
+	private Address address;
 }

@@ -1,5 +1,7 @@
 package com.btf.tap.controller;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +17,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.btf.tap.common.Font;
 import com.btf.tap.service.HostService;
+import com.btf.tap.service.ReservationService;
+import com.btf.tap.service.RoomService;
 import com.btf.tap.vo.Host;
+import com.btf.tap.vo.Room;
 import com.btf.tap.vo.User;
 
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +30,8 @@ import lombok.extern.slf4j.Slf4j;
 public class HostController {
 	
 	@Autowired HostService hostService;
+	@Autowired ReservationService reservationService;
+	@Autowired RoomService roomService;
 	
 	@PostMapping("/earnHostPoint")
 	public String postEarnHostPoint(HttpServletRequest request, Model model, Host host) {
@@ -244,7 +251,7 @@ public class HostController {
 	}
 	
 	@GetMapping("/hostMyPage")
-	public String getMyPage(HttpServletRequest request, Model model) {
+	public String getMyPage(HttpServletRequest request, Model model, String roomName, @RequestParam(name="roomId", defaultValue = "0") int roomId, @RequestParam(name="year", defaultValue = "0") int year) {
 	
 		HttpSession session = request.getSession();
 			
@@ -261,8 +268,28 @@ public class HostController {
 		host.setHostId(user.getUserId());
 		host = hostService.getHostOne(host);
 		
+		String hostId = user.getUserId();
+		
+		// 페이지 초기 접근 시 room, 현재 연도 값을 가져옴
+		if(roomId == 0 && year == 0) {
+			roomId = roomService.getLastRoom(hostId);
+			
+			LocalDate now = LocalDate.now();
+			year = now.getYear();
+		}
+		
+		List<Map<String, Object>> list = reservationService.getRoomReservationCheck(roomId, year);
+		log.debug(Font.JSB + "특정 숙소 연도별 이용객 수" + list.toString() + Font.RESET);
+		
+		List<Room> roomList = roomService.getHostRoomList(hostId);
+		log.debug(Font.JSB + "숙소명 목록" + roomList.toString() + Font.RESET);
+		
 		// 호스트 정보 주입
 		model.addAttribute("host", host);
+		model.addAttribute("year", year);
+		model.addAttribute("roomName", list.get(0).get("roomName").toString());
+		model.addAttribute("list", list);
+		model.addAttribute("roomList", roomList);
 		
 		// 마이페이지로 이동
 		return "host/hostMyPage";

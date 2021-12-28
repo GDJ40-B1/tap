@@ -211,7 +211,7 @@
 		</c:choose>	
 		
 		<!-- 임시로 추가 -->
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+		<script src="http://code.jquery.com/jquery-latest.js"></script> 
 		
 		<form class="form-inline" id="searchByDistrictForm" action="${pageContext.request.contextPath}/searchListByDistrict">
 			<select name="sido" id="sido" onchange="sidoType(this.value);">

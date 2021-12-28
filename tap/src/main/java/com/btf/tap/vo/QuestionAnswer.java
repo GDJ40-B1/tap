@@ -4,8 +4,8 @@ import lombok.Data;
 
 @Data
 public class QuestionAnswer {
-	private int questionId;
+	private int answerQuestionId;
 	private String systemAdminId;
 	private String questionAnswerContent;
-	private String createDate;
+	private String answerCreateDate;
 }

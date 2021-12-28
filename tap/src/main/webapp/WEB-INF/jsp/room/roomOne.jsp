@@ -142,72 +142,80 @@
 			</c:choose>
 
          	<button type="button" class="btn btn-danger" id='insertRoomQna'>문의 작성</button>
-
-       		<table id="roomQna" border="1">
-       			<tr>
-       				<td>답변상태</td>
-       				<td>문의내역</td>
-       				<td>작성자</td>
-       				<td>작성일</td>
-       			</tr>
-       			<c:forEach var="q" items="${roomQna.list}">
-       				<tr>
-       					<c:choose>
-							<c:when test="${q.answerCheck == 'N'}">
-								<td>미답변</td>
+			
+			<c:choose>
+				<c:when test="${empty roomQna.list}">
+					<div>문의 내역이 없습니다.</div>
+				</c:when>
+			
+				<c:otherwise>
+				
+	       		<table id="roomQna" border="1">
+	       			<tr>
+	       				<td>답변상태</td>
+	       				<td>문의내역</td>
+	       				<td>작성자</td>
+	       				<td>작성일</td>
+	       			</tr>
+	       			<c:forEach var="q" items="${roomQna.list}">
+	       				<tr>
+	       					<c:choose>
+								<c:when test="${q.answerCheck == 'N'}">
+									<td>미답변</td>
+								</c:when>
+								
+								<c:when test="${q.answerCheck == 'Y'}">
+									<td>답변완료<td>
+								</c:when>
+							</c:choose>
+						
+						<c:choose>
+							<c:when test="${q.secretCheck == 'N' || q.secretCheck == 'Y' && loginUser.userId == q.memberId || loginUser.userId == room.hostId || loginUser.userLevel == 'system_admin'}">
+								<td><a href="#roomQna" onclick="result(this)" style="text-overflow: ellipsis;">${q.content}</a></td>
 							</c:when>
 							
-							<c:when test="${q.answerCheck == 'Y'}">
-								<td>답변완료<td>
+							<c:when test="${q.secretCheck == 'Y' && loginUser == null || loginUser.userId != q.memberId}">
+								<td>비밀글 입니다.</td>
 							</c:when>
 						</c:choose>
-					
-					<c:choose>
-						<c:when test="${q.secretCheck == 'N' || q.secretCheck == 'Y' && loginUser.userId == q.memberId || loginUser.userId == room.hostId || loginUser.userLevel == 'system_admin'}">
-							<td><a href="#roomQna" onclick="result(this)" style="text-overflow: ellipsis;">${q.content}</a></td>
-						</c:when>
-						
-						<c:when test="${q.secretCheck == 'Y' && loginUser == null || loginUser.userId != q.memberId}">
-							<td>비밀글 입니다.</td>
-						</c:when>
-					</c:choose>
-					<td>${q.memberId}</td>
-					<td>${q.createDate}</td>
-       				</tr>
-       				<tr style="display: none;">
-						<td colspan = "4">
-							<div>문의 : ${q.content}</div>
-							<c:if test="${loginUser != null && q.memberId == loginUser.userId || loginUser.userId == room.hostId || loginUser.userLevel == 'system_admin'}">
-								<div><a href="javascript:removeQuestion(${q.roomQna},'${q.memberId}');">삭제</a></div>
-							</c:if>
-							<c:if test="${q.roomQnaAnswer.isEmpty() && loginUser != null && room.hostId == loginUser.userId}">
-									<div>
-										<form id="roomQnaAnswerForm" action="${pageContext.request.contextPath}/roomOne" method="post">
-											<div class="form-group">
-												<input type="hidden" name="roomId" value="${room.roomId}">
-												<input type="hidden" name="detailAddressId" value="${address.detailAddressId}">
-												<input type="hidden" name="roomQnaId" value="${q.roomQna}">
-												<label for="questionAnswer">답변 작성 : </label>
-													<textarea class="form-control" rows="5" placeholder="답변을 작성해주세요" id="answer" name="answer"></textarea>
-											</div>
-											<div>
-												<button id="addRoomQnaAnswer" type ="button">작성</button>
-											</div>
-										</form>		
-									</div>
-							</c:if>
-							<c:forEach var="a" items="${q.roomQnaAnswer}">
-								<div>답변 : ${a.answer}</div>
-								<div>등록일 : ${a.answerCreateDate}</div>
-								<c:if test="${loginUser != null && room.hostId == loginUser.userId || loginUser.userLevel == 'System_Admin'}">
-									<div><a href="javascript:removeAnswer(${a.roomQnaId}, '${room.hostId}');">삭제</a></div>
+						<td>${q.memberId}</td>
+						<td>${q.createDate}</td>
+	       				</tr>
+	       				<tr class="qna" style="display: none;">
+							<td colspan = "4">
+								<div>문의 : ${q.content}</div>
+								<c:if test="${loginUser != null && q.memberId == loginUser.userId || loginUser.userId == room.hostId || loginUser.userLevel == 'system_admin'}">
+									<div><a href="javascript:removeQuestion(${q.roomQna},'${q.memberId}');">삭제</a></div>
 								</c:if>
-							</c:forEach>
-						</td>
-       				</tr>
-       			</c:forEach>
-       		</table>
-       		
+								<c:if test="${q.roomQnaAnswer.isEmpty() && loginUser != null && room.hostId == loginUser.userId}">
+										<div>
+											<form class="roomQnaAnswerForm" action="${pageContext.request.contextPath}/roomOne" method="post">
+												<div class="form-group">
+													<input type="hidden" name="roomId" value="${room.roomId}">
+													<input type="hidden" name="detailAddressId" value="${address.detailAddressId}">
+													<input type="hidden" name="roomQnaId" value="${q.roomQna}">
+													<label for="questionAnswer">답변 작성 : </label>
+														<textarea class="form-control" rows="5" placeholder="답변을 작성해주세요" class="answer" name="answer"></textarea>
+												</div>
+												<div>
+													<button class="addRoomQnaAnswer" type ="button">작성</button>
+												</div>
+											</form>		
+										</div>
+								</c:if>
+								<c:forEach var="a" items="${q.roomQnaAnswer}">
+									<div>답변 : ${a.answer}</div>
+									<div>등록일 : ${a.answerCreateDate}</div>
+									<c:if test="${loginUser != null && loginUser.userLevel == 'System_Admin'}">
+										<div><a href="javascript:removeAnswer(${a.roomQnaId}, '${room.hostId}');">삭제</a></div>
+									</c:if>
+								</c:forEach>
+							</td>
+	       				</tr>
+	       			</c:forEach>
+	       		</table>
+       			</c:otherwise>
+       		</c:choose>
       		<c:if test="${roomQna.roomQnaCurrentPage > 1}">
 				<a href="${pageContext.request.contextPath}/roomOne?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}&roomQnaCurrentPage=${roomQna.roomQnaCurrentPage-1}#roomQna">이전</a>
 			</c:if>
@@ -224,36 +232,34 @@
        </section>
        
        <!-- *** 숙소 후기 *** -->
-  	   <section class="event-list" id="roomReview">
+  	   <section class="event-list">
 			<div class="container">
 	   		<c:forEach var="r" items="${roomReview.list}">
 	   			<c:choose>
 	   				<c:when test="${loginUser.userId == room.hostId}">
 	   					<div>
-							<form id="removeForm" action="${pageContext.request.contextPath}/removeRoomReview" method="post">
-								<input type="hidden" name="roomId" value="${room.roomId}">
-								<input type="hidden" name="detailAddressId" value="${address.detailAddressId}">
-								<input type="hidden" name="roomReviewId" value="${r.roomReviewId}">
-								
-								<div class="d-flex justify-content-between align-items-center">
-									답변상태 : 
-									<c:choose>
-										<c:when test="${r.answerStatus == 'N'}">
-											<td>미답변</td>
-										</c:when>
-										
-										<c:when test="${r.answerStatus == 'Y'}">
-											<td>답변완료<td>
-										</c:when>
-									</c:choose>
-									<ol style="list-style: none;">
-										<li>
-											<button id="removeBtn" type="button">삭제</button>
-										</li>
-									</ol>
-								</div>
-							</form>	
-								숙소후기 평점 : 
+							<input type="hidden" name="roomId" value="${room.roomId}">
+							<input type="hidden" name="detailAddressId" value="${address.detailAddressId}">
+							<input type="hidden" name="roomReviewId" value="${r.roomReviewId}">
+							
+							<div class="d-flex justify-content-between align-items-center">
+								답변상태 : 
+								<c:choose>
+									<c:when test="${r.answerStatus == 'N'}">
+										<td>미답변</td>
+									</c:when>
+									
+									<c:when test="${r.answerStatus == 'Y'}">
+										<td>답변완료<td>
+									</c:when>
+								</c:choose>
+								<ol style="list-style: none;">
+									<li>
+										<a class="btn btn-outline-dark" href="javascript:deleteRoomReview('${r.roomReviewId}');">숙소후기 삭제</a>
+									</li>
+								</ol>
+							</div>
+								<span>숙소후기 평점 :</span> 
 								<c:choose>
 									<c:when test="${r.roomReviewScore == 1}">
 										<td>★☆☆☆☆</td>
@@ -273,31 +279,41 @@
 								</c:choose>
 								<div>
 									숙소후기 내용 :
-									<a href="#roomReview" onclick="result(this)" style="text-overflow: ellipsis;">${r.roomReviewContent}</a>
+									${r.roomReviewContent}
 								</div>
 								<div>
 									<c:if test="${r.answerStatus == 'N'}">
-										<div>
-											<form id="roomReviewCommentContentForm" action="${pageContext.request.contextPath}/addRoomReviewComment" method="post">
-												<div class="form-group">
-													<input type="hidden" name="roomId" value="${room.roomId}">
-													<input type="hidden" name="detailAddressId" value="${address.detailAddressId}">
-													<input type="hidden" name="roomReviewId" value="${r.roomReviewId}">
-													<label for="reviewCommentContent">답변 작성 : </label>
-														<textarea class="form-control" rows="5" placeholder="답변을 작성해주세요" id="roomReviewCommentContent" name="roomReviewCommentContent"></textarea>
-												</div>
-												<div>
-													<button id="commentBtn" type ="button">작성</button>
-												</div>
-											</form>		
-										</div>
+										<form class="insertCommentForm" action="${pageContext.request.contextPath}/addRoomReviewComment" method="post">
+											<div class="form-group">
+												<input type="hidden" name="roomId" value="${room.roomId}">
+												<input type="hidden" name="detailAddressId" value="${address.detailAddressId}">
+												<input type="hidden" name="roomReviewId" value="${r.roomReviewId}">
+												<label for="reviewCommentContent">답변 작성 : </label>
+													<textarea class="form-control" rows="5" placeholder="답변을 작성해주세요" class="insertComment" name="roomReviewCommentContent"></textarea>
+											</div>
+											<div>
+												<button class="insertCommentBtn" type ="button">작성</button>
+											</div>
+										</form>
 									</c:if>
-									<c:forEach var="rc" items="${r.roomReviewComment}">
-										숙소후기 답변
-										<textarea class="form-control" rows="5" cols="50" name="roomReviewCommentContent" readonly="readonly">${rc.roomReviewCommentContent}</textarea>
-									</c:forEach>
-								</div><br>
-						</div>
+									<div>
+										<c:forEach var="rc" items="${r.roomReviewComment}">
+											<div class="d-flex justify-content-between align-items-center">
+												<span>숙소후기 답변</span>
+												<ol style="list-style: none;">
+													<li>
+														<a class="btn btn-outline-dark" href="javascript:deleteRoomReviewComment('${r.roomReviewId}');">숙소후기 답변삭제</a>
+													</li>
+												</ol>
+											</div>
+											<textarea class="form-control" rows="5" cols="50" name="roomReviewCommentContent" readonly="readonly">${rc.roomReviewCommentContent}</textarea>
+										</c:forEach>
+									</div>
+									<div>
+										<hr style="height: 3px;">
+									</div>
+								</div>
+							</div>
 	   				</c:when>
 	   				<c:otherwise>
 	   					<div>
@@ -341,14 +357,17 @@
 						</div>
 						<div>
 							숙소후기 내용 :
-							<a href="#roomReview" onclick="result(this)" style="text-overflow: ellipsis;">${r.roomReviewContent}</a>
+							${r.roomReviewContent}
 						</div>
 						<div>
 							<c:forEach var="rc" items="${r.roomReviewComment}">
 								숙소후기 답변
 								<textarea class="form-control" rows="5" cols="50" name="roomReviewCommentContent" readonly="readonly">${rc.roomReviewCommentContent}</textarea>
 							</c:forEach>
-						</div><br>
+						</div>
+						<div>
+							<hr style="height: 3px;">
+						</div>
 	   				</c:otherwise>
 				</c:choose>
 			</c:forEach>
@@ -455,23 +474,25 @@
 		function result(content) {
 			var currentRow = $(content).closest('tr');
 			var detail = currentRow.next('tr');
+			var etc = $('.qna').not(content);
 			
 			if(detail.is(":visible")){
 				detail.hide();
 			} else {
+				etc.hide();
 				detail.show();
 			}
 		}
 	</script>	
 	
 	<script>	
-		$('#addRoomQnaAnswer').click(function(){
-			if($('#answer').val() == '') {
+		$('.addRoomQnaAnswer').click(function(){
+			if($(this).parents(".roomQnaAnswerForm").find('textarea').val() == '') {
 				alert('답변을 입력하세요');
 				return;
 			}
-					
-			$('#roomQnaAnswerForm').submit();
+
+			$(this).parents(".roomQnaAnswerForm").submit();
 		});
     </script>
     
@@ -496,7 +517,7 @@
    </script>
    
   <script>
-  		$('#addFavorites').click(function() 
+  		$('#addFavorites').click(function() {
   			// 비로그인 회원이 즐겨찾기 등록을 시도한 경우
   			if ("${loginUser.userId}" == "") {
   				if (confirm("로그인 한 회원만 이용가능합니다. 로그인 하시겠습니까?")) {
@@ -577,25 +598,35 @@
    <!-- *** 숙소후기 *** -->
    <!--숙소후기 삭제 버튼 클릭 시 -->
     <script>
-	 $('#removeBtn').click(function(){
-	   	if(confirm('후기를 삭제하시면 다시 작성할 수 없습니다. 그래도 삭제하시겠습니까?') == true) { // 확인
-			$('#removeForm').submit();
-		} else { // 취소
-			return;
-		}
-	 });	
+	 	function deleteRoomReview(roomReviewId) {
+	 		if(confirm('후기를 삭제하시면 다시 작성할 수 없습니다. 그래도 삭제하시겠습니까?') == true){
+	 			location.href="${pageContext.request.contextPath}/removeRoomReview?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}&roomReviewId="+roomReviewId+"";
+	 		} else {
+	 			return;
+	 		}	
+	 	}	
     </script>     
     
     <!--숙소후기 답변 작성 버튼 클릭 시 -->
     <script>
-	    $('#commentBtn').click(function(){
-			if($('#roomReviewCommentContent').val() == '') {
+	    $('.insertCommentBtn').click(function(){
+			if($(this).parents('.insertCommentForm').find('textarea').val() == '') {
 				alert('후기답변을 입력하세요');
 				return;
-			}
-					
-			$('#roomReviewCommentContentForm').submit();
+			}	
+			$(this).parents('.insertCommentForm').submit();
 		});
-    </script>  
+    </script>
+    
+    <!--숙소후기 답변 삭제 버튼 클릭 시 -->
+    <script>
+	    function deleteRoomReviewComment(roomReviewId) {
+	 		if(confirm('후기답변을 삭제하시면 다시 작성할 수 없습니다. 그래도 삭제하시겠습니까?') == true){
+	 			location.href="${pageContext.request.contextPath}/removeRoomReviewComment?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}&roomReviewId="+roomReviewId+"";
+	 		} else {
+	 			return;
+	 		}	
+	 	}	
+    </script>
 </body>
 </html>

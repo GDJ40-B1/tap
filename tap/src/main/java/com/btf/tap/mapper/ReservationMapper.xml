@@ -27,11 +27,17 @@
       <result column="create_date" property="createDate"></result>
       <result column="update_date" property="updateDate"></result>
       </association>
+    <association property="address" javaType="com.btf.tap.vo.Address">
+         <result column="address_id" property="addressId"></result>
+         <result column="detail_address_id" property="detailAddressId"></result>
+         <result column="detail_address" property="detailAddress"></result>
+         <result column="detail_address2" property="detailAddress2"></result>
+      </association>
 	
 		
 	</resultMap>
 	
-	<!-- 예약 숙소 리스트 아직 안함...-->
+	<!-- 예약 숙소 리스트-->
 	<select id="selectReservationList" parameterType="hashMap" resultMap="resultReservation">
 		SELECT
 		   res.reservation_id,
@@ -48,7 +54,7 @@
 		   r.room_price, 
 		   res.update_date
 		FROM 
-			(SELECT * FROM reservation ORDER BY create_date DESC) res
+			(SELECT * FROM reservation ORDER BY create_date DESC LIMIT #{beginRow}, #{rowPerPage}) res
 		INNER JOIN 
 			room r ON res.room_id=r.room_id
 		INNER JOIN 
@@ -135,6 +141,21 @@
       WHERE room_id=#{roomId}
       ORDER BY check_in_date ASC
    </select>
+	
+	<!-- 특정 숙소 월별 예약 인원수 조회 -->
+	<select id="selectRoomReservationCheck" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT 
+			DATE_FORMAT(rv.create_date, '%Y-%m') monthList, 
+			SUM(rv.people_num) userNum,
+			r.room_name roomName
+		FROM reservation rv
+		INNER JOIN room r ON rv.room_id = r.room_id
+		<where>
+			rv.room_id = #{roomId}
+			AND YEAR(rv.create_date) = #{year}
+		</where>
+		GROUP BY monthList;
+	</select>
 	
 	<!-- 예약정보 상세보기 -->
 	<!--  <select id="selectReservationOne" parameterType="int" resultMap="resultReservation">

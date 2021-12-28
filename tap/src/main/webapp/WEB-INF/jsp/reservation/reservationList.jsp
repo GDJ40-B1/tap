@@ -43,6 +43,7 @@
 			<tr>
 				<th> 예약 번호 </th>
 				<th> 예약된 숙소 이름 </th>
+				<th> 상세주소 </th>
 				<th> 예약 날짜 </th>
 				<th> 체크인 시간 </th>
 				<th> 체크아웃 시간 </th>
@@ -54,7 +55,8 @@
 			<c:forEach items="${result.reservationList}" var="reservation" >
 			<tr>
 				<td>${reservation.reservationId}</td>
-				<td><a href="${pageContext.request.contextPath}/reservationOne?reservationId=${reservationId}">${reservation.room.roomName}</a></td>
+				<td><a href="${pageContext.request.contextPath}/reservationOne?reservationId=${reservation.reservationId}">${reservation.room.roomName}</a></td>
+				<td>${reservation.address.detailAddress}</td>
 				<td>${reservation.checkInDate} ~ ${reservation.checkOutDate}</td>
 				<td>${reservation.room.checkInTime}</td>
 				<td>${reservation.room.checkOutTime}</td>
@@ -68,30 +70,30 @@
 	 </td>
 	               </tr>
 	            </table>
-	            
+	            <a href="${pageContext.request.contextPath}/addReservation"></a>
 				<!-- 페이징 -->
 				<nav style="margin-top: 50px">
 		   			<ul class="pagination" style="justify-content: center;">
 					    <c:if test="${result.currentPage!=1}">
-						    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/roomList?currentPage=<%=1 %>">처음</a></li>
+						    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/reservationList?currentPage=<%=1 %>">처음</a></li>
 						</c:if>
 						
 						<c:if test="${result.currentnumPage>0}">
-						    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/roomList?currentPage=${result.pagePerPage*(result.currentnumPage-1)+1 }">이전</a></li>
+						    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/reservationList?currentPage=${result.pagePerPage*(result.currentnumPage-1)+1 }">이전</a></li>
 						</c:if>
 						
 						<c:forEach begin="0" end="${result.pagePerPage-1}" step="1" var="i">
 							<c:if test="${result.lastPage>=(result.pagePerPage*result.currentnumPage)+i+1}">
-							    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/roomList?currentPage=${(result.pagePerPage*result.currentnumPage)+i+1 }">${(result.pagePerPage*result.currentnumPage)+i+1 }</a></li>
+							    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/reservationList?currentPage=${(result.pagePerPage*result.currentnumPage)+i+1 }">${(result.pagePerPage*result.currentnumPage)+i+1 }</a></li>
 							</c:if>
 						</c:forEach>
 						    
 						<c:if test="${result.lastnumPage>result.currentnumPage}">
-						    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/roomList?currentPage=${result.pagePerPage*(result.currentnumPage+1)+1 }">다음</a></li>
+						    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/reservationList?currentPage=${result.pagePerPage*(result.currentnumPage+1)+1 }">다음</a></li>
 						</c:if>
 						
 						<c:if test="${result.currentPage!=result.lastPage && result.lastPage!=0}">
-						    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/roomList?currentPage=${result.lastPage }">맨끝</a></li>
+						    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/reservationList?currentPage=${result.lastPage }">끝</a></li>
 						</c:if>
 					</ul>
 				</nav>

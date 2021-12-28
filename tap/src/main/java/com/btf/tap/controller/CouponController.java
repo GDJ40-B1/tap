@@ -20,7 +20,10 @@ import com.btf.tap.vo.Coupon;
 import com.btf.tap.vo.Room;
 import com.btf.tap.vo.User;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Controller
+@Slf4j
 public class CouponController {
 	@Autowired CouponService couponService;
 	

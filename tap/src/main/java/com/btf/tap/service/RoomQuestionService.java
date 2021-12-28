@@ -59,6 +59,45 @@ public class RoomQuestionService {
 		
 		return paramMap;
 	}
+
+	// 특정 숙소 문의 리스트
+	public Map<String, Object> getUnansweredRoomQnaList(int unansweredCurrentPage, String hostId) {
+		final int defaultPage = 10;
+		final int rowPerPage = 10;
+		int unansweredStartPage = ((unansweredCurrentPage - 1) / defaultPage) * defaultPage + 1;
+		int unansweredEndPage = unansweredStartPage + defaultPage - 1;		
+		int beginRow = (unansweredCurrentPage-1) * rowPerPage;
+		int unansweredLastPage = 0;
+		
+		Map<String, Object> page = new HashMap<>();
+		page.put("beginRow", beginRow);
+		page.put("rowPerPage", rowPerPage);
+		page.put("hostId", hostId);
+		
+		List<Map<String, Object>> list = roomQuestionMapper.unansweredRoomQnaList(page);
+		log.debug(Font.JSB + list.toString() + Font.RESET);
+		
+		int totalRowCount = roomQuestionMapper.unansweredRoomQnaTotalRowCount(hostId);
+		
+		unansweredLastPage = totalRowCount / rowPerPage;
+		
+		if(totalRowCount % rowPerPage != 0) {
+			unansweredLastPage+=1;
+		}
+		
+		if(unansweredEndPage > unansweredLastPage) {
+			unansweredEndPage = unansweredLastPage;
+		}		
+		
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("list", list);
+		paramMap.put("unansweredStartPage", unansweredStartPage);
+		paramMap.put("unansweredEndPage", unansweredEndPage);
+		paramMap.put("unansweredLastPage", unansweredLastPage);
+		paramMap.put("unansweredCurrentPage", unansweredCurrentPage);
+		
+		return paramMap;
+	}	
 	
 	// 숙소 문의 글 삽입
 	public void addRoomQuestion(RoomQuestion roomQuestion) {

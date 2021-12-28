@@ -9,7 +9,7 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
   <title>문의 글 수정</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="http://code.jquery.com/jquery-latest.js"></script> 
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -69,29 +69,30 @@
       <div class="container">
 		
 		<form id="modifyQuestionForm" action ="${pageContext.request.contextPath}/modifyQuestion" method ="post">
-		<!-- 세션 ID, 카테고리 -->
-		<input type="hidden" name="questionId" value="${question.questionId}">
-		<div class="form-group">
-		<label for="questionTitle">제목 : </label>
-			<input type ="text" class="form-control" value="${question.questionTitle}" id="questionTitle" name="questionTitle" >
-		</div>
-		<div class="form-group">
-		<label for="questionContent">내용 : </label>
-			<textarea class="form-control" rows="5" id="questionContent" name="questionContent" >${question.questionContent}</textarea>
-		</div>
-		<div class="form-check">
-		 <label class="form-check-label">
-		    <input type="radio" class="form-check-input" name="secretStatus" value="Y">비밀글 작성
-		 </label>
-		</div>
-		<div class="form-check">
-  		<label class="form-check-label">
-   			<input type="radio" class="form-check-input" name="secretStatus" value="N" checked>외부 공개 허용
-  		</label>
-		</div>
-		<div>
-			<button id="btn" type ="button">수정</button>
-		</div>
+			<!-- 세션 ID, 카테고리 -->
+			<input type="hidden" name="questionId" value="${question.questionId}">
+			<input type="hidden" name="writerId" value="${question.writerId}">
+			<div class="form-group">
+			<label for="questionTitle">제목 : </label>
+				<input type ="text" class="form-control" value="${question.questionTitle}" id="questionTitle" name="questionTitle" >
+			</div>
+			<div class="form-group">
+			<label for="questionContent">내용 : </label>
+				<textarea class="form-control" rows="5" id="questionContent" name="questionContent" >${question.questionContent}</textarea>
+			</div>
+			<div class="form-check">
+			 <label class="form-check-label">
+			    <input type="radio" class="form-check-input" name="secretStatus" value="Y">비밀글 작성
+			 </label>
+			</div>
+			<div class="form-check">
+	  		<label class="form-check-label">
+	   			<input type="radio" class="form-check-input" name="secretStatus" value="N" checked>외부 공개 허용
+	  		</label>
+			</div>
+			<div>
+				<button id="btn" type ="button">수정</button>
+			</div>
 	</form>
 	
 	<script>

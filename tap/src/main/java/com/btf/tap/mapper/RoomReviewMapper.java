@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.btf.tap.vo.RoomReview;
 import com.btf.tap.vo.RoomReviewComment;
@@ -16,4 +17,8 @@ public interface RoomReviewMapper {
 	int deleteRoomReview(int roomReviewId); // 숙소후기 삭제하기
 	int insertRoomReviewComment(RoomReviewComment roomReviewComment); // 숙소후기 답변 작성하기
 	int deleteRoomReviewComment(int roomReviewId); // 숙소후기 답변 삭제하기
+	
+	// *** 특정 회원을 기준 ***
+	List<RoomReview> selectMemberRoomReviewList(Map<String,Object> page); // 전체 숙소후기 목록 조회하기
+	int memberTotalRoomReviewCount(String memberId); // 전체 숙소후기 개수
 }

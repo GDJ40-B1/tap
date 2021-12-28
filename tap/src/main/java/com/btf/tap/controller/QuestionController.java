@@ -54,7 +54,7 @@ public class QuestionController {
 		}
 		
 		// 작성자가 아닌 가입자가 비밀글 접근 시도한 경우
-		if(loginUser != null && secretStatus.equals("Y") && !writerId.equals(loginUser.getUserId())) {
+		if(loginUser != null && secretStatus.equals("Y") && !loginUser.getUserLevel().equals("system_admin") && !writerId.equals(loginUser.getUserId())) {
 			return "redirect:/";
 		}
 		
@@ -82,11 +82,11 @@ public class QuestionController {
 	
 	// 문의 답변 작성
 	@PostMapping("/questionOne")
-	public String getAddQuestionAnswer(QuestionAnswer questionAnswer) {
-		int questionId = questionAnswer.getQuestionId();
+	public String getAddQuestionAnswer(QuestionAnswer questionAnswer, String writerId, String secretStatus) {
+		int questionId = questionAnswer.getAnswerQuestionId();
 		questionService.addQuestionAnswer(questionAnswer);
 		
-		return "redirect:/questionOne?questionId="+questionId;
+		return "redirect:/questionOne?questionId="+questionId+"&secretStatus="+secretStatus+"&writerId="+writerId;
 	}
 	
 	// 특정 문의 글 수정
@@ -109,10 +109,13 @@ public class QuestionController {
 	@PostMapping("/modifyQuestion")
 	public String postModifyQuestion(Question question) {
 		int questionId = question.getQuestionId();
+		String writerId = question.getWriterId();
+		String secretStatus = question.getSecretStatus();
+
 		questionService.modifyQuestion(question);
 		log.debug(Font.JSB + question.toString() + Font.RESET);
 		
-		return "redirect:/questionOne?questionId="+questionId;
+		return "redirect:/questionOne?questionId="+questionId+"&secretStatus="+secretStatus+"&writerId="+writerId;
 	}
 	
 	
@@ -133,7 +136,7 @@ public class QuestionController {
 	
 	// 특정 문의 답변 삭제
 	@GetMapping("/nonMember/removeQuestionAnswer")
-	public String getRemoveQuestionAnswer(HttpSession session, int questionId) {
+	public String getRemoveQuestionAnswer(HttpSession session, int answerQuestionId, String writerId, String secretStatus) {
 		User loginUser = (User)session.getAttribute("loginUser");
 
 		// 관리자가 아닌 가입자가 특정 문의글 삭제 시도한 경우
@@ -141,9 +144,9 @@ public class QuestionController {
 			return "redirect:/";
 		}
 		
-		questionService.removeQuestionAnswer(questionId);
+		questionService.removeQuestionAnswer(answerQuestionId);
 		
-		return "redirect:/questionOne?questionId="+questionId;
+		return "redirect:/questionOne?questionId="+answerQuestionId+"&secretStatus="+secretStatus+"&writerId="+writerId;
 	}
 	
 }

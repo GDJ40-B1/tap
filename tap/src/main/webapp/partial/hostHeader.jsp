@@ -99,6 +99,12 @@
                     <i class="fas fa-fw fa-table"></i>
                     <span>나의 숙소</span></a>
             </li>
+            
+            <li class="nav-item">
+                <a class="nav-link" href="${pageContext.request.contextPath}/host/unansweredRoomQna">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>문의 미답변 목록</span></a>
+            </li>
 			
 			<!-- Nav Item - Tables -->
             <li class="nav-item">

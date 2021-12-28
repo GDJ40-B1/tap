@@ -191,5 +191,16 @@
 			  sido = #{sido}
 			  AND sigungu = #{sigungu}
 		  </where>	
-   </select> 
+   </select>
+   
+   <!-- 마지막으로 등록한 숙소 ID값 조회 -->
+   <select id="selectLastRoom" parameterType="String" resultType="int">
+		SELECT 
+			room_id
+		FROM room
+		<where>
+			host_id = #{hostId}
+		</where>
+		ORDER BY create_date DESC LIMIT 1
+   </select>
 </mapper>

@@ -20,7 +20,7 @@
    <a href="${pageContext.request.contextPath}/reservationList">리스트로</a>
    
    	   
-	   
+	<!-- 쓰일 일이 없을 것 같음 보통 예약을 취소하고 다시 잡지 수정은 잘 안하기때문.. -->   
    <form action="${pageContext.request.contextPath}/modifyReservation?reservationId=${reservation.reservationId}" method="post">
 	   
 	   <div>회원 아이디 :</div>

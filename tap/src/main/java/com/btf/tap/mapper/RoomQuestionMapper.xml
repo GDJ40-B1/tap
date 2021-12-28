@@ -49,6 +49,38 @@
 		</where>	
 	</select>
 
+	<!-- 특정 호스트 등록 숙소 문의 미답변 리스트 -->
+	<select id="unansweredRoomQnaList" parameterType="java.util.Map" resultType="HashMap">
+		SELECT
+			rq.room_qna roomQna,
+			rq.member_id memberId,
+			rq.room_id roomId,
+			rq.content,
+			rq.create_date createDate,
+			r.room_name roomName,
+			r.detail_address_id detailAddressId
+		FROM room_qna rq INNER JOIN
+		room r ON rq.room_id = r.room_id
+		<where>
+			r.host_id = #{hostId}
+			AND rq.answer_check = 'N'
+		</where>
+		ORDER BY r.create_date DESC
+		LIMIT #{beginRow}, #{rowPerPage}
+	</select>
+
+	<!-- 미답변 페이지 체크 -->
+	<select id="unansweredRoomQnaTotalRowCount" parameterType="String" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM room_qna rq INNER JOIN
+		room r ON rq.room_id = r.room_id
+		<where>
+			r.host_id = #{hostId}
+			AND rq.answer_check = 'N'
+		</where>	
+	</select>	
+	
 	<!-- 숙소 문의 글 삽입 -->
 	<insert id="insertRoomQna" parameterType="com.btf.tap.vo.RoomQuestion">
 		INSERT INTO room_qna(

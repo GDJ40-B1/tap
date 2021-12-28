@@ -15,6 +15,9 @@
     <!-- Custom styles for this template-->
     <link href="${pageContext.request.contextPath}/resources/css/sb-admin-2.min.css" rel="stylesheet">
     
+    <!-- Custom styles for this page -->
+    <link href="${pageContext.request.contextPath}/resources/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    
     <!-- Page Wrapper -->
     <div id="wrapper">
 
@@ -138,6 +141,13 @@
                     <i class="fas fa-question-circle"></i>
                     <span>문의</span></a>
             </li>
+            
+            <!-- Nav Item - category -->
+            <li class="nav-item">
+                <a class="nav-link" href="${pageContext.request.contextPath}/systemAdmin/categoryList">
+                    <i class="fas fa-question-circle"></i>
+                    <span>카테고리별 관리</span></a>
+            </li>
 			
 			<!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -169,12 +179,6 @@
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
             
-            <!-- Sidebar Message -->
-            <div class="sidebar-card d-none d-lg-flex">
-                <img class="sidebar-card-illustration mb-2" src="${pageContext.request.contextPath}/resources/img/undraw_rocket.svg" alt="...">
-                <p class="text-center mb-2"><strong>SB Admin Pro</strong> is packed with premium features, components, and more!</p>
-                <a class="btn btn-success btn-sm" href="https://startbootstrap.com/theme/sb-admin-pro">Upgrade to Pro!</a>
-            </div>
         </ul>
         <!-- End of Sidebar -->
 
@@ -417,23 +421,6 @@
 			            </div>
 			        </div>
 			    </div>
-			    
-			    <!-- Bootstrap core JavaScript-->
-			    <script src="${pageContext.request.contextPath}/resources/vendor/jquery/jquery.min.js"></script>
-			    <script src="${pageContext.request.contextPath}/resources/vendor/bootstrap_sb/js/bootstrap.bundle.min.js"></script>
-			
-			    <!-- Core plugin JavaScript-->
-			    <script src="${pageContext.request.contextPath}/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
-			
-			    <!-- Custom scripts for all pages-->
-			    <script src="${pageContext.request.contextPath}/resources/js/sb-admin-2.min.js"></script>
-			
-			    <!-- Page level plugins -->
-			    <script src="${pageContext.request.contextPath}/resources/vendor/chart.js/Chart.min.js"></script>
-			
-			    <!-- Page level custom scripts -->
-			    <script src="${pageContext.request.contextPath}/resources/js/demo/chart-area-demo.js"></script>
-			    <script src="${pageContext.request.contextPath}/resources/js/demo/chart-pie-demo.js"></script>
 			    
 			        <!-- Logout Modal-->
 			    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
