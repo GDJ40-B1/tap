@@ -427,4 +427,25 @@ public class RoomService {
 
 	   return roomId;
    }
+   
+   // 숙소 연도별 이용 연령층 조회
+   public List<Map<String, Object>> getRoomAgeList(int roomId, int year) {
+	   Map<String, Object> paramMap = new HashMap<>();
+	   paramMap.put("roomId", roomId);
+	   paramMap.put("year", year);
+	   
+	   List<Map<String, Object>> list = roomMapper.selectRoomAgeList(paramMap);
+	   log.debug(Font.JSB + list.toString() + Font.RESET);
+	   
+	   return list;
+   }
+   
+   // 1회 이상 결제처리 된 숙소 리스트 조회
+   public List<Room> getPayRoomList(String hostId) {
+	   List<Room> list = new ArrayList<>();
+	   list = roomMapper.selectPayRoomList(hostId);
+	   log.debug(Font.JSB + list.toString() + Font.RESET);
+	   
+	   return list;
+   }
 }

@@ -388,7 +388,7 @@
 			var roomId = $("#room option:selected").val();
 			var year = $("#year option:selected").val();
 			
-			location.href="${pageContext.request.contextPath}/hostMyPage?roomId="+roomId+"&year="+year+"#roomChart";
+			location.href="${pageContext.request.contextPath}/hostMyPage?roomId="+roomId+"&year="+year;
 		});
     </script>
 	

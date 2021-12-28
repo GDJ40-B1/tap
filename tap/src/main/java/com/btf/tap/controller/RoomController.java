@@ -1,5 +1,6 @@
 package com.btf.tap.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -71,7 +72,8 @@ public class RoomController {
 	@GetMapping("/roomOne")
 	public String roomOne(HttpServletRequest request, Model model, @RequestParam("roomId") int roomId, @RequestParam("detailAddressId") int detailAddressId,  
 								@RequestParam(value="roomQnaCurrentPage", defaultValue ="1") int roomQnaCurrentPage,
-								@RequestParam(value="roomReviewCurrentPage", defaultValue="1") int roomReviewCurrentPage) {
+								@RequestParam(value="roomReviewCurrentPage", defaultValue="1") int roomReviewCurrentPage,
+								@RequestParam(name="year", defaultValue = "0") int year) {
 		// 멤버 정보를 가져온다
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("loginUser");
@@ -80,11 +82,17 @@ public class RoomController {
 			user = new User();
 			user.setUserId("");
 		}
+		
+		if(year == 0) {
+			LocalDate now = LocalDate.now();
+			year = now.getYear();
+		}
+		
 		Map<String, Object> result = roomService.getRoomOne(roomId, detailAddressId, user.getUserId());
 		Map<String, Object> roomQna = roomQuestionService.getRoomQnaList(roomQnaCurrentPage, roomId);
 		Map<String, Object> roomReview = roomReviewService.getRoomReviewList(roomReviewCurrentPage, roomId);
 		int favorite = memberService.getFavorites(user.getUserId(), roomId);
-		
+		List<Map<String, Object>> ageList = roomService.getRoomAgeList(roomId, year);
 		
 		model.addAttribute("room",result.get("room"));
 		model.addAttribute("address",result.get("address"));
@@ -95,6 +103,8 @@ public class RoomController {
 		model.addAttribute("roomQna", roomQna);
 		model.addAttribute("roomReview", roomReview);
 		model.addAttribute("favorite", favorite);
+		model.addAttribute("ageList", ageList);
+		model.addAttribute("year", year);
 		
 		return "room/roomOne";
 	}

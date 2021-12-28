@@ -156,7 +156,6 @@
 		</where>
 		GROUP BY monthList;
 	</select>
-	
 	<!-- 예약정보 상세보기 -->
 	<!--  <select id="selectReservationOne" parameterType="int" resultMap="resultReservation">
 		SELECT

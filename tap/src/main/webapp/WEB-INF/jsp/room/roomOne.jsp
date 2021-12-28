@@ -127,6 +127,23 @@
                 <a href="${pageContext.request.contextPath}/member/addReservation?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}">예약</a>
             </div>
       </section>
+ 		<div class="container">
+			<div class="col-xl-8 col-lg-7">
+				<div class="card shadow mb-4">
+					<div id="roomChart" class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+						<h6 class="m-0 font-weight-bold text-primary">${year}년 ${room.roomName} 이용 연령대</h6>
+							<select name="year" id="year" onchange="selectYear()">
+								<option value="">연도 선택</option>
+							</select>
+					</div>
+					<div class="card-body">
+						<div class="chart-area">
+							<canvas id="myPieChart"></canvas>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
  
       <section class="event-list">
          	<div class="container">
@@ -628,5 +645,68 @@
 	 		}	
 	 	}	
     </script>
+    
+ 	<script>
+		$(function(){
+			yearList();
+		});   
+	
+		function yearList(){
+			var date = new Date();
+			var year = date.getFullYear();
+			for(var i=(year); i >= (year-10); i--) {
+				$("#year").append("<option value='"+i+"'>" + i + "</option>");
+			}
+		}
+	</script>
+	
+	<script>	
+		function selectYear(){
+			var year = $("#year option:selected").val();
+			
+			location.href="${pageContext.request.contextPath}/roomOne?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}&year="+year;
+		}
+    </script>
+	
+	<!-- Page level plugins -->
+    <script src="${pageContext.request.contextPath}/resources/vendor/chart.js/Chart.min.js"></script>
+	
+	<script>
+	var arr = new Array();
+	var arr2 = new Array();
+	
+	<c:forEach items="${ageList}" var="a">
+		arr.push("${a.ageGroup}");
+		arr2.push("${a.age}");
+	</c:forEach>
+	
+	console.log(arr);
+	console.log(arr2);
+
+	var ctx = document.getElementById("myPieChart");
+	var myPieChart = new Chart(ctx, {
+	  type: 'pie',
+	  data: {
+	    labels: arr,
+	    datasets: [{
+	      backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', '#e34f66', '#ebe86e', '#e8c25a'],
+	      hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf', '#b8273d', '#c7c332', '#bd9426'],
+	      hoverBorderColor: "rgba(234, 236, 244, 1)",
+	      data: arr2,
+	    }],
+	  },
+	  options: {
+		    maintainAspectRatio: false,
+		    tooltips: {
+		      backgroundColor: "rgb(255,255,255)",
+		      bodyFontColor: "#858796",
+		      borderColor: '#dddfeb',
+		      borderWidth: 1,
+		      displayColors: false,
+		      caretPadding: 10,
+		    },
+		  },
+		});
+	</script>   
 </body>
 </html>

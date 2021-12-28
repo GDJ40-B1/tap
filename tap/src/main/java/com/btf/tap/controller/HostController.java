@@ -251,7 +251,7 @@ public class HostController {
 	}
 	
 	@GetMapping("/hostMyPage")
-	public String getMyPage(HttpServletRequest request, Model model, String roomName, @RequestParam(name="roomId", defaultValue = "0") int roomId, @RequestParam(name="year", defaultValue = "0") int year) {
+	public String getMyPage(HttpServletRequest request, Model model, @RequestParam(name="roomId", defaultValue = "0") int roomId, @RequestParam(name="year", defaultValue = "0") int year) {
 	
 		HttpSession session = request.getSession();
 			
@@ -270,10 +270,8 @@ public class HostController {
 		
 		String hostId = user.getUserId();
 		
-		// 페이지 초기 접근 시 room, 현재 연도 값을 가져옴
-		if(roomId == 0 && year == 0) {
-			roomId = roomService.getLastRoom(hostId);
-			
+		// 페이지 초기 접근 시 roomId, 현재 연도 값을 가져옴
+		if(year == 0) {
 			LocalDate now = LocalDate.now();
 			year = now.getYear();
 		}
@@ -287,7 +285,6 @@ public class HostController {
 		// 호스트 정보 주입
 		model.addAttribute("host", host);
 		model.addAttribute("year", year);
-		model.addAttribute("roomName", list.get(0).get("roomName").toString());
 		model.addAttribute("list", list);
 		model.addAttribute("roomList", roomList);
 		

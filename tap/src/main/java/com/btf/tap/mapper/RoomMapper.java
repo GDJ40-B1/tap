@@ -64,4 +64,13 @@ public interface RoomMapper {
 	
 	// 마지막으로 등록한 숙소 ID값 출력
 	int selectLastRoom(String hostId);
+	
+	// 숙소 연도별 이용 연령층 조회
+	List<Map<String, Object>> selectRoomAgeList(Map<String, Object> paramMap);
+	
+	// 1회 이상 결제처리 된 숙소 리스트 조회
+	List<Room> selectPayRoomList(String hostId);
+	
+	// 특정 숙소 기간별 결제 내역 조회
+	List<Map<String, Object>> selectPayRoomDateList(Map<String, Object> paramMap);
 }
