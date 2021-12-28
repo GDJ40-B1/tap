@@ -136,7 +136,7 @@ public class ReservationController {
 		//서비스에 deleteReservation에 값 보냄
 		
 		
-		return "redirect:/reservationOne?reservationId="+reservationId; //완료 후 상세정보 페이지로 이동 
+		return "redirect:/reservationList"; //완료 후 상세정보 페이지로 이동 
 	} 
 	
 	

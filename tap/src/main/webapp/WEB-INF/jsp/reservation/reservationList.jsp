@@ -70,7 +70,7 @@
 	 </td>
 	               </tr>
 	            </table>
-	            <a href="${pageContext.request.contextPath}/addReservation"></a>
+	            <a href="${pageContext.request.contextPath}/roomList">예약하러 가기</a>
 				<!-- 페이징 -->
 				<nav style="margin-top: 50px">
 		   			<ul class="pagination" style="justify-content: center;">
@@ -108,7 +108,7 @@
    <!-- end : mainFooter -->
    
    <!-- kakao API -->
-   <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e1c10213787b97f0d88e77cdafcb6687&libraries=services"></script>
+   <jsp:include page="/partial/kakaoAPIKey.jsp"></jsp:include>
 	<script>
 	var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
 	    mapOption = {
@@ -122,7 +122,7 @@
 	var geocoder = new kakao.maps.services.Geocoder();
 	
 	// 각 숙소의 정보를 토대로 마커를 찍습니다
-	<c:forEach items="${result.roomList}" var="r" varStatus="status">
+	<c:forEach items="${result.reservationList}" var="r" varStatus="status">
 		// 주소로 좌표를 검색합니다
 		geocoder.addressSearch("${r.address.detailAddress}", function(result, status) {
 
@@ -131,13 +131,13 @@
 				
 				var marker = new kakao.maps.Marker({
 		 	        map: map, // 마커를 표시할 지도
-		 	        title: "${r.roomName}", // 숙소 이름
+		 	        title: "${r.room.roomName}", // 숙소 이름
 		 	        position: new kakao.maps.LatLng(result[0].y, result[0].x) // 마커의 위치
 		 	    });
 			 
 			    // 마커에 표시할 인포윈도우를 생성합니다 
 			    var infowindow = new kakao.maps.InfoWindow({
-			        content: '<div style="width:150px;text-align:center;padding:6px 0;">${r.roomName}</div>' // 인포윈도우에 표시할 내용
+			        content: '<div style="width:150px;text-align:center;padding:6px 0;">${r.room.roomName}</div>' // 인포윈도우에 표시할 내용
 			    });
 				// 인포윈도우를 띄웁니다
 			    infowindow.open(map, marker);
