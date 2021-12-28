@@ -61,7 +61,7 @@
    <!-- end : mainFooter -->	
    
    <!-- kakao API -->
-   <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e1c10213787b97f0d88e77cdafcb6687&libraries=services"></script>
+   <jsp:include page="/partial/kakaoAPIKey.jsp"></jsp:include>
    
 	<script>
 	var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
