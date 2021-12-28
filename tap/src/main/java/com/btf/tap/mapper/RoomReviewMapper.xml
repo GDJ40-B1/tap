@@ -14,6 +14,12 @@
 			<result column="room_review_comment_content" property="roomReviewCommentContent"/>
 			<result column="comment_create_date" property="commentCreateDate"/>
 		</collection>
+		<collection property="room" ofType="com.btf.tap.vo.Room">
+			<id column="room_id" property="roomId"/>
+			<result column="room_category" property="roomCategory"/>
+			<result column="room_form" property="roomForm"/>
+			<result column="room_name" property="roomName"/>
+		</collection>
 	</resultMap>
  
 	<!-- 해당숙소의 전체 후기 조회하기 -->
@@ -116,7 +122,10 @@
 			 rr.update_date,
 			 rrc.room_review_id,
 			 rrc.room_review_comment_content,
-			 rrc.comment_create_date
+			 rrc.comment_create_date,
+			 r.room_form,
+			 r.room_name,
+			 r.room_category
 		FROM room_review rr
 			 LEFT JOIN payment p ON rr.payment_id = p.payment_id
 			 LEFT JOIN reservation rs ON p.reservation_id = rs.reservation_id

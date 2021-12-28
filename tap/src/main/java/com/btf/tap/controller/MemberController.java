@@ -402,8 +402,8 @@ public class MemberController {
 	
 	// *** 특정 회원의 숙소 후기 관련 ***
 	// 나의 숙소후기 목록보기
-	@RequestMapping("/member/memberRoomReviewList")
-	public String requestMemberRoomReviewList(HttpSession session, Model model, @RequestParam(value="currentPage", defaultValue = "1") int currentPage) {
+	@GetMapping("/member/memberRoomReviewList")
+	public String getMemberRoomReviewList(HttpSession session, Model model, @RequestParam(value="currentPage", defaultValue = "1") int currentPage) {
 		// 로그인한 정보 loginUser 객체에 담기
 		User loginUser = (User)session.getAttribute("loginUser");
 		
@@ -418,7 +418,24 @@ public class MemberController {
 		model.addAttribute("startPage", memberRoomReivew.get("startPage"));
 		model.addAttribute("endPage", memberRoomReivew.get("endPage"));
 		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("totalCount", memberRoomReivew.get("totalCount"));
 		
 		return "member/myRoomReview";
+	}
+	
+	// 나의 숙소후기에서 후기 삭제하기
+	@PostMapping("/member/removeRoomReview")
+	public String postRemoveRoomReview(HttpSession session, int roomReviewId) {
+		// 로그인한 정보 loginUser 객체에 담기
+		User loginUser = (User)session.getAttribute("loginUser");
+		
+		// 비회원이 숙소후기 글을 삭제시도할 경우
+		if(loginUser == null) {
+			return "redirect:/login";
+		}
+		
+		roomReviewService.removeRoomReview(roomReviewId);
+		
+		return "redirect:/member/memberRoomReviewList";
 	}
 }

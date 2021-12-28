@@ -163,7 +163,7 @@ public class RoomReviewService {
 	// ******** 특정 회원의 숙소후기 ********
 	// 전체 숙소후기 목록 조회하기
 	public Map<String,Object> getMemberRoomReviewList(int currentPage, String memberId) {
-		final int ROW_PER_PAGE = 10;
+		final int ROW_PER_PAGE = 5;
 		
 		// 데이터의 첫 번째 행
 		int beginRow = 0;
@@ -206,7 +206,8 @@ public class RoomReviewService {
 		paramMap.put("lastPage", lastPage);
 		paramMap.put("startPage", startPage);
 		paramMap.put("endPage", endPage);
-	
+		paramMap.put("totalCount", totalCount);
+		
 		log.debug(Font.HS + "paramMap 객체에 저장된 값 => " + paramMap.toString() + Font.RESET);
 		
 		return paramMap;
