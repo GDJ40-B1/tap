@@ -36,6 +36,7 @@
 	                            <th>인원수</th>
 	                            <th>가격</th>
 	                            <th>상세보기</th>
+	                            <th>페이지로 이동</th>
 	                        </tr>
 	                    </thead>
 	                    <tfoot>
@@ -48,6 +49,7 @@
 	                            <th>인원수</th>
 	                            <th>가격</th>
 	                            <th>상세보기</th>
+	                            <th>페이지로 이동</th>
 	                        </tr>
 	                    </tfoot>
 	                    <tbody>
@@ -61,6 +63,7 @@
 									<td>${room.peopleNum }</td>
 									<td>${room.roomPrice }</td>
 									<td><a href="${pageContext.request.contextPath}/host/roomOne?roomId=${room.roomId}&detailAddressId=${room.detailAddressId }">상세보기</a></td>
+									<td><a href="${pageContext.request.contextPath}/roomOne?roomId=${room.roomId}&detailAddressId=${room.detailAddressId }">상세보기</a></td>
 								</tr>
 							</c:forEach>
 	                    </tbody>
