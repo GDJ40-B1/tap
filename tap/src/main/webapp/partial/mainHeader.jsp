@@ -20,6 +20,9 @@
   <link href="${pageContext.request.contextPath}/resources/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="${pageContext.request.contextPath}/resources/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="${pageContext.request.contextPath}/resources/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  
+  <!-- bootstrap 4 -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
   <!-- Template Main CSS File -->
   <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet">
@@ -36,16 +39,23 @@
   <header id="header" class="fixed-top">
     <div class="container d-flex align-items-center justify-content-between">
 
-      <h1 class="logo"><a href="${pageContext.request.contextPath}/">Me &amp; Family</a></h1>
+      <h1 class="logo"><a href="${pageContext.request.contextPath}/">T A P</a></h1>
       <!-- Uncomment below if you prefer to use an image logo -->
       <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+      
+      <form class="form-inline" id="searchForm" action="${pageContext.request.contextPath}/searchList">
+         <input class="form-control mr-sm-2" type="text" id="keyword" name="keyword">
+         <button class="btn btn-primary" id="btn" type="button">전체 검색</button>
+	  </form>
 
       <nav id="navbar" class="navbar">
         <ul>
-          <li><a class="active" href="${pageContext.request.contextPath}/">Home</a></li>
-          <li><a href="our-story.html">Our Story</a></li>
-          <li><a href="events.html">Events</a></li>
-          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="${pageContext.request.contextPath}/">홈</a></li>
+          <li><a href="${pageContext.request.contextPath}/roomList">숙소</a></li>
+          <li><a href="${pageContext.request.contextPath}/attractionList">명소</a></li>
+          <li><a href="${pageContext.request.contextPath}/noticeList">공지사항</a></li>
+          <li><a href="${pageContext.request.contextPath}/questionList">문의 게시판</a></li>
+          <!-- 드롭다운은 필요하면 씁시다!
           <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
               <li><a href="#">Drop Down 1</a></li>
@@ -63,7 +73,7 @@
               <li><a href="#">Drop Down 4</a></li>
             </ul>
           </li>
-          <li><a href="contact.html">Contact</a></li>
+          -->
           <c:if test="${loginUser!=null}">
             <c:if test="${loginUser.userLevel.equals('host')}">
               <li><a class="active" href="${pageContext.request.contextPath}/hostMyPage">${loginUser.userName}</a></li>
@@ -96,3 +106,14 @@
 
   <!-- Template Main JS File -->
   <script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
+  
+  <!-- 검색창 script -->
+  <script>
+   $('#btn').click(function(){
+      if($('#keyword').val() == '') {
+         alert('검색어를 입력하세요');
+         return;
+      }
+      $('#searchForm').submit();
+   });
+  </script>
