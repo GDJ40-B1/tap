@@ -29,7 +29,7 @@
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">TAP<sup></sup></div>
+                <div class="sidebar-brand-text mx-3">T A B</div>
             </a>
 
             <!-- Divider -->
@@ -140,6 +140,13 @@
                 <a class="nav-link" href="${pageContext.request.contextPath}/questionList">
                     <i class="fas fa-question-circle"></i>
                     <span>문의</span></a>
+            </li>
+            
+            <!-- Nav Item - category -->
+            <li class="nav-item">
+                <a class="nav-link" href="${pageContext.request.contextPath}/systemAdmin/approvalAttractionList">
+                    <i class="fas fa-question-circle"></i>
+                    <span>명소</span></a>
             </li>
             
             <!-- Nav Item - category -->

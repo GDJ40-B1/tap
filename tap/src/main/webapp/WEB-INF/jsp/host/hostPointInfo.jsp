@@ -26,294 +26,287 @@
 </head>
 
 <body id="page-top">
+	<!-- header 불러오기 -->
+	<c:import url="/partial/hostHeader.jsp"></c:import>
+	
+               <!-- Begin Page Content -->
+               <div class="container-fluid">
 
-    <!-- Page Wrapper -->
-    <div id="wrapper">
-    
-		<!-- header 불러오기 -->
-		<c:import url="/partial/hostHeader.jsp"></c:import>
-		
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
+                   <!-- Page Heading -->
+                   <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                       <h1 class="h3 mb-0 text-gray-800">포인트</h1>
+                   </div>
+                   
+                   <!-- Content Row -->
+                   <div class="row">
 
-                    <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">포인트</h1>
-                    </div>
-                    
-                    <!-- Content Row -->
-                    <div class="row">
+                       <!-- Content Column -->
+                       <div class="col-xl-4 col-lg-5">
+	                    <!-- 포인트 충전 카드 -->
+	                    <div class="card shadow mb-4">
+	                        <div class="card-header py-3">
+	                            <h6 class="m-0 font-weight-bold text-primary">충전할 금액을 입력해 주세요.</h6>
+	                        </div>
+	                        <div class="card-body">
+								<form class="user" action="${pageContext.request.contextPath}/earnHostPoint" method="post">
+								    <div class="form-group">
+								        <input type="hidden" class="form-control form-control-user"
+								            id="loginUserId" aria-describedby="emailHelp"
+								            placeholder="Enter Email Address..." name="hostId"  value="${loginUser.userId}">
+								    </div>
+								    <div class="form-group">
+								        <input type="text" class="form-control form-control-user"
+								            id="exampleInputPassword" placeholder="충전금액" name="hostPoint">
+								    </div>     
+								    <button type="submit" class="btn btn-primary btn-user btn-block">충전</button>
+								</form>
+	                        </div>
+	                    </div>
+	                     <!-- 포인트 전환 카드 -->
+	                    <div class="card shadow mb-4">
+	                        <div class="card-header py-3">
+	                            <h6 class="m-0 font-weight-bold text-primary">전환할 금액을 입력해 주세요.</h6>
+	                        </div>
+	                        <div class="card-body">
+								<form class="user" action="${pageContext.request.contextPath}/spendHostPoint" method="post">
+								    <div class="form-group">
+								        <input type="hidden" class="form-control form-control-user"
+								            id="exampleInputEmail" aria-describedby="emailHelp"
+								            placeholder="Enter Email Address..." name="hostId"  value="${loginUser.userId}">
+								    </div>
+								    <div class="form-group">
+								        <input type="text" class="form-control form-control-user"
+								            id="exampleInputPassword" placeholder="전환금액" name="hostPoint">
+								    </div>
+								    <button type="submit" class="btn btn-primary btn-user btn-block">전환</button>
+								</form>
+	                        </div>
+	                    </div>
+                       </div>
+					
+					
 
-                        <!-- Content Column -->
-                        <div class="col-xl-4 col-lg-5">
-		                    <!-- 포인트 충전 카드 -->
-		                    <div class="card shadow mb-4">
-		                        <div class="card-header py-3">
-		                            <h6 class="m-0 font-weight-bold text-primary">충전할 금액을 입력해 주세요.</h6>
-		                        </div>
-		                        <div class="card-body">
-									<form class="user" action="${pageContext.request.contextPath}/earnHostPoint" method="post">
-									    <div class="form-group">
-									        <input type="hidden" class="form-control form-control-user"
-									            id="loginUserId" aria-describedby="emailHelp"
-									            placeholder="Enter Email Address..." name="hostId"  value="${loginUser.userId}">
-									    </div>
-									    <div class="form-group">
-									        <input type="text" class="form-control form-control-user"
-									            id="exampleInputPassword" placeholder="충전금액" name="hostPoint">
-									    </div>     
-									    <button type="submit" class="btn btn-primary btn-user btn-block">충전</button>
-									</form>
-		                        </div>
-		                    </div>
-		                     <!-- 포인트 전환 카드 -->
-		                    <div class="card shadow mb-4">
-		                        <div class="card-header py-3">
-		                            <h6 class="m-0 font-weight-bold text-primary">전환할 금액을 입력해 주세요.</h6>
-		                        </div>
-		                        <div class="card-body">
-									<form class="user" action="${pageContext.request.contextPath}/spendHostPoint" method="post">
-									    <div class="form-group">
-									        <input type="hidden" class="form-control form-control-user"
-									            id="exampleInputEmail" aria-describedby="emailHelp"
-									            placeholder="Enter Email Address..." name="hostId"  value="${loginUser.userId}">
-									    </div>
-									    <div class="form-group">
-									        <input type="text" class="form-control form-control-user"
-									            id="exampleInputPassword" placeholder="전환금액" name="hostPoint">
-									    </div>
-									    <button type="submit" class="btn btn-primary btn-user btn-block">전환</button>
-									</form>
-		                        </div>
-		                    </div>
-                        </div>
-						
-						
+					<!-- pie chart -->                        
+                       <div class="col-xl-8 col-lg-8" >
+                           <div class="card shadow mb-4" style="height: 95%">
+                               <!-- Card Header - Dropdown -->
+                               <div
+                                   class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                   <h6 class="m-0 font-weight-bold text-primary">포인트 이용 비율</h6>
+                                   <div class="dropdown no-arrow">
+                                       <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                           <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                       </a>
+                                       <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                           aria-labelledby="dropdownMenuLink">
+                                           <div class="dropdown-header">Dropdown Header:</div>
+                                           <a class="dropdown-item" href="#">Action</a>
+                                           <a class="dropdown-item" href="#">Another action</a>
+                                           <div class="dropdown-divider"></div>
+                                           <a class="dropdown-item" href="#">Something else here</a>
+                                       </div>
+                                   </div>
+                               </div>
+                               
+                               <!-- Card Body -->
+                               <div class="card-body align-middle" style="vertical-align:middle;">
+                                   <div class="chart-pie pt-4 pb-2"  style="min-height:360px">  
+                                       <canvas id="myPieChart" ></canvas>
+                                   </div>
+                               </div>
+                           </div>
+                       </div> 
+                   </div>              
+                   
+                   <!-- Content Row --> 
+                   <div class="row">
 
-						<!-- pie chart -->                        
-                        <div class="col-xl-8 col-lg-8" >
-                            <div class="card shadow mb-4" style="height: 95%">
-                                <!-- Card Header - Dropdown -->
-                                <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">포인트 이용 비율</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <!-- Card Body -->
-                                <div class="card-body align-middle" style="vertical-align:middle;">
-                                    <div class="chart-pie pt-4 pb-2"  style="min-height:360px">  
-                                        <canvas id="myPieChart" ></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> 
-                    </div>              
-                    
-                    <!-- Content Row --> 
-                    <div class="row">
+                       <!-- 충전 금액 카드 -->
+                       <div class="col-xl-4 col-md-6 mb-4">
+                           <div class="card border-left-primary shadow h-100 py-2">
+                               <div class="card-body">
+                                   <div class="row no-gutters align-items-center">
+                                       <div class="col mr-2">
+                                           <div class="text-xl font-weight-bold text-primary text-uppercase mb-1">
+                                               충전 금액</div>
+                                           <div id="chargeSummary" class="h4 mb-0 font-weight-bold text-gray-800"></div>
+                                       </div>
 
-                        <!-- 충전 금액 카드 -->
-                        <div class="col-xl-4 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xl font-weight-bold text-primary text-uppercase mb-1">
-                                                충전 금액</div>
-                                            <div id="chargeSummary" class="h4 mb-0 font-weight-bold text-gray-800"></div>
-                                        </div>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
 
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                       <!-- 전환 금액 카드 -->
+                       <div class="col-xl-4 col-md-6 mb-4">
+                           <div class="card border-left-info shadow h-100 py-2">
+                               <div class="card-body">
+                                   <div class="row no-gutters align-items-center">
+                                       <div class="col mr-2">
+                                           <div class="text-xl font-weight-bold text-info text-uppercase mb-1">
+                                               전환 금액</div>
+                                           <div id="transSummary" class="h4 mb-0 font-weight-bold text-gray-800"></div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                       
+                       <!-- 수입 금액 카드 -->
+                       <div class="col-xl-4 col-md-6 mb-4">
+                           <div class="card border-left-success shadow h-100 py-2">
+                               <div class="card-body">
+                                   <div class="row no-gutters align-items-center">
+                                       <div class="col mr-2">
+                                           <div class="text-xl font-weight-bold text-success text-uppercase mb-1">
+                                               수입 금액</div>
+                                           <div id="earnSummary" class="h4 mb-0 font-weight-bold text-gray-800"></div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
 
-                        <!-- 전환 금액 카드 -->
-                        <div class="col-xl-4 col-md-6 mb-4">
-                            <div class="card border-left-info shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xl font-weight-bold text-info text-uppercase mb-1">
-                                                전환 금액</div>
-                                            <div id="transSummary" class="h4 mb-0 font-weight-bold text-gray-800"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- 수입 금액 카드 -->
-                        <div class="col-xl-4 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xl font-weight-bold text-success text-uppercase mb-1">
-                                                수입 금액</div>
-                                            <div id="earnSummary" class="h4 mb-0 font-weight-bold text-gray-800"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                       <!-- 지출 금액 카드 -->
+                       <div class="col-xl-4 col-md-6 mb-4">
+                           <div class="card border-left-danger shadow h-100 py-2">
+                               <div class="card-body">
+                                   <div class="row no-gutters align-items-center">
+                                       <div class="col mr-2">
+                                           <div class="text-xl font-weight-bold text-danger text-uppercase mb-1">지출 금액
+                                           </div>
+                                           <div class="row no-gutters align-items-center">
+                                               <div class="col-auto">
+                                                   <div id="spendSummary" class="h4 mb-0 mr-3 font-weight-bold text-gray-800"></div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
 
-                        <!-- 지출 금액 카드 -->
-                        <div class="col-xl-4 col-md-6 mb-4">
-                            <div class="card border-left-danger shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xl font-weight-bold text-danger text-uppercase mb-1">지출 금액
-                                            </div>
-                                            <div class="row no-gutters align-items-center">
-                                                <div class="col-auto">
-                                                    <div id="spendSummary" class="h4 mb-0 mr-3 font-weight-bold text-gray-800"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                       <!-- 환불 금액 카드 -->
+                       <div class="col-xl-4 col-md-6 mb-4">
+                           <div class="card border-left-warning shadow h-100 py-2">
+                               <div class="card-body">
+                                   <div class="row no-gutters align-items-center">
+                                       <div class="col mr-2">
+                                           <div class="text-xl font-weight-bold text-warning text-uppercase mb-1">
+                                               환불 금액</div>
+                                           <div id="refundSummary" class="h4 mb-0 font-weight-bold text-gray-800"></div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                       
+                        <!-- 이용 횟수 카드 -->
+                       <div class="col-xl-4 col-md-6 mb-4">
+                           <div class="card border-left-secondary  shadow h-100 py-2">
+                               <div class="card-body">
+                                   <div class="row no-gutters align-items-center">
+                                       <div class="col mr-2">
+                                           <div class="text-xl font-weight-bold text-secondary  text-uppercase mb-1">
+                                               이용 횟수</div>
+                                           <div id="countSummary" class="h4 mb-0 font-weight-bold text-gray-800"></div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
 
-                        <!-- 환불 금액 카드 -->
-                        <div class="col-xl-4 col-md-6 mb-4">
-                            <div class="card border-left-warning shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xl font-weight-bold text-warning text-uppercase mb-1">
-                                                환불 금액</div>
-                                            <div id="refundSummary" class="h4 mb-0 font-weight-bold text-gray-800"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                         <!-- 이용 횟수 카드 -->
-                        <div class="col-xl-4 col-md-6 mb-4">
-                            <div class="card border-left-secondary  shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xl font-weight-bold text-secondary  text-uppercase mb-1">
-                                                이용 횟수</div>
-                                            <div id="countSummary" class="h4 mb-0 font-weight-bold text-gray-800"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                   
+                   <!-- pointHisory Row -->
+				<div class="row">
+					<div class="col-xl-12 col-lg-12">
+						<!-- DataTales Example -->
+					    <div class="card shadow mb-4">
+					        <div class="card-header py-3">
+					            <h6 class="m-0 font-weight-bold text-primary">포인트 이용 내역</h6>
+					        </div>
+					        <div class="card-body">
+					            <div class="table-responsive" id="pointHistorylistDiv">
+					                <table class="table table-bordered" id="pointHistoryDataTable" width="100%"  cellspacing="0">
+					                    <thead>
+					                        <tr>
+					                            <th>금액</th>
+					                            <th>변동금액</th>
+					                            <th>유형</th>
+					                            <th>이용날짜</th>
+					                        </tr>
+					                    </thead>
+					                    <tfoot>
+					                        <tr>
+					                            <th>금액</th>
+					                            <th>변동금액</th>
+					                            <th>유형</th>
+					                            <th>이용날짜</th>
+					                        </tr>
+					                    </tfoot>
+					                </table>
+					            </div>
+					        </div>
+					    </div>
+                       </div>
+                   </div>
+                       
+                   <!-- Content Row -->
 
-                    
-                    <!-- pointHisory Row -->
-					<div class="row">
-						<div class="col-xl-12 col-lg-12">
-							<!-- DataTales Example -->
-						    <div class="card shadow mb-4">
-						        <div class="card-header py-3">
-						            <h6 class="m-0 font-weight-bold text-primary">포인트 이용 내역</h6>
-						        </div>
-						        <div class="card-body">
-						            <div class="table-responsive" id="pointHistorylistDiv">
-						                <table class="table table-bordered" id="pointHistoryDataTable" width="100%"  cellspacing="0">
-						                    <thead>
-						                        <tr>
-						                            <th>금액</th>
-						                            <th>변동금액</th>
-						                            <th>유형</th>
-						                            <th>이용날짜</th>
-						                        </tr>
-						                    </thead>
-						                    <tfoot>
-						                        <tr>
-						                            <th>금액</th>
-						                            <th>변동금액</th>
-						                            <th>유형</th>
-						                            <th>이용날짜</th>
-						                        </tr>
-						                    </tfoot>
-						                </table>
-						            </div>
-						        </div>
-						    </div>
-                        </div>
-                    </div>
-                        
-                    <!-- Content Row -->
+                   <div class="row">
+                       <!-- Area Chart -->
+                       <div class="col-xl-12 col-lg-7">
+                           <div class="card shadow mb-4">
+                               <!-- Card Header - Dropdown -->
+                               <div
+                                   class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                   <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
+                                   <div class="dropdown no-arrow">
+                                       <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                           <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                       </a>
+                                       <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                           aria-labelledby="dropdownMenuLink">
+                                           <div class="dropdown-header">Dropdown Header:</div>
+                                           <a class="dropdown-item" href="#">Action</a>
+                                           <a class="dropdown-item" href="#">Another action</a>
+                                           <div class="dropdown-divider"></div>
+                                           <a class="dropdown-item" href="#">Something else here</a>
+                                       </div>
+                                   </div>
+                               </div>
+                               <!-- Card Body -->
+                               <div class="card-body">
+                                   <div class="chart-area">
+                                       <canvas id="myAreaChart"></canvas>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
 
-                    <div class="row">
-                        <!-- Area Chart -->
-                        <div class="col-xl-12 col-lg-7">
-                            <div class="card shadow mb-4">
-                                <!-- Card Header - Dropdown -->
-                                <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Card Body -->
-                                <div class="card-body">
-                                    <div class="chart-area">
-                                        <canvas id="myAreaChart"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                   </div>
 
-                    </div>
+               </div>
+               <!-- /.container-fluid -->
 
-                </div>
-                <!-- /.container-fluid -->
+           </div>
+           <!-- End of Main Content -->
 
-            </div>
-            <!-- End of Main Content -->
+           <!-- Footer -->
+           <footer class="sticky-footer bg-white">
+               <div class="container my-auto">
+                   <div class="copyright text-center my-auto">
+                       <span>Copyright &copy; Your Website 2021</span>
+                   </div>
+               </div>
+           </footer>
+           <!-- End of Footer -->
 
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2021</span>
-                    </div>
-                </div>
-            </footer>
-            <!-- End of Footer -->
-
-        </div>
-        <!-- End of Content Wrapper -->
-
-    </div>
-    <!-- End of Page Wrapper -->
+       </div>
+       <!-- End of Content Wrapper -->
 
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">

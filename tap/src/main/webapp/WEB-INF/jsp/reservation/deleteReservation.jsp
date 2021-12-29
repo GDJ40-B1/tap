@@ -31,13 +31,13 @@
 	   <input type="text" name="peopleNum" id="peopleNum" readonly="readonly" value="${reservation.peopleNum}">
    
 	   <div>
-	   		<button id="btn" type="button">삭제</button>
+	   		<button id="deleteBtn" type="button">삭제</button>
 	   </div>
    </form>
    <!-- 유효성 검사 -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script>
-		$("#btn").click(function(){
+		$("#deleteBtn").click(function(){
 			if($("#memberId").val() == "") {
 				alert("회원 아이디가 입력되지 않았습니다. 로그인이 필요합니다.");
 				return;

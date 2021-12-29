@@ -35,6 +35,8 @@
 
 		</table>
 	</form>
+	
+	<a href="${pageContext.request.contextPath}/addAttraction">명소 등록</a>
 	</section>
 	</main>
 	
