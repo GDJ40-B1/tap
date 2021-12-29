@@ -422,6 +422,10 @@
 			        </div>
 			    </div>
 			    
+			    <!-- Bootstrap core JavaScript-->
+			    <script src="${pageContext.request.contextPath}/resources/vendor/jquery/jquery.min.js"></script>
+			    <script src="${pageContext.request.contextPath}/resources/vendor/bootstrap_sb/js/bootstrap.bundle.min.js"></script>
+
 			        <!-- Logout Modal-->
 			    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
 			        aria-hidden="true">

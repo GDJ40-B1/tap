@@ -213,7 +213,7 @@ public class RoomService {
    }
    
    // 숙소 등록(숙소 and 상세 주소)
-   public int addRoom(Room room, Address address, String hashtag,
+   public Room addRoom(Room room, Address address, String hashtag,
 		   String amenities, String part, MultipartHttpServletRequest mtRequest) {
       // 입력받은 도로명 주소를 분할하여 객체에 넣기
       String[] addressList = address.getDetailAddress().split(" ");
@@ -244,7 +244,11 @@ public class RoomService {
       // 이미지 추가
       imageService.addImage(mtRequest, "room", room.getRoomId());
       
-      return room.getRoomId();
+      // 생성된 숙소의 ID값과 상세주소 ID값이 담긴 숙소 객체를 넘긴다.
+      Room newRoom = new Room();
+      newRoom.setDetailAddressId(address.getDetailAddressId());
+      newRoom.setRoomId(room.getRoomId());
+      return newRoom;
    }
    
    // 숙소 정보 수정(숙소 and 상세 주소)

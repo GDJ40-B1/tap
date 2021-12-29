@@ -242,12 +242,14 @@ public class RoomController {
 	}
 	
 	@PostMapping("/host/addRoom")
-	public String postAddRoom(Room room, Address address,
+	public String postAddRoom(RedirectAttributes redirect, Room room, Address address,
 			String hashtag, String amenities, String part,
 			MultipartHttpServletRequest mtRequest) {
 		// 숙소 추가
-		roomService.addRoom(room, address, hashtag, amenities, part, mtRequest);
-		return "redirect:/host/roomList";
+		Room newRoom = roomService.addRoom(room, address, hashtag, amenities, part, mtRequest);
+		redirect.addAttribute("roomId",newRoom.getRoomId());
+	    redirect.addAttribute("detailAddressId",newRoom.getDetailAddressId());
+	    return "redirect:/host/roomOne";
 	}
 	
 	@GetMapping("/host/roomList")
