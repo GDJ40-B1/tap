@@ -106,14 +106,14 @@
 	   </div>
 	   <label>인원수</label>
 	   <input type="number" id="peopleNum" name="peopleNum" value="---------">명
-	   
-	   <div><button id="btn" type="button">예약</button></div>
+	       
+	   <div><button id="resBtn" type="button">예약</button></div>
 		
 	</form>
 	<!-- 유효성 검사 -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script>
-		$("#btn").click(function(){
+		$("#resBtn").click(function(){
 			if($("#dateRangePicker1").val() == "") {
 				alert("체크인 날짜를 입력하세요");
 				return;
@@ -132,7 +132,7 @@
 		});
 		
 	</script>
-
+			-->
 	
 	<!-- start : mainFooter -->
    <div>
