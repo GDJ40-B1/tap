@@ -43,6 +43,9 @@
 </head>
 
 <body>
+
+  <!-- header 불러오기 -->
+  <c:import url="/partial/mainHeader.jsp"></c:import>
 	
   <!-- ======= Hero Section ======= -->
   <section id="hero" style="height: 500px;">
