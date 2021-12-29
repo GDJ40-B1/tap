@@ -182,7 +182,7 @@
 								</c:when>
 								
 								<c:when test="${q.answerCheck == 'Y'}">
-									<td>답변완료<td>
+									<td>답변완료</td>
 								</c:when>
 							</c:choose>
 						

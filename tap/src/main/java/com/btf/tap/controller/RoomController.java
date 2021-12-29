@@ -1,6 +1,7 @@
 package com.btf.tap.controller;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
@@ -361,5 +362,31 @@ public class RoomController {
 		log.debug(Font.JSB + roomQnaAnswer.toString() + Font.RESET);
 		
 		return "redirect:/host/unansweredRoomQna";
+	}
+	
+	@GetMapping("/host/roomPaymentList")
+	public String getRoomPaymentList(HttpSession session, Model model, @RequestParam(name="roomId", defaultValue = "0") int roomId, String roomName, String minDay, String maxDay) {
+		User loginUser = (User)session.getAttribute("loginUser");
+		
+		List<Room> roomList = roomService.getPayRoomList(loginUser.getUserId());
+		log.debug(Font.JSB + roomList.toString() + Font.RESET);
+		
+		if(minDay == null && maxDay == null) {
+			minDay = "2000-01-01";
+			
+			LocalDate now = LocalDate.now();
+			DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			maxDay = now.format(dateTimeFormatter);
+		}
+		
+		List<Map<String, Object>> paymentlist = roomService.getPayRoomDateList(roomId, minDay, maxDay);
+		
+		model.addAttribute("minDay", minDay);
+		model.addAttribute("maxDay", maxDay);
+		model.addAttribute("roomName", roomName);
+		model.addAttribute("roomList", roomList);
+		model.addAttribute("paymentlist", paymentlist);
+		
+		return "/host/room/roomPaymentList";
 	}
 }

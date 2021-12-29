@@ -69,7 +69,7 @@
 			<c:otherwise>
 				<c:forEach var="r" items="${roomMap.roomList}">
 					<div>[${r.roomCategory}] [${r.roomForm}]</div>
-					<div><a href="${pageContext.request.contextPath}/myRoomOne?roomId=${r.roomId}&detailAddressId=${r.detailAddressId}">${r.roomName}</a></div>
+					<div><a href="${pageContext.request.contextPath}/roomOne?roomId=${r.roomId}&detailAddressId=${r.detailAddressId}">${r.roomName}</a></div>
 					<div>${r.roomIntro}</div>
 					<div>최소 일수 : ${r.minDay} 최소 인원 :  ${r.peopleNum} 가격 : ${r.roomPrice}</div>
 				</c:forEach>

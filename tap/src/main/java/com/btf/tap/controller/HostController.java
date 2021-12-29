@@ -280,12 +280,16 @@ public class HostController {
 		List<Room> roomList = roomService.getHostRoomList(user.getUserId());
 		log.debug(Font.JSB + "숙소명 목록" + roomList.toString() + Font.RESET);
 		
+		List<Map<String, Object>> ageList = roomService.getRoomAgeList(roomId, year);
+		log.debug(Font.JSB + "특정 숙소 연도별 이용 연령층" + ageList.toString() + Font.RESET);
+		
 		// 호스트 정보 주입
 		model.addAttribute("host", host);
 		model.addAttribute("year", year);
 		model.addAttribute("list", list);
 		model.addAttribute("roomName", roomName);
 		model.addAttribute("roomList", roomList);
+		model.addAttribute("ageList", ageList);
 		
 		// 마이페이지로 이동
 		return "host/hostMyPage";

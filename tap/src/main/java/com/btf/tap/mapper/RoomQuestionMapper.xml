@@ -121,10 +121,22 @@
 		</where>
 	</delete>
 	
-	<delete id="deleteRoomQnaAnswer" parameterType="int">
+	<delete id="deleteRoomQnaAnswer" parameterType="com.btf.tap.vo.RoomQnaAnswer">
 		DELETE FROM room_qna_answer
 		<where>
 			room_qna_id = #{roomQnaId}
 		</where>
 	</delete>
+	
+	<!-- 숙소 문의 답변 삽입, 삭제시 답변 여부 변경 -->
+	<update id="updateAnswerCheck" parameterType="com.btf.tap.vo.RoomQnaAnswer">
+		UPDATE room_qna SET 
+			<if test="answer != null">
+				answer_check = 'Y'
+			</if>
+			<if test="answer == null">
+				answer_check = 'N'
+			</if>
+		WHERE room_qna = #{roomQnaId}
+	</update>
 </mapper>

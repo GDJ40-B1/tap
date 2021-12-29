@@ -209,7 +209,7 @@
    </select>
    
    <!-- 1회 이상 결제처리 된 숙소 리스트 조회 -->
-   <select id="selectPayRoomList" parameterType="String" resultType="com.btf.tap.vo.Room">
+   <select id="selectPayRoomList" parameterType="String" resultMap="resultRoom">
 		SELECT DISTINCT
 			r.room_id,
 			r.room_name
@@ -231,10 +231,19 @@
 		FROM reservation rv
 		INNER JOIN room r ON rv.room_id = r.room_id
 		INNER JOIN payment p ON p.reservation_id = rv.reservation_id
-		<where>
-			r.room_id = #{roomId}
-			AND p.refund_status = 'N'
-			AND p.payment_date BETWEEN #{minDay} AND #{maxDay}
-		</where>  
+		<if test="roomId == 0">
+			<where>
+				p.refund_status = 'N'
+				AND p.payment_date BETWEEN #{minDay} AND #{maxDay}
+			</where>  		
+		</if>
+		
+		<if test="roomId != 0">
+			<where>
+				r.room_id = #{roomId}
+				AND p.refund_status = 'N'
+				AND p.payment_date BETWEEN #{minDay} AND #{maxDay}
+			</where>  		
+		</if>
    </select>
 </mapper>

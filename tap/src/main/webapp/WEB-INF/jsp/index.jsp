@@ -311,8 +311,8 @@
   <script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
   
   	  <script>
-	  		$('#districtBtn').click(function(){
-	  			if($('#districtSido').val() == '') {
+	  	$('#districtBtn').click(function(){
+	  		if($('#districtSido').val() == '') {
 				alert('시도를 선택하세요');
 				return;
 			}

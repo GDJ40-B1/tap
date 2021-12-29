@@ -446,7 +446,8 @@ public class RoomService {
 	   return list;
    }
    
-   public List<Map<String, Object>> getPayRoomDateList(int roomId, int minDay, int maxDay){
+   // 특정 숙소 기간별 결제 내역 조회
+   public List<Map<String, Object>> getPayRoomDateList(int roomId, String minDay, String maxDay){
 	   Map<String, Object> paramMap = new HashMap<>();
 	   paramMap.put("roomId", roomId);
 	   paramMap.put("minDay", minDay);

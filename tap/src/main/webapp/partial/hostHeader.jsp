@@ -101,6 +101,12 @@
             </li>
             
             <li class="nav-item">
+                <a class="nav-link" href="${pageContext.request.contextPath}/host/roomPaymentList">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>숙소별 결제내역 확인</span></a>
+            </li>            
+            
+            <li class="nav-item">
                 <a class="nav-link" href="${pageContext.request.contextPath}/host/unansweredRoomQna">
                     <i class="fas fa-fw fa-table"></i>
                     <span>문의 미답변 목록</span></a>

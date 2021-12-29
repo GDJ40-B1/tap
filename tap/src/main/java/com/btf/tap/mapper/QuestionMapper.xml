@@ -106,7 +106,7 @@
 		)
 	</insert>
 	
-	<!-- 문의 답변 삽입 및 답변여부 수정-->
+	<!-- 문의 답변 삽입 -->
 	<insert id="insertQuestionAnswer" parameterType="com.btf.tap.vo.QuestionAnswer">
 		INSERT INTO question_answer(
 			answer_question_id,
@@ -154,7 +154,7 @@
 		</where>
 	</update>
 	
-	<!-- 글 - 댓글 삭제 -->
+	<!-- 문의 삭제 -->
 	<delete id="deleteQuestion" parameterType="int">
 		DELETE FROM question
 		<where>
@@ -162,10 +162,23 @@
 		</where>
 	</delete>
 	
-	<delete id="deleteQuestionAnswer" parameterType="int">
+	<!-- 문의 답변 삭제 -->
+	<delete id="deleteQuestionAnswer" parameterType="com.btf.tap.vo.QuestionAnswer">
 		DELETE FROM question_answer
 		<where>
 			answer_question_id = #{answerQuestionId}
 		</where>
 	</delete>
+	
+	<!-- 문의 답변 삽입, 삭제시 답변 여부 변경 -->
+	<update id="updateAnswerCheck" parameterType="com.btf.tap.vo.QuestionAnswer">
+		UPDATE question SET 
+			<if test="questionAnswerContent != null">
+				answer_status = 'Y'
+			</if>
+			<if test="questionAnswerContent == null">
+				answer_status = 'N'
+			</if>
+		WHERE question_id = #{answerQuestionId}
+	</update>	
 </mapper>

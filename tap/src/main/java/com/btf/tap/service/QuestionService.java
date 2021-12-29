@@ -113,6 +113,7 @@ public class QuestionService {
 	// 문의 답변 삽입
 	public void addQuestionAnswer(QuestionAnswer questionAnswer) {
 		questionMapper.insertQuestionAnswer(questionAnswer);
+		questionMapper.updateAnswerCheck(questionAnswer);
 	}	
 	
 	// 특정 문의 글 조회
@@ -135,6 +136,10 @@ public class QuestionService {
 	
 	// 문의 답변 삭제
 	public void removeQuestionAnswer(int answerQuestionId) {
-		questionMapper.deleteQuestionAnswer(answerQuestionId);
+		QuestionAnswer questionAnswer = new QuestionAnswer();
+		questionAnswer.setAnswerQuestionId(answerQuestionId);
+		
+		questionMapper.deleteQuestionAnswer(questionAnswer);
+		questionMapper.updateAnswerCheck(questionAnswer);
 	}
 }

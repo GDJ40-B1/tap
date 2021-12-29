@@ -19,6 +19,6 @@ public interface QuestionMapper {
 	Question selectQuestionOne(int questionId);							// 특정 문의 글 상세 조회
 	int updateQuestion(Question question);								// 특정 문의 글 수정
 	int deleteQuestion(int questionId);									// 특정 문의 글 삭제
-	int deleteQuestionAnswer(int answerQuestionId);							// 특정 문의 답변 삭제
-	
+	int deleteQuestionAnswer(QuestionAnswer questionAnswer);			// 특정 문의 답변 삭제
+	int updateAnswerCheck(QuestionAnswer questionAnswer);				//
 }

@@ -107,6 +107,7 @@ public class RoomQuestionService {
 	// 숙소 문의 답변 삽입
 	public void addRoomQnaAnswer(RoomQnaAnswer roomQnaAnswer) {
 		roomQuestionMapper.insertRoomQnaAnswer(roomQnaAnswer);
+		roomQuestionMapper.updateAnswerCheck(roomQnaAnswer);
 	}
 
 	// 숙소 문의 글 삭제
@@ -116,6 +117,10 @@ public class RoomQuestionService {
 	
 	// 숙소 문의 답변 삭제
 	public void removeRoomQnaAnswer(int roomQnaId) {
-		roomQuestionMapper.deleteRoomQnaAnswer(roomQnaId);
+		RoomQnaAnswer roomQnaAnswer = new RoomQnaAnswer();
+		roomQnaAnswer.setRoomQnaId(roomQnaId);
+		
+		roomQuestionMapper.deleteRoomQnaAnswer(roomQnaAnswer);
+		roomQuestionMapper.updateAnswerCheck(roomQnaAnswer);
 	}
 }

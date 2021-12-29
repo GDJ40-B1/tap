@@ -153,7 +153,7 @@
                     </div>
 
                     <!-- Content Row -->
-
+					<!-- 등록한 숙소가 없는 경우 해당 div를 아예 안보이게 하거나 차트에서 표현할 방법 필요 -->
                     <div class="row">
 
                         <!-- Area Chart -->
@@ -163,15 +163,15 @@
                                 <div id="roomChart"
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold text-primary">${year}년 ${roomName} 월별 숙소 이용객 수</h6>
-                                    <c:if test="${roomList != null}">
+                                    <c:if test="${!empty roomList}">
 										<select name="room" id="room">
 											<c:forEach var="s" items="${roomList}">
 												<option value="${s.roomId}">${s.roomName}</option>
 											</c:forEach>
 										</select>
-									</c:if>
 										<select name="year" id="year"></select>
 										<button class="btn btn-primary" id="roomAndYearBtn" type="button">조회</button>
+									</c:if>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
@@ -188,21 +188,7 @@
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
+                                    <h6 class="m-0 font-weight-bold text-primary">${year}년 ${roomName} 이용 연령대</h6>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
@@ -484,14 +470,49 @@
 
 	</script>
 	
+	<script>
+	var arr3 = new Array();
+	var arr4 = new Array();
+	
+	<c:forEach items="${ageList}" var="a">
+		arr3.push("${a.ageGroup}");
+		arr4.push("${a.age}");
+	</c:forEach>
+	
+	console.log(arr3);
+	console.log(arr4);
+
+	var ctx = document.getElementById("myPieChart");
+	var myPieChart = new Chart(ctx, {
+	  type: 'pie',
+	  data: {
+	    labels: arr3,
+	    datasets: [{
+	      backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', '#e34f66', '#ebe86e', '#e8c25a'],
+	      hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf', '#b8273d', '#c7c332', '#bd9426'],
+	      hoverBorderColor: "rgba(234, 236, 244, 1)",
+	      data: arr4,
+	    }],
+	  },
+	  options: {
+		    maintainAspectRatio: false,
+		    tooltips: {
+		      backgroundColor: "rgb(255,255,255)",
+		      bodyFontColor: "#858796",
+		      borderColor: '#dddfeb',
+		      borderWidth: 1,
+		      displayColors: false,
+		      caretPadding: 10,
+		    },
+		  },
+		});
+	</script>   	
+	
     <!-- Core plugin JavaScript-->
     <script src="${pageContext.request.contextPath}/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
     
     <!-- Custom scripts for all pages-->
     <script src="${pageContext.request.contextPath}/resources/js/sb-admin-2.min.js"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="${pageContext.request.contextPath}/resources/js/demo/chart-pie-demo.js"></script>
 
 </body>
 

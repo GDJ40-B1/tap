@@ -98,26 +98,6 @@ public class SearchController {
 		// 지역별 해시태그 명소 검색 결과 
 		Map<String, Object> hashtagAttractionMap = searchService.getHashtagAttractionDistrictSearchList(districtSido, districtSigungu, hashtagAttractionCurrentPage, rowPerPage, keyword);
 		log.debug(Font.JSB + hashtagAttractionMap.toString() + Font.RESET);
-
-		User loginUser = (User)session.getAttribute("loginUser");
-		
-		// 회원의 경우 검색어 기록 저장
-		if(loginUser != null && keyword != null) {
-			searchService.addSearchHistory(loginUser, keyword);
-		}
-		
-		// 임시 검색 테스트용 삭제 필요
-		if(loginUser != null && loginUser.getUserLevel().equals("member")) {
-			List<String> searchList = searchService.getSearchHistory(loginUser);
-			log.debug(Font.JSB + searchList.toString() + Font.RESET);
-			model.addAttribute("searchList", searchList);
-		}
-		List<String> sidoList = searchService.getSidoList();
-		model.addAttribute("sidoList", sidoList);
-		
-		
-		
-		model.addAttribute("keyword", keyword);
 		
 		model.addAttribute("roomMap", roomMap);
 		model.addAttribute("roomCurrentPage", roomCurrentPage);
