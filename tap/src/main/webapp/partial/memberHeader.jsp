@@ -92,13 +92,6 @@
             <div class="sidebar-heading">
                 Addons
             </div>
-            
-            <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="${pageContext.request.contextPath}/member/roomList">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>나의 숙소</span></a>
-            </li>
 			
 			<!-- Nav Item - Tables -->
             <li class="nav-item">

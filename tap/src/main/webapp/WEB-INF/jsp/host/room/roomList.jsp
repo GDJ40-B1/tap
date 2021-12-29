@@ -35,7 +35,6 @@
 	                            <th>최소숙박일</th>
 	                            <th>인원수</th>
 	                            <th>가격</th>
-	                            <th>상세보기</th>
 	                            <th>페이지로 이동</th>
 	                        </tr>
 	                    </thead>
@@ -48,7 +47,6 @@
 	                            <th>최소숙박일</th>
 	                            <th>인원수</th>
 	                            <th>가격</th>
-	                            <th>상세보기</th>
 	                            <th>페이지로 이동</th>
 	                        </tr>
 	                    </tfoot>
@@ -56,14 +54,13 @@
 	                    	<c:forEach items="${roomList }" var="room">
 								<tr>
 									<td>${room.roomId }</td>
-									<td>${room.roomName }</td>
+									<td><a href="${pageContext.request.contextPath}/host/roomOne?roomId=${room.roomId}&detailAddressId=${room.detailAddressId }">${room.roomName }</a></td>
 									<td>${room.roomCategory }</td>
 									<td>${room.roomForm }</td>
 									<td>${room.minDay }</td>
 									<td>${room.peopleNum }</td>
 									<td>${room.roomPrice }</td>
-									<td><a href="${pageContext.request.contextPath}/host/roomOne?roomId=${room.roomId}&detailAddressId=${room.detailAddressId }">상세보기</a></td>
-									<td><a href="${pageContext.request.contextPath}/roomOne?roomId=${room.roomId}&detailAddressId=${room.detailAddressId }">상세보기</a></td>
+									<td><a href="${pageContext.request.contextPath}/roomOne?roomId=${room.roomId}&detailAddressId=${room.detailAddressId }">이동</a></td>
 								</tr>
 							</c:forEach>
 	                    </tbody>

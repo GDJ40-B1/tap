@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
@@ -141,24 +140,24 @@
    <!-- end : mainFooter -->
    
    	<!-- Datepicker 관련 script-->
-   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-   <link rel="stylesheet" href="/resources/demos/style.css">
-   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-   <script src="js/lib/jquery/jquery.dataTables.js"></script>
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<link rel="stylesheet" href="/resources/demos/style.css">
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="js/lib/jquery/jquery.dataTables.js"></script>
    <script>
       // 선택 불가능하게 할 날짜 리스트 추출
       // '2021-12-24', '2022-1-1'의 형식으로 해야함.
       var disabledDays = new Array();
-      <c:forEach items="${priceRoomDate}" var="prd">
-         disabledDays.push("${prd}");
-         console.log("${prd}");
+      <c:forEach items="${ReservationListOfDate}" var="rld">
+         disabledDays.push("${rld}");
+         console.log("${rld}");
       </c:forEach>
       
       // 이미 선택된 기간의 시작일만 추출하여 list로 저장
       var disableStartList = new Array();
-      <c:forEach items="${priceRoomList}" var="prl">
-         disableStartList.push("${prl.startDate}");
+      <c:forEach items="${ReservationDateList}" var="rdl">
+         disableStartList.push("${rdl.checkInDate}");
       </c:forEach>
       
       // 이미 예약이 존재하는 날짜 
@@ -220,9 +219,9 @@
                }
              
              // maxDate가 설정되지 않았다면, 선택된 시작일 이후에 선택 불가능한 날짜가 없는것이니,
-             // 오늘 날짜로부터 1년 후까지만 선택 가능하도록 maxDate를 설정
+             // 오늘 날짜로부터 3개월 후까지만 선택 가능하도록 maxDate를 설정
              if(endMaxDate==null){
-                endMaxDate = '+12M';
+                endMaxDate = '+3M';
              }
                $("#dateRangePicker2").datepicker('option','maxDate', endMaxDate);
            });
