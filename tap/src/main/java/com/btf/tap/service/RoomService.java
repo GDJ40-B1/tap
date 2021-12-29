@@ -421,13 +421,6 @@ public class RoomService {
    
    /*---숙소별 가격 끝---*/
    
-   // 마지막 등록한 숙소 ID값 조회
-   public int getLastRoom(String hostId) {
-	   int roomId = roomMapper.selectLastRoom(hostId);
-
-	   return roomId;
-   }
-   
    // 숙소 연도별 이용 연령층 조회
    public List<Map<String, Object>> getRoomAgeList(int roomId, int year) {
 	   Map<String, Object> paramMap = new HashMap<>();
@@ -444,6 +437,18 @@ public class RoomService {
    public List<Room> getPayRoomList(String hostId) {
 	   List<Room> list = new ArrayList<>();
 	   list = roomMapper.selectPayRoomList(hostId);
+	   log.debug(Font.JSB + list.toString() + Font.RESET);
+	   
+	   return list;
+   }
+   
+   public List<Map<String, Object>> getPayRoomDateList(int roomId, int minDay, int maxDay){
+	   Map<String, Object> paramMap = new HashMap<>();
+	   paramMap.put("roomId", roomId);
+	   paramMap.put("minDay", minDay);
+	   paramMap.put("maxDay", maxDay);
+	   
+	   List<Map<String, Object>> list = roomMapper.selectPayRoomDateList(paramMap);
 	   log.debug(Font.JSB + list.toString() + Font.RESET);
 	   
 	   return list;

@@ -81,22 +81,22 @@ public class SearchController {
 																					   @RequestParam(name="attractionCurrentPage", defaultValue="1") int attractionCurrentPage, 
 																					   @RequestParam(name="hashtagRoomCurrentPage", defaultValue = "1") int hashtagRoomCurrentPage,
 																					   @RequestParam(name="hashtagAttractionCurrentPage", defaultValue = "1") int hashtagAttractionCurrentPage,
-																					   String sido, String sigungu, String keyword) {
+																					   String districtSido, String districtSigungu, String keyword) {
 		
 		// 지역별 숙소 검색 결과
-		Map<String, Object> roomMap = searchService.getRoomDistrictSearchList(sido, sigungu, roomCurrentPage, rowPerPage, keyword);
+		Map<String, Object> roomMap = searchService.getRoomDistrictSearchList(districtSido, districtSigungu, roomCurrentPage, rowPerPage, keyword);
 		log.debug(Font.JSB + roomMap.toString() + Font.RESET);
 
 		// 지역별 명소 검색 결과
-		Map<String, Object> attractionMap = searchService.getAttractionDistrictSearchList(sido, sigungu, attractionCurrentPage, rowPerPage, keyword);
+		Map<String, Object> attractionMap = searchService.getAttractionDistrictSearchList(districtSido, districtSigungu, attractionCurrentPage, rowPerPage, keyword);
 		log.debug(Font.JSB + attractionMap.toString() + Font.RESET);
 		
 		// 지역별 해시태그 숙소 검색 결과
-		Map<String, Object> hashtagRoomMap = searchService.getHashtagRoomDistrictSearchList(sido, sigungu, hashtagRoomCurrentPage, rowPerPage, keyword);
+		Map<String, Object> hashtagRoomMap = searchService.getHashtagRoomDistrictSearchList(districtSido, districtSigungu, hashtagRoomCurrentPage, rowPerPage, keyword);
 		log.debug(Font.JSB + hashtagRoomMap.toString() + Font.RESET);
 		
 		// 지역별 해시태그 명소 검색 결과 
-		Map<String, Object> hashtagAttractionMap = searchService.getHashtagAttractionDistrictSearchList(sido, sigungu, hashtagAttractionCurrentPage, rowPerPage, keyword);
+		Map<String, Object> hashtagAttractionMap = searchService.getHashtagAttractionDistrictSearchList(districtSido, districtSigungu, hashtagAttractionCurrentPage, rowPerPage, keyword);
 		log.debug(Font.JSB + hashtagAttractionMap.toString() + Font.RESET);
 
 		User loginUser = (User)session.getAttribute("loginUser");
@@ -139,7 +139,7 @@ public class SearchController {
 	@ResponseBody
 	public void requestSigunguList(HttpServletResponse res, @RequestParam Map<String, Object> paramMap) throws IOException {
 		res.setContentType("text/html;charset=UTF-8");
-		String sido = (String)paramMap.get("sido");
+		String sido = (String)paramMap.get("districtSido");
 		
 		// 넘어온 시도명으로 하위 시군구 조회 후 json 반환
 		List<String> sigunguList = searchService.getSigunguList(sido);
@@ -155,7 +155,7 @@ public class SearchController {
 		pw.close();
 	}
 	
-	// 이전 검색어 삭제 - 이동 필요
+	// 이전 검색어 삭제
 	@RequestMapping("/removeSearchHistory")
 	@ResponseBody
 	public void RequestRemoveSearchHistory(HttpSession session , @RequestParam Map<String, Object> paramMap) {

@@ -163,11 +163,13 @@
                                 <div id="roomChart"
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold text-primary">${year}년 ${roomName} 월별 숙소 이용객 수</h6>
+                                    <c:if test="${roomList != null}">
 										<select name="room" id="room">
 											<c:forEach var="s" items="${roomList}">
 												<option value="${s.roomId}">${s.roomName}</option>
 											</c:forEach>
 										</select>
+									</c:if>
 										<select name="year" id="year"></select>
 										<button class="btn btn-primary" id="roomAndYearBtn" type="button">조회</button>
                                 </div>
@@ -386,9 +388,10 @@
 	<script>	
 		$('#roomAndYearBtn').click(function(){
 			var roomId = $("#room option:selected").val();
+			var roomName = $("#room option:selected").text();
 			var year = $("#year option:selected").val();
 			
-			location.href="${pageContext.request.contextPath}/hostMyPage?roomId="+roomId+"&year="+year;
+			location.href="${pageContext.request.contextPath}/hostMyPage?roomId="+roomId+"&year="+year+"&roomName="+roomName;
 		});
     </script>
 	

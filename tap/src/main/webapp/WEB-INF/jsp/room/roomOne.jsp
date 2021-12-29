@@ -223,7 +223,7 @@
 								<c:forEach var="a" items="${q.roomQnaAnswer}">
 									<div>답변 : ${a.answer}</div>
 									<div>등록일 : ${a.answerCreateDate}</div>
-									<c:if test="${loginUser != null && loginUser.userLevel == 'System_Admin'}">
+									<c:if test="${loginUser != null && room.hostId == loginUser.userId || loginUser.userLevel == 'system_admin'}">
 										<div><a href="javascript:removeAnswer(${a.roomQnaId}, '${room.hostId}');">삭제</a></div>
 									</c:if>
 								</c:forEach>
@@ -234,15 +234,15 @@
        			</c:otherwise>
        		</c:choose>
       		<c:if test="${roomQna.roomQnaCurrentPage > 1}">
-				<a href="${pageContext.request.contextPath}/roomOne?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}&roomQnaCurrentPage=${roomQna.roomQnaCurrentPage-1}#roomQna">이전</a>
+				<a href="${pageContext.request.contextPath}/roomOne?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}&roomQnaCurrentPage=${roomQna.roomQnaCurrentPage-1}">이전</a>
 			</c:if>
 			
 			<c:forEach var="i" begin="${roomQna.roomQnaStartPage}" end="${roomQna.roomQnaEndPage}">
-				<a href="${pageContext.request.contextPath}/roomOne?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}&roomQnaCurrentPage=${i}#roomQna"><c:out value="${i}"/></a>
+				<a href="${pageContext.request.contextPath}/roomOne?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}&roomQnaCurrentPage=${i}"><c:out value="${i}"/></a>
 			</c:forEach>
 			
 			<c:if test="${roomQna.roomQnaCurrentPage < roomQna.roomQnaLastPage}">
-				<a href="${pageContext.request.contextPath}/roomOne?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}&roomQnaCurrentPage=${roomQna.roomQnaCurrentPage+1}#roomQna">다음</a>
+				<a href="${pageContext.request.contextPath}/roomOne?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}&roomQnaCurrentPage=${roomQna.roomQnaCurrentPage+1}">다음</a>
 			</c:if>		
        		
          	</div>

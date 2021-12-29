@@ -13,7 +13,7 @@
   <meta content="" name="keywords">
 	
   <!-- jquery -->	
-  <script src="http://code.jquery.com/jquery-latest.js"></script> 
+  <script src="http://code.jquery.com/jquery-latest.js"></script>
   	
   <!-- Favicons -->
   <link href="${pageContext.request.contextPath}/resources/img/favicon.png" rel="icon">
@@ -70,35 +70,35 @@
     <section id="list" class="list">
       <div class="container">
 		
-		<form id="addQuestionForm" action ="${pageContext.request.contextPath}/addQuestion" method ="post">
-		<!-- 세션 ID, 카테고리 -->
-		<input type="hidden" name="writerId" value="${loginUser.userId}">
-		<input type="hidden" name="writerCategory" value="${loginUser.userLevel}">
-		<div class="form-group">
-		<label for="questionTitle">제목 : </label>
-			<input type ="text" class="form-control" placeholder="제목을 입력해주세요" id="questionTitle" name="questionTitle" >
-		</div>
-		<div class="form-group">
-		<label for="questionContent">내용 : </label>
-			<textarea class="form-control" rows="5" placeholder="내용을 입력해주세요" id="questionContent" name="questionContent" ></textarea>
-		</div>
-		<div class="form-check">
-		 <label class="form-check-label">
-		    <input type="radio" class="form-check-input" name="secretStatus" value="Y">비밀글 작성
-		 </label>
-		</div>
-		<div class="form-check">
-  		<label class="form-check-label">
-   			<input type="radio" class="form-check-input" name="secretStatus" value="N" checked>외부 공개 허용
-  		</label>
-		</div>
-		<div>
-			<button id="btn" type ="button">작성</button>
-		</div>
-	</form>
+		<form id="addQuestionForm" action ="${pageContext.request.contextPath}/addQuestion" method="post">
+			<!-- 세션 ID, 카테고리 -->
+			<input type="hidden" name="writerId" value="${loginUser.userId}">
+			<input type="hidden" name="writerCategory" value="${loginUser.userLevel}">
+			<div class="form-group">
+			<label for="questionTitle">제목 : </label>
+				<input type ="text" class="form-control" placeholder="제목을 입력해주세요" id="questionTitle" name="questionTitle" >
+			</div>
+			<div class="form-group">
+			<label for="questionContent">내용 : </label>
+				<textarea class="form-control" rows="5" placeholder="내용을 입력해주세요" id="questionContent" name="questionContent" ></textarea>
+			</div>
+			<div class="form-check">
+			 <label class="form-check-label">
+			    <input type="radio" class="form-check-input" name="secretStatus" value="Y">비밀글 작성
+			 </label>
+			</div>
+			<div class="form-check">
+	  		<label class="form-check-label">
+	   			<input type="radio" class="form-check-input" name="secretStatus" value="N" checked>외부 공개 허용
+	  		</label>
+			</div>
+			<div>
+				<button id="questionBtn" type ="button">작성</button>
+			</div>
+		</form>
 	
 	<script>
-		$('#btn').click(function(){
+		$('#questionBtn').click(function(){
 			if($('#questionTitle').val() == '') {
 				alert('제목을 입력하세요');
 				return;

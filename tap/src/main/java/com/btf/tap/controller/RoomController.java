@@ -115,7 +115,7 @@ public class RoomController {
 		roomQuestionService.addRoomQnaAnswer(roomQnaAnswer);
 		log.debug(Font.JSB + roomQnaAnswer.toString() + Font.RESET);
 		
-		return "redirect:/roomOne?roomId="+roomId+"&detailAddressId="+detailAddressId+"#roomQna";
+		return "redirect:/roomOne?roomId="+roomId+"&detailAddressId="+detailAddressId;
 	}
 	
 	/* Question 관련 */
@@ -131,21 +131,21 @@ public class RoomController {
 		
 		roomQuestionService.removeRoomQuestion(roomQna);
 		
-		return "redirect:/roomOne?roomId="+roomId+"&detailAddressId="+detailAddressId+"#roomQna";
+		return "redirect:/roomOne?roomId="+roomId+"&detailAddressId="+detailAddressId;
 	}
 	
 	@GetMapping("/nonMember/removeRoomQnaAnswer")
 	public String getRemoveRoomQnaAnswer(HttpSession session, int roomQnaId, String hostId, int roomId, int detailAddressId) {
 		User loginUser = (User)session.getAttribute("loginUser");
 
-		// 해당 호스트가 아닌 가입자가 문의 답변 삭제 접근한 경우
-		if(loginUser != null && !loginUser.getUserLevel().equals("system_admin") && !hostId.equals(loginUser.getUserId())) {
+		// 해당 숙소 호스트가 아닌 호스트 가입자가 문의 답변 삭제 접근한 경우
+		if(loginUser != null && !hostId.equals(loginUser.getUserId()) && !loginUser.getUserLevel().equals("system_admin")) {
 			return "redirect:/";
 		}
 		
 		roomQuestionService.removeRoomQnaAnswer(roomQnaId);
 		
-		return "redirect:/roomOne?roomId="+roomId+"&detailAddressId="+detailAddressId+"#roomQna";
+		return "redirect:/roomOne?roomId="+roomId+"&detailAddressId="+detailAddressId;
 	}
 	
 	@GetMapping("/nonMember/roomQnaPopup")

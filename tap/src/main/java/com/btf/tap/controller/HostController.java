@@ -251,7 +251,7 @@ public class HostController {
 	}
 	
 	@GetMapping("/hostMyPage")
-	public String getMyPage(HttpServletRequest request, Model model, @RequestParam(name="roomId", defaultValue = "0") int roomId, @RequestParam(name="year", defaultValue = "0") int year) {
+	public String getMyPage(HttpServletRequest request, Model model, @RequestParam(name="roomId", defaultValue = "0") int roomId, @RequestParam(name="year", defaultValue = "0") int year, String roomName) {
 	
 		HttpSession session = request.getSession();
 			
@@ -268,9 +268,7 @@ public class HostController {
 		host.setHostId(user.getUserId());
 		host = hostService.getHostOne(host);
 		
-		String hostId = user.getUserId();
-		
-		// 페이지 초기 접근 시 roomId, 현재 연도 값을 가져옴
+		// 페이지 초기 접근 시 현재 연도 값을 가져옴
 		if(year == 0) {
 			LocalDate now = LocalDate.now();
 			year = now.getYear();
@@ -279,13 +277,14 @@ public class HostController {
 		List<Map<String, Object>> list = reservationService.getRoomReservationCheck(roomId, year);
 		log.debug(Font.JSB + "특정 숙소 연도별 이용객 수" + list.toString() + Font.RESET);
 		
-		List<Room> roomList = roomService.getHostRoomList(hostId);
+		List<Room> roomList = roomService.getHostRoomList(user.getUserId());
 		log.debug(Font.JSB + "숙소명 목록" + roomList.toString() + Font.RESET);
 		
 		// 호스트 정보 주입
 		model.addAttribute("host", host);
 		model.addAttribute("year", year);
 		model.addAttribute("list", list);
+		model.addAttribute("roomName", roomName);
 		model.addAttribute("roomList", roomList);
 		
 		// 마이페이지로 이동

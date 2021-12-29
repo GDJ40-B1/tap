@@ -192,18 +192,7 @@
 			  AND sigungu = #{sigungu}
 		  </where>	
    </select>
-   
-   <!-- 마지막으로 등록한 숙소 ID값 조회 -->
-   <select id="selectLastRoom" parameterType="String" resultType="int">
-		SELECT 
-			room_id
-		FROM room
-		<where>
-			host_id = #{hostId}
-		</where>
-		ORDER BY create_date DESC LIMIT 1
-   </select>
-   
+
    <!-- 숙소 연도별 이용 연령층 조회 -->
    <select id="selectRoomAgeList" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT
@@ -220,7 +209,7 @@
    </select>
    
    <!-- 1회 이상 결제처리 된 숙소 리스트 조회 -->
-   <select id="selecetPayRoomList" parameterType="String" resultType="com.btf.tap.vo.Room">
+   <select id="selectPayRoomList" parameterType="String" resultType="com.btf.tap.vo.Room">
 		SELECT DISTINCT
 			r.room_id,
 			r.room_name
