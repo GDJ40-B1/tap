@@ -44,11 +44,8 @@
 
 <body>
 	
-  <!-- header 불러오기 -->
-  <c:import url="/partial/mainHeader.jsp"></c:import>
-
   <!-- ======= Hero Section ======= -->
-  <section id="hero">
+  <section id="hero" style="height: 500px;">
     <div id="heroCarousel" data-bs-interval="5000" class="carousel slide carousel-fade" data-bs-ride="carousel">
 
       <ol class="carousel-indicators" id="hero-carousel-indicators"></ol>
@@ -56,15 +53,19 @@
       <div class="carousel-inner" role="listbox">
 
         <!-- Slide 1 -->
-        <div class="carousel-item active" style="background-image: url(${pageContext.request.contextPath}/resources/img/slide/slide-1.jpg)">
+        <div class="carousel-item active" style="background-image: url(${pageContext.request.contextPath}/resources/img/slide/index-slide1.jpg)">
         </div>
 
         <!-- Slide 2 -->
-        <div class="carousel-item" style="background-image: url(${pageContext.request.contextPath}/resources/img/slide/slide-2.jpg)">
+        <div class="carousel-item" style="background-image: url(${pageContext.request.contextPath}/resources/img/slide/index-slide2.jpg)">
         </div>
-
+        
         <!-- Slide 3 -->
-        <div class="carousel-item" style="background-image: url(${pageContext.request.contextPath}/resources/img/slide/slide-3.jpg)">
+        <div class="carousel-item" style="background-image: url(${pageContext.request.contextPath}/resources/img/slide/index-slide3.jpg)">
+        </div>
+        
+        <!-- Slide 4 -->
+        <div class="carousel-item" style="background-image: url(${pageContext.request.contextPath}/resources/img/slide/index-slide4.jpg)">
         </div>
 
       </div>
