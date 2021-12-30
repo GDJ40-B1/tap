@@ -37,6 +37,8 @@ public class ReservationService {
 	AddressMapper addressMapper;
 	@Autowired 
 	RoomMapper roomMapper;
+	@Autowired
+	PointService pointService;
 	
 	
 	
@@ -72,7 +74,6 @@ public class ReservationService {
 		// 체크인, 체크아웃 Date 객체 선언
 		Date checkInDate = null;
 		Date checkOutDate = null;
-		System.out.println("!!!!!!!!!!"+reservation.getCheckInDate()+reservation.getCheckOutDate());
 		// Date 타입으로 날짜 받기
 		try {
 			checkInDate = new SimpleDateFormat("yyyy-MM-dd").parse(reservation.getCheckInDate());
@@ -186,7 +187,8 @@ public class ReservationService {
 	}
 	//예약 삭제하기.
 	public void deleteReservation(Reservation reservation) {
-		// 환불 되도록 하기
+		// 환불시 결제테이블에서 환불여부 수정
+		pointService.refundPayment(reservation.getReservationId());
 		reservationMapper.deleteReservation(reservation);
 	}
 	
