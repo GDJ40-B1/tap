@@ -79,10 +79,20 @@
 							</c:when>
 						</c:choose>
 					</div>
-					<div>
-						<span>숙소후기 내용 </span> 
-						<textarea class="form-control" rows="3" cols="30" name="roomReviewContent" readonly="readonly">${r.roomReviewContent}</textarea>
-					</div>
+					<c:forEach var="rc" items="${r.roomReviewComment}">
+						<c:choose>
+							<c:when test="${r.answerStatus == 'N'}">
+								<span>숙소후기 내용 </span> 
+								<textarea class="form-control" rows="3" cols="30" name="roomReviewContent" readonly="readonly">${r.roomReviewContent}</textarea>	
+							</c:when>
+							<c:otherwise>
+								<span>숙소후기 내용 </span> 
+								<textarea class="form-control" rows="3" cols="30" name="roomReviewContent" readonly="readonly">${r.roomReviewContent}</textarea>
+								<span>숙소후기 답변</span>
+								<textarea class="form-control" rows="5" cols="50" name="roomReviewCommentContent" readonly="readonly">${rc.roomReviewCommentContent}</textarea>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
 					<div>
 						<hr style="height: 3px;">
 					</div>
