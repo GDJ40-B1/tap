@@ -24,6 +24,7 @@ public class AttractionService {
 	@Autowired AddressMapper addressMapper;
 	@Autowired HashtagService hashtagService;
 	
+	
 	// 특정 명소 정보 추출
 	public Map<String, Object> getAttractionOne(int attractionId, int detailAddressId){
 		Map<String, Object> map = new HashMap<>();
@@ -72,10 +73,31 @@ public class AttractionService {
 		return address;
 	}		
 	
-	// 명소 전체 목록
-	public List<Attraction> getAttractionList(){
-		List<Attraction> list = attractionMapper.selectAttractionList();
-		return list;
+	// 명소 전체 목록(승인된것만) 
+	public Map<String, Object> getAttractionList(String approvalStatus, int currentPage, int rowPerPage){
+		
+		Map<String, Object> paramMap = new HashMap<>();
+		
+		int beginRow = (currentPage-1)*rowPerPage;
+		paramMap.put("approvalStatus", approvalStatus);
+		paramMap.put("beginRow", beginRow);
+		paramMap.put("rowPerPage", rowPerPage);
+		
+		List<Attraction> list = attractionMapper.selectAttractionList(paramMap);
+		
+		Map<String, Object> returnMap = new HashMap<>();
+		int lastPage = 0;
+		int totalCount = attractionMapper.selectAttractionTotalCount(approvalStatus);
+		lastPage = totalCount/rowPerPage;
+		if(totalCount%rowPerPage!=0) {
+			lastPage +=1;
+		}
+		returnMap.put("list", list);
+		returnMap.put("lastPage", lastPage);
+		return returnMap;
+		
+	
+		
 	}
 	
 	// 명소 등록

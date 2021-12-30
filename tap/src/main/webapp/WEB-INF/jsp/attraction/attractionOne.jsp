@@ -44,10 +44,6 @@
 				<td>소개</td>
 				<td id="attractionContent">${attraction.attractionContent }</td>
 			</tr>
-			<tr>
-				<td>평균 별점</td>
-				<td>구현하기</td>
-			</tr>
 		</table>
 	</form>
 	

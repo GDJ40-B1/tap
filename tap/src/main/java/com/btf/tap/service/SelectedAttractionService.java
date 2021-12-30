@@ -23,7 +23,7 @@ public class SelectedAttractionService {
 	@Autowired SelectedAttractionMapper selectedAttractionMapper;
 	//@Autowired AttractionMapper attractionMapper;
 	//@Autowired HashtagService hashtagService;
-	
+		
 	// 명소 선택하기
 	public int addSelectedAttraction(SelectedAttraction selectedAttraction) {
 		return selectedAttraction.getSelectedAttractionId();
@@ -35,17 +35,16 @@ public class SelectedAttractionService {
 		return list;
 	}
 	
-	/*선택한 명소 수정하기(날짜나 시간)
+	//선택한 명소 수정하기(날짜나 시간)
 	public void modifySelectedAttraction(SelectedAttraction selectedAttraction) {
 		selectedAttractionMapper.updateSelectedAttraction(selectedAttraction);
 	}
-	*/
+	
 	
 	// 선택한 명소 삭제하기
 	public void removeSelectedAttraction(int selectedAttractionId) {
 		selectedAttractionMapper.deleteSelectedAttraction(selectedAttractionId);
 	}
-		
 	
 	
 }

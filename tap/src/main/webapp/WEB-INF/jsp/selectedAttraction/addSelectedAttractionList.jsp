@@ -30,9 +30,9 @@
 			<c:forEach items="${list }" var="list">
 				<tr>
 					<td>${list.attractionCategory }</td>
-					<td><a href="${pageContext.request.contextPath}/addSelectedattractionOne?attractionId=${list.attractionId}&detailAddressId=${list.detailAddressId}">${list.attractionName }</a></td>
+					<td><a href="${pageContext.request.contextPath}/addSelectedAttractionOne?attractionId=${list.attractionId}&detailAddressId=${list.detailAddressId}">${list.attractionName }</a></td>
 					<td>${list.attractionPhoneNumber }</td>
-					<td><a href="${pageContext.request.contextPath}/addselectedAttraction?attractionId=${list.attractionId}/">선택</a></td>
+					<td><a href="${pageContext.request.contextPath }/addSelectedAttraction?selectedAttractionId=${selectedAttraction.selectedAttractionId }">추가하기</a></td>
 				</tr>
 				</c:forEach>
 
@@ -45,6 +45,8 @@
    <div>
       <jsp:include page="/partial/mainFooter.jsp"></jsp:include>
    </div>
-   <!-- end : mainFooter -->	
+   <!-- end : mainFooter -->
+   
+   	
 </body>
 </html>

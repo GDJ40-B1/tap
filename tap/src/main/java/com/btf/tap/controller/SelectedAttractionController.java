@@ -26,8 +26,10 @@ public class SelectedAttractionController {
 	
 	// 추가부분 수정해야함
 	@GetMapping("/addSelectedAttraction")
-	public String getAddSelectedAttraction() {
-	return "/selectedAttraction/addSelectedAttraction";
+	public String getAddSelectedAttraction(Model model, int attractionId, int detailAddressId) {
+		Map<String, Object> map = attractionService.getAttractionOne(attractionId, detailAddressId);
+		model.addAttribute("attraction",map.get("attraction"));
+		return "/selectedAttraction/addSelectedAttraction";
 	}
 	@PostMapping("/addSelectedAttraction")
 	public String postAddSelectedAttraction(SelectedAttraction selectedAttraction) {
@@ -44,7 +46,7 @@ public class SelectedAttractionController {
 		return "/selectedAttraction/selectedAttractionList";
 	}
 	
-	// 명소 추기하기 리스트	
+	// 명소 추가하기 리스트	
 	@GetMapping("/addSelectedAttractionList")
 	public String attractionList(Model model) {
 		List<Attraction> list = attractionService.getAttractionList();
@@ -64,7 +66,7 @@ public class SelectedAttractionController {
 	
 	// 수정하기(수정도 해야함)
 	@GetMapping("/modifySelectedAttraction")
-	public String getModifySelectedAttraction() {
+	public String getModifySelectedAttraction(Model model, int selectedAttractionId) {
 		return "/selectedAttraction/modifyAttraction";
 	}
 	

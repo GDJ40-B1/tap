@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.btf.tap.service.AttractionService;
@@ -22,13 +23,13 @@ import lombok.extern.slf4j.Slf4j;
 public class AttractionController {
 	@Autowired AttractionService attractionService;
 
-	@GetMapping("/addAttraction")
+	@GetMapping("/member/addAttraction")
 	public String getAddAttraction(Model model) {
 		model.addAttribute("attractionCategoryList", attractionService.getAttractionCategory());
-		return "attraction/addAttraction";
+		return "/member/attraction/addAttraction";
 	}
 	
-	@PostMapping("/addAttraction")
+	@PostMapping("/member/addAttraction")
 	public String postAddAttraction(Attraction attraction, Address address, String hashtag) {		
 		// 명소 추가
 		attractionService.addAttraction(attraction, address, hashtag);
@@ -47,15 +48,20 @@ public class AttractionController {
 		return "attraction/attractionOne";
 	}	
 	
-	//페이징 추가하기
+
+	private static final int ROW_PER_PAGE = 2;
+	
 	@GetMapping("/attractionList")
-	public String attractionList(Model model) {
-		List<Attraction> list = attractionService.getAttractionList();
-		model.addAttribute("list",list);
+	public String attractionList(Model model, 
+			@RequestParam(defaultValue="1") int currentPage,
+			@RequestParam(required = false) String approvalStatus) {
+		
+		Map<String, Object> map = attractionService.getAttractionList(approvalStatus, currentPage, ROW_PER_PAGE);
+		model.addAttribute("list",map.get("list"));
+		model.addAttribute("lastPage", map.get("lastPage"));
+		model.addAttribute("currentPage", currentPage);
 		return "attraction/attractionList";
 	}
-	
-	//[시스템 관리자]
 	
 	//리스트 출력
 	@GetMapping("/systemAdmin/attractionList")

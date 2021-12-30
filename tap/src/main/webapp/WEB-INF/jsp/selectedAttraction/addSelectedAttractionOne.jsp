@@ -19,10 +19,9 @@
    
 	<h1>명소 상세보기</h1>
 	<div>${hashtag }</div>
-	<div>
-		<a href="${pageContext.request.contextPath }/addSelectedAttraction?selectedAttractionId=${selectedAttraction.selectedAttractionId }">추가하기</a>
-	</div>
+
 	<form action="${pageContext.request.contextPath}/addSelectedAttractionOne" method="post">
+		<a href="${pageContext.request.contextPath }/addSelectedAttraction?selectedAttractionId=${selectedAttraction.selectedAttractionId }">추가하기</a>
 			
 		<!-- 지도 -->
 		<div id="map" style="width:100%;height:400px;"></div>

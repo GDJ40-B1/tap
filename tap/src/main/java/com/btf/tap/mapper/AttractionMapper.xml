@@ -66,11 +66,21 @@
 			approval_status='Y'
 		ORDER BY
 			create_date DESC
+		LIMIT #{beginRow}, #{rowPerPage}
 	
 	</select>
+	<!-- 승인된 명소 전체 갯수 -->
+	<select id="selectAttractionTotalCount" parameterType="String" resultType="int">
+		SELECT COUNT(*) 
+		FROM
+			attraction
+		WHERE
+			approval_status='Y'
+	</select>
+	
 	
 	<!-- [관리자] 승인 대기중인 명소 목록 -->
-	<select id="selectApprovalAttractionList" resultType="com.btf.tap.vo.Attraction">
+	<select id="selectApprovalAttractionList" parameterType="Map"	resultMap="resultAttraction">
 		SELECT
 			attraction_id attractionId, detail_address_id detailAddressId, attraction_category attractionCategory, attraction_name attractionName, attraction_phone_number attractionPhoneNumber, approval_status approvalStatus
 		FROM
@@ -120,5 +130,5 @@
 			AND sigungu = #{sigungu}
 		</where>	
 	</select> 
-
+	
 </mapper>

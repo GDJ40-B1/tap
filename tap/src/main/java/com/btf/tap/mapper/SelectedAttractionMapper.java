@@ -14,7 +14,7 @@ public interface SelectedAttractionMapper {
 	// 선택한 명소 목록 출력
 	List<SelectedAttraction> selectSelectedAttractionList();
 	// 선택한 명소 수정
-	//void updateSelectedAttraction(SelectedAttraction selectedAttraction);
+	void updateSelectedAttraction(SelectedAttraction selectedAttraction);
 	// 선택한 명소 삭제
 	void deleteSelectedAttraction(int selectedAttractionId);
 	

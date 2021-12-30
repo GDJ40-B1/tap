@@ -12,6 +12,7 @@
       <result column="update_date" property="updateDate"></result>
 </resultMap>
 
+
    
 	<!-- 명소 선택하기(데이터 추가) -->
 <insert id="insertSelectedAttraction" parameterType="com.btf.tap.vo.SelectedAttraction">
@@ -37,7 +38,7 @@
 		create_date DESC
 </select>
 <!-- 
-
+예약id,와 선택한 명소 같이 보여주기
 <select id="SelectedAttractionList2" resultType="com.btf.tap.vo.SelectedAttraction">
 SELECT 
 	a.attraction_name, sa.*, r.reservation_id

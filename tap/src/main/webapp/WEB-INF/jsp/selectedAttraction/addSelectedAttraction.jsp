@@ -5,6 +5,7 @@
 <html>
 <head>
 <script src="http://code.jquery.com/jquery-latest.js"></script> 
+
 <meta charset="UTF-8">
 <title>addSelectedAttraction</title>
 </head>
@@ -21,9 +22,11 @@
 	<form action="${pageContext.request.contextPath}/addSelectedAttraction" method="post">
 		
 		<div>
-			<label>명소 선택</label>
+			<label>선택한 명소</label>
+
 			<div>
-				<a href="${pageContext.request.contextPath}/addAttractionList"></a>
+				<!-- 선택한거 받아오는 부분.. -->
+				
 			</div>
 		</div>
 		
@@ -43,7 +46,7 @@
 		</div>
 		
 			<br>
-			<button type="submit" id="addBtn"> 선택하기</button>
+			<button type="button" id="addBtn"> 선택하기</button>
 		</form>	
 	</section>
 	</main>

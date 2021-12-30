@@ -34,8 +34,8 @@
 					<td><a href="${pageContext.request.contextPath}/attractionOne?attractionId=${list.attractionId}&detailAddressId=${list.detailAddressId}">${list.attractionName }</a></td>
 					<td>${list.date }</td>
 					<td>${list.time }</td>
-					<td><a href="${pageContext.request.contextPath}/modifySelectedAttraction?attractionId=${list.selectedAttractionId }"></a>수정하기</td>
-					<td><a href="${pageContext.request.contextPath}/removeSelectedAttraction?attractionId=${list.selectedAttractionId }"></a>삭제하기</td>
+					<td><a href="${pageContext.request.contextPath}/modifySelectedAttraction?selectedAttractionId=${list.selectedAttractionId }"></a>수정하기</td>
+					<td><a href="${pageContext.request.contextPath}/removeSelectedAttraction?selectedAttractionId=${list.selectedAttractionId }"></a>삭제하기</td>
 				</tr>
 				</c:forEach>
 
