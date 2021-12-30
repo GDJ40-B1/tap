@@ -124,7 +124,7 @@
 	
 	
 	
-	<!-- 예약 수정하기.. 필요할까요? -->
+	<!-- 예약 수정하기.. 필요할까요?-->
 	<update id="updateReservation" parameterType="com.btf.tap.vo.Reservation">
 		UPDATE reservation SET	
 			check_in_date=#{checkInDate}, check_out_date=#{checkOutDate}, people_num=#{peopleNum}, update_date=NOW() 
