@@ -27,7 +27,11 @@ public class CouponService {
 	
 	// 보유 쿠폰 추가
 	public void addMemberCoupon(Map<String, Object> memberCoupon) {
-		couponMapper.insertMemberCoupon(memberCoupon);
+		// 쿠폰의 수량이 하나 이상이라면, 쿠폰을 추가한다.
+		if(!(couponMapper.selectCouponQuantity((int)memberCoupon.get("couponId"))<1)) {
+			couponMapper.updateCouponQuantity((int)memberCoupon.get("couponId"));
+			couponMapper.insertMemberCoupon(memberCoupon);
+		}
 	}
 	
 	// 쿠폰 수정

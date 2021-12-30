@@ -14,6 +14,7 @@
 		<result column="update_date" property="updateDate"></result>
 	</resultMap>
 	
+	<!-- 특정 쿠폰의 보유쿠폰 삭제 -->
 	<delete id="deleteMemberCoupon" parameterType="int">
 		DELETE FROM member_coupon
 		WHERE coupon_id= #{couponId}
@@ -36,6 +37,18 @@
 			#{couponId}, #{memberId}, NOW()
 		)
 	</insert>
+	
+	<!-- 특정 쿠폰의 개수 추출 -->
+	<select id="selectCouponQuantity" parameterType="int" resultType="int">
+		SELECT coupon_quantity FROM coupon WHERE coupon_id=#{couponId}
+	</select>
+	
+	<!-- 쿠폰 발급시 수량 감소 -->
+	<update id="updateCouponQuantity" parameterType="int">
+		UPDATE coupon SET
+			coupon_quantity= coupon_quantity - 1
+		WHERE coupon_id=#{couponId}
+	</update>
 	
 	<!-- 쿠폰 정보 수정 -->
 	<update id="updateCoupon" parameterType="com.btf.tap.vo.Coupon">

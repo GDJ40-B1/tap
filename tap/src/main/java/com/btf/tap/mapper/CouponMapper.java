@@ -19,6 +19,12 @@ public interface CouponMapper {
 	// 보유 쿠폰 추가
 	void insertMemberCoupon(Map<String, Object> memberCoupon);
 	
+	// 특정 수폰 수량 추출
+	int selectCouponQuantity(int couponId);
+	
+	// 쿠폰 발급시 수량 감소
+	void updateCouponQuantity(int couponId);
+	
 	// 쿠폰 정보 수정
 	void updateCoupon(Coupon coupon);
 	
