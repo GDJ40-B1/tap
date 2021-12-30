@@ -26,10 +26,12 @@ public class ReservationController {
 	ReservationService reservationService;
 	//예약 정보 리스트 제작중
 	@GetMapping("reservationList")
-	public String getReservationList(Model model, @RequestParam(value="currentPage", defaultValue ="1") int currentPage) {
+	public String getReservationList(HttpSession session, Model model, @RequestParam(value="currentPage", defaultValue ="1") int currentPage) {
+		
 		
 		// 숙소 리스트와 페이징 관련 데이터를 result에 담기
 		Map<String, Object> result = reservationService.getReservationList(currentPage);
+		
 		
 		result.put("currentPage", currentPage);
 		

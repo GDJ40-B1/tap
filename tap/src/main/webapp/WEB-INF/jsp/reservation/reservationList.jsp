@@ -62,8 +62,8 @@
 				<td>${reservation.room.checkOutTime}</td>
 				<td>${reservation.room.roomForm}</td>
 				<td>${reservation.peopleNum}</td>
-				<td>${reservation.room.roomPrice}</td>
-				<td>${reservation.updateDate}</td>
+				<td>${reservation.finalPaymentPrice}</td>
+				<td>${reservation.createDate}</td>
 			</tr>
 		</c:forEach>
 	</table>
@@ -158,7 +158,7 @@
 	function makeClickListener(roomId,detailAddressId) {
 		    return function() {
 	            // 마커 클릭시 실행할 이벤트 구현
-		    	$(location).attr('href', "${pageContext.request.contextPath}/roomOne?roomId=${reservation.roomId}&detailAddressId=${reservation.detailAddressId}");
+		    	$(location).attr('href',"${pageContext.request.contextPath}/roomOne?roomId="+roomId+"&detailAddressId="+room.detailAddressId);
 		    };
 		}
 	</script>

@@ -147,7 +147,7 @@ public class RoomService {
    public Map<String, Object> getRoomOne(int roomId, int detailAddressId, String memberId){
       Map<String, Object> result = new HashMap<>();
       Address address = addressMapper.selectAddressOne(detailAddressId);
-      
+      log.debug(Font.KSB +" roomService단 detailAddressId 값 "+  detailAddressId + Font.RESET);
       // 시도+시군구+도로명+상세주소 합치기 => kakao 지도 API 검색을 위해
       String detailAddress = address.getSido()+" "+address.getSigungu()+" "+address.getRoadName()+" "+address.getDetailAddress();
       address.setDetailAddress(detailAddress);
