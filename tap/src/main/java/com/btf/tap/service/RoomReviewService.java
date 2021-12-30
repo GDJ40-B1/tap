@@ -42,7 +42,6 @@ public class RoomReviewService {
 		
 		List<RoomReview> list = roomReviewMapper.selectRoomReviewList(page);
 		
-		
 		// 전체 후기 수
 		int totalRoomReviewCount = 0;
 		totalRoomReviewCount = roomReviewMapper.totalRoomReivewCount(roomId);
@@ -73,7 +72,7 @@ public class RoomReviewService {
 		paramMap.put("startPage", startPage);
 		paramMap.put("endPage", endPage);
 		paramMap.put("roomReviewCurrentPage", roomReviewCurrentPage);
-	
+
 		log.debug(Font.HS + "paramMap 객체에 저장된 값 => " + paramMap.toString() + Font.RESET);
 		
 		return paramMap;

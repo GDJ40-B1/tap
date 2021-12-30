@@ -257,7 +257,7 @@
 	   					<div>
 							<input type="hidden" name="roomId" value="${room.roomId}">
 							<input type="hidden" name="detailAddressId" value="${address.detailAddressId}">
-							<input type="hidden" name="roomReviewId" value="${r.roomReviewId}">
+							<input type="hidden" class="roomReviewId" name="roomReviewId" value="${r.roomReviewId}">
 							
 							<div class="d-flex justify-content-between align-items-center">
 								답변상태 : 
@@ -273,6 +273,7 @@
 								<ol style="list-style: none;">
 									<li>
 										<a class="btn btn-outline-dark" href="javascript:deleteRoomReview('${r.roomReviewId}');">숙소후기 삭제</a>
+										<button type="button" id="insertReport">후기 신고</button>
 									</li>
 								</ol>
 							</div>
@@ -645,6 +646,25 @@
 	 		}	
 	 	}	
     </script>
+    
+    <!-- 후기 신고 버튼 클릭 시 -->
+    <script>	    
+	    var roomReviewId = $('.roomReviewId').val();
+		
+		console.log(roomReviewId);
+	
+    	$('#insertReport').click(function() {
+    		if ("${loginUser.userId}" == "" || "${loginUser.userLevel}" == "member" || "${loginUser.userLevel}" == "system_admin") {
+    			if (confirm("해당 호스트만 가능합니다.")) {
+    				location.href = '${pageContext.request.contextPath}/login';
+    			} else {
+    				location.reload();
+    			}
+    		} else {
+    			window.open("${pageContext.request.contextPath}/reportPopup?roomReviewId="+roomReviewId,"_blank","toolbar=yes,menubar=yes,width=700,height=500").focus();
+    		}
+    	});
+	</script>
     
  	<script>
 		$(function(){
