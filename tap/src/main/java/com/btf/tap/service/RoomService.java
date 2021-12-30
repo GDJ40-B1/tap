@@ -161,7 +161,7 @@ public class RoomService {
       // 쿠폰 목록 추출
       if(memberId.equals("")) {
          // 로그인 되어있지 않다면, 해당 숙소의 모든 쿠폰 추출
-         result.put("couponList", couponService.getRoomCouponList(roomId));
+         result.put("couponList", couponService.getRoomAbleCouponList(roomId));
       } else {
          // 로그인 되어있다면 자신의 보유쿠폰을 제외하고 추출
          Map<String, Object> memberCoupon = new HashMap<>();

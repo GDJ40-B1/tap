@@ -1,5 +1,6 @@
 package com.btf.tap.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.btf.tap.common.Font;
+import com.btf.tap.service.CouponService;
 import com.btf.tap.service.ReservationService;
 import com.btf.tap.vo.Reservation;
 import com.btf.tap.vo.User;
@@ -24,6 +26,9 @@ import lombok.extern.slf4j.Slf4j;
 public class ReservationController {
 	@Autowired
 	ReservationService reservationService;
+	@Autowired
+	CouponService couponService;
+	
 	//예약 정보 리스트 제작중
 	@GetMapping("reservationList")
 	public String getReservationList(HttpSession session, Model model, @RequestParam(value="currentPage", defaultValue ="1") int currentPage) {
@@ -40,38 +45,30 @@ public class ReservationController {
 		
 		return "reservation/reservationList";
 	}
-	//예약 추가
-	@GetMapping("/member/addReservation")
-	String addReservation(Model model, int roomId,  int detailAddressId)	{
-		
-		
-		Map<String, Object> map = reservationService.getAddReservation(roomId, detailAddressId);
-		//서비스에 값 보내고 map에 저장
-		model.addAttribute("room",map.get("room"));
-	    model.addAttribute("address",map.get("address"));
-	    model.addAttribute("ReservationDateList",map.get("ReservationDateList"));
-	    model.addAttribute("ReservationListOfDate",map.get("ReservationListOfDate"));
-	    System.out.println("예약일"+map.get("ReservationDateList"));
-	    System.out.println("날짜리스트"+map.get("ReservationListOfDate"));
-	    
-	    //저장한 map 모델로 뷰 전송
-	    log.debug(Font.KSB +" reservationController map에 id값 담아 서비스 처리 후 뷰로 전송 "+ map.toString() + Font.RESET);
-	    //디버그
-		return "reservation/addReservation";
-	}
-	//예약 추가 버튼 작동
-	@PostMapping("/addReservation")
-	String addReservation(HttpSession session, Reservation reservation)	{
+	
+	@GetMapping("/member/addPayment")
+	public String getAddPayment(HttpSession session, Model model, Reservation reservation) {
 		// 회원정보 세션으로 가져오기
 		User user = (User)session.getAttribute("loginUser");
 		reservation.setMemberId(user.getUserId()); // 회원ID 예약 객체에 저장
 		//서비스 단에 reservation 정보를 보내고 int값으로 다시 저장한다.
-		int reservationId = reservationService.postAddReservation(reservation);
-		//디버그 id값 점검
-		log.debug(Font.KSB + "addReservation post 작동 "+ reservationId + Font.RESET);
-		//정보를 다시 예약 상세보기로 보내준다.
-		reservationService.getReservationOne(reservationId);
+		reservation = reservationService.getPaymentPriceOfDate(reservation);
+		model.addAttribute("reservation",reservation);
+		model.addAttribute("couponList", couponService.getPaymentCoupon(reservation.getRoomId(), reservation.getMemberId()));
+		return "/reservation/addPayment";
+	}
+	
+	@PostMapping("/member/addPayment")
+	public String postAddPayment(Reservation reservation, int couponId) {
+		//서비스 단에 reservation 정보를 보내고 int값으로 다시 저장한다.
+		int reservationId = reservationService.addReservation(reservation);
 		
+		Map<String, Object> useCoupon = new HashMap<>();
+		useCoupon.put("couponId", couponId);
+		useCoupon.put("memberId", reservation.getMemberId());
+		if(couponId!=0) {
+			couponService.modifyUseMemberCoupon(useCoupon);
+		}
 		
 		return "redirect:/reservationOne?reservationId="+reservationId; // 일을 다 마치고 예약 추가를 성공했을시 예약정보 상세보기 페이지로 넘어간다. 추가로 아이디값 보내줌
 	}

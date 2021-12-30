@@ -14,6 +14,23 @@
 		<result column="update_date" property="updateDate"></result>
 	</resultMap>
 	
+	<!-- 쿠폰 사용시 사용여부 변경 -->
+	<update id="updateUseMemberCoupon" parameterType="hashMap">
+		UPDATE member_coupon SET
+			use_status= 1
+		WHERE coupon_id=#{couponId} and member_id=#{memberId}
+	</update>
+	
+	<!-- 특정 숙소의 보유쿠폰(결제시 고를 쿠폰) -->
+	<select id="selectRoomMemberCoupon" parameterType="hashMap" resultMap="resultCoupon">
+		SELECT
+			c.coupon_id, c.room_id, c.coupon_name, c.coupon_effective_date, c.coupon_expiration_date,
+			c.discount, c.coupon_type, c.coupon_quantity, c.create_date, c.update_date
+		FROM (SELECT * FROM coupon WHERE room_id=#{roomId}) c
+		JOIN (SELECT coupon_id from member_coupon WHERE use_status=0 AND member_id=#{memberId}) mc
+		ON c.coupon_id=mc.coupon_id
+	</select>
+	
 	<!-- 특정 쿠폰의 보유쿠폰 삭제 -->
 	<delete id="deleteMemberCoupon" parameterType="int">
 		DELETE FROM member_coupon
@@ -23,7 +40,7 @@
 	<!-- 특정 숙소에서 특정 회원이 발급받지 않은 쿠폰 목록 추출 -->
 	<select id="selectNotMemberCoupon" parameterType="hashMap" resultMap="resultCoupon">
 		SELECT
-			c.coupon_id, c.room_id, c.coupon_name FROM (SELECT coupon_id, room_id, coupon_name FROM coupon WHERE room_id=#{roomId}) c
+			c.coupon_id, c.room_id, c.coupon_name FROM (SELECT coupon_id, room_id, coupon_name FROM coupon WHERE room_id=#{roomId} and coupon_quantity>0) c
 			LEFT JOIN (SELECT * from member_coupon WHERE member_id=#{memberId}) mc
 			ON c.coupon_id = mc.coupon_id
 		WHERE mc.member_coupon_id IS NULL
@@ -72,6 +89,16 @@
 			discount, coupon_type, coupon_quantity, create_date, update_date
 		FROM coupon
 		WHERE coupon_id=#{couponId}
+		ORDER BY create_date DESC
+	</select>
+	
+	<!-- 특정 숙소의 발급 가능 쿠폰 목록 추출 -->
+	<select id="selectRoomAbleCouponList" parameterType="int" resultMap="resultCoupon">
+		SELECT
+			coupon_id, room_id, coupon_name, coupon_effective_date, coupon_expiration_date,
+			discount, coupon_type, coupon_quantity, create_date, update_date
+		FROM coupon
+		WHERE room_id=#{roomId} and coupon_quantity>0
 		ORDER BY create_date DESC
 	</select>
 	

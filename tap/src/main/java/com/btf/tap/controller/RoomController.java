@@ -97,13 +97,20 @@ public class RoomController {
 		Map<String, Object> roomReview = roomReviewService.getRoomReviewList(roomReviewCurrentPage, roomId);
 		int favorite = memberService.getFavorites(user.getUserId(), roomId);
 		List<Map<String, Object>> ageList = roomService.getRoomAgeList(roomId, year);
+		Map<String, Object> reservation = reservationService.getAddReservation(roomId);
 		
+		// 숙소 정보
 		model.addAttribute("room",result.get("room"));
 		model.addAttribute("address",result.get("address"));
 		model.addAttribute("hashtag",result.get("hashtag"));
-		model.addAttribute("couponList",result.get("couponList"));
 		model.addAttribute("roomAmenitiesList",result.get("amenitiesList"));
 		model.addAttribute("roomPartList",result.get("roomPartList"));
+		// 쿠폰
+		model.addAttribute("couponList",result.get("couponList"));
+		//예약
+		model.addAttribute("ReservationDateList",reservation.get("ReservationDateList"));
+	    model.addAttribute("ReservationListOfDate",reservation.get("ReservationListOfDate"));
+	    
 		model.addAttribute("roomQna", roomQna);
 		model.addAttribute("roomReview", roomReview);
 		model.addAttribute("favorite", favorite);

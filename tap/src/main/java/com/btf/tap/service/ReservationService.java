@@ -42,23 +42,9 @@ public class ReservationService {
 	
 	
 	
-	//예약 추가하기1.
-	public Map<String, Object> getAddReservation(int roomId, int detailAddressId)	{
-		
+	// 예약일 정보 추출하기
+	public Map<String, Object> getAddReservation(int roomId)	{
 		Map<String, Object> map = new HashMap<>();
-		
-		Room room = roomMapper.selectRoomOne(roomId);
-		Address address = addressMapper.selectAddressOne(detailAddressId);
-		
-		// 시도+시군구+도로명+상세주소 합치기 => kakao 지도 API 검색을 위해
-		String detailAddress = address.getSido()+" "+address.getSigungu()+" "+address.getRoadName()+" "+address.getDetailAddress();
-		address.setDetailAddress(detailAddress);
-	   
-		
-		// 주소 정보
-		map.put("address", address);
-		// 숙소 정보	
-		map.put("room", room);
 		// 해당 숙소 예약일 목록
 		map.put("ReservationDateList", getRoomReservationDateList(roomId));
 		// 해당 숙소 예약일 날짜별로 분리
@@ -69,8 +55,8 @@ public class ReservationService {
 		return map;
 	}
 	
-	//예약 추가하기2.
-	public int postAddReservation(Reservation reservation)	{
+	// 예약 기간을 통한 결제금액 계산
+	public Reservation getPaymentPriceOfDate(Reservation reservation) {
 		// 체크인, 체크아웃 Date 객체 선언
 		Date checkInDate = null;
 		Date checkOutDate = null;
@@ -86,9 +72,15 @@ public class ReservationService {
 		int diffDays = (int)(diffSec / (24*60*60))+1; // 일자 수 차이
 		int finalPaymentPrice = reservation.getRoom().getRoomPrice()*diffDays; // 최종 가격
 		reservation.setFinalPaymentPrice(finalPaymentPrice);
+		
+		return reservation;
+	}
+	
+	// 예약 추가하기
+	public int addReservation(Reservation reservation)	{
 		int reservationId =reservationMapper.insertReservation(reservation);
-		log.debug(Font.KSB + " postAddReservation 서비스 단 값 점검하기 : "+ reservationId + Font.RESET);
 		//디버그
+		log.debug(Font.KSB + " addReservation 서비스 단 값 점검하기 : "+ reservation + Font.RESET);
 		
 		return reservation.getReservationId();
 	}
