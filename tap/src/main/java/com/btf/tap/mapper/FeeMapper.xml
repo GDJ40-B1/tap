@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.btf.tap.mapper.FeeMapper">
+
+	<!--수수료 resultMap -->
+   <resultMap type="com.btf.tap.vo.Fee" id="resultFee">
+      <result column="fee_id" property="feeId"></result>
+      <result column="original_price" property="originalPrice"></result>
+      <result column="fee_rate" property="feeRate"></result>
+      <result column="fee" property="fee"></result>
+      <result column="host_profit" property="hostProfit"></result>
+      <result column="create_date" property="createDate"></result>
+   </resultMap>
+   
+   <!-- 전환시 발생되는 수수료정보 삽입 -->
+   <insert id="insertFee" parameterType="com.btf.tap.vo.Fee">
+   		INSERT INTO fee(
+   			original_price, fee_rate, fee, host_profit, create_date
+   		) VALUE(
+   			#{originalPrice}, #{feeRate}, #{fee}, #{hostProfit}, NOW()
+   		)
+   </insert>
+   
+   <!-- 현재 수수료% 추출 -->
+   <select id="selectFeeRate" resultType="int">
+   		SELECT fee_rate FROM fee_rate
+   </select>
+   
+</mapper>
