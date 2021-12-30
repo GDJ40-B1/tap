@@ -178,6 +178,13 @@
                     <span>호스트목록</span></a>
             </li>
             
+            <!-- Nav Item - withdrawalList -->
+            <li class="nav-item">
+                <a class="nav-link" href="${pageContext.request.contextPath}/systemAdmin/withdrawalList">
+                    <i class="fas fa-question-circle"></i>
+                    <span>탈퇴내역</span></a>
+            </li>
+            
 			<!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 

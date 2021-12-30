@@ -1,6 +1,8 @@
 package com.btf.tap.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.btf.tap.common.Font;
 import com.btf.tap.mapper.SystemAdminMapper;
+import com.btf.tap.mapper.UserMapper;
 import com.btf.tap.vo.SystemAdmin;
 
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public class SystemAdminService {
 	@Autowired SystemAdminMapper systemAdminMapper;
+	@Autowired UserMapper userMapper;
 	
 	// 시스템관리자 전체 목록 불러오기
 	public List<SystemAdmin> getSystemAdminList() {
@@ -35,14 +39,24 @@ public class SystemAdminService {
 	// 입력 : systemAdmin(입력받은 회원정보)
 	// 출력 : int(회원등록된 수)
 	public int addSystemAdmin(SystemAdmin systemAdmin) {
+		int confirm = 0;
+		
+		String userId = systemAdmin.getSystemAdminId();		
+		
 		// 입력받은 시스템관리자 회원 정보
 		log.debug(Font.HS + "addNameServ : " + systemAdmin.toString() + Font.RESET);
 		
-		int check = systemAdminMapper.insertSystemAdmin(systemAdmin);
-		// 회원등록된 수
-		log.debug(Font.HS + "addNameServ : " + check + Font.RESET);
+		int checkId = userMapper.selectUserId(userId);
 		
-		return check;
+		log.debug(Font.JSB + "중복 또는 탈퇴 ID 체크 => " + checkId + Font.RESET);
+		
+		if(checkId == 0) {
+			confirm = systemAdminMapper.insertSystemAdmin(systemAdmin);
+			// 회원등록된 수
+			log.debug(Font.HS + "addNameServ : " + confirm + Font.RESET);			
+		}
+		
+		return confirm;
 	}
 	
 	// 시스템관리자 한 명의 pw 수정하기
@@ -111,5 +125,19 @@ public class SystemAdminService {
 	// 시스템관리자 한 명의 정보 삭제하기
 	public void removeSystemAdmin(SystemAdmin systemAdmin) {
 		systemAdminMapper.deleteSystemAdmin(systemAdmin);
+	}
+	
+	// 전체 탈퇴내역 조회
+	public List<Map<String, Object>> getWithdrawalList() {
+		List<Map<String, Object>> list = new ArrayList<>();
+		list = systemAdminMapper.selectWithdrawalList();
+		log.debug(Font.HS + "탈퇴내역 조회" + list.toString() + Font.RESET);
+		
+		return list;
+	}
+	
+	// 특정 탈퇴내역 삭제
+	public void removeWithdrawalList(String userId) {
+		systemAdminMapper.deleteWithdrawalList(userId);
 	}
 }

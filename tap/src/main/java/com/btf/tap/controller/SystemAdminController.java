@@ -1,5 +1,6 @@
 package com.btf.tap.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.btf.tap.common.Font;
@@ -229,4 +229,22 @@ public class SystemAdminController {
 		return "redirect:/systemAdminList";
 	}
 	
+	// 시스템 관리자 탈퇴내역 조회
+	@GetMapping("/systemAdmin/withdrawalList")
+	public String getWithdrawalList(Model model) {
+		List<Map<String, Object>> list = systemAdminService.getWithdrawalList();
+		log.debug(Font.HS + "탈퇴내역 조회" + list.toString() + Font.RESET);
+		
+		model.addAttribute("list", list);
+		
+		return "systemAdmin/withdrawalList";
+	}
+	
+	// 특정 탈퇴내역 제거
+	@GetMapping("/systemAdmin/removeWithdrawal")
+	public String getRemoveWithdrawal(String userId) {
+		systemAdminService.removeWithdrawalList(userId);
+		
+		return "redirect:/systemAdmin/withdrawalList";
+	}
 }

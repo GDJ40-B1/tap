@@ -187,4 +187,22 @@
 			member_id=#{memberId} AND
 			member_pw=#{memberPw}
 	</delete>
+	
+	<!-- 특정회원 결제 내역 -->
+	<select id="selectMemberPayList" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT 
+			rv.room_id roomId,
+			r.detail_address_id detailAddressId,
+			rv.room_name roomName,
+			p.final_payment_price price,
+			p.payment_date paymentDate
+		FROM payment p
+		INNER JOIN reservation rv ON p.payment_id = rv.reservation_id
+		LEFT JOIN room r ON rv.room_id = r.room_id
+		<where>
+			rv.member_id = #{memberId}
+			AND p.payment_date BETWEEN #{minDay} AND #{maxDay}
+		</where>
+		ORDER BY p.payment_date DESC;
+	</select>
 </mapper>

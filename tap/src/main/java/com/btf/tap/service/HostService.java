@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.btf.tap.common.Font;
 import com.btf.tap.mapper.HostMapper;
+import com.btf.tap.mapper.UserMapper;
 import com.btf.tap.vo.Host;
 import com.btf.tap.vo.Member;
 
@@ -18,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class HostService {
 	@Autowired HostMapper hostMapper;
+	@Autowired UserMapper userMapper;
 	
 	// 호스트 한 명의 정보를 불러오기
 	// 입력: Host
@@ -37,14 +39,21 @@ public class HostService {
 	// 입력: Host
 	// 결과: int(호스트가입된 수)
 	public int addHost(Host host) {
+		int confirm = 0;
+		
+		String userId = host.getHostId();
 		
 		log.debug(Font.HW + "입력받은 호스트 호스트가입 정보 => " + host.toString() + Font.RESET);
 		
-		int confirm = hostMapper.insertHostOne(host);
+		int checkId = userMapper.selectUserId(userId);
 		
-		log.debug(Font.HW + "호스트 호스트가입된 수 => " + confirm  + Font.RESET);
+		log.debug(Font.HW + "중복 또는 탈퇴 ID 체크 => " + checkId + Font.RESET);
 		
-			
+		if(checkId == 0) {
+			confirm = hostMapper.insertHostOne(host);
+			log.debug(Font.HW + "호스트 호스트가입된 수 => " + confirm  + Font.RESET);
+		}
+		
 		return confirm;
 	}
 	

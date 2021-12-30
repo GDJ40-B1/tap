@@ -1,6 +1,7 @@
 package com.btf.tap.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -14,5 +15,7 @@ public interface SystemAdminMapper {
 	int selectSystemAdminPw(SystemAdmin systemAdmin); // 시스템관리자 한 명의 pw 확인하기(수정용)
 	int updateSystemAdminPw(SystemAdmin systemAdmin); // 시스템관리자 한 명의 pw 수정하기
 	int updateSystemAdminInfo(SystemAdmin systemAdmin); // 시스템관리자 한 명의 정보(name,age,phone) 수정하기
-	int deleteSystemAdmin(SystemAdmin systemAdmin); // 시스템관리자 한 명의 정보 삭제하기 
+	int deleteSystemAdmin(SystemAdmin systemAdmin); // 시스템관리자 한 명의 정보 삭제하기
+	List<Map<String, Object>> selectWithdrawalList(); // 전체 탈퇴내역 조회
+	int deleteWithdrawalList(String userId); // 특정 탈퇴내역 삭제
 }

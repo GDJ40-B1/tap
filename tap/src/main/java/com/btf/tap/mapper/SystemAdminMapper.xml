@@ -90,4 +90,20 @@
 		FROM system_admin
 		WHERE system_admin_id = #{systemAdminId} AND system_admin_pw = #{systemAdminPw}
 	</delete>
+	
+	<!-- 탈퇴내역 조회 -->
+	<select id="selectWithdrawalList" resultType="java.util.Map">
+		SELECT
+			member_id memberId,
+			create_date createDate
+		FROM withdrawal_history
+	</select>
+	
+	<!-- 특정 탈퇴내역 삭제 -->
+	<delete id="deleteWithdrawalList" parameterType="String">
+		DELETE FROM withdrawal_history
+		<where>
+			member_id = #{userId}
+		</where>
+	</delete>
 </mapper>

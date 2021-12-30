@@ -1,5 +1,7 @@
 package com.btf.tap.controller;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
@@ -437,5 +439,27 @@ public class MemberController {
 		roomReviewService.removeRoomReview(roomReviewId);
 		
 		return "redirect:/member/memberRoomReviewList";
+	}
+	
+	// 특정회원 결제내역 조회
+	@GetMapping("/member/getPayList")
+	public String getPayList(HttpSession session, Model model, String minDay, String maxDay) {
+		User loginUser = (User)session.getAttribute("loginUser");
+		
+		if(minDay == null && maxDay == null) {
+			minDay = "2000-01-01";
+			
+			LocalDate now = LocalDate.now();
+			DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			maxDay = now.format(dateTimeFormatter);
+		}
+		
+		List<Map<String, Object>> payList = memberService.getMemberPayList(loginUser.getUserId(), minDay, maxDay);
+		
+		model.addAttribute("minDay", minDay);
+		model.addAttribute("maxDay", maxDay);
+		model.addAttribute("payList", payList);
+		
+		return "member/myPayList";
 	}
 }

@@ -92,7 +92,13 @@
             <div class="sidebar-heading">
                 Addons
             </div>
-			
+			<!-- Nav Item - Tables -->
+            <li class="nav-item">
+                <a class="nav-link" href="${pageContext.request.contextPath}/member/getPayList">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>결제내역 조회</span></a>
+            </li>
+            			
 			<!-- Nav Item - Tables -->
             <li class="nav-item">
                 <a class="nav-link" href="${pageContext.request.contextPath}/modifyMemberInfo">

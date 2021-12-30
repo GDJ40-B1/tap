@@ -69,10 +69,12 @@
 		
 		// 숙소 등록을 클릭했을 때
 		$('#addBtn').click(function(){
-			if($('#datetimepicker1').val()==''){
+			if($('#dateRangePicker1').val()==''){
 				alert('시작날짜를 선택하세요');
-			} else if($('#datetimepicker2').val()==''){
+				return;
+			} else if($('#dateRangePicker2').val()==''){
 				alert('끝날짜를 선택하세요');
+				return;
 			} else if($('#price').val()==''){
 				alert('가격을 숫자만으로 입력하세요');
 			} else{

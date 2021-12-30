@@ -19,7 +19,7 @@ public class UserService {
 	@Autowired UserMapper userMapper;
 	
 	// 회원 가입 시, 아이디 중복 체크 로직(미완성)
-	public void userIdCheck(User user) {
+	/*public void userIdCheck(User user) {
 		
 		log.debug(Font.HW + "입력받은 아이디 => " + user.getUserId() + Font.RESET);
 		
@@ -27,7 +27,7 @@ public class UserService {
 		
 		log.debug(Font.HW + "중복 아이디 수 => " + confirm + Font.RESET);
 		
-	}
+	}*/
 	
 	// 로그인 기능
 	public User login(User user) {
