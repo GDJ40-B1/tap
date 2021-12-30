@@ -81,33 +81,25 @@ public class NoticeController {
 	
 	
 	@GetMapping("/noticeList")
-	public String noticeList(Model model, String currentNum, String kind) {
+	public String noticeList(Model model, String currentNum) {
 		 	
 		int currentPage = 1;
 		if(currentNum!=null) {
 			currentPage = Integer.parseInt(currentNum);
 		}
 		
-		if(kind==null || kind=="") {
+		
 			List<Notice> noticeList = noticeService.getNoticeList(currentPage);
 			
 			model.addAttribute("noticeList", noticeList);
 			model.addAttribute("currentPage",currentPage);
-			model.addAttribute("kind", kind);
-		} else if(kind != "") {
-			List<Notice> noticeList = noticeService.getNoticeListByKind(currentPage , kind);
-			
-			model.addAttribute("noticeList", noticeList);
-			model.addAttribute("currentPage", currentPage);
-			model.addAttribute("kind", kind);
-		}
+		
+		
 		
 		int lastPage;
-		if(kind==null || kind=="") { // 선택된 카테고리가 없을때
-			lastPage = noticeService.lastPage();
-		} else { 
-			lastPage = noticeService.lastPageByKind(kind);
-		}
+		
+		lastPage = noticeService.lastPage();
+		
 		
 		// 화면에 보여질 페이지 번호의 갯수
 		int displayPage = 10;

@@ -40,19 +40,8 @@
 	
 		<section id="list" class="list">
 	      <div class="container">
-				<h5>
-					KIND : ${kind}
-				</h5>
-				<form method="get" action="${pageContext.request.contextPath}/noticeList">
-					<div>
-						<select name="kind">
-							<option value="">전체</option>
-							<option value="Y">Y</option>
-							<option value="N">N</option>
-						</select>
-						<button type="submit">검색</button>
-					</div>
-				</form>
+				
+				
 				<table border="1">
 					<tr>
 						<th>No</th>
