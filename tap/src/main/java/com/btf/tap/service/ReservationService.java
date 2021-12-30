@@ -3,9 +3,12 @@ package com.btf.tap.service;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -66,7 +69,22 @@ public class ReservationService {
 	
 	//예약 추가하기2.
 	public int postAddReservation(Reservation reservation)	{
-		
+		// 체크인, 체크아웃 Date 객체 선언
+		Date checkInDate = null;
+		Date checkOutDate = null;
+		System.out.println("!!!!!!!!!!"+reservation.getCheckInDate()+reservation.getCheckOutDate());
+		// Date 타입으로 날짜 받기
+		try {
+			checkInDate = new SimpleDateFormat("yyyy-MM-dd").parse(reservation.getCheckInDate());
+			checkOutDate = new SimpleDateFormat("yyyy-MM-dd").parse(reservation.getCheckOutDate());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		// 날짜 수 차이 계산
+		long diffSec = (checkOutDate.getTime() - checkInDate.getTime()) / 1000;
+		int diffDays = (int)(diffSec / (24*60*60))+1; // 일자 수 차이
+		int finalPaymentPrice = reservation.getRoom().getRoomPrice()*diffDays; // 최종 가격
+		reservation.setFinalPaymentPrice(finalPaymentPrice);
 		int reservationId =reservationMapper.insertReservation(reservation);
 		log.debug(Font.KSB + " postAddReservation 서비스 단 값 점검하기 : "+ reservationId + Font.RESET);
 		//디버그
