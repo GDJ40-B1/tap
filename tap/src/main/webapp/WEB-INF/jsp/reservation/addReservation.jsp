@@ -94,6 +94,7 @@
    <form id="addReservationForm" action="${pageContext.request.contextPath}/addReservation" method="post">
 	   <input type="hidden" name="roomId" value="${room.roomId}">
 	   <input type="hidden" name="room.roomPrice" value="${room.roomPrice}">
+	   <input type="hidden" name="room.roomName" value="${room.roomName }">
 	   <div class="form-row">
 		    <div class="form-group col-md-6">
 		      <label for="inputCity">체크인 날짜</label>

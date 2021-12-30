@@ -6,6 +6,7 @@
 		<result column="reservation_id" property="reservationId"></result>
 		<result column="member_id" property="memberId"></result>
 		<result column="room_id" property="roomId"></result>
+		<result column="room_name" property="roomName"></result>
 		<result column="check_in_date" property="checkInDate"></result>
 		<result column="check_out_date" property="checkOutDate"></result>
 		<result column="people_num" property="peopleNum"></result>
@@ -94,6 +95,7 @@
 		INSERT INTO reservation (
 			member_id,
 			room_id,
+			room_name,
 			check_in_date,
 			check_out_date,
 			final_payment_price,
@@ -101,7 +103,7 @@
 			create_date,
 			update_date
 		)	VALUES	(
-					#{memberId}, #{roomId}, #{checkInDate}, #{checkOutDate}, #{finalPaymentPrice}, #{peopleNum}, NOW(), NOW())
+					#{memberId}, #{roomId}, #{room.roomName}, #{checkInDate}, #{checkOutDate}, #{finalPaymentPrice}, #{peopleNum}, NOW(), NOW())
 		<selectKey keyProperty="reservationId" order="AFTER" resultType="int">
 			SELECT LAST_INSERT_ID()
 		</selectKey>
@@ -124,7 +126,7 @@
 	
 	
 	
-	<!-- 예약 수정하기.. 필요할까요?-->
+	<!-- 예약 수정하기.. 필요할까요? -->
 	<update id="updateReservation" parameterType="com.btf.tap.vo.Reservation">
 		UPDATE reservation SET	
 			check_in_date=#{checkInDate}, check_out_date=#{checkOutDate}, people_num=#{peopleNum}, update_date=NOW() 
@@ -136,6 +138,14 @@
 		DELETE FROM reservation
 		<where>reservation_id=#{reservationId}</where>
 	</delete>
+	
+	<!-- 특정 숙소의 예약 목록 추출 -->
+	<select id="selectRoomReservation" parameterType="int" resultMap="resultReservation">
+		SELECT
+			reservation_id, member_id, room_id, check_in_date, check_out_date,
+			people_num, final_payment_price, create_date, update_date
+		from reservation WHERE room_id=#{roomId}
+	</select>
 	
 	<!-- 특정 숙소의 예약 날짜 목록 추출 -->
 	<select id="selectRoomReservationDateList" parameterType="int" resultMap="resultReservation">

@@ -10,6 +10,7 @@ import com.btf.tap.vo.Reservation;
 
 @Mapper
 public interface ReservationMapper {
+	List<Reservation> selectRoomReservation(int roomId); // 특정 숙소의 예약 목록 추출
 	List<Reservation> selectRoomReservationDateList(int roomId); // 특정 숙소의 예약 날짜 목록 추출
 	List<Reservation> selectReservationList(Map selectReservationList); //숙소 별 전체 예약 목록
 	int selectReservationNum(); // 예약 갯수

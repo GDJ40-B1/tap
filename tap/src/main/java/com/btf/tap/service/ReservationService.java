@@ -139,6 +139,11 @@ public class ReservationService {
 		return result;
 	}
 	
+	// 특정 숙소의 예약 목록 추출
+	public List<Reservation> getRoomReservationList(int roomId) {
+		return reservationMapper.selectRoomReservation(roomId);
+	}
+	
 	
 	
 	// 페이징 알고리즘
@@ -181,6 +186,7 @@ public class ReservationService {
 	}
 	//예약 삭제하기.
 	public void deleteReservation(Reservation reservation) {
+		// 환불 되도록 하기
 		reservationMapper.deleteReservation(reservation);
 	}
 	
