@@ -48,14 +48,14 @@
 				<th> 체크인 시간 </th>
 				<th> 체크아웃 시간 </th>
 				<th> 숙소 형태 </th>
-				<th> 인원 </th>
+				<th> 최대 인원 </th>
 				<th> 가격 </th>
 				<th> 수정일 </th>
 			</tr>
 			<c:forEach items="${result.reservationList}" var="reservation" >
 			<tr>
 				<td>${reservation.reservationId}</td>
-				<td><a href="${pageContext.request.contextPath}/reservationOne?reservationId=${reservation.reservationId}">${reservation.room.roomName}</a></td>
+				<td><a href="${pageContext.request.contextPath}/roomOne?roomId=${reservation.room.roomId}&detailAddressId=${reservation.room.detailAddressId}">${reservation.room.roomName}</a></td>
 				<td>${reservation.address.detailAddress}</td>
 				<td>${reservation.checkInDate} ~ ${reservation.checkOutDate}</td>
 				<td>${reservation.room.checkInTime}</td>
@@ -158,7 +158,7 @@
 	function makeClickListener(roomId,detailAddressId) {
 		    return function() {
 	            // 마커 클릭시 실행할 이벤트 구현
-		    	$(location).attr('href', "${pageContext.request.contextPath}/roomOne?roomId="+roomId+"&detailAddressId="+detailAddressId);
+		    	$(location).attr('href', "${pageContext.request.contextPath}/roomOne?roomId=${reservation.roomId}&detailAddressId=${reservation.detailAddressId}");
 		    };
 		}
 	</script>

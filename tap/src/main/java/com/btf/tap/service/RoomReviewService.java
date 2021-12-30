@@ -42,11 +42,10 @@ public class RoomReviewService {
 		
 		List<RoomReview> list = roomReviewMapper.selectRoomReviewList(page);
 		
-		
 		// 전체 후기 수
 		int totalRoomReviewCount = 0;
 		totalRoomReviewCount = roomReviewMapper.totalRoomReivewCount(roomId);
-		log.debug(Font.HS + "전체 후기 개수 => " + totalRoomReviewCount + Font.RESET);
+		log.debug(Font.HS + "해당 숙소 전체후기 개수 => " + totalRoomReviewCount + Font.RESET);
 		
 		// 총 데이터의 마지막 페이지
 		int lastPage = 0;
@@ -67,13 +66,25 @@ public class RoomReviewService {
 			endPage = lastPage;
 		}
 		
+		// 숙소별 평점 총합
+		double totalRoomReviewScore = 0;
+		totalRoomReviewScore = roomReviewMapper.totalRoomReviewScore(roomId);
+		log.debug(Font.HS + "숙소별 평점 총합 => " + totalRoomReviewScore + Font.RESET);
+		
+		// 숙소별 평균 평점
+		double avgRoomReviewScore = 0;
+		avgRoomReviewScore = (Math.round((totalRoomReviewScore/totalRoomReviewCount)*10)/10.0); // 소수점 둘째자리에서 반올림하여 첫째자리까지 표시
+		log.debug(Font.HS + "숙소별 평균 평점 => " + avgRoomReviewScore + Font.RESET);
+		
 		Map<String,Object> paramMap = new HashMap<>();
 		paramMap.put("list", list);
 		paramMap.put("lastPage", lastPage);
 		paramMap.put("startPage", startPage);
 		paramMap.put("endPage", endPage);
 		paramMap.put("roomReviewCurrentPage", roomReviewCurrentPage);
-	
+		paramMap.put("totalRoomReviewCount", totalRoomReviewCount);
+		paramMap.put("avgRoomReviewScore", avgRoomReviewScore);
+		
 		log.debug(Font.HS + "paramMap 객체에 저장된 값 => " + paramMap.toString() + Font.RESET);
 		
 		return paramMap;

@@ -12,6 +12,14 @@
 		<result column="create_date" property="createDate"/>
 	</resultMap>
 	
+	<!-- 환불시 결제테이블 환불여부 수정 -->
+   <update id="updatePayment" parameterType="int">
+      UPDATE payment SET
+         refund_status='Y', refund_date=NOW()
+      WHERE reservation_id= #{reservationId}
+   </update>
+	
+	
 	<!-- 입력받은 이용자의 포인트 이용 내역을 조회 -->
 	<select id="selectgPointHistoryList" parameterType="com.btf.tap.vo.User" resultMap="resultPoint">
 		SELECT 

@@ -27,7 +27,7 @@
 	   <input type="date" name="checkInDate" id="checkInDate" readonly="readonly" value="${reservation.checkInDate}">
 	   <div>체크아웃 :</div>
 	   <input type="date" name="checkOutDate" id="checkOutDate" readonly="readonly" value="${reservation.checkOutDate}">
-	   <div>인원</div>
+	   <div>최대 인원</div>
 	   <input type="text" name="peopleNum" id="peopleNum" readonly="readonly" value="${reservation.peopleNum}">
    
 	   <div>

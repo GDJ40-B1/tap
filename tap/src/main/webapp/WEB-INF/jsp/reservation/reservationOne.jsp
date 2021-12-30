@@ -34,7 +34,7 @@
 			<td>${reservation.checkOutDate}일</td>
 		</tr>
 		<tr>
-			<td>인원수 :</td>
+			<td>최대 인원수 :</td>
 			<td>${reservation.peopleNum}명</td>
 		</tr>
 		<tr>

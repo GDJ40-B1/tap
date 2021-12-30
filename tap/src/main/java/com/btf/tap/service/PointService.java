@@ -14,6 +14,11 @@ import com.btf.tap.vo.User;
 public class PointService {
 	@Autowired PointMapper pointMapper;
 	
+	// 예약 취소 시, 환불여부 변경
+	public void refundPayment(int reservationId) {
+		pointMapper.updatePayment(reservationId);
+	}
+	
 	// 포인트 이용 내역 리스트 가져오기
 	// 입력: User => userId
 	// 출력: List<Point> 

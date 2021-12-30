@@ -6,20 +6,23 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.btf.tap.common.Font;
 import com.btf.tap.mapper.HostMapper;
 import com.btf.tap.mapper.UserMapper;
 import com.btf.tap.vo.Host;
-import com.btf.tap.vo.Member;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Transactional
 @Service
 public class HostService {
 	@Autowired HostMapper hostMapper;
 	@Autowired UserMapper userMapper;
+	@Autowired FeeService feeService;
+
 	
 	// 호스트 한 명의 정보를 불러오기
 	// 입력: Host
@@ -167,6 +170,8 @@ public class HostService {
 		
 		// 포인트 전환 실행
 		confirm = hostMapper.updateHostPointSpend(host);
+		
+		feeService.addFee(host.getHostPoint());
 		
 		// 결과 확인
 		log.debug(Font.HW + "포인트 감소된 호스트 수 => " + confirm  + Font.RESET);

@@ -24,11 +24,13 @@ import com.btf.tap.service.AmenitiesService;
 import com.btf.tap.service.HostService;
 import com.btf.tap.service.MemberService;
 import com.btf.tap.service.PartService;
+import com.btf.tap.service.ReservationService;
 import com.btf.tap.service.RoomQuestionService;
 import com.btf.tap.service.RoomReviewService;
 import com.btf.tap.service.RoomService;
 import com.btf.tap.vo.Address;
 import com.btf.tap.vo.PriceRoom;
+import com.btf.tap.vo.Reservation;
 import com.btf.tap.vo.Room;
 import com.btf.tap.vo.RoomQnaAnswer;
 import com.btf.tap.vo.RoomQuestion;
@@ -47,6 +49,7 @@ public class RoomController {
 	@Autowired RoomQuestionService roomQuestionService;
 	@Autowired MemberService memberService;
 	@Autowired RoomReviewService roomReviewService;
+	@Autowired ReservationService reservationService;
 	
 	@GetMapping("/roomList")
 	public String roomList(Model model, @RequestParam(value="currentPage", defaultValue ="1") int currentPage) {
@@ -313,7 +316,23 @@ public class RoomController {
 	      redirect.addAttribute("roomId",room.getRoomId());
 	      redirect.addAttribute("detailAddressId",address.getDetailAddressId());
 	      return "redirect:/host/roomOne";
-	   }
+	}
+	
+	@GetMapping("/host/roomReservationList")
+	public String getRoomReservation(Model model, Room room) {
+		model.addAttribute("room",room);
+		model.addAttribute("reservationList",reservationService.getRoomReservationList(room.getRoomId()));
+		return "/host/room/roomReservationList";
+	}
+	
+	@GetMapping("/host/removeRoomReservationOne")
+	public String removeRoomReservationOne(Model model, Room room, int reservationId) {
+		Reservation reservation = new Reservation();
+		reservation.setReservationId(reservationId);
+		reservationService.deleteReservation(reservation);
+		return "redirect:/host/roomReservationList?"
+				+ "roomId="+room.getRoomId()+"&detailAddressId="+room.getDetailAddressId();
+	}
 	
 	/*------숙소별 가격-------*/
 	@GetMapping("/host/priceRoomList")

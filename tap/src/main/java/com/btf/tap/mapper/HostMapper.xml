@@ -9,7 +9,6 @@
 		<result column="host_phone" property="hostPhone"/>
 		<result column="host_name" property="hostName"/>
 		<result column="business_number" property="businessNumber"/>
-		<result column="approval_status" property="approvalStatus"/>
 		<result column="host_point" property="hostPoint"/>
 		<result column="create_date" property="createDate"/>
 		<result column="update_date" property="updateDate"/>
@@ -23,7 +22,6 @@
 			host_age,
 			host_phone,
 			business_number,
-			approval_status,
 			host_point,
 			create_date,
 			update_date
@@ -41,7 +39,6 @@
 			host_age,
 			host_phone,
 			business_number,
-			approval_status,
 			host_point,
 			create_date,
 			update_date
@@ -81,7 +78,6 @@
 				host_name,
 				host_phone,
 				business_number,
-				approval_status,
 				host_point,
 				create_date,
 				update_date 
@@ -92,8 +88,7 @@
 			#{hostAge},
 			#{hostName},
 			#{hostPhone},
-			#{businessNumber},
-			'Y',
+			#{businessNumber}
 			0,
 			NOW(),
 			NOW()

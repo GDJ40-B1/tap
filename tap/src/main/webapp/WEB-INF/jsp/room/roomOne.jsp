@@ -251,32 +251,28 @@
        <!-- *** 숙소 후기 *** -->
   	   <section class="event-list">
 			<div class="container">
+				<div class="form-group">
+					<h4>후기(${roomReview.totalRoomReviewCount})개</h4>
+					<h2>★${roomReview.avgRoomReviewScore}/5</h2>
+					<hr>
+				</div>
 	   		<c:forEach var="r" items="${roomReview.list}">
 	   			<c:choose>
 	   				<c:when test="${loginUser.userId == room.hostId}">
 	   					<div>
 							<input type="hidden" name="roomId" value="${room.roomId}">
 							<input type="hidden" name="detailAddressId" value="${address.detailAddressId}">
-							<input type="hidden" name="roomReviewId" value="${r.roomReviewId}">
-							
+							<input type="hidden" class="roomReviewId" name="roomReviewId" value="${r.roomReviewId}">
 							<div class="d-flex justify-content-between align-items-center">
-								답변상태 : 
-								<c:choose>
-									<c:when test="${r.answerStatus == 'N'}">
-										<td>미답변</td>
-									</c:when>
-									
-									<c:when test="${r.answerStatus == 'Y'}">
-										<td>답변완료<td>
-									</c:when>
-								</c:choose>
+								<span></span>
 								<ol style="list-style: none;">
 									<li>
 										<a class="btn btn-outline-dark" href="javascript:deleteRoomReview('${r.roomReviewId}');">숙소후기 삭제</a>
 									</li>
 								</ol>
 							</div>
-								<span>숙소후기 평점 :</span> 
+							<div class="d-flex justify-content-between align-items-center">
+								숙소후기 평점 : 
 								<c:choose>
 									<c:when test="${r.roomReviewScore == 1}">
 										<td>★☆☆☆☆</td>
@@ -294,12 +290,21 @@
 										<td>★★★★★</td>
 									</c:when>
 								</c:choose>
-								<div>
-									숙소후기 내용 :
-									${r.roomReviewContent}
-								</div>
-								<div>
-									<c:if test="${r.answerStatus == 'N'}">
+								<ol style="list-style: none;"> 
+									<li>
+										<c:set var="ocreateDate" value="${r.createDate}"/>
+										<c:set var="createDate" value="${fn:substring(ocreateDate,0,10)}"/>
+										${createDate}
+									</li>
+								</ol>
+							</div>	
+							<div>
+								숙소후기 내용 :
+								${r.roomReviewContent}
+							</div>
+							<div>
+								<c:choose>
+									<c:when test="${r.answerStatus == 'N'}">
 										<form class="insertCommentForm" action="${pageContext.request.contextPath}/addRoomReviewComment" method="post">
 											<div class="form-group">
 												<input type="hidden" name="roomId" value="${room.roomId}">
@@ -312,39 +317,30 @@
 												<button class="insertCommentBtn" type ="button">작성</button>
 											</div>
 										</form>
-									</c:if>
-									<div>
-										<c:forEach var="rc" items="${r.roomReviewComment}">
-											<div class="d-flex justify-content-between align-items-center">
-												<span>숙소후기 답변</span>
-												<ol style="list-style: none;">
-													<li>
-														<a class="btn btn-outline-dark" href="javascript:deleteRoomReviewComment('${r.roomReviewId}');">숙소후기 답변삭제</a>
-													</li>
-												</ol>
-											</div>
-											<textarea class="form-control" rows="5" cols="50" name="roomReviewCommentContent" readonly="readonly">${rc.roomReviewCommentContent}</textarea>
-										</c:forEach>
-									</div>
-									<div>
-										<hr style="height: 3px;">
-									</div>
+									</c:when>
+									<c:otherwise>
+										<div>
+											<c:forEach var="rc" items="${r.roomReviewComment}">
+												<div class="d-flex justify-content-between align-items-center">
+													<span>숙소후기 답변</span>
+													<ol style="list-style: none;">
+														<li>
+															<a class="btn btn-outline-dark" href="javascript:deleteRoomReviewComment('${r.roomReviewId}');">숙소후기 답변삭제</a>
+														</li>
+													</ol>
+												</div>
+												<textarea class="form-control" rows="5" cols="50" name="roomReviewCommentContent" readonly="readonly">${rc.roomReviewCommentContent}</textarea>
+											</c:forEach>
+										</div>
+									</c:otherwise>
+								</c:choose>
+								<div>
+									<hr style="height: 3px;">
 								</div>
 							</div>
+						</div>
 	   				</c:when>
 	   				<c:otherwise>
-	   					<div>
-	   						답변상태 : 
-							<c:choose>
-								<c:when test="${r.answerStatus == 'N'}">
-									<td>미답변</td>
-								</c:when>
-								
-								<c:when test="${r.answerStatus == 'Y'}">
-									<td>답변완료<td>
-								</c:when>
-							</c:choose>
-	   					</div>
 	   					<div class="d-flex justify-content-between align-items-center">
 							숙소후기 평점 : 
 							<c:choose>
@@ -645,6 +641,25 @@
 	 		}	
 	 	}	
     </script>
+    
+    <!-- 후기 신고 버튼 클릭 시 -->
+    <script>	    
+	    var roomReviewId = $('.roomReviewId').val();
+		
+		console.log(roomReviewId);
+	
+    	$('#insertReport').click(function() {
+    		if ("${loginUser.userId}" == "" || "${loginUser.userLevel}" == "member" || "${loginUser.userLevel}" == "system_admin") {
+    			if (confirm("해당 호스트만 가능합니다.")) {
+    				location.href = '${pageContext.request.contextPath}/login';
+    			} else {
+    				location.reload();
+    			}
+    		} else {
+    			window.open("${pageContext.request.contextPath}/reportPopup?roomReviewId="+roomReviewId,"_blank","toolbar=yes,menubar=yes,width=700,height=500").focus();
+    		}
+    	});
+	</script>
     
  	<script>
 		$(function(){

@@ -120,14 +120,7 @@
             <div class="sidebar-heading">
                 management
             </div>
-            
-            <!-- Nav Item - Report -->
-            <li class="nav-item">
-                <a class="nav-link" href="${pageContext.request.contextPath}/reportList">
-                    <i class="fas fa-flag"></i>
-                    <span>신고</span></a>
-            </li>
-            
+                        
             <!-- Nav Item - Notices -->
             <li class="nav-item">
                 <a class="nav-link" href="${pageContext.request.contextPath}/noticeList">

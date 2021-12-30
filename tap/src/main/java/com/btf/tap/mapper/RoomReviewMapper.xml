@@ -46,7 +46,7 @@
 		LIMIT #{beginRow}, #{rowPerPage}	
 	</select>
 	
-	<!-- 전체 후기 수 -->
+	<!-- 해당 숙소의 전체 후기 수 -->
 	<select id="totalRoomReivewCount" parameterType="int" resultType="int">
 		SELECT
 			 COUNT(rr.room_review_id)
@@ -85,6 +85,17 @@
 		WHERE 
 			room_review_id = #{roomReviewId}
 	</delete>
+	
+	<!-- 숙소별 평점 총합 -->
+	<select id="totalRoomReviewScore" parameterType="int" resultType="double">
+			SELECT SUM(rr.room_review_score)
+			FROM room_review rr
+				INNER JOIN payment p ON rr.payment_id = p.payment_id
+				INNER JOIN reservation rs ON p.reservation_id = rs.reservation_id
+				INNER JOIN room r ON rs.room_id = r.room_id
+			WHERE
+				r.room_id = #{roomId}	 
+	</select>
 	
 	<!-- ******** 숙소후기 답변 ******** -->
 	<!-- 숙소후기 답변 작성하기 -->

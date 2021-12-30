@@ -13,7 +13,6 @@ public class Host extends User {
 	private String hostPhone;
 	private String businessNumber;
 	private int hostPoint;
-	private String approvalStatus;
 	private String createDate;
 	private String updateDate;
 	
