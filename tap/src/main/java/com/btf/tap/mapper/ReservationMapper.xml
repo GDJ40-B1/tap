@@ -9,6 +9,7 @@
 		<result column="check_in_date" property="checkInDate"></result>
 		<result column="check_out_date" property="checkOutDate"></result>
 		<result column="people_num" property="peopleNum"></result>
+		<result column="final_payment_price" property="finalPaymentPrice"></result>
 		<result column="create_date" property="createDate"></result>
 		<result column="update_date" property="updateDate"></result>
 	<association property="room" javaType="com.btf.tap.vo.Room">
@@ -46,7 +47,8 @@
 		   r.room_name, 
 		   CONCAT(a.sido,' ',a.sigungu,' ',a.road_name,' ',da.detail_address) detail_address,
 		   res.check_in_date, 
-		   res.check_out_date, 
+		   res.check_out_date,
+		   res.final_payment_price, 
 		   r.check_in_time, 
 		   r.check_out_time, 
 		   r.room_form, 
@@ -94,11 +96,12 @@
 			room_id,
 			check_in_date,
 			check_out_date,
+			final_payment_price,
 			people_num,
 			create_date,
 			update_date
 		)	VALUES	(
-					#{memberId}, #{roomId}, #{checkInDate}, #{checkOutDate}, #{peopleNum}, NOW(), NOW())
+					#{memberId}, #{roomId}, #{checkInDate}, #{checkOutDate}, #{finalPaymentPrice}, #{peopleNum}, NOW(), NOW())
 		<selectKey keyProperty="reservationId" order="AFTER" resultType="int">
 			SELECT LAST_INSERT_ID()
 		</selectKey>
@@ -112,6 +115,7 @@
 			check_in_date,
 			check_out_date,
 			people_num,
+			final_payment_price,
 			create_date,
 			update_date
 		FROM reservation
@@ -120,7 +124,7 @@
 	
 	
 	
-	<!-- 예약 수정하기 -->
+	<!-- 예약 수정하기.. 필요할까요? -->
 	<update id="updateReservation" parameterType="com.btf.tap.vo.Reservation">
 		UPDATE reservation SET	
 			check_in_date=#{checkInDate}, check_out_date=#{checkOutDate}, people_num=#{peopleNum}, update_date=NOW() 
