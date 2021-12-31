@@ -33,7 +33,6 @@
 							<th>호스트 전화번호</th>
 							<th>사업자 번호</th>
 							<th>호스트 포인트</th>
-							<th>호스트 승인여부</th>
 							<th>정보 생성일</th>
 							<th>정보 수정일</th>
 						</tr>
@@ -45,7 +44,6 @@
 								<td>${h.hostPhone}</td>
 								<td>${h.businessNumber}</td>
 								<td>${h.hostPoint}</td>
-								<td>${h.approvalStatus}</td>
 								<td>${h.createDate}</td>
 								<td>${h.updateDate}</td>
 							</tr>
