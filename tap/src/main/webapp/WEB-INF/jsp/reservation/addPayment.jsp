@@ -50,7 +50,7 @@
 				   <label>체크아웃 날짜</label>
 				   <input type="text" name="checkOutDate" value="${reservation.checkOutDate}" readonly="readonly">
 				   <br>
-				   <label>인원수</label>
+				   <label>최대 인원수</label>
 				   <input type="text" name="peopleNum" value="${reservation.peopleNum }" readonly="readonly">
 				   <br>
 				   <label>쿠폰</label>

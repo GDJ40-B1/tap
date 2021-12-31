@@ -78,7 +78,7 @@
                         <td>${room.checkOutTime }</td>
                      </tr>
                      <tr>
-                        <td>인원수</td>
+                        <td>최대 인원수</td>
                         <td>${room.peopleNum }</td>
                      </tr>
                      <tr>
