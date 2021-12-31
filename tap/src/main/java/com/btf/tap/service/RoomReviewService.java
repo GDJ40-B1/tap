@@ -73,8 +73,10 @@ public class RoomReviewService {
 		
 		// 숙소별 평균 평점
 		double avgRoomReviewScore = 0;
-		avgRoomReviewScore = (Math.round((totalRoomReviewScore/totalRoomReviewCount)*10)/10.0); // 소수점 둘째자리에서 반올림하여 첫째자리까지 표시
-		log.debug(Font.HS + "숙소별 평균 평점 => " + avgRoomReviewScore + Font.RESET);
+		if(totalRoomReviewCount > 0) {
+			avgRoomReviewScore = (Math.round((totalRoomReviewScore/totalRoomReviewCount)*10)/10.0); // 소수점 둘째자리에서 반올림하여 첫째자리까지 표시
+			log.debug(Font.HS + "숙소별 평균 평점 => " + avgRoomReviewScore + Font.RESET);
+		} 
 		
 		Map<String,Object> paramMap = new HashMap<>();
 		paramMap.put("list", list);

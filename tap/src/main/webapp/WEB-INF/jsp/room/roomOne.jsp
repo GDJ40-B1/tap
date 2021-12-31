@@ -373,10 +373,12 @@
 							${r.roomReviewContent}
 						</div>
 						<div>
-							<c:forEach var="rc" items="${r.roomReviewComment}">
-								숙소후기 답변
-								<textarea class="form-control" rows="5" cols="50" name="roomReviewCommentContent" readonly="readonly">${rc.roomReviewCommentContent}</textarea>
-							</c:forEach>
+							<c:if test="${r.answerStatus eq 'Y'}">
+								<c:forEach var="rc" items="${r.roomReviewComment}">
+									숙소후기 답변
+									<textarea class="form-control" rows="5" cols="50" name="roomReviewCommentContent" readonly="readonly">${rc.roomReviewCommentContent}</textarea>
+								</c:forEach>
+							</c:if>
 						</div>
 						<div>
 							<hr style="height: 3px;">

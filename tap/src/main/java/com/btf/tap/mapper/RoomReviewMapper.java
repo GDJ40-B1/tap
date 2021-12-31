@@ -22,4 +22,8 @@ public interface RoomReviewMapper {
 	// *** 특정 회원을 기준 ***
 	List<RoomReview> selectMemberRoomReviewList(Map<String,Object> page); // 전체 숙소후기 목록 조회하기
 	int memberTotalRoomReviewCount(String memberId); // 전체 숙소후기 개수
+	
+	// *** 특정 호스트를 기준 ***
+	List<Map<String,Object>> unansweredRoomReviewList(Map<String,Object> page); // 미답변 숙소후기 목록 조회하기 
+	int totalUnansweredRoomReviewCount(String hostId); // 미답변 숙소 후기 개수
 }

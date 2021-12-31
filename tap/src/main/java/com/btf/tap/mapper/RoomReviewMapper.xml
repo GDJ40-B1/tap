@@ -88,13 +88,13 @@
 	
 	<!-- 숙소별 평점 총합 -->
 	<select id="totalRoomReviewScore" parameterType="int" resultType="double">
-			SELECT SUM(rr.room_review_score)
+			SELECT IFNULL(SUM(rr.room_review_score), 0)
 			FROM room_review rr
 				INNER JOIN payment p ON rr.payment_id = p.payment_id
 				INNER JOIN reservation rs ON p.reservation_id = rs.reservation_id
 				INNER JOIN room r ON rs.room_id = r.room_id
 			WHERE
-				r.room_id = #{roomId}	 
+				r.room_id = #{roomId}		 
 	</select>
 	
 	<!-- ******** 숙소후기 답변 ******** -->
@@ -159,5 +159,31 @@
 			 INNER JOIN room r ON rs.room_id = r.room_id 
 		WHERE
 			 rs.member_id = #{memberId}
+	</select>
+	
+	<!-- *** 호스트 숙소후기 미답변 관련 부분 *** -->
+	<!-- 미답변 숙소후기 목록 조회하기 -->
+	<select id="unansweredRoomReviewList" parameterType="java.util.Map" resultType="Map">
+		SELECT
+			rr.room_review_id roomReviewId,
+			rr.room_review_content roomReviewContent,
+			rr.room_review_score roomReviewScore,
+			rr.create_date createDate,
+			rs.member_id memberId,
+			r.room_id roomid,
+			r.detail_address_id detailAddressId
+		FROM room_review rr
+				INNER JOIN payment p ON rr.payment_id = p.payment_id
+				INNER JOIN reservation rs ON p.reservation_id = rs.reservation_id
+				INNER JOIN room r ON rs.room_id = r.room_id  
+		WHERE
+			r.host_id = #{hostId} AND rr.answer_status = 'N'
+		ORDER BY rr.create_date DESC
+		LIMIT #{beginRow}, #{rowPerPage}
+	</select>
+	
+	<!-- 미답변 숙소 후기 개수 -->
+	<select id="">
+	
 	</select>
 </mapper>
