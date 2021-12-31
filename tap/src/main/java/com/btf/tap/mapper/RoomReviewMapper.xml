@@ -170,8 +170,9 @@
 			rr.room_review_score roomReviewScore,
 			rr.create_date createDate,
 			rs.member_id memberId,
-			r.room_id roomid,
-			r.detail_address_id detailAddressId
+			r.room_id roomId,
+			r.detail_address_id detailAddressId,
+			r.room_name roomName
 		FROM room_review rr
 				INNER JOIN payment p ON rr.payment_id = p.payment_id
 				INNER JOIN reservation rs ON p.reservation_id = rs.reservation_id
@@ -183,7 +184,13 @@
 	</select>
 	
 	<!-- 미답변 숙소 후기 개수 -->
-	<select id="">
-	
+	<select id="totalUnansweredRoomReviewCount" parameterType="String" resultType="int">
+		SELECT COUNT(*) 
+		FROM room_review rr
+			INNER JOIN payment p ON rr.payment_id = p.payment_id
+			INNER JOIN reservation rs ON p.reservation_id = rs.reservation_id
+			INNER JOIN room r ON rs.room_id = r.room_id 
+		WHERE
+			r.host_id = #{hostId} AND rr.answer_status = 'N'
 	</select>
 </mapper>

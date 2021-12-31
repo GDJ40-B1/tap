@@ -415,4 +415,26 @@ public class RoomController {
 		
 		return "/host/room/roomPaymentList";
 	}
+	
+	// 호스트 미답변 숙소후기 목록
+	@GetMapping("/host/unansweredRoomReview")
+	public String getUnansweredRoomReview(HttpSession session, Model model, @RequestParam(value="currentPage", defaultValue ="1") int currentPage) {
+		// 로그인한 정보 loginUser 객체에 담기
+		User loginUser = (User)session.getAttribute("loginUser");
+		
+		Map<String,Object> roomReview = roomReviewService.getUnansweredRoomReviewList(currentPage, loginUser.getUserId());
+		
+		model.addAttribute("roomReview", roomReview);
+		
+		return "/host/room/unansweredRoomReview";
+	}
+	
+	@PostMapping("/host/unansweredRoomReview")
+	public String postUnansweredRoomReview(RoomReviewComment roomReviewComment) {
+		// 숙소후기 답변 작성
+		roomReviewService.addRoomReviewComment(roomReviewComment);
+		log.debug(Font.HS + "roomReviewComment 객체안의 값 => " + roomReviewComment.toString() + Font.RESET);
+		
+		return "redirect:/host/unansweredRoomReview";
+	}
 }

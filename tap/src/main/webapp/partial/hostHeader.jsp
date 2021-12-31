@@ -111,6 +111,12 @@
                     <i class="fas fa-fw fa-table"></i>
                     <span>문의 미답변 목록</span></a>
             </li>
+            
+            <li class="nav-item">
+                <a class="nav-link" href="${pageContext.request.contextPath}/host/unansweredRoomReview">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>숙소후기 미답변 목록</span></a>
+            </li>
 			
 			<!-- Nav Item - Tables -->
             <li class="nav-item">
@@ -369,7 +375,7 @@
 
                 </nav>
                 <!-- End of Topbar -->
-                
+               
                 <!-- Logout Modal-->
 			    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
 			        aria-hidden="true">

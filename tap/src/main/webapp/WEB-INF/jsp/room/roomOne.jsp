@@ -750,7 +750,7 @@
    <!--숙소후기 삭제 버튼 클릭 시 -->
     <script>
 	 	function deleteRoomReview(roomReviewId) {
-	 		if(confirm('후기를 삭제하시면 다시 작성할 수 없습니다. 그래도 삭제하시겠습니까?') == true){
+	 		if(confirm('후기를 삭제하시면 다시 복구할 수 없습니다. 그래도 삭제하시겠습니까?') == true){
 	 			location.href="${pageContext.request.contextPath}/removeRoomReview?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}&roomReviewId="+roomReviewId+"";
 	 		} else {
 	 			return;
