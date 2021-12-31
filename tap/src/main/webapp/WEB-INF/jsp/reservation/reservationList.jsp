@@ -158,10 +158,9 @@
 	function makeClickListener(roomId,detailAddressId) {
 		    return function() {
 	            // 마커 클릭시 실행할 이벤트 구현
-		    	$(location).attr('href',"${pageContext.request.contextPath}/roomOne?roomId="+roomId+"&detailAddressId="+room.detailAddressId);
+		    	$(location).attr('href',"${pageContext.request.contextPath}/roomOne?roomId=${r.room.roomId}&detailAddressId=${r.room.detailAddressId}");
 		    };
 		}
 	</script>
-	
 	</body>
 </html>

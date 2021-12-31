@@ -33,13 +33,15 @@ public class ReservationController {
 	@GetMapping("reservationList")
 	public String getReservationList(HttpSession session, Model model, @RequestParam(value="currentPage", defaultValue ="1") int currentPage) {
 		
+		// 회원정보 세션으로 가져오기
+			
+			User user = (User)session.getAttribute("loginUser");
 		
 		// 숙소 리스트와 페이징 관련 데이터를 result에 담기
 		Map<String, Object> result = reservationService.getReservationList(currentPage);
 		
 		
 		result.put("currentPage", currentPage);
-		
 		model.addAttribute("result", result);
 		log.debug(Font.KSB +" reservationController단  result 값 "+  result.toString() + Font.RESET);
 		

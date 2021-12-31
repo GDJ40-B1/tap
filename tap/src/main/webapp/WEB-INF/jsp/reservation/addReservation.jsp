@@ -105,7 +105,7 @@
 		      <input type="text" id="dateRangePicker2" class="form-control" name="checkOutDate" readonly>
 		    </div>
 	   </div>
-	   <label>인원수</label>
+	   <label>최대 인원수</label>
 	   <input type="number" id="peopleNum" name="peopleNum" value="---------">명
 	       
 	   <div><button id="resBtn" type="button">예약</button></div>
