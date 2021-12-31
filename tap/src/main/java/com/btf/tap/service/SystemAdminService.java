@@ -1,6 +1,8 @@
 package com.btf.tap.service;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -131,7 +133,7 @@ public class SystemAdminService {
 	public List<Map<String, Object>> getWithdrawalList() {
 		List<Map<String, Object>> list = new ArrayList<>();
 		list = systemAdminMapper.selectWithdrawalList();
-		log.debug(Font.HS + "탈퇴내역 조회" + list.toString() + Font.RESET);
+		log.debug(Font.JSB + "탈퇴내역 조회" + list.toString() + Font.RESET);
 		
 		return list;
 	}
@@ -139,5 +141,57 @@ public class SystemAdminService {
 	// 특정 탈퇴내역 삭제
 	public void removeWithdrawalList(String userId) {
 		systemAdminMapper.deleteWithdrawalList(userId);
+	}
+	
+	// 사이트 이용자 기간별 포인트 내역 조회
+	public List<Map<String, Object>> getPointHistoryList(String minDay, String maxDay){
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("minDay", minDay);
+		paramMap.put("maxDay", maxDay);
+		
+		List<Map<String, Object>> historyList = new ArrayList<>();
+		
+		historyList = systemAdminMapper.selectPointHistoryList(paramMap);
+		log.debug(Font.JSB + "전체 포인트 내역 조회" + historyList.toString() + Font.RESET);
+		
+		return historyList;
+	}
+	
+	// 연도별 사이트 관리자 월간 수익 조회
+	public List<Map<String, Object>> getRevenueYearList(int year){
+		List<Map<String, Object>> revenueList = new ArrayList<>();
+		
+		revenueList = systemAdminMapper.selectRevenueYearList(year);
+		log.debug(Font.JSB + "연도별 사이트 수익 조회" + revenueList.toString() + Font.RESET);
+		
+		return revenueList;
+	}
+	
+	// 연간 사이트 수익 조회
+	public List<Map<String, Object>> getRevenueYear() {
+		List<Map<String, Object>> revenueYearList = new ArrayList<>();
+		
+		revenueYearList = systemAdminMapper.selectRevenueYear();
+		log.debug(Font.JSB + "연간 사이트 수익" + revenueYearList.toString() + Font.RESET);
+		
+		return revenueYearList;
+	}
+	
+	// 사이트 총합 이용자 수 및 수익
+	public Map<String, Object> getRevenueAndUser(){
+		int userCount = systemAdminMapper.selectCountUser();
+		int resultRevenue = systemAdminMapper.selectRevenue();
+		
+		DecimalFormat decFormat = new DecimalFormat("###,###");
+		
+		String revenue = decFormat.format(resultRevenue);
+		
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("userCount", userCount);
+		paramMap.put("revenue", revenue); 
+		
+		log.debug(Font.JSB + "사이트 총합 이용자 수 및 수익" + paramMap.toString() + Font.RESET);
+		
+		return paramMap;
 	}
 }

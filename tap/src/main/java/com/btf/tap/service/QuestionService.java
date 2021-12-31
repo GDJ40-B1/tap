@@ -64,46 +64,24 @@ public class QuestionService {
 	}
 
 	// 미답변 문의 리스트
-	public Map<String, Object> getUnansweredQuestionList(int unansweredCurrentPage, int rowPerPage, String writerCategory) {
-		int defaultPage = 10;
-		int startPage = ((unansweredCurrentPage - 1) / defaultPage) * defaultPage + 1;
-		int endPage = startPage + defaultPage - 1;		
-		int beginRow = (unansweredCurrentPage-1) * rowPerPage;
-		int lastPage = 0;
-		
+	public List<Question> getUnansweredQuestionList(String writerCategory) {
 		// 회원, 호스트 카테고리를 선택하지 않은 전체 리스트 출력 시 카테고리 변수 값이 null이 되도록 수정
 		if(writerCategory == "") {
 			writerCategory = null;
 		}
 		
-		Map<String, Object> page = new HashMap<>();
-		page.put("beginRow", beginRow);
-		page.put("rowPerPage", rowPerPage);
-		page.put("writerCategory", writerCategory);
+		List<Question> questionList = questionMapper.unansweredQuestionList(writerCategory);
+		log.debug(Font.JSB + questionList.toString() + Font.RESET);
 		
-		List<Question> list = questionMapper.unansweredQuestionList(page);
-		log.debug(Font.JSB + list.toString() + Font.RESET);
+		return questionList;
+	}
+	
+	// 미답변 문의 수 체크
+	public int getUnansweredQnaCount() {
+		int unansweredQuestionCount = questionMapper.unansweredQuestionCount();
 		
-		int totalRowCount = questionMapper.unansweredQuestionTotalRowCount(writerCategory);
-		
-		lastPage = totalRowCount / rowPerPage;
-		
-		if(totalRowCount % rowPerPage != 0) {
-			lastPage+=1;
-		}
-		
-		if(endPage > lastPage) {
-			endPage = lastPage;
-		}		
-		
-		Map<String, Object> paramMap = new HashMap<>();
-		paramMap.put("list", list);
-		paramMap.put("startPage", startPage);
-		paramMap.put("endPage", endPage);
-		paramMap.put("lastPage", lastPage);
-		
-		return paramMap;
-	}	
+		return unansweredQuestionCount;
+	}
 	
 	// 문의 글 삽입
 	public void addQuestion(Question question) {

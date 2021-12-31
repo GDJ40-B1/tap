@@ -52,7 +52,7 @@
 	</select>
 
 	<!-- 미답변 전체 페이지 / 카테고리별 페이지 조회 -->
-	<select id="unansweredQuestionList" parameterType="java.util.Map" resultMap="resultQuestion">
+	<select id="unansweredQuestionList" parameterType="String" resultMap="resultQuestion">
 		SELECT
 			question_id,
 			writer_id,
@@ -69,20 +69,16 @@
 			</if>
 		</where>
 		ORDER BY question_id DESC
-		LIMIT #{beginRow}, #{rowPerPage}
 	</select>
-	
-	<!-- 미답변 페이지 체크 -->
-	<select id="unansweredQuestionTotalRowCount" parameterType="String" resultType="int">
+
+	<!-- 미답변 전체 페이지 / 카테고리별 페이지 조회 -->
+	<select id="unansweredQuestionCount" resultType="int">
 		SELECT
 			COUNT(*)
 		FROM question
 		<where>
 			answer_status = 'N'
-		<if test="writerCategory != null">
-			AND writer_category = #{writerCategory}
-		</if>
-		</where>	
+		</where>
 	</select>
 	
 	<!-- 문의 글 삽입 -->

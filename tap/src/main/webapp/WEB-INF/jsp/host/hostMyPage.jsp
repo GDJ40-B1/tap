@@ -159,7 +159,6 @@
                         <!-- Area Chart -->
                         <div class="col-xl-8 col-lg-7">
                             <div class="card shadow mb-4">
-                                <!-- Card Header - Dropdown -->
                                 <div id="roomChart"
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold text-primary">${year}년 ${roomName} 월별 숙소 이용객 수</h6>

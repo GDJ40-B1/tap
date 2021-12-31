@@ -6,8 +6,7 @@
 <head>
     <meta charset="utf-8">
 	<title>Insert title here</title>
-	<script src="http://code.jquery.com/jquery-latest.js"></script> 
-	
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
 	<!-- Datepicker 관련 요소 -->
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<link rel="stylesheet" href="/resources/demos/style.css">
@@ -16,29 +15,18 @@
 
     <!-- start : hostHeader -->
     <div>
-    	<jsp:include page="/partial/hostHeader.jsp"></jsp:include>
+    	<jsp:include page="/partial/systemAdminHeader.jsp"></jsp:include>
     </div>
     <!-- end : hostHeader -->
     
     <!-- start : content -->
-	<div id="content" class="container-fluid">
-	
-    <!-- start : content -->
-	<div id="content" class="container-fluid">
-	
+    <div id="content" class="container-fluid">
 		<div class="card shadow mb-4">
 			<div id="favoritesList" class="card-header py-3">
 				<h6 class="m-0 font-weight-bold text-primary">내역 조회 기간</h6>
 			</div>
 			<div class="card-body">
 				<div class="text-center">
-					<c:if test="${!empty roomList}">
-						<select name="room" id="room">
-							<c:forEach var="s" items="${roomList}">
-								<option value="${s.roomId}">${s.roomName}</option>
-							</c:forEach>
-						</select>
-					</c:if>
 					<div class="form-row">
 						<div class="form-group col-md-6">
 							<label for="inputCity">시작날짜</label>
@@ -52,39 +40,42 @@
 					<button class="btn btn-primary" id="dateBtn" type="button">조회</button>
 				</div>
 			</div>
-		</div>	
-			
+		</div>
+	
 		<!-- DataTales Example -->
 	    <div class="card shadow mb-4">
 	        <div class="card-header py-3">
-	            <h6 class="m-0 font-weight-bold text-primary">${roomName} 결제 내역</h6>
+	            <h6 class="m-0 font-weight-bold text-primary">사이트 내 포인트 내역</h6>
 	        </div>
 	        <div class="card-body">
 	            <div class="table-responsive">
 	                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 	                    <thead>
 	                        <tr>
-	                            <th>숙소명</th>
-	                            <th>결제 회원</th>
-	                            <th>결제 금액</th>
-	                            <th>결제일</th>
+	                            <th>ID</th>
+	                            <th>내역</th>
+	                            <th>현재 포인트</th>
+	                            <th>변동 내역</th>
+	                           	<th>등록일</th>
 	                        </tr>
 	                    </thead>
 	                    <tfoot>
 	                        <tr>
-	                            <th>숙소명</th>
-	                            <th>결제 회원</th>
-	                            <th>결제 금액</th>
-	                            <th>결제일</th>
+	                            <th>ID</th>
+	                            <th>내역</th>
+	                            <th>현재 포인트</th>
+	                            <th>변동 내역</th>
+	                           	<th>등록일</th>
 	                        </tr>
 	                    </tfoot>
 	                    <tbody>
-	                    	<c:forEach items="${paymentlist}" var="p">
+	                    	<c:forEach items="${historyList}" var="h">
 								<tr>
-									<td>${p.roomName}</td>
-									<td>${p.memberId}</td>
-									<td>${p.price}</td>
-									<td>${p.paymentDate}</td>
+									<td>${h.userId}</td>
+									<td>${h.pointHistoryCategory}</td>
+									<td>${h.point}</td>
+									<td>${h.changedPoint}</td>
+									<td>${h.createDate}</td>
 								</tr>
 							</c:forEach>
 	                    </tbody>
@@ -97,15 +88,14 @@
 	
 	<!-- start : hostFooter -->
     <div>
-       <jsp:include page="/partial/hostFooter.jsp"></jsp:include>
+       <jsp:include page="/partial/systemAdminFooter.jsp"></jsp:include>
     </div>
     <!-- end : hostFooter -->
-    
    	<!-- Datepicker 관련 script-->
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script src="js/lib/jquery/jquery.dataTables.js"></script>	
-		
-	<script>
+	    
+    <script>
 	    $(function() {
 	    	// 공통 초기 설정
 	    	$.datepicker.setDefaults({
@@ -143,9 +133,6 @@
 			} else if($('#dateRangePicker2').val() == '') {
 				alert('끝날짜를 선택하세요');
 				return;
-			} else if($('#room').val() == '') {
-				alert('숙소를 선택하세요');
-				return;
 			} 
 			
 			var roomId = $("#room option:selected").val();
@@ -153,7 +140,7 @@
 			var minDay = $("#dateRangePicker1").val();
 			var maxDay = $("#dateRangePicker2").val();
 			
-			location.href="${pageContext.request.contextPath}/host/roomPaymentList?roomId="+roomId+"&minDay="+minDay+"&maxDay="+maxDay;
+			location.href="${pageContext.request.contextPath}/systemAdmin/pointHistoryList?&minDay="+minDay+"&maxDay="+maxDay;
 		});
     </script>
 </body>

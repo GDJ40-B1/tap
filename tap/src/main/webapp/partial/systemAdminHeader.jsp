@@ -37,7 +37,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
-                <a class="nav-link" href="${pageContext.request.contextPath}/hostMyPage">
+                <a class="nav-link" href="${pageContext.request.contextPath}/systemAdminMyPage">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -120,7 +120,14 @@
             <div class="sidebar-heading">
                 management
             </div>
-                        
+            
+            <!-- Nav Item - Notices -->
+            <li class="nav-item">
+                <a class="nav-link" href="${pageContext.request.contextPath}/systemAdmin/pointHistoryList">
+                    <i class="fas fa-sticky-note"></i>
+                    <span>사이트 내 결제내역</span></a>
+            </li>
+                                    
             <!-- Nav Item - Notices -->
             <li class="nav-item">
                 <a class="nav-link" href="${pageContext.request.contextPath}/noticeList">
@@ -133,6 +140,13 @@
                 <a class="nav-link" href="${pageContext.request.contextPath}/questionList">
                     <i class="fas fa-question-circle"></i>
                     <span>문의</span></a>
+            </li>
+            
+            <!-- Nav Item - Questions -->
+            <li class="nav-item">
+                <a class="nav-link" href="${pageContext.request.contextPath}/systemAdmin/unansweredQuestionList">
+                    <i class="fas fa-question-circle"></i>
+                    <span>문의 미답변 리스트</span></a>
             </li>
             
             <!-- Nav Item - category -->

@@ -10,9 +10,6 @@
 	<!-- Datepicker 관련 요소 -->
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<link rel="stylesheet" href="/resources/demos/style.css">
-	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	<script src="js/lib/jquery/jquery.dataTables.js"></script>
 </head>
 <body id="page-top">
 
@@ -24,11 +21,13 @@
     
     <!-- start : content -->
 	<div id="content" class="container-fluid">
-		<!-- DataTales Example -->
-	    <div class="card shadow mb-4">
-	        <div class="card-header py-3">
-	             <h6 class="m-0 font-weight-bold text-primary">${minDay} ~ ${maxDay} 결제 내역</h6>
-	            <c:if test="${!empty payList}">
+	
+		<div class="card shadow mb-4">
+			<div id="favoritesList" class="card-header py-3">
+				<h6 class="m-0 font-weight-bold text-primary">내역 조회 기간</h6>
+			</div>
+			<div class="card-body">
+				<div class="text-center">
 					<div class="form-row">
 						<div class="form-group col-md-6">
 							<label for="inputCity">시작날짜</label>
@@ -39,9 +38,15 @@
 							<input type="text" id="dateRangePicker2" class="form-control" name="maxDay" readonly>
 						</div>
 					</div>
-					
 					<button class="btn btn-primary" id="dateBtn" type="button">조회</button>
-				</c:if>
+				</div>
+			</div>
+		</div>	
+	
+		<!-- DataTales Example -->
+	    <div class="card shadow mb-4">
+	        <div class="card-header py-3">
+	             <h6 class="m-0 font-weight-bold text-primary">결제 내역</h6>
 	        </div>
 	        <div class="card-body">
 	            <div class="table-responsive">
@@ -90,7 +95,6 @@
     </div>
     <!-- end : hostFooter -->
    	<!-- Datepicker 관련 script-->
-	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script src="js/lib/jquery/jquery.dataTables.js"></script>	
 			

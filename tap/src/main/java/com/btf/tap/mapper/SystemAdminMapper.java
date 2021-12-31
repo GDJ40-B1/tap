@@ -18,4 +18,9 @@ public interface SystemAdminMapper {
 	int deleteSystemAdmin(SystemAdmin systemAdmin); // 시스템관리자 한 명의 정보 삭제하기
 	List<Map<String, Object>> selectWithdrawalList(); // 전체 탈퇴내역 조회
 	int deleteWithdrawalList(String userId); // 특정 탈퇴내역 삭제
+	List<Map<String, Object>> selectPointHistoryList(Map<String, Object> paramMap); // 사이트 이용자 기간별 포인트 내역 조회
+	List<Map<String, Object>> selectRevenueYearList(int year);	// 연도별 사이트 관리자 월간 수익 조회
+	List<Map<String, Object>> selectRevenueYear();	// 연간 사이트 수익 조회
+	int selectCountUser();	// 사이트 총합 이용자 수
+	int selectRevenue();	// 사이트 총합 수익
 }
