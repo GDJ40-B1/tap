@@ -71,7 +71,7 @@
 		ORDER BY question_id DESC
 	</select>
 
-	<!-- 미답변 전체 페이지 / 카테고리별 페이지 조회 -->
+	<!-- 미답변 문의 수 체크 -->
 	<select id="unansweredQuestionCount" resultType="int">
 		SELECT
 			COUNT(*)

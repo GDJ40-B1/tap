@@ -259,7 +259,8 @@ public class MemberController {
 	}
 	
 	@GetMapping("/myPage")
-	public String getMyPage(HttpServletRequest request, Model model, @RequestParam(value="favCurrentPage", defaultValue ="1") int favCurrentPage) {
+	public String getMyPage(HttpServletRequest request, Model model, @RequestParam(value="favCurrentPage", defaultValue ="1") int favCurrentPage,
+																	 @RequestParam(name="year", defaultValue = "0") int year) {
 	
 		HttpSession session = request.getSession();
 			
@@ -270,18 +271,36 @@ public class MemberController {
 		
 		// 세션에서 로그인 유저 객체 받기 
 		User user = (User) session.getAttribute("loginUser");
+		String memberId = user.getUserId();
 		
 		// 유저 객체속 아이디를 회원 객체에 넣어 조회하기
 		Member member = new Member();
 		member.setMemberId(user.getUserId());
 		member = memberService.getMemberOne(member);
 		
+		// 즐겨찾기 리스트 및 페이징
 		Map<String, Object> favMap = memberService.getFavoritesList(favCurrentPage, user.getUserId());
+		
+		if(year == 0) {
+			LocalDate now = LocalDate.now();
+			year = now.getYear();
+		}
+		
+		// 회원 사이트 연도별 결제 총액, 총 횟수, 숙소별 결제 금액, 보유 쿠폰 수
+		List<Map<String, Object>> totalPaymentList = memberService.getTotalPaymentList(memberId, year);
+		int totalPaymentCount = memberService.getTotalPaymentCount(memberId);
+		List<Map<String, Object>> roomTotalPayment = memberService.getRoomTotalPayment(memberId, year);
+		int couponCount = memberService.getCouponCount(memberId);
 		
 		// 회원 정보 주입
 		model.addAttribute("member", member);
-		// 즐겨찾기 리스트 및 페이징
+
 		model.addAttribute("favMap", favMap);
+		model.addAttribute("year", year);
+		model.addAttribute("totalPaymentList", totalPaymentList);
+		model.addAttribute("totalPaymentCount", totalPaymentCount);
+		model.addAttribute("roomTotalPayment", roomTotalPayment);
+		model.addAttribute("couponCount", couponCount);
 		
 		// 마이페이지로 이동
 		return "member/myPage";

@@ -56,6 +56,7 @@
 	                            <th>결제 숙소명</th>
 	                            <th>결제 금액</th>
 	                            <th>결제일</th>
+	                            <th>환불 여부</th>
 	                        </tr>
 	                    </thead>
 	                    <tfoot>
@@ -63,6 +64,7 @@
 	                            <th>결제 숙소명</th>
 	                            <th>결제 금액</th>
 	                            <th>결제일</th>
+	                            <th>환불 여부</th>
 	                        </tr>
 	                    </tfoot>
 	                    <tbody>
@@ -79,6 +81,7 @@
 									</c:choose>
 									<td>${p.price}</td>
 									<td>${p.paymentDate}</td>
+									<td>${p.refundStatus}</td>
 								</tr>
 							</c:forEach>
 	                    </tbody>

@@ -58,10 +58,12 @@ public class SystemAdminController {
 		
 		// 연도별 월간 / 연간 사이트 매출 차트 데이터 리스트
 		// 총합 이용자 수 및 수익, 미답변 문의 수
+		// 사이트 현재 수수료 조회
 		List<Map<String, Object>> revenueList = systemAdminService.getRevenueYearList(year);
 		List<Map<String, Object>> revenueYearList = systemAdminService.getRevenueYear();
 		Map<String, Object> revenueAndUser = systemAdminService.getRevenueAndUser();
 		int unansweredQuestionCount = questionService.getUnansweredQnaCount();
+		int feeRate = systemAdminService.getFeeRate();
 		
 		model.addAttribute("year", year);
 		model.addAttribute("systemAdmin", systemAdmin);
@@ -69,6 +71,7 @@ public class SystemAdminController {
 		model.addAttribute("revenueYearList", revenueYearList);
 		model.addAttribute("revenueAndUser", revenueAndUser);
 		model.addAttribute("unansweredQuestionCount", unansweredQuestionCount);
+		model.addAttribute("feeRate", feeRate);
 		
 		// 시스템관리자 마이페이지로 이동
 		return "systemAdmin/systemAdminMyPage";
@@ -288,5 +291,13 @@ public class SystemAdminController {
 		model.addAttribute("questionList", questionList);
 		
 		return "/systemAdmin/unansweredQuestionList";
+	}
+	
+	// 사이트 수수료 변경
+	@GetMapping("/systemAdmin/modifyFeeRate")
+	public String getModifyFeeRate(@RequestParam(name="feeRate", defaultValue = "0") int feeRate) {
+		systemAdminService.modifyFeeRate(feeRate);
+		
+		return "redirect:/systemAdminMyPage";
 	}
 }

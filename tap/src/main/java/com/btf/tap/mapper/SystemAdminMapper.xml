@@ -156,4 +156,20 @@
 			SUM(fee) revenue
 		FROM fee	
 	</select>
+	
+	<!-- 현재 사이트 수수료 조회 -->
+	<select id="selectFeeRate" resultType="int">
+		SELECT
+			fee_rate
+		FROM
+			fee_rate
+	</select>
+	
+	<!-- 사이트 수수료 변경 -->
+	<update id="updateFeeRate" parameterType="int">
+		UPDATE fee_rate
+		SET
+			fee_rate = #{feeRate},
+			update_date = NOW()		
+	</update>
 </mapper>
