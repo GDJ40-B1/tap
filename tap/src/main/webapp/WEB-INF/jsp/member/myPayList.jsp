@@ -13,11 +13,11 @@
 </head>
 <body id="page-top">
 
-    <!-- start : hostHeader -->
+    <!-- start : memberHeader -->
     <div>
     	<jsp:include page="/partial/memberHeader.jsp"></jsp:include>
     </div>
-    <!-- end : hostHeader -->
+    <!-- end : memberHeader -->
     
     <!-- start : content -->
 	<div id="content" class="container-fluid">
@@ -57,6 +57,7 @@
 	                            <th>결제 금액</th>
 	                            <th>결제일</th>
 	                            <th>환불 여부</th>
+	                            <th>후기작성</th>
 	                        </tr>
 	                    </thead>
 	                    <tfoot>
@@ -65,6 +66,7 @@
 	                            <th>결제 금액</th>
 	                            <th>결제일</th>
 	                            <th>환불 여부</th>
+	                            <th>후기작성</th>
 	                        </tr>
 	                    </tfoot>
 	                    <tbody>
@@ -82,6 +84,15 @@
 									<td>${p.price}</td>
 									<td>${p.paymentDate}</td>
 									<td>${p.refundStatus}</td>
+									<c:choose>
+										<c:when test="${p.roomReviewContent == null}">
+											<td><a href="${pageContext.request.contextPath}/member/addRoomReview?paymentId=${p.paymentId}&roomName=${p.roomName}">후기작성</a></td>
+										</c:when>
+										
+										<c:otherwise>
+											<td>후기작성 완료</td>
+										</c:otherwise>
+									</c:choose>
 								</tr>
 							</c:forEach>
 	                    </tbody>
@@ -92,11 +103,11 @@
 	</div>
 	<!-- end : content -->
 	
-	<!-- start : hostFooter -->
+	<!-- start : memberFooter -->
     <div>
        <jsp:include page="/partial/memberFooter.jsp"></jsp:include>
     </div>
-    <!-- end : hostFooter -->
+    <!-- end : memberFooter -->
    	<!-- Datepicker 관련 script-->
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script src="js/lib/jquery/jquery.dataTables.js"></script>	

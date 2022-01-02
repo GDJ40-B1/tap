@@ -23,6 +23,7 @@ import com.btf.tap.service.PointService;
 import com.btf.tap.service.RoomReviewService;
 import com.btf.tap.service.SearchService;
 import com.btf.tap.vo.Member;
+import com.btf.tap.vo.RoomReview;
 import com.btf.tap.vo.User;
 
 import lombok.extern.slf4j.Slf4j;
@@ -480,5 +481,27 @@ public class MemberController {
 		model.addAttribute("payList", payList);
 		
 		return "member/myPayList";
+	}
+	
+	// 특정회원 결제내역에서 숙소후기 작성하기
+	@GetMapping("/member/addRoomReview")
+	public String getAddRoomReview(HttpSession session, Model model, int paymentId, String roomName) {
+		User loginUser = (User)session.getAttribute("loginUser");
+		
+		log.debug(Font.HS + "paymentId, roomName 값 => " + paymentId + "" + roomName + Font.RESET);
+		
+		model.addAttribute("paymentId", paymentId);
+		model.addAttribute("roomName", roomName);
+		
+		return "member/addRoomReview";
+	}
+	@PostMapping("/member/addRoomReview")
+	public String postAddRoomReivew(RoomReview roomReview) {
+		// roomReview 객체 값
+		log.debug(Font.HS + "roomReview 값 => " + roomReview.toString() + Font.RESET);
+		
+		roomReviewService.addRoomReview(roomReview);
+		
+		return "redirect:/member/getPayList";
 	}
 }
