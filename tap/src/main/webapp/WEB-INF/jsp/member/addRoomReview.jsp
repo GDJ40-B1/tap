@@ -25,7 +25,7 @@
 	        	<div class="table-responsive">
 	            	<form id="addReviewForm" action="${pageContext.request.contextPath}/member/addRoomReview" method="post">
 						<div>
-							<h4>숙소이름<span>&nbsp; ${roomName}</span></h4>
+							<h4>숙소정보<span>&nbsp; ${roomName}[${roomForm}]</span></h4>
 							<h4>작성자명<span>&nbsp; ${loginUser.userName}</span></h4>
 							<span>※ 작성한 후기는 다른 사이트에서도 함께 보여질 수 있습니다.</span>
 							<hr style="height: 3px;">

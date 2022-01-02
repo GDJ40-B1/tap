@@ -194,6 +194,7 @@
 			p.payment_id paymentId,
 			r.room_id roomId,
 			r.detail_address_id detailAddressId,
+			r.room_form roomForm,
 			p.room_name roomName,
 			p.final_payment_price price,
 			p.payment_date paymentDate,

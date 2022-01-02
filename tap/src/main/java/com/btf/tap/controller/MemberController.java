@@ -485,13 +485,14 @@ public class MemberController {
 	
 	// 특정회원 결제내역에서 숙소후기 작성하기
 	@GetMapping("/member/addRoomReview")
-	public String getAddRoomReview(HttpSession session, Model model, int paymentId, String roomName) {
+	public String getAddRoomReview(HttpSession session, Model model, int paymentId, String roomName, String roomForm) {
 		User loginUser = (User)session.getAttribute("loginUser");
 		
-		log.debug(Font.HS + "paymentId, roomName 값 => " + paymentId + "" + roomName + Font.RESET);
+		log.debug(Font.HS + "paymentId, roomName, roomForm 값 => " + paymentId + "" + roomName + "" + roomForm + Font.RESET);
 		
 		model.addAttribute("paymentId", paymentId);
 		model.addAttribute("roomName", roomName);
+		model.addAttribute("roomForm", roomForm);
 		
 		return "member/addRoomReview";
 	}

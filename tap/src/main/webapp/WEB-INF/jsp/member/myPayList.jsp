@@ -86,7 +86,7 @@
 									<td>${p.refundStatus}</td>
 									<c:choose>
 										<c:when test="${p.roomReviewContent == null}">
-											<td><a href="${pageContext.request.contextPath}/member/addRoomReview?paymentId=${p.paymentId}&roomName=${p.roomName}">후기작성</a></td>
+											<td><a href="${pageContext.request.contextPath}/member/addRoomReview?paymentId=${p.paymentId}&roomName=${p.roomName}&roomForm=${p.roomForm}">후기작성</a></td>
 										</c:when>
 										
 										<c:otherwise>
