@@ -1,10 +1,143 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.btf.tap.mapper.CategoryMapper">
-	
+	<!-- *** 숙소 카테고리 *** -->
 	<!-- 숙소 카테고리 목록 -->
-	<select id="selectRoomCategoryList" resultType="String">
-		SELECT room_category roomCategory FROM room_category
+	<select id="selectRoomCategoryList" resultType="com.btf.tap.vo.RoomCategory">
+		SELECT 
+			room_category roomCategory 
+		FROM room_category
 	</select>
 	
+	<!-- 숙소 카테고리 추가 -->
+	<insert id="insertRoomCategory" parameterType="com.btf.tap.vo.RoomCategory">
+		INSERT INTO room_category(
+			room_category,
+			create_date,
+			update_date
+		) VALUES (
+			#{roomCategory},
+			NOW(),
+			NOW()	
+		)
+	</insert>
+	
+	<!-- 숙소 카테고리 수정 -->
+	<update id="updateRoomCategory" parameterType="String">
+		UPDATE room_category 
+		SET room_category = #{newRoomCategory}, update_date = NOW()
+		WHERE room_category = #{roomCategory}  	
+	</update>
+	
+	<!-- 숙소 카테고리 삭제 -->
+	<delete id="deleteRoomCategory" parameterType="String">
+		DELETE
+		FROM room_category
+		WHERE room_category = #{roomCategory}
+	</delete>
+	
+	<!-- *** 명소 카테고리 *** -->
+	<!-- 명소 카테고리 목록 -->
+	<select id="selectAttractionCategoryList" resultType="com.btf.tap.vo.AttractionCategory">
+		SELECT 
+			attraction_category attractionCategory
+		FROM attraction_category
+	</select>
+	
+	<!-- 명소 카테고리 추가 -->
+	<insert id="insertAttractionCategory" parameterType="com.btf.tap.vo.AttractionCategory">
+		INSERT INTO attraction_category(
+			attraction_category,
+			create_date,
+			update_date
+		) VALUES (
+			#{attractionCategory},
+			NOW(),
+			NOW()	
+		)
+	</insert>
+	
+	<!-- 명소 카테고리 수정 -->
+	<update id="updateAttractionCategory" parameterType="String">
+		UPDATE attraction_category 
+		SET attraction_category = #{newAttractionCategory}, update_date = NOW()
+		WHERE attraction_category = #{attractionCategory}  	
+	</update>
+	
+	<!-- 명소 카테고리 삭제 -->
+	<delete id="deleteAttractionCategory" parameterType="String">
+		DELETE
+		FROM attraction_category
+		WHERE attraction_category = #{attractionCategory}
+	</delete>
+	
+	<!-- *** 숙소구성 카테고리 *** -->
+	<!-- 구성 카테고리 목록 -->
+	<select id="selectPartList" resultType="com.btf.tap.vo.Part">
+		SELECT 
+			part_name partName 
+		FROM part
+	</select>
+	
+	<!-- 구성 카테고리 추가 -->
+	<insert id="insertPart" parameterType="com.btf.tap.vo.Part">
+		INSERT INTO part(
+			part_name,
+			create_date,
+			update_date
+		) VALUES (
+			#{partName},
+			NOW(),
+			NOW()	
+		)
+	</insert>
+	
+	<!-- 구성 카테고리 수정 -->
+	<update id="updatePart" parameterType="String">
+		UPDATE part
+		SET part_name = #{newPartName}, update_date = NOW()
+		WHERE part_name = #{partName}  	
+	</update>
+	
+	<!-- 구성 카테고리 삭제 -->
+	<delete id="deletePart" parameterType="String">
+		DELETE
+		FROM part
+		WHERE part_name = #{partName}
+	</delete>
+	
+	<!-- *** 비품 카테고리 *** -->
+	<!-- 비품 카테고리 목록 -->
+	<select id="selectAmenitiesList" resultType="com.btf.tap.vo.Amenities">
+		SELECT 
+			amenities_name amenitiesName 
+		FROM amenities
+	</select>
+	
+	<!-- 비품 카테고리 추가 -->
+	<insert id="insertAmenities" parameterType="com.btf.tap.vo.Amenities">
+		INSERT INTO amenities(
+			amenities_name,
+			create_date,
+			update_date
+		) VALUES (
+			#{amenitiesName},
+			NOW(),
+			NOW()	
+		)
+	</insert>
+	
+	<!-- 비품 카테고리 수정 -->
+	<update id="updateAmenities" parameterType="String">
+		UPDATE amenities 
+		SET amenities_name = #{newAmenitiesName}, update_date = NOW()
+		WHERE amenities_name = #{amenitiesName}  	
+	</update>
+	
+	<!-- 비품 카테고리 삭제 -->
+	<delete id="deleteAmenities" parameterType="String">
+		DELETE
+		FROM amenities 
+		WHERE amenities_name = #{amenitiesName}
+	</delete>
 </mapper>
