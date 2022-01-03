@@ -44,6 +44,7 @@ public class RoomService {
    @Autowired PartService partService;
    @Autowired ImageService imageService;
    @Autowired RoomReviewService roomReviewService;
+   @Autowired AttractionService attractionService;
    
    // 사용자 설정 선호지역 별 인기 숙소 리스트
    public Map<String, Object> getPreferLocalRoomList(int preferRoomCurrent, String sido, String sigungu) {
@@ -175,7 +176,9 @@ public class RoomService {
       result.put("amenitiesList", amenitiesService.getRoomAmenitiesList(roomId));
       // 숙소의 구성 정보
       result.put("roomPartList", partService.getRoomPartList(roomId));
-      
+      // 숙소와 같은 구에 있는 명소 리스트
+      result.put("attractionList", attractionService.getAttractionArroundRoom(roomId));
+      log.debug(Font.HJ + "주변 명소 :" + attractionService.getAttractionArroundRoom(roomId) + Font.RESET);
       return result;
    }
    

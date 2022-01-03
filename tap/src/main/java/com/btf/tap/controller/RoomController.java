@@ -110,7 +110,9 @@ public class RoomController {
 		//예약
 		model.addAttribute("ReservationDateList",reservation.get("ReservationDateList"));
 	    model.addAttribute("ReservationListOfDate",reservation.get("ReservationListOfDate"));
-	    
+	    // 주변 명소
+	    model.addAttribute("attractionList",result.get("attractionList"));
+	    log.debug(Font.HJ + "주변 명소 :" + result.get("attractionList") + Font.RESET);
 		model.addAttribute("roomQna", roomQna);
 		model.addAttribute("roomReview", roomReview);
 		model.addAttribute("favorite", favorite);

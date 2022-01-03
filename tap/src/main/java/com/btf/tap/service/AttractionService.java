@@ -213,4 +213,9 @@ public class AttractionService {
 		
 		return paramMap;
 	}
+	
+	// 특정 숙소 주변 명소 목록 추출
+	public List<Attraction> getAttractionArroundRoom(int roomId){
+		return attractionMapper.selectAttractionArroundRoom(roomId);
+	}
 }

@@ -12,6 +12,12 @@
       <result column="approval_status" property="approvalStatus"></result>
       <result column="create_date" property="createDate"></result>
       <result column="update_date" property="updateDate"></result>
+      <association property="address" javaType="com.btf.tap.vo.Address">
+         <result column="address_id" property="addressId"></result>
+         <result column="detail_address_id" property="detailAddressId"></result>
+         <result column="detail_address" property="detailAddress"></result>
+         <result column="detail_address2" property="detailAddress2"></result>
+      </association>
    </resultMap>
 
 
@@ -32,6 +38,20 @@
 			attraction
 		WHERE
 			attraction_id=#{attractionId}	
+	</select>
+	
+	<!-- [비회원, 회원, 관리자] 특정 숙소 주변 명소 목록 추출 -->
+	<select id="selectAttractionArroundRoom" parameterType="int" resultMap="resultAttraction">
+		SELECT
+			at.attraction_id, at.detail_address_id, at.attraction_name, CONCAT(a.sido,' ',a.sigungu,' ',a.road_name,' ',da.detail_address) detail_address
+		FROM attraction at
+		INNER JOIN detail_address da ON at.detail_address_id=da.detail_address_id
+		INNER JOIN address a ON da.address_id=a.address_id
+		WHERE a.sigungu=(
+			SELECT a.sigungu sigungu FROM (SELECT * FROM room WHERE room_id=#{roomId}) r
+			INNER JOIN detail_address da ON r.detail_address_id=da.detail_address_id
+			INNER JOIN address a ON da.address_id=a.address_id
+		)
 	</select>
 	
 	<!-- [시스템 관리자] 미승인된 명소 상세보기 -->

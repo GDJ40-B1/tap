@@ -577,7 +577,7 @@
    
    </script>
    
-   <!-- kakao API -->
+   <!-- kakao map API -->
    <jsp:include page="/partial/kakaoAPIKey.jsp"></jsp:include>
    
    <script>
@@ -617,6 +617,45 @@
            map.setCenter(coords);
        } 
    });
+   
+   /* 명소 리스트 찍기 */
+	// 주소-좌표 변환 객체를 생성합니다
+	var geocoder_at = new kakao.maps.services.Geocoder();
+	
+	// 각 숙소의 정보를 토대로 마커를 찍습니다
+	<c:forEach items="${attractionList}" var="a" varStatus="status">
+		// 주소로 좌표를 검색합니다
+		geocoder_at.addressSearch("${a.address.detailAddress}", function(result, status) {
+
+		    // 정상적으로 검색이 완료됐으면 
+		    if (status === kakao.maps.services.Status.OK) {
+				
+				var marker_at = new kakao.maps.Marker({
+		 	        map: map, // 마커를 표시할 지도
+		 	        title: "${a.attractionName}", // 명소 이름
+		 	        position: new kakao.maps.LatLng(result[0].y, result[0].x) // 마커의 위치
+		 	    });
+			 
+			    // 마커에 표시할 인포윈도우를 생성합니다 
+			    var infowindow_at = new kakao.maps.InfoWindow({
+			        content: '<div style="width:150px;text-align:center;padding:6px 0;">${a.attractionName}</div>' // 인포윈도우에 표시할 내용
+			    });
+				// 인포윈도우를 띄웁니다
+			    infowindow_at.open(map, marker_at);
+
+			    // 마커에 클릭 이벤트를 달아줍니다
+			    kakao.maps.event.addListener(marker_at, 'click', makeClickListener("${a.attractionId}","${a.address.detailAddressId}"));
+		    }
+		});	
+	</c:forEach>
+
+	// 마커 클릭 이벤트
+	function makeClickListener(attractionId,detailAddressId) {
+		    return function() {
+	            // 마커 클릭시 실행할 이벤트 구현
+		    	$(location).attr('href', "${pageContext.request.contextPath}/attractionOne?attractionId="+attractionId+"&detailAddressId="+detailAddressId);
+		    };
+		}
    </script>
  
     <script>
