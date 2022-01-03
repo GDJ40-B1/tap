@@ -17,7 +17,6 @@
 			system_admin_id,
 			title,
 			content,
-			kind,
 			create_date,
 			update_date     
 		FROM notice 
@@ -26,35 +25,13 @@
 		LIMIT #{beginRow}, 10
 	</select>
 	
-	<!-- kind 별로 리스트 출력 -->
-	<select id="selectNoticeListByKind" parameterType="Map" resultMap="resultNotice">
-		SELECT 
-			notice_id,
-			system_admin_id,
-			title,
-			content,
-			kind,
-			create_date,
-			update_date     
-		FROM notice 
-		 <where>
-			<if test="kind != null">
-				kind = #{kind}
-			</if>
-		</where>
-        ORDER BY create_date DESC
-		LIMIT #{beginRow}, 10
-	</select>
+	
 	
 	<!-- 총 게시글의 수 -->
 	<select id="totalRowCount" resultType="int">
 		SELECT COUNT(*) FROM notice
 	</select>
 	
-	<!-- 총 게시글의 수 -->
-	<select id="totalRowCountByKind" resultType="int" parameterType="String">
-		SELECT COUNT(*) FROM notice WHERE kind=#{kind}
-	</select>
 	
 	<select id="selectNoticeOne" parameterType="int" resultMap="resultNotice">
 		SELECT

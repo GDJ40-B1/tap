@@ -43,7 +43,7 @@
 	                    <tbody>
 	                    	<c:forEach items="${roomCategoryList }" var="rc">
 								<tr>
-									<td>${rc }</td>
+									<td><input type="" value="${rc }"></td>
 									<td><a href="${pageContext.request.contextPath}/systemAdmin/modifyRoomCategory?roomCategory=${rc}">수정하기</a></td>
 									<td><a href="${pageContext.request.contextPath}/systemAdmin/removeRoomCategory?roomCategory=${rc}">삭제하기</a></td>
 								</tr>

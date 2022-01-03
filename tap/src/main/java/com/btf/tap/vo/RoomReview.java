@@ -15,4 +15,6 @@ public class RoomReview {
 	private String updateDate; 		  // 정보 수정일
 	
 	private List<RoomReviewComment> roomReviewComment; 
+	private List<Room> room;
+	private List<Reservation> reservation;
 }

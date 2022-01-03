@@ -9,7 +9,7 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
   <title>${question.questionTitle}</title>
-  <script src="http://code.jquery.com/jquery-latest.js"></script> 
+  
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -30,6 +30,9 @@
 
   <!-- Template Main CSS File -->
   <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet">
+
+  <!-- Jquery -->
+  <script src="http://code.jquery.com/jquery-latest.js"></script> 
 
   <!-- =======================================================
   * Template Name: MeFamily - v4.7.0
@@ -122,7 +125,7 @@
 					<textarea class="form-control" rows="5" placeholder="답변을 작성해주세요" id="questionAnswerContent" name="questionAnswerContent"></textarea>
 			</div>
 			<div>
-				<button id="btn" type ="button">작성</button>
+				<button id="answerBtn" type ="button">작성</button>
 			</div>
 		</form>		
 		
@@ -172,7 +175,7 @@
 			}
 		}
 		
-		$('#btn').click(function(){
+		$('#answerBtn').click(function(){
 			if($('#questionAnswerContent').val() == '') {
 				alert('답변을 입력하세요');
 				return;

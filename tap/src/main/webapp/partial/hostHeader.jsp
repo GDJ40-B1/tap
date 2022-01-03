@@ -29,7 +29,7 @@
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+                <div class="sidebar-brand-text mx-3">T A B</div>
             </a>
 
             <!-- Divider -->
@@ -101,9 +101,21 @@
             </li>
             
             <li class="nav-item">
+                <a class="nav-link" href="${pageContext.request.contextPath}/host/roomPaymentList">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>숙소별 결제내역 확인</span></a>
+            </li>            
+            
+            <li class="nav-item">
                 <a class="nav-link" href="${pageContext.request.contextPath}/host/unansweredRoomQna">
                     <i class="fas fa-fw fa-table"></i>
                     <span>문의 미답변 목록</span></a>
+            </li>
+            
+            <li class="nav-item">
+                <a class="nav-link" href="${pageContext.request.contextPath}/host/unansweredRoomReview">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>숙소후기 미답변 목록</span></a>
             </li>
 			
 			<!-- Nav Item - Tables -->
@@ -363,7 +375,7 @@
 
                 </nav>
                 <!-- End of Topbar -->
-                
+               
                 <!-- Logout Modal-->
 			    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
 			        aria-hidden="true">

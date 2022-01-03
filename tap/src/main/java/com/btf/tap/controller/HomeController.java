@@ -1,5 +1,6 @@
 package com.btf.tap.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -14,6 +15,7 @@ import com.btf.tap.common.Font;
 import com.btf.tap.service.AttractionService;
 import com.btf.tap.service.MemberService;
 import com.btf.tap.service.RoomService;
+import com.btf.tap.service.SearchService;
 import com.btf.tap.vo.User;
 
 import lombok.extern.slf4j.Slf4j;
@@ -24,11 +26,13 @@ public class HomeController {
 	@Autowired MemberService memberService;
 	@Autowired RoomService roomService;
 	@Autowired AttractionService attractionService;
+	@Autowired SearchService searchService;
 	
 	// index 페이지를 홈페이지로 매핑
 	@GetMapping("/")
 	public String getIndex(Model model, HttpSession session, @RequestParam(name="preferRoomCurrent", defaultValue = "1") int preferRoomCurrent,
-															 @RequestParam(name="preferAttractionCurrent", defaultValue = "1") int preferAttractionCurrent) {
+															 @RequestParam(name="preferAttractionCurrent", defaultValue = "1") int preferAttractionCurrent,
+															 String keyword) {
 		
 		User loginUser = (User)session.getAttribute("loginUser");
 		
@@ -46,11 +50,25 @@ public class HomeController {
 			Map<String, Object> preferAttractionMap = attractionService.getPreferLocalAttractionList(preferAttractionCurrent, sido, sigungu);
 			preferAttractionMap.put("preferAttractionCurrent", preferAttractionCurrent);
 			
+			// 검색어 기록 저장
+			if(keyword != null) {
+				searchService.addSearchHistory(loginUser, keyword);
+			}
+			
+			// 이전 검색어 기록 조회
+			List<String> searchList = searchService.getSearchHistory(loginUser);
+			log.debug(Font.JSB + searchList.toString() + Font.RESET);
+
+			model.addAttribute("searchList", searchList);
 			model.addAttribute("sigungu", sigungu);
 			model.addAttribute("preferRoomMap", preferRoomMap);
 			model.addAttribute("preferAttractionMap", preferAttractionMap);
 		}
 		
+		// DB 전체 시도 리스트 조회
+		List<String> sidoList = searchService.getSidoList();
+		
+		model.addAttribute("sidoList", sidoList);
 
 		return"/index";
 	}

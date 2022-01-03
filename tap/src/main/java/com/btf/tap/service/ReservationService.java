@@ -3,9 +3,12 @@ package com.btf.tap.service;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,26 +37,14 @@ public class ReservationService {
 	AddressMapper addressMapper;
 	@Autowired 
 	RoomMapper roomMapper;
+	@Autowired
+	PointService pointService;
 	
 	
 	
-	//예약 추가하기1.
-	public Map<String, Object> getAddReservation(int roomId, int detailAddressId)	{
-		
+	// 예약일 정보 추출하기
+	public Map<String, Object> getAddReservation(int roomId)	{
 		Map<String, Object> map = new HashMap<>();
-		
-		Room room = roomMapper.selectRoomOne(roomId);
-		Address address = addressMapper.selectAddressOne(detailAddressId);
-		
-		// 시도+시군구+도로명+상세주소 합치기 => kakao 지도 API 검색을 위해
-		String detailAddress = address.getSido()+" "+address.getSigungu()+" "+address.getRoadName()+" "+address.getDetailAddress();
-		address.setDetailAddress(detailAddress);
-	   
-		
-		// 주소 정보
-		map.put("address", address);
-		// 숙소 정보	
-		map.put("room", room);
 		// 해당 숙소 예약일 목록
 		map.put("ReservationDateList", getRoomReservationDateList(roomId));
 		// 해당 숙소 예약일 날짜별로 분리
@@ -64,12 +55,32 @@ public class ReservationService {
 		return map;
 	}
 	
-	//예약 추가하기2.
-	public int postAddReservation(Reservation reservation)	{
+	// 예약 기간을 통한 결제금액 계산
+	public Reservation getPaymentPriceOfDate(Reservation reservation) {
+		// 체크인, 체크아웃 Date 객체 선언
+		Date checkInDate = null;
+		Date checkOutDate = null;
+		// Date 타입으로 날짜 받기
+		try {
+			checkInDate = new SimpleDateFormat("yyyy-MM-dd").parse(reservation.getCheckInDate());
+			checkOutDate = new SimpleDateFormat("yyyy-MM-dd").parse(reservation.getCheckOutDate());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		// 날짜 수 차이 계산
+		long diffSec = (checkOutDate.getTime() - checkInDate.getTime()) / 1000;
+		int diffDays = (int)(diffSec / (24*60*60))+1; // 일자 수 차이
+		int finalPaymentPrice = reservation.getRoom().getRoomPrice()*diffDays; // 최종 가격
+		reservation.setFinalPaymentPrice(finalPaymentPrice);
 		
+		return reservation;
+	}
+	
+	// 예약 추가하기
+	public int addReservation(Reservation reservation)	{
 		int reservationId =reservationMapper.insertReservation(reservation);
-		log.debug(Font.KSB + " postAddReservation 서비스 단 값 점검하기 : "+ reservationId + Font.RESET);
 		//디버그
+		log.debug(Font.KSB + " addReservation 서비스 단 값 점검하기 : "+ reservation + Font.RESET);
 		
 		return reservation.getReservationId();
 	}
@@ -121,6 +132,11 @@ public class ReservationService {
 		return result;
 	}
 	
+	// 특정 숙소의 예약 목록 추출
+	public List<Reservation> getRoomReservationList(int roomId) {
+		return reservationMapper.selectRoomReservation(roomId);
+	}
+	
 	
 	
 	// 페이징 알고리즘
@@ -163,6 +179,8 @@ public class ReservationService {
 	}
 	//예약 삭제하기.
 	public void deleteReservation(Reservation reservation) {
+		// 환불시 결제테이블에서 환불여부 수정
+		pointService.refundPayment(reservation.getReservationId());
 		reservationMapper.deleteReservation(reservation);
 	}
 	

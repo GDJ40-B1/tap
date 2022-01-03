@@ -102,12 +102,12 @@
     </div>
 
 	<script>
-	function sidoType(sido) {
+	function sidoType(districtSido) {
 		$.ajax({
 			type: 'GET',
 			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 			url : '${pageContext.request.contextPath}/sido',
-			data : { sido : sido },
+			data : { districtSido : districtSido },
 			dataType: 'json',
 			success : function(result){
 				console.log(result)

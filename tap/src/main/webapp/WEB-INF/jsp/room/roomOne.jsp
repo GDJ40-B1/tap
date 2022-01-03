@@ -78,7 +78,7 @@
                         <td>${room.checkOutTime }</td>
                      </tr>
                      <tr>
-                        <td>인원수</td>
+                        <td>최대 인원수</td>
                         <td>${room.peopleNum }</td>
                      </tr>
                      <tr>
@@ -127,6 +127,23 @@
                 <a href="${pageContext.request.contextPath}/member/addReservation?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}">예약</a>
             </div>
       </section>
+ 		<div class="container">
+			<div class="col-xl-8 col-lg-7">
+				<div class="card shadow mb-4">
+					<div id="roomChart" class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+						<h6 class="m-0 font-weight-bold text-primary">${year}년 ${room.roomName} 이용 연령대</h6>
+							<select name="year" id="year" onchange="selectYear()">
+								<option value="">연도 선택</option>
+							</select>
+					</div>
+					<div class="card-body">
+						<div class="chart-area">
+							<canvas id="myPieChart"></canvas>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
  
       <section class="event-list">
          	<div class="container">
@@ -165,7 +182,7 @@
 								</c:when>
 								
 								<c:when test="${q.answerCheck == 'Y'}">
-									<td>답변완료<td>
+									<td>답변완료</td>
 								</c:when>
 							</c:choose>
 						
@@ -206,7 +223,7 @@
 								<c:forEach var="a" items="${q.roomQnaAnswer}">
 									<div>답변 : ${a.answer}</div>
 									<div>등록일 : ${a.answerCreateDate}</div>
-									<c:if test="${loginUser != null && loginUser.userLevel == 'System_Admin'}">
+									<c:if test="${loginUser != null && room.hostId == loginUser.userId || loginUser.userLevel == 'system_admin'}">
 										<div><a href="javascript:removeAnswer(${a.roomQnaId}, '${room.hostId}');">삭제</a></div>
 									</c:if>
 								</c:forEach>
@@ -217,15 +234,15 @@
        			</c:otherwise>
        		</c:choose>
       		<c:if test="${roomQna.roomQnaCurrentPage > 1}">
-				<a href="${pageContext.request.contextPath}/roomOne?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}&roomQnaCurrentPage=${roomQna.roomQnaCurrentPage-1}#roomQna">이전</a>
+				<a href="${pageContext.request.contextPath}/roomOne?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}&roomQnaCurrentPage=${roomQna.roomQnaCurrentPage-1}">이전</a>
 			</c:if>
 			
 			<c:forEach var="i" begin="${roomQna.roomQnaStartPage}" end="${roomQna.roomQnaEndPage}">
-				<a href="${pageContext.request.contextPath}/roomOne?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}&roomQnaCurrentPage=${i}#roomQna"><c:out value="${i}"/></a>
+				<a href="${pageContext.request.contextPath}/roomOne?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}&roomQnaCurrentPage=${i}"><c:out value="${i}"/></a>
 			</c:forEach>
 			
 			<c:if test="${roomQna.roomQnaCurrentPage < roomQna.roomQnaLastPage}">
-				<a href="${pageContext.request.contextPath}/roomOne?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}&roomQnaCurrentPage=${roomQna.roomQnaCurrentPage+1}#roomQna">다음</a>
+				<a href="${pageContext.request.contextPath}/roomOne?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}&roomQnaCurrentPage=${roomQna.roomQnaCurrentPage+1}">다음</a>
 			</c:if>		
        		
          	</div>
@@ -234,32 +251,43 @@
        <!-- *** 숙소 후기 *** -->
   	   <section class="event-list">
 			<div class="container">
+				<div class="form-group">
+					<h4>후기(${roomReview.totalRoomReviewCount})개</h4>
+					<h2>★${roomReview.avgRoomReviewScore}/5</h2>
+					<hr>
+				</div>
 	   		<c:forEach var="r" items="${roomReview.list}">
 	   			<c:choose>
 	   				<c:when test="${loginUser.userId == room.hostId}">
 	   					<div>
 							<input type="hidden" name="roomId" value="${room.roomId}">
 							<input type="hidden" name="detailAddressId" value="${address.detailAddressId}">
-							<input type="hidden" name="roomReviewId" value="${r.roomReviewId}">
-							
+							<input type="hidden" class="roomReviewId" name="roomReviewId" value="${r.roomReviewId}">
 							<div class="d-flex justify-content-between align-items-center">
-								답변상태 : 
-								<c:choose>
-									<c:when test="${r.answerStatus == 'N'}">
-										<td>미답변</td>
-									</c:when>
-									
-									<c:when test="${r.answerStatus == 'Y'}">
-										<td>답변완료<td>
-									</c:when>
-								</c:choose>
+								<span></span>
 								<ol style="list-style: none;">
 									<li>
 										<a class="btn btn-outline-dark" href="javascript:deleteRoomReview('${r.roomReviewId}');">숙소후기 삭제</a>
 									</li>
 								</ol>
 							</div>
-								<span>숙소후기 평점 :</span> 
+							<div class="d-flex justify-content-between align-items-center">
+								<c:forEach var="rre" items="${r.reservation}">
+									${rre.memberId} |
+									<c:forEach var="rro" items="${r.room}">
+										${rro.roomCategory}[${rro.roomForm}]
+									</c:forEach>
+								</c:forEach>
+								<ol style="list-style: none;"> 
+									<li>
+										<c:set var="ocreateDate" value="${r.createDate}"/>
+										<c:set var="createDate" value="${fn:substring(ocreateDate,0,10)}"/>
+										${createDate}
+									</li>
+								</ol>
+							</div>	
+							<div>
+								숙소후기 평점 : 
 								<c:choose>
 									<c:when test="${r.roomReviewScore == 1}">
 										<td>★☆☆☆☆</td>
@@ -277,12 +305,14 @@
 										<td>★★★★★</td>
 									</c:when>
 								</c:choose>
-								<div>
-									숙소후기 내용 :
-									${r.roomReviewContent}
-								</div>
-								<div>
-									<c:if test="${r.answerStatus == 'N'}">
+							</div>
+							<div>
+								숙소후기 내용 :
+								${r.roomReviewContent}
+							</div>
+							<div>
+								<c:choose>
+									<c:when test="${r.answerStatus == 'N'}">
 										<form class="insertCommentForm" action="${pageContext.request.contextPath}/addRoomReviewComment" method="post">
 											<div class="form-group">
 												<input type="hidden" name="roomId" value="${room.roomId}">
@@ -295,40 +325,46 @@
 												<button class="insertCommentBtn" type ="button">작성</button>
 											</div>
 										</form>
-									</c:if>
-									<div>
-										<c:forEach var="rc" items="${r.roomReviewComment}">
-											<div class="d-flex justify-content-between align-items-center">
-												<span>숙소후기 답변</span>
-												<ol style="list-style: none;">
-													<li>
-														<a class="btn btn-outline-dark" href="javascript:deleteRoomReviewComment('${r.roomReviewId}');">숙소후기 답변삭제</a>
-													</li>
-												</ol>
-											</div>
-											<textarea class="form-control" rows="5" cols="50" name="roomReviewCommentContent" readonly="readonly">${rc.roomReviewCommentContent}</textarea>
-										</c:forEach>
-									</div>
-									<div>
-										<hr style="height: 3px;">
-									</div>
+									</c:when>
+									<c:otherwise>
+										<div>
+											<c:forEach var="rc" items="${r.roomReviewComment}">
+												<div class="d-flex justify-content-between align-items-center">
+													<span>숙소후기 답변</span>
+													<ol style="list-style: none;">
+														<li>
+															<a class="btn btn-outline-dark" href="javascript:deleteRoomReviewComment('${r.roomReviewId}');">숙소후기 답변삭제</a>
+														</li>
+													</ol>
+												</div>
+												<textarea class="form-control" rows="5" cols="50" name="roomReviewCommentContent" readonly="readonly">${rc.roomReviewCommentContent}</textarea>
+											</c:forEach>
+										</div>
+									</c:otherwise>
+								</c:choose>
+								<div>
+									<hr style="height: 3px;">
 								</div>
 							</div>
+						</div>
 	   				</c:when>
 	   				<c:otherwise>
-	   					<div>
-	   						답변상태 : 
-							<c:choose>
-								<c:when test="${r.answerStatus == 'N'}">
-									<td>미답변</td>
-								</c:when>
-								
-								<c:when test="${r.answerStatus == 'Y'}">
-									<td>답변완료<td>
-								</c:when>
-							</c:choose>
-	   					</div>
 	   					<div class="d-flex justify-content-between align-items-center">
+	   						<c:forEach var="rre" items="${r.reservation}">
+								${rre.memberId} |
+								<c:forEach var="rro" items="${r.room}">
+									${rro.roomCategory}[${rro.roomForm}]
+								</c:forEach>
+							</c:forEach>
+							<ol style="list-style: none;">
+								<li>
+									<c:set var="ocreateDate" value="${r.createDate}"/>
+									<c:set var="createDate" value="${fn:substring(ocreateDate,0,10)}"/>
+									${createDate}					
+								</li>
+							</ol>
+						</div>
+						<div>
 							숙소후기 평점 : 
 							<c:choose>
 								<c:when test="${r.roomReviewScore == 1}">
@@ -347,23 +383,18 @@
 									<td>★★★★★</td>
 								</c:when>
 							</c:choose>
-							<ol style="list-style: none;">
-								<li>
-									<c:set var="ocreateDate" value="${r.createDate}"/>
-									<c:set var="createDate" value="${fn:substring(ocreateDate,0,10)}"/>
-									${createDate}					
-								</li>
-							</ol>
 						</div>
 						<div>
 							숙소후기 내용 :
 							${r.roomReviewContent}
 						</div>
 						<div>
-							<c:forEach var="rc" items="${r.roomReviewComment}">
-								숙소후기 답변
-								<textarea class="form-control" rows="5" cols="50" name="roomReviewCommentContent" readonly="readonly">${rc.roomReviewCommentContent}</textarea>
-							</c:forEach>
+							<c:if test="${r.answerStatus eq 'Y'}">
+								<c:forEach var="rc" items="${r.roomReviewComment}">
+									숙소후기 답변
+									<textarea class="form-control" rows="5" cols="50" name="roomReviewCommentContent" readonly="readonly">${rc.roomReviewCommentContent}</textarea>
+								</c:forEach>
+							</c:if>
 						</div>
 						<div>
 							<hr style="height: 3px;">
@@ -391,6 +422,30 @@
 		</section>	
    </main>
    
+   <div class="back-to-top active" style="width:300px ; margin-bottom: 400px;">
+   		<form id="addReservationForm" action="${pageContext.request.contextPath}/member/addPayment" method="get" class="rounded" style="background: gray; padding: 30px;">
+		   <input type="hidden" name="roomId" value="${room.roomId}">
+		   <input type="hidden" name="room.roomPrice" value="${room.roomPrice}">
+		   <input type="hidden" name="room.roomName" value="${room.roomName }">
+		   <div class="form-group">
+		   		<label for="inputCity">체크인 날짜</label>
+			      <input type="text" id="dateRangePicker1" class="form-control" name="checkInDate" readonly>
+		   </div>
+		   <div class="form-group">
+		   		<label for="inputState">체크아웃 날짜</label>
+			      <input type="text" id="dateRangePicker2" class="form-control" name="checkOutDate" readonly>
+		   </div>
+		   <div class="form-group">
+		   		<label>인원수</label>
+		   <input type="number" id="peopleNum" class="form-control" name="peopleNum" value="---------">
+		   </div>
+		   <div class="form-group">
+		   		<button id="resBtn" type="button" class="btn btn-primary" style="width: 100%;">예약</button>
+		   </div>
+			
+		</form>
+   </div>
+   
    <!-- start : mainFooter -->
    <div>
       <jsp:include page="/partial/mainFooter.jsp"></jsp:include>
@@ -409,9 +464,121 @@
 			});
 		</c:forEach>
 	</script>
+	
+	<!-- 예약 유효성 검사 -->
+	<script>
+		$("#resBtn").click(function(){
+			if($("#dateRangePicker1").val() == "") {
+				alert("체크인 날짜를 입력하세요");
+				return;
+			} else if($("#dateRangePicker2").val() == "") {
+				alert("체크아웃 날짜를 입력하세요");
+				return;
+			} else if($("#peopleNum").val() == "")	{
+				alert("인원수를 입력해주세요");
+				return;
+			} else if(Number($("#peopleNum").val()) > ${room.peopleNum})	{
+				alert("최대 인원수를 확인해주세요");			
+				return;
+			} else {
+				$("#addReservationForm").submit();
+			}
+		});
+		
+	</script>
+	
+	<!-- Datepicker 관련 script-->
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<link rel="stylesheet" href="/resources/demos/style.css">
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="js/lib/jquery/jquery.dataTables.js"></script>
+   <script>
+      // 선택 불가능하게 할 날짜 리스트 추출
+      // '2021-12-24', '2022-1-1'의 형식으로 해야함.
+      var disabledDays = new Array();
+      <c:forEach items="${ReservationListOfDate}" var="rld">
+         disabledDays.push("${rld}");
+         console.log("${rld}");
+      </c:forEach>
+      
+      // 이미 선택된 기간의 시작일만 추출하여 list로 저장
+      var disableStartList = new Array();
+      <c:forEach items="${ReservationDateList}" var="rdl">
+         disableStartList.push("${rdl.checkInDate}");
+      </c:forEach>
+      
+      // 이미 예약이 존재하는 날짜 
+      // 날짜를 나타내기 전에(beforeShowDay) 실행할 함수
+      function disableSomeDay(date) {
+          var month = date.getMonth();
+          var dates = date.getDate();
+          var year = date.getFullYear();
+          
+          // 배열에 해당하는 날짜는 0번째 index에 false를 담아 리턴해준다.
+          for (i = 0; i < disabledDays.length; i++) {
+              if($.inArray(year + '-' +(month+1) + '-' + dates,disabledDays) != -1) {
+                  return [false];
+              }
+          }
+          return [true];
+      }
+      
+       $(function() {
+          // 공통 초기 설정
+          $.datepicker.setDefaults({
+              dateFormat: 'yy-mm-dd',
+              prevText: '이전 달',
+              nextText: '다음 달',
+              // 한글 설정
+              monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+              monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+              dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+              dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+              dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+              showMonthAfterYear: true,
+              yearSuffix: '년'
+          });
+          
+          // 각 input을 Datepicker로 변환
+          $("#dateRangePicker1").datepicker();
+          $("#dateRangePicker2").datepicker();
+           $("#dateRangePicker1").datepicker('option','minDate', 0);
+           $("#dateRangePicker1").datepicker('option','beforeShowDay', disableSomeDay);
+           $("#dateRangePicker1").datepicker('option','maxDate', '+3M'); //현재 날짜에서 3개월 후 까지만 가능
+           // 시작일의 날짜가 선택되면
+           $('#dateRangePicker1').datepicker("option", "onClose", function ( selectedDate ) {
+              // 종료일을 나타내는 Datepicker의 minDate를 시작일 Datepicker의 선택일로 설정
+               $("#dateRangePicker2").datepicker( "option", "minDate", selectedDate );
+               $("#dateRangePicker2").datepicker('option','beforeShowDay', disableSomeDay);
+               
+              // 종료일을 나타내는 Datepicker의 maxDate를 동적으로 설정하기 위한 코드
+               var endMaxDate = null;
+               for(var i=0;i<disableStartList.length;i++){
+                  var startDate = new Date(disableStartList[i]);
+                 var selectedDay = new Date(selectedDate);
+                 console.log(startDate);
+                 // 선택할 수 없는 날짜들의 시작일만 추출하여, 선택된 날짜가 시작일보다 작으면 시작일을 maxDate로 설정
+                 if(selectedDay<startDate){
+                    endMaxDate = startDate;
+                    console.log("이게 endDay입니다."+startDate);
+                    break;
+                 }
+               }
+             
+             // maxDate가 설정되지 않았다면, 선택된 시작일 이후에 선택 불가능한 날짜가 없는것이니,
+             // 오늘 날짜로부터 3개월 후까지만 선택 가능하도록 maxDate를 설정
+             if(endMaxDate==null){
+                endMaxDate = '+3M';
+             }
+               $("#dateRangePicker2").datepicker('option','maxDate', endMaxDate);
+           });
+       });
+   
+   </script>
    
    <!-- kakao API -->
-   <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e1c10213787b97f0d88e77cdafcb6687&libraries=services"></script>
+   <jsp:include page="/partial/kakaoAPIKey.jsp"></jsp:include>
    
    <script>
    var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
@@ -599,7 +766,7 @@
    <!--숙소후기 삭제 버튼 클릭 시 -->
     <script>
 	 	function deleteRoomReview(roomReviewId) {
-	 		if(confirm('후기를 삭제하시면 다시 작성할 수 없습니다. 그래도 삭제하시겠습니까?') == true){
+	 		if(confirm('후기를 삭제하시면 다시 복구할 수 없습니다. 그래도 삭제하시겠습니까?') == true){
 	 			location.href="${pageContext.request.contextPath}/removeRoomReview?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}&roomReviewId="+roomReviewId+"";
 	 		} else {
 	 			return;
@@ -628,5 +795,87 @@
 	 		}	
 	 	}	
     </script>
+    
+    <!-- 후기 신고 버튼 클릭 시 -->
+    <script>	    
+	    var roomReviewId = $('.roomReviewId').val();
+		
+		console.log(roomReviewId);
+	
+    	$('#insertReport').click(function() {
+    		if ("${loginUser.userId}" == "" || "${loginUser.userLevel}" == "member" || "${loginUser.userLevel}" == "system_admin") {
+    			if (confirm("해당 호스트만 가능합니다.")) {
+    				location.href = '${pageContext.request.contextPath}/login';
+    			} else {
+    				location.reload();
+    			}
+    		} else {
+    			window.open("${pageContext.request.contextPath}/reportPopup?roomReviewId="+roomReviewId,"_blank","toolbar=yes,menubar=yes,width=700,height=500").focus();
+    		}
+    	});
+	</script>
+    
+ 	<script>
+		$(function(){
+			yearList();
+		});   
+	
+		function yearList(){
+			var date = new Date();
+			var year = date.getFullYear();
+			for(var i=(year); i >= (year-10); i--) {
+				$("#year").append("<option value='"+i+"'>" + i + "</option>");
+			}
+		}
+	</script>
+	
+	<script>	
+		function selectYear(){
+			var year = $("#year option:selected").val();
+			
+			location.href="${pageContext.request.contextPath}/roomOne?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}&year="+year;
+		}
+    </script>
+	
+	<!-- Page level plugins -->
+    <script src="${pageContext.request.contextPath}/resources/vendor/chart.js/Chart.min.js"></script>
+	
+	<script>
+	var arr = new Array();
+	var arr2 = new Array();
+	
+	<c:forEach items="${ageList}" var="a">
+		arr.push("${a.ageGroup}");
+		arr2.push("${a.age}");
+	</c:forEach>
+	
+	console.log(arr);
+	console.log(arr2);
+
+	var ctx = document.getElementById("myPieChart");
+	var myPieChart = new Chart(ctx, {
+	  type: 'pie',
+	  data: {
+	    labels: arr,
+	    datasets: [{
+	      backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', '#e34f66', '#ebe86e', '#e8c25a'],
+	      hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf', '#b8273d', '#c7c332', '#bd9426'],
+	      hoverBorderColor: "rgba(234, 236, 244, 1)",
+	      data: arr2,
+	    }],
+	  },
+	  options: {
+		    maintainAspectRatio: false,
+		    tooltips: {
+		      backgroundColor: "rgb(255,255,255)",
+		      bodyFontColor: "#858796",
+		      borderColor: '#dddfeb',
+		      borderWidth: 1,
+		      displayColors: false,
+		      caretPadding: 10,
+		    },
+		  },
+		});
+	</script>   
 </body>
 </html>

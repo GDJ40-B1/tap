@@ -29,7 +29,7 @@
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+                <div class="sidebar-brand-text mx-3">T A B</div>
             </a>
 
             <!-- Divider -->
@@ -37,7 +37,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
-                <a class="nav-link" href="${pageContext.request.contextPath}/memberMyPage">
+                <a class="nav-link" href="${pageContext.request.contextPath}/myPage">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -92,14 +92,13 @@
             <div class="sidebar-heading">
                 Addons
             </div>
-            
-            <!-- Nav Item - Tables -->
+			<!-- Nav Item - Tables -->
             <li class="nav-item">
-                <a class="nav-link" href="${pageContext.request.contextPath}/member/roomList">
+                <a class="nav-link" href="${pageContext.request.contextPath}/member/getPayList">
                     <i class="fas fa-fw fa-table"></i>
-                    <span>나의 숙소</span></a>
+                    <span>결제내역 조회</span></a>
             </li>
-			
+            			
 			<!-- Nav Item - Tables -->
             <li class="nav-item">
                 <a class="nav-link" href="${pageContext.request.contextPath}/modifyMemberInfo">

@@ -72,8 +72,8 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Earnings (Monthly)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                                                사이트 총합 이용자 수</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">${revenueAndUser.userCount}명</div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -90,8 +90,8 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Earnings (Annual)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                                                사이트 총합 수익</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">${revenueAndUser.revenue}원</div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -107,17 +107,19 @@
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">사이트 수수료 변경
+                                            	<input type="number" id="modifyFeeRate" name="modifyFeeRate">
+                                            	<button class="btn btn-primary" id="feeRateBtn" type="button">변경</button>
                                             </div>
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col-auto">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
+                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">${feeRate}%</div>
                                                 </div>
                                                 <div class="col">
                                                     <div class="progress progress-sm mr-2">
                                                         <div class="progress-bar bg-info" role="progressbar"
-                                                            style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-                                                            aria-valuemax="100"></div>
+                                                            style="width: ${feeRate}%" aria-valuenow="${feeRate}" aria-valuemin="0"
+                                                            aria-valuemax="50"></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -137,8 +139,8 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                                Pending Requests</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                                                문의 미답변 수</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">${unansweredQuestionCount}</div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-comments fa-2x text-gray-300"></i>
@@ -156,29 +158,17 @@
                         <!-- Area Chart -->
                         <div class="col-xl-8 col-lg-7">
                             <div class="card shadow mb-4">
-                                <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
+                                    <h6 class="m-0 font-weight-bold text-primary">${year}년 매출 통계</h6>
+                                    <select name="year" id="year" onchange="selectYear()">
+										<option value="">연도 선택</option>
+									</select>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
                                     <div class="chart-area">
-                                        <canvas id="myAreaChart"></canvas>
+                                        <canvas id="myBarChart"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -190,37 +180,12 @@
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
+                                    <h6 class="m-0 font-weight-bold text-primary">연간 사이트 수익 비율</h6>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
                                     <div class="chart-pie pt-4 pb-2">
                                         <canvas id="myPieChart"></canvas>
-                                    </div>
-                                    <div class="mt-4 text-center small">
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-primary"></i> Direct
-                                        </span>
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-success"></i> Social
-                                        </span>
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-info"></i> Referral
-                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -310,52 +275,10 @@
                             <!-- Illustrations -->
                             <div class="card shadow mb-4">
                                 <div id="questionList" class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">문의 미답변 리스트</h6>
-                                    <a href="${pageContext.request.contextPath}/systemAdminMyPage?writerCategory=member#questionList">회원</a>
-									<a href="${pageContext.request.contextPath}/systemAdminMyPage?writerCategory=host#questionList">숙소 호스트</a>
+                                    <h6 class="m-0 font-weight-bold text-primary">test</h6>
                                 </div>
                                 <div class="card-body">
                                     <div class="text-center">
-                                    	<c:choose>
-											<c:when test="${empty questionMap.list}">
-												<div>검색 결과가 없습니다.</div>
-											</c:when>
-											
-											<c:otherwise>
-												<table border="1">
-													<tr>
-														<th>글 번호</th>
-														<th>카테고리</th>
-														<th>제목</th>
-														<th>작성자</th>
-														<th>작성일</th>
-													</tr>
-													<c:forEach var="q" items="${questionMap.list}">
-														<tr>
-															<td>${q.questionId}</td>
-															<td>${q.writerCategory}</td>
-															<td><a href="${pageContext.request.contextPath}/questionOne?questionId=${q.questionId}">${q.questionTitle}</a></td>
-															<td>${q.writerId}</td>
-															<td>${q.createDate}</td>
-														</tr>
-													</c:forEach>
-												</table>
-											</c:otherwise>
-										</c:choose>
-                                    	
-                                 		<c:if test="${questionMap.unansweredCurrentPage > 1}">
-											<a href="${pageContext.request.contextPath}/systemAdminMyPage?unansweredCurrentPage=1&writerCategory=${questionMap.writerCategory}#questionList" id="test">처음으로</a>
-											<a href="${pageContext.request.contextPath}/systemAdminMyPage?unansweredCurrentPage=${questionMap.unansweredCurrentPage-1}&writerCategory=${questionMap.writerCategory}#questionList">이전</a>
-										</c:if>
-											
-										<c:forEach var="i" begin="${questionMap.startPage}" end="${questionMap.endPage}">
-											<a href="${pageContext.request.contextPath}/systemAdminMyPage?unansweredCurrentPage=${i}&writerCategory=${questionMap.writerCategory}#questionList"><c:out value="${i}"/></a>
-										</c:forEach>
-											
-										<c:if test="${questionMap.unansweredCurrentPage < questionMap.lastPage}">
-											<a href="${pageContext.request.contextPath}/systemAdminMyPage?unansweredCurrentPage=${questionMap.unansweredCurrentPage+1}&writerCategory=${questionMap.writerCategory}#questionList">다음</a>
-											<a href="${pageContext.request.contextPath}/systemAdminMyPage?unansweredCurrentPage=${questionMap.lastPage}&writerCategory=${questionMap.writerCategory}#questionList">끝으로</a>
-										</c:if>
                                 </div>
                             </div>
 
@@ -414,12 +337,167 @@
     <!-- Custom scripts for all pages-->
     <script src="${pageContext.request.contextPath}/resources/js/sb-admin-2.min.js"></script>
 
-    <!-- Page level plugins -->
-    <script src="${pageContext.request.contextPath}/resources/vendor/chart.js/Chart.min.js"></script>
+	<script>	
+		$('#feeRateBtn').click(function(){
+			var feeRate = $("#modifyFeeRate").val();
+			
+			location.href="${pageContext.request.contextPath}/systemAdmin/modifyFeeRate?feeRate="+feeRate;
+		});
+    </script>
 
-    <!-- Page level custom scripts -->
-    <script src="${pageContext.request.contextPath}/resources/js/demo/chart-area-demo.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/js/demo/chart-pie-demo.js"></script>
+ 	<script>
+		$(function(){
+			yearList();
+		});   
+	
+		function yearList(){
+			var date = new Date();
+			var year = date.getFullYear();
+			for(var i=(year); i >= (year-10); i--) {
+				$("#year").append("<option value='"+i+"'>" + i + "</option>");
+			}
+		}
+	</script>
+	
+	<script>	
+		function selectYear(){
+			var year = $("#year option:selected").val();
+			
+			location.href="${pageContext.request.contextPath}/systemAdminMyPage?year="+year;
+		}
+    </script>
+
+	<!-- Page level plugins -->
+    <script src="${pageContext.request.contextPath}/resources/vendor/chart.js/Chart.min.js"></script>
+	
+	<script>
+	var arr = new Array();
+	var arr2 = new Array();
+	
+	<c:forEach items="${revenueList}" var="r">
+		arr.push("${r.monthList}");
+		arr2.push("${r.revenue}");
+	</c:forEach>
+	
+	console.log(arr);
+	console.log(arr2);
+
+	var ctx = document.getElementById("myBarChart");
+	var myBarChart = new Chart(ctx, {
+	  type: 'bar',
+	  data: {
+	    labels: arr,
+	    datasets: [{
+	      label: "월 수익",
+	      backgroundColor: "#4e73df",
+	      hoverBackgroundColor: "#2e59d9",
+	      borderColor: "#4e73df",
+	      data: arr2,
+	    }],
+	  },
+	  options: {
+	    maintainAspectRatio: false,
+	    layout: {
+	      padding: {
+	        left: 10,
+	        right: 25,
+	        top: 25,
+	        bottom: 0
+	      }
+	    },
+	    scales: {
+	      xAxes: [{
+	        time: {
+	          unit: 'month'
+	        },
+	        gridLines: {
+	          display: false,
+	          drawBorder: false
+	        },
+	        ticks: {
+	          maxTicksLimit: 12
+	        },
+	        maxBarThickness: 25,
+	      }],
+	      yAxes: [{
+	        ticks: {
+	          min: 0,
+	          max: 10000000,
+	          maxTicksLimit: 12,
+	          padding: 10,
+	        },
+	        gridLines: {
+	          color: "rgb(234, 236, 244)",
+	          zeroLineColor: "rgb(234, 236, 244)",
+	          drawBorder: false,
+	          borderDash: [2],
+	          zeroLineBorderDash: [2]
+	        }
+	      }],
+	    },
+	    legend: {
+	      display: false
+	    },
+	    tooltips: {
+	      titleMarginBottom: 10,
+	      titleFontColor: '#6e707e',
+	      titleFontSize: 14,
+	      backgroundColor: "rgb(255,255,255)",
+	      bodyFontColor: "#858796",
+	      borderColor: '#dddfeb',
+	      borderWidth: 1,
+	      xPadding: 15,
+	      yPadding: 15,
+	      displayColors: false,
+	      caretPadding: 10,
+	      callbacks: {
+              label: function(tooltipItem, data) {
+                  return tooltipItem.yLabel.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원"; 
+                  }
+	    	},
+	    },
+	  }
+	});
+
+	</script>
+
+	<script>
+	var arr3 = new Array();
+	var arr4 = new Array();
+	
+	<c:forEach items="${revenueYearList}" var="r">
+		arr3.push("${r.yearList}");
+		arr4.push("${r.revenue}");
+	</c:forEach>
+	
+	console.log(arr3);
+	console.log(arr4);
+
+	var ctx = document.getElementById("myPieChart");
+	var myPieChart = new Chart(ctx, {
+	  type: 'pie',
+	  data: {
+	    labels: arr3,
+	    datasets: [{
+	      backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', '#e34f66', '#ebe86e', '#e8c25a'],
+	      hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf', '#b8273d', '#c7c332', '#bd9426'],
+	      hoverBorderColor: "rgba(234, 236, 244, 1)",
+	      data: arr4,
+	    }],
+	  },
+	  options: {
+		    maintainAspectRatio: false,
+		    tooltips: {
+		      backgroundColor: "rgb(255,255,255)",
+		      bodyFontColor: "#858796",
+		      borderColor: '#dddfeb',
+		      borderWidth: 1,
+		      displayColors: false,
+		      caretPadding: 10,
+		    },
+		  },
+		});
+	</script>   
 </body>
 
 </html>

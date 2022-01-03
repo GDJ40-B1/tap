@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%> 
 
 <!DOCTYPE html>
 <html>
@@ -28,7 +27,7 @@
 			</ol>
 		</nav>
 		<c:forEach items="${imageList }" var="img">
-			<img src="<spring:url value='/resources/img/room/${img.imageName }'/>" width="300px" height="300px">
+			<img src="${pageContext.request.contextPath}/resources/img/room/${img.imageName }" width="300px" height="300px">
 		</c:forEach>
 		<!-- 지도 -->
 		<div id="map" style="width:100%;height:400px;"></div>
@@ -79,6 +78,7 @@
 				</ul>
 			</div>
 		</div>
+		<a href="${pageContext.request.contextPath}/host/roomReservationList?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}">예약 목록</a>
 		<a href="${pageContext.request.contextPath}/host/priceRoomList?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}">가격 목록</a>
 		<a href="${pageContext.request.contextPath}/host/couponList?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}">쿠폰 목록</a>
 		<a href="${pageContext.request.contextPath}/host/modifyRoom?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}">숙소 수정</a>
@@ -105,7 +105,7 @@
 	</script>
    
    <!-- kakao API -->
-   <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e1c10213787b97f0d88e77cdafcb6687&libraries=services"></script>
+   <jsp:include page="/partial/kakaoAPIKey.jsp"></jsp:include>
    
 	<script>
 	var mapContainer = document.getElementById('map'), // 지도를 표시할 div 

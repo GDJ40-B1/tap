@@ -1,5 +1,7 @@
 package com.btf.tap.controller;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +23,7 @@ import com.btf.tap.service.PointService;
 import com.btf.tap.service.RoomReviewService;
 import com.btf.tap.service.SearchService;
 import com.btf.tap.vo.Member;
+import com.btf.tap.vo.RoomReview;
 import com.btf.tap.vo.User;
 
 import lombok.extern.slf4j.Slf4j;
@@ -257,7 +260,8 @@ public class MemberController {
 	}
 	
 	@GetMapping("/myPage")
-	public String getMyPage(HttpServletRequest request, Model model, @RequestParam(value="favCurrentPage", defaultValue ="1") int favCurrentPage) {
+	public String getMyPage(HttpServletRequest request, Model model, @RequestParam(value="favCurrentPage", defaultValue ="1") int favCurrentPage,
+																	 @RequestParam(name="year", defaultValue = "0") int year) {
 	
 		HttpSession session = request.getSession();
 			
@@ -268,18 +272,36 @@ public class MemberController {
 		
 		// 세션에서 로그인 유저 객체 받기 
 		User user = (User) session.getAttribute("loginUser");
+		String memberId = user.getUserId();
 		
 		// 유저 객체속 아이디를 회원 객체에 넣어 조회하기
 		Member member = new Member();
 		member.setMemberId(user.getUserId());
 		member = memberService.getMemberOne(member);
 		
+		// 즐겨찾기 리스트 및 페이징
 		Map<String, Object> favMap = memberService.getFavoritesList(favCurrentPage, user.getUserId());
+		
+		if(year == 0) {
+			LocalDate now = LocalDate.now();
+			year = now.getYear();
+		}
+		
+		// 회원 사이트 연도별 결제 총액, 총 횟수, 숙소별 결제 금액, 보유 쿠폰 수
+		List<Map<String, Object>> totalPaymentList = memberService.getTotalPaymentList(memberId, year);
+		int totalPaymentCount = memberService.getTotalPaymentCount(memberId);
+		List<Map<String, Object>> roomTotalPayment = memberService.getRoomTotalPayment(memberId, year);
+		int couponCount = memberService.getCouponCount(memberId);
 		
 		// 회원 정보 주입
 		model.addAttribute("member", member);
-		// 즐겨찾기 리스트 및 페이징
+
 		model.addAttribute("favMap", favMap);
+		model.addAttribute("year", year);
+		model.addAttribute("totalPaymentList", totalPaymentList);
+		model.addAttribute("totalPaymentCount", totalPaymentCount);
+		model.addAttribute("roomTotalPayment", roomTotalPayment);
+		model.addAttribute("couponCount", couponCount);
 		
 		// 마이페이지로 이동
 		return "member/myPage";
@@ -402,8 +424,8 @@ public class MemberController {
 	
 	// *** 특정 회원의 숙소 후기 관련 ***
 	// 나의 숙소후기 목록보기
-	@RequestMapping("/member/memberRoomReviewList")
-	public String requestMemberRoomReviewList(HttpSession session, Model model, @RequestParam(value="currentPage", defaultValue = "1") int currentPage) {
+	@GetMapping("/member/memberRoomReviewList")
+	public String getMemberRoomReviewList(HttpSession session, Model model, @RequestParam(value="currentPage", defaultValue = "1") int currentPage) {
 		// 로그인한 정보 loginUser 객체에 담기
 		User loginUser = (User)session.getAttribute("loginUser");
 		
@@ -418,7 +440,69 @@ public class MemberController {
 		model.addAttribute("startPage", memberRoomReivew.get("startPage"));
 		model.addAttribute("endPage", memberRoomReivew.get("endPage"));
 		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("totalCount", memberRoomReivew.get("totalCount"));
 		
 		return "member/myRoomReview";
+	}
+	
+	// 나의 숙소후기에서 후기 삭제하기
+	@PostMapping("/member/removeRoomReview")
+	public String postRemoveRoomReview(HttpSession session, int roomReviewId) {
+		// 로그인한 정보 loginUser 객체에 담기
+		User loginUser = (User)session.getAttribute("loginUser");
+		
+		// 비회원이 숙소후기 글을 삭제시도할 경우
+		if(loginUser == null) {
+			return "redirect:/login";
+		}
+		
+		roomReviewService.removeRoomReview(roomReviewId);
+		
+		return "redirect:/member/memberRoomReviewList";
+	}
+	
+	// 특정회원 결제내역 조회
+	@GetMapping("/member/getPayList")
+	public String getPayList(HttpSession session, Model model, String minDay, String maxDay) {
+		User loginUser = (User)session.getAttribute("loginUser");
+		
+		if(minDay == null && maxDay == null) {
+			minDay = "2000-01-01";
+			
+			LocalDate now = LocalDate.now();
+			DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			maxDay = now.format(dateTimeFormatter);
+		}
+		
+		List<Map<String, Object>> payList = memberService.getMemberPayList(loginUser.getUserId(), minDay, maxDay);
+		
+		model.addAttribute("minDay", minDay);
+		model.addAttribute("maxDay", maxDay);
+		model.addAttribute("payList", payList);
+		
+		return "member/myPayList";
+	}
+	
+	// 특정회원 결제내역에서 숙소후기 작성하기
+	@GetMapping("/member/addRoomReview")
+	public String getAddRoomReview(HttpSession session, Model model, int paymentId, String roomName, String roomForm) {
+		User loginUser = (User)session.getAttribute("loginUser");
+		
+		log.debug(Font.HS + "paymentId, roomName, roomForm 값 => " + paymentId + "" + roomName + "" + roomForm + Font.RESET);
+		
+		model.addAttribute("paymentId", paymentId);
+		model.addAttribute("roomName", roomName);
+		model.addAttribute("roomForm", roomForm);
+		
+		return "member/addRoomReview";
+	}
+	@PostMapping("/member/addRoomReview")
+	public String postAddRoomReivew(RoomReview roomReview) {
+		// roomReview 객체 값
+		log.debug(Font.HS + "roomReview 값 => " + roomReview.toString() + Font.RESET);
+		
+		roomReviewService.addRoomReview(roomReview);
+		
+		return "redirect:/member/getPayList";
 	}
 }

@@ -147,7 +147,7 @@ public class RoomService {
    public Map<String, Object> getRoomOne(int roomId, int detailAddressId, String memberId){
       Map<String, Object> result = new HashMap<>();
       Address address = addressMapper.selectAddressOne(detailAddressId);
-      
+      log.debug(Font.KSB +" roomService단 detailAddressId 값 "+  detailAddressId + Font.RESET);
       // 시도+시군구+도로명+상세주소 합치기 => kakao 지도 API 검색을 위해
       String detailAddress = address.getSido()+" "+address.getSigungu()+" "+address.getRoadName()+" "+address.getDetailAddress();
       address.setDetailAddress(detailAddress);
@@ -161,7 +161,7 @@ public class RoomService {
       // 쿠폰 목록 추출
       if(memberId.equals("")) {
          // 로그인 되어있지 않다면, 해당 숙소의 모든 쿠폰 추출
-         result.put("couponList", couponService.getRoomCouponList(roomId));
+         result.put("couponList", couponService.getRoomAbleCouponList(roomId));
       } else {
          // 로그인 되어있다면 자신의 보유쿠폰을 제외하고 추출
          Map<String, Object> memberCoupon = new HashMap<>();
@@ -213,7 +213,7 @@ public class RoomService {
    }
    
    // 숙소 등록(숙소 and 상세 주소)
-   public int addRoom(Room room, Address address, String hashtag,
+   public Room addRoom(Room room, Address address, String hashtag,
 		   String amenities, String part, MultipartHttpServletRequest mtRequest) {
       // 입력받은 도로명 주소를 분할하여 객체에 넣기
       String[] addressList = address.getDetailAddress().split(" ");
@@ -244,7 +244,11 @@ public class RoomService {
       // 이미지 추가
       imageService.addImage(mtRequest, "room", room.getRoomId());
       
-      return room.getRoomId();
+      // 생성된 숙소의 ID값과 상세주소 ID값이 담긴 숙소 객체를 넘긴다.
+      Room newRoom = new Room();
+      newRoom.setDetailAddressId(address.getDetailAddressId());
+      newRoom.setRoomId(room.getRoomId());
+      return newRoom;
    }
    
    // 숙소 정보 수정(숙소 and 상세 주소)
@@ -421,10 +425,37 @@ public class RoomService {
    
    /*---숙소별 가격 끝---*/
    
-   // 마지막 등록한 숙소 ID값 조회
-   public int getLastRoom(String hostId) {
-	   int roomId = roomMapper.selectLastRoom(hostId);
-
-	   return roomId;
+   // 숙소 연도별 이용 연령층 조회
+   public List<Map<String, Object>> getRoomAgeList(int roomId, int year) {
+	   Map<String, Object> paramMap = new HashMap<>();
+	   paramMap.put("roomId", roomId);
+	   paramMap.put("year", year);
+	   
+	   List<Map<String, Object>> list = roomMapper.selectRoomAgeList(paramMap);
+	   log.debug(Font.JSB + list.toString() + Font.RESET);
+	   
+	   return list;
+   }
+   
+   // 1회 이상 결제처리 된 숙소 리스트 조회
+   public List<Room> getPayRoomList(String hostId) {
+	   List<Room> list = new ArrayList<>();
+	   list = roomMapper.selectPayRoomList(hostId);
+	   log.debug(Font.JSB + list.toString() + Font.RESET);
+	   
+	   return list;
+   }
+   
+   // 특정 숙소 기간별 결제 내역 조회
+   public List<Map<String, Object>> getPayRoomDateList(int roomId, String minDay, String maxDay){
+	   Map<String, Object> paramMap = new HashMap<>();
+	   paramMap.put("roomId", roomId);
+	   paramMap.put("minDay", minDay);
+	   paramMap.put("maxDay", maxDay);
+	   
+	   List<Map<String, Object>> list = roomMapper.selectPayRoomDateList(paramMap);
+	   log.debug(Font.JSB + list.toString() + Font.RESET);
+	   
+	   return list;
    }
 }

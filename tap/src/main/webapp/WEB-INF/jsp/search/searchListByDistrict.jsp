@@ -69,7 +69,7 @@
 			<c:otherwise>
 				<c:forEach var="r" items="${roomMap.roomList}">
 					<div>[${r.roomCategory}] [${r.roomForm}]</div>
-					<div><a href="${pageContext.request.contextPath}/myRoomOne?roomId=${r.roomId}&detailAddressId=${r.detailAddressId}">${r.roomName}</a></div>
+					<div><a href="${pageContext.request.contextPath}/roomOne?roomId=${r.roomId}&detailAddressId=${r.detailAddressId}">${r.roomName}</a></div>
 					<div>${r.roomIntro}</div>
 					<div>최소 일수 : ${r.minDay} 최소 인원 :  ${r.peopleNum} 가격 : ${r.roomPrice}</div>
 				</c:forEach>
@@ -210,92 +210,6 @@
 			</c:otherwise>
 		</c:choose>	
 		
-		<!-- 임시로 추가 -->
-		<script src="http://code.jquery.com/jquery-latest.js"></script> 
-		
-		<form class="form-inline" id="searchByDistrictForm" action="${pageContext.request.contextPath}/searchListByDistrict">
-			<select name="sido" id="sido" onchange="sidoType(this.value);">
-		  		<option value="">==선택==</option>
-		  	<c:forEach var="s" items="${sidoList}">
-		  		<option value="${s}">${s}</option>
-		  	</c:forEach>
-			</select>
-			<select name="sigungu" id="sigungu">
-				<option value="">==선택==</option>
-			</select>
-			<input class="form-control mr-sm-2" type="text" id="keyword" name="keyword">
-    		<button class="btn btn-primary" id="btn" type="button">Search</button>
-		</form>
-	  	<div id="searchHistory">
-	  		<c:forEach var="s" items="${searchList}">
-		  		<span><a href="#" onclick="searchKeyword(this)">${s}</a> <a href="#" onclick="removeKeyword('${s}')">x</a></span>
-		  	</c:forEach>
-	  	</div>
-	  	
-	  <script>
-	  		$('#btn').click(function(){
-	  			if($('#sido').val() == '') {
-				alert('시도를 선택하세요');
-				return;
-			}
-			
-	  		if($('#sigungu').val() == '') {
-				alert('시군구를 선택하세요');
-				return;
-			}
-	  		
-			if($('#keyword').val() == '') {
-				alert('검색어를 입력하세요');
-				return;
-			}
-			
-			$('#searchByDistrictForm').submit();
-		});
-	  
-	  function searchKeyword(keyword) {
-		  var addKeyword = $(keyword).text();
-		  
-		  $("#keyword").val(addKeyword);
-	  }
-	  
-	  function sidoType(sido) {
-		  $.ajax({
-			  type: 'GET',
-			  contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-			  url : '${pageContext.request.contextPath}/sido',
-			  cache : false,
-			  data : { sido : sido },
-			  dataType: 'json',
-			  success : function(result){
-				  console.log(result)
-					
-				  $("#sigungu").find("option").remove().end().append("<option value=''>==선택==</option>")
-				  $.each(result, function(i){
-					 $("#sigungu").append("<option value='"+result[i]+"'>"+result[i]+"</option>")
-				  });
-			  }
-		  }).fail(function (error) {
-			  alert(JSON.stringify(error));
-		  })
-	  }
-	  
-	  function removeKeyword(keyword) {
-		  $.ajax({
-			  type: 'GET',
-			  contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-			  url : '${pageContext.request.contextPath}/removeSearchHistory',
-			  cache : false,
-			  data : { keyword : keyword },
-			  success : function(result){
-				  console.log(result)
-				  
-				  $("#searchHistory").load(location.href+' #searchHistory');
-				
-			  }
-		  })
-	  }
-	  </script>
-	
 	</div>
 
   </main><!-- End #main -->

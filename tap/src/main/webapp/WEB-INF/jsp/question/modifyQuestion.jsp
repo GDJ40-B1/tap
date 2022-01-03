@@ -91,12 +91,12 @@
 	  		</label>
 			</div>
 			<div>
-				<button id="btn" type ="button">수정</button>
+				<button id="modifyBtn" type ="button">수정</button>
 			</div>
 	</form>
 	
 	<script>
-		$('#btn').click(function(){
+		$('#modifyBtn').click(function(){
 			if($('#questionTitle').val() == '') {
 				alert('제목을 입력하세요');
 				return;

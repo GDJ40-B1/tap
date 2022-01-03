@@ -29,7 +29,7 @@
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">TAP<sup></sup></div>
+                <div class="sidebar-brand-text mx-3">T A B</div>
             </a>
 
             <!-- Divider -->
@@ -37,7 +37,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
-                <a class="nav-link" href="${pageContext.request.contextPath}/hostMyPage">
+                <a class="nav-link" href="${pageContext.request.contextPath}/systemAdminMyPage">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -121,13 +121,13 @@
                 management
             </div>
             
-            <!-- Nav Item - Report -->
+            <!-- Nav Item - Notices -->
             <li class="nav-item">
-                <a class="nav-link" href="${pageContext.request.contextPath}/reportList">
-                    <i class="fas fa-flag"></i>
-                    <span>신고</span></a>
+                <a class="nav-link" href="${pageContext.request.contextPath}/systemAdmin/pointHistoryList">
+                    <i class="fas fa-sticky-note"></i>
+                    <span>사이트 내 결제내역</span></a>
             </li>
-            
+                                    
             <!-- Nav Item - Notices -->
             <li class="nav-item">
                 <a class="nav-link" href="${pageContext.request.contextPath}/noticeList">
@@ -140,6 +140,20 @@
                 <a class="nav-link" href="${pageContext.request.contextPath}/questionList">
                     <i class="fas fa-question-circle"></i>
                     <span>문의</span></a>
+            </li>
+            
+            <!-- Nav Item - Questions -->
+            <li class="nav-item">
+                <a class="nav-link" href="${pageContext.request.contextPath}/systemAdmin/unansweredQuestionList">
+                    <i class="fas fa-question-circle"></i>
+                    <span>문의 미답변 리스트</span></a>
+            </li>
+            
+            <!-- Nav Item - category -->
+            <li class="nav-item">
+                <a class="nav-link" href="${pageContext.request.contextPath}/systemAdmin/approvalAttractionList">
+                    <i class="fas fa-question-circle"></i>
+                    <span>명소</span></a>
             </li>
             
             <!-- Nav Item - category -->
@@ -169,6 +183,13 @@
                 <a class="nav-link" href="${pageContext.request.contextPath}/systemAdmin/hostList">
                     <i class="far fa-user-circle"></i>
                     <span>호스트목록</span></a>
+            </li>
+            
+            <!-- Nav Item - withdrawalList -->
+            <li class="nav-item">
+                <a class="nav-link" href="${pageContext.request.contextPath}/systemAdmin/withdrawalList">
+                    <i class="fas fa-question-circle"></i>
+                    <span>탈퇴내역</span></a>
             </li>
             
 			<!-- Divider -->
@@ -422,6 +443,10 @@
 			        </div>
 			    </div>
 			    
+			    <!-- Bootstrap core JavaScript-->
+			    <script src="${pageContext.request.contextPath}/resources/vendor/jquery/jquery.min.js"></script>
+			    <script src="${pageContext.request.contextPath}/resources/vendor/bootstrap_sb/js/bootstrap.bundle.min.js"></script>
+
 			        <!-- Logout Modal-->
 			    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
 			        aria-hidden="true">

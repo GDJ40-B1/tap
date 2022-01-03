@@ -192,15 +192,58 @@
 			  AND sigungu = #{sigungu}
 		  </where>	
    </select>
-   
-   <!-- 마지막으로 등록한 숙소 ID값 조회 -->
-   <select id="selectLastRoom" parameterType="String" resultType="int">
-		SELECT 
-			room_id
-		FROM room
+
+   <!-- 숙소 연도별 이용 연령층 조회 -->
+   <select id="selectRoomAgeList" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+			if(FLOOR((m.member_age / 10)) * 10 > 49, '50대 이상', CONCAT(FLOOR((m.member_age / 10)) * 10, '대')) ageGroup,
+			COUNT(*) age
+		FROM room r
+		INNER JOIN reservation rv ON rv.room_id = r.room_id
+		INNER JOIN member m ON rv.member_id = m.member_id 
 		<where>
-			host_id = #{hostId}
+			r.room_id = #{roomId}
+			AND YEAR(rv.create_date) = #{year}
 		</where>
-		ORDER BY create_date DESC LIMIT 1
+		GROUP BY ageGroup;
+   </select>
+   
+   <!-- 1회 이상 결제처리 된 숙소 리스트 조회 -->
+   <select id="selectPayRoomList" parameterType="String" resultMap="resultRoom">
+		SELECT DISTINCT
+			r.room_id,
+			r.room_name
+		FROM room r
+		INNER JOIN reservation rv ON r.room_id = rv.room_id
+		INNER JOIN payment p ON rv.reservation_id = p.reservation_id
+		<where>
+			r.host_id = #{hostId}
+		</where>  
+   </select>
+   
+   <!-- 특정 숙소 기간별 결제 내역 조회 -->
+   <select id="selectPayRoomDateList" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+			r.room_name roomName,
+			rv.member_id memberId,
+			p.final_payment_price price,
+			p.payment_date paymentDate
+		FROM reservation rv
+		INNER JOIN room r ON rv.room_id = r.room_id
+		INNER JOIN payment p ON p.reservation_id = rv.reservation_id
+		<if test="roomId == 0">
+			<where>
+				p.refund_status = 'N'
+				AND p.payment_date BETWEEN #{minDay} AND #{maxDay}
+			</where>  		
+		</if>
+		
+		<if test="roomId != 0">
+			<where>
+				r.room_id = #{roomId}
+				AND p.refund_status = 'N'
+				AND p.payment_date BETWEEN #{minDay} AND #{maxDay}
+			</where>  		
+		</if>
    </select>
 </mapper>

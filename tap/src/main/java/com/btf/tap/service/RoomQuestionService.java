@@ -60,7 +60,7 @@ public class RoomQuestionService {
 		return paramMap;
 	}
 
-	// 특정 숙소 문의 리스트
+	// 특정 숙소 미답변 문의 리스트
 	public Map<String, Object> getUnansweredRoomQnaList(int unansweredCurrentPage, String hostId) {
 		final int defaultPage = 10;
 		final int rowPerPage = 10;
@@ -107,6 +107,7 @@ public class RoomQuestionService {
 	// 숙소 문의 답변 삽입
 	public void addRoomQnaAnswer(RoomQnaAnswer roomQnaAnswer) {
 		roomQuestionMapper.insertRoomQnaAnswer(roomQnaAnswer);
+		roomQuestionMapper.updateAnswerCheck(roomQnaAnswer);
 	}
 
 	// 숙소 문의 글 삭제
@@ -116,6 +117,19 @@ public class RoomQuestionService {
 	
 	// 숙소 문의 답변 삭제
 	public void removeRoomQnaAnswer(int roomQnaId) {
-		roomQuestionMapper.deleteRoomQnaAnswer(roomQnaId);
+		RoomQnaAnswer roomQnaAnswer = new RoomQnaAnswer();
+		roomQnaAnswer.setRoomQnaId(roomQnaId);
+		
+		roomQuestionMapper.deleteRoomQnaAnswer(roomQnaAnswer);
+		roomQuestionMapper.updateAnswerCheck(roomQnaAnswer);
+	}
+	
+	// 문의 미답변 수 체크
+	public int unansweredRoomQnaCount(String hostId) {
+		int unansweredRoomQnaCount = roomQuestionMapper.unansweredRoomQnaTotalRowCount(hostId);
+		log.debug(Font.JSB + unansweredRoomQnaCount + Font.RESET);
+		
+		return unansweredRoomQnaCount;
+		
 	}
 }

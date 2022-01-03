@@ -1,5 +1,6 @@
 package com.btf.tap.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.btf.tap.common.Font;
 import com.btf.tap.mapper.FavoritesMapper;
 import com.btf.tap.mapper.MemberMapper;
+import com.btf.tap.mapper.UserMapper;
 import com.btf.tap.vo.Favorites;
 import com.btf.tap.vo.Member;
 import com.btf.tap.vo.User;
@@ -22,6 +24,7 @@ public class MemberService {
 	
 	@Autowired MemberMapper memberMapper;
 	@Autowired FavoritesMapper favoritesMapper;
+	@Autowired UserMapper userMapper;
 	
 	// 회원 한 명의 정보를 불러오기
 	// 입력: Member
@@ -41,27 +44,34 @@ public class MemberService {
 	// 입력: Member
 	// 결과: int(회원가입된 수)
 	public int addMember(Member member, String sido, String sigungu) {
+		int confirm = 0;
+		
+		String userId = member.getMemberId();
 		
 		log.debug(Font.HW + "입력받은 회원가입 정보 => " + member.toString() + Font.RESET);
 		
-		int confirm = memberMapper.insertMemberOne(member);
+		int checkId = userMapper.selectUserId(userId);
 		
-		log.debug(Font.HW + "회원가입된 수 => " + confirm  + Font.RESET);
+		log.debug(Font.JSB + "중복 또는 탈퇴 ID 체크 => " + checkId + Font.RESET);
 		
-		
-		// 사용자 설정 선호지역 저장
-		Map<String, Object> paramMap = new HashMap<>();
-		
-		String memberId = member.getMemberId();
-		
-		paramMap.put("memberId", memberId);
-		paramMap.put("sido", sido);
-		paramMap.put("sigungu", sigungu);
-		
-		memberMapper.insertPreferLocal(paramMap);
-		
-		log.debug(Font.JSB + "선호지역 데이터 정보 => " + paramMap.toString() + Font.RESET);
+		if(checkId == 0) {
+			confirm = memberMapper.insertMemberOne(member);
+			log.debug(Font.HW + "회원가입된 수 => " + confirm  + Font.RESET);
 			
+			// 사용자 설정 선호지역 저장
+			Map<String, Object> paramMap = new HashMap<>();
+			
+			String memberId = member.getMemberId();
+			
+			paramMap.put("memberId", memberId);
+			paramMap.put("sido", sido);
+			paramMap.put("sigungu", sigungu);
+			
+			memberMapper.insertPreferLocal(paramMap);
+			
+			log.debug(Font.JSB + "선호지역 데이터 정보 => " + paramMap.toString() + Font.RESET);
+		}
+
 		return confirm;
 	}
 	
@@ -320,5 +330,61 @@ public class MemberService {
 		paramMap.put("favCurrentPage", favCurrentPage);
 		
 		return paramMap;
-	}	
+	}
+	
+	// 특정 회원 결제내역 조회
+	public List<Map<String, Object>> getMemberPayList(String memberId, String minDay, String maxDay){
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("memberId", memberId);
+		paramMap.put("minDay", minDay);
+		paramMap.put("maxDay", maxDay);
+		
+		List<Map<String, Object>> payList = new ArrayList<>();
+		payList = memberMapper.selectMemberPayList(paramMap);
+		log.debug(Font.JSB  + "회원 결제내역 리스트 => " + payList.toString() + Font.RESET);
+		
+		return payList;
+	}
+	
+	// 연도별 월간 결제 총액 조회
+	public List<Map<String, Object>> getTotalPaymentList(String memberId, int year){
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("memberId", memberId);
+		paramMap.put("year", year);
+		
+		List<Map<String, Object>> totalPayList = new ArrayList<>();
+		totalPayList = memberMapper.selectTotalPaymentList(paramMap);
+		log.debug(Font.JSB  + "회원 월간 결제 총액 => " + totalPayList.toString() + Font.RESET);
+		
+		return totalPayList;
+	}
+	
+	// 회원 사이트 총 결제 횟수 조회
+	public int getTotalPaymentCount(String memberId) {
+		int totalPayCount = memberMapper.selectTotalPaymentCount(memberId);
+		log.debug(Font.JSB  + "회원 총 결제횟수 => " + totalPayCount + Font.RESET);
+		
+		return totalPayCount;
+	}
+	
+	// 연도별 숙소 결제 금액 조회
+	public List<Map<String, Object>> getRoomTotalPayment(String memberId, int year){
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("memberId", memberId);
+		paramMap.put("year", year);
+		
+		List<Map<String, Object>> roomTotalPayment = new ArrayList<>();
+		roomTotalPayment = memberMapper.selectRoomTotalPayment(paramMap);
+		log.debug(Font.JSB  + "회원 연도별 숙소 결제금액 => " + roomTotalPayment.toString() + Font.RESET);
+		
+		return roomTotalPayment;
+	}
+	
+	// 회원 현재 보유쿠폰 조회
+	public int getCouponCount(String memberId) {
+		int couponCount = memberMapper.selectCouponCount(memberId);
+		log.debug(Font.JSB  + "회원 보유 쿠폰 수 => " + couponCount + Font.RESET);
+		
+		return couponCount;
+	}
 }

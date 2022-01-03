@@ -14,6 +14,16 @@
 			<result column="room_review_comment_content" property="roomReviewCommentContent"/>
 			<result column="comment_create_date" property="commentCreateDate"/>
 		</collection>
+		<collection property="room" ofType="com.btf.tap.vo.Room">
+			<id column="room_id" property="roomId"/>
+			<result column="room_category" property="roomCategory"/>
+			<result column="room_form" property="roomForm"/>
+			<result column="room_name" property="roomName"/>
+		</collection>
+		<collection property="reservation" ofType="com.btf.tap.vo.Reservation">
+			<id column="reservation_id" property="reservationId"/>
+			<result column="member_id" property="memberId"/>
+		</collection>
 	</resultMap>
  
 	<!-- 해당숙소의 전체 후기 조회하기 -->
@@ -28,7 +38,10 @@
 			 rr.update_date,
 			 rrc.room_review_id,
 			 rrc.room_review_comment_content,
-			 rrc.comment_create_date
+			 rrc.comment_create_date,
+			 rs.member_id,
+			 r.room_category,
+			 r.room_form
 		FROM room_review rr
 			 LEFT JOIN payment p ON rr.payment_id = p.payment_id
 			 LEFT JOIN reservation rs ON p.reservation_id = rs.reservation_id
@@ -40,7 +53,7 @@
 		LIMIT #{beginRow}, #{rowPerPage}	
 	</select>
 	
-	<!-- 전체 후기 수 -->
+	<!-- 해당 숙소의 전체 후기 수 -->
 	<select id="totalRoomReivewCount" parameterType="int" resultType="int">
 		SELECT
 			 COUNT(rr.room_review_id)
@@ -80,6 +93,17 @@
 			room_review_id = #{roomReviewId}
 	</delete>
 	
+	<!-- 숙소별 평점 총합 -->
+	<select id="totalRoomReviewScore" parameterType="int" resultType="double">
+			SELECT IFNULL(SUM(rr.room_review_score), 0)
+			FROM room_review rr
+				INNER JOIN payment p ON rr.payment_id = p.payment_id
+				INNER JOIN reservation rs ON p.reservation_id = rs.reservation_id
+				INNER JOIN room r ON rs.room_id = r.room_id
+			WHERE
+				r.room_id = #{roomId}		 
+	</select>
+	
 	<!-- ******** 숙소후기 답변 ******** -->
 	<!-- 숙소후기 답변 작성하기 -->
 	<insert id="insertRoomReviewComment" parameterType="com.btf.tap.vo.RoomReviewComment">
@@ -116,7 +140,10 @@
 			 rr.update_date,
 			 rrc.room_review_id,
 			 rrc.room_review_comment_content,
-			 rrc.comment_create_date
+			 rrc.comment_create_date,
+			 r.room_form,
+			 r.room_name,
+			 r.room_category
 		FROM room_review rr
 			 LEFT JOIN payment p ON rr.payment_id = p.payment_id
 			 LEFT JOIN reservation rs ON p.reservation_id = rs.reservation_id
@@ -139,5 +166,38 @@
 			 INNER JOIN room r ON rs.room_id = r.room_id 
 		WHERE
 			 rs.member_id = #{memberId}
+	</select>
+	
+	<!-- *** 호스트 숙소후기 미답변 관련 부분 *** -->
+	<!-- 미답변 숙소후기 목록 조회하기 -->
+	<select id="unansweredRoomReviewList" parameterType="java.util.Map" resultType="Map">
+		SELECT
+			rr.room_review_id roomReviewId,
+			rr.room_review_content roomReviewContent,
+			rr.room_review_score roomReviewScore,
+			rr.create_date createDate,
+			rs.member_id memberId,
+			r.room_id roomId,
+			r.detail_address_id detailAddressId,
+			r.room_name roomName
+		FROM room_review rr
+				INNER JOIN payment p ON rr.payment_id = p.payment_id
+				INNER JOIN reservation rs ON p.reservation_id = rs.reservation_id
+				INNER JOIN room r ON rs.room_id = r.room_id  
+		WHERE
+			r.host_id = #{hostId} AND rr.answer_status = 'N'
+		ORDER BY rr.create_date DESC
+		LIMIT #{beginRow}, #{rowPerPage}
+	</select>
+	
+	<!-- 미답변 숙소 후기 개수 -->
+	<select id="totalUnansweredRoomReviewCount" parameterType="String" resultType="int">
+		SELECT COUNT(*) 
+		FROM room_review rr
+			INNER JOIN payment p ON rr.payment_id = p.payment_id
+			INNER JOIN reservation rs ON p.reservation_id = rs.reservation_id
+			INNER JOIN room r ON rs.room_id = r.room_id 
+		WHERE
+			r.host_id = #{hostId} AND rr.answer_status = 'N'
 	</select>
 </mapper>

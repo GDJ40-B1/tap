@@ -49,8 +49,7 @@ public class AttractionController {
 	}	
 	
 
-	private static final int ROW_PER_PAGE = 2;
-	
+	private static final int ROW_PER_PAGE = 10;	
 	@GetMapping("/attractionList")
 	public String attractionList(Model model, 
 			@RequestParam(defaultValue="1") int currentPage,
@@ -65,21 +64,30 @@ public class AttractionController {
 	
 	//리스트 출력
 	@GetMapping("/systemAdmin/attractionList")
-	public String systemAdminAttractionList(Model model) {
-		List<Attraction> list = attractionService.getAttractionList();
-		model.addAttribute("list",list);
+	public String systemAdminAttractionList(Model model,
+			@RequestParam(defaultValue="1") int currentPage,
+			@RequestParam(required = false) String approvalStatus){
+		
+		Map<String, Object> map = attractionService.getAttractionList(approvalStatus, currentPage, ROW_PER_PAGE);
+		model.addAttribute("list",map.get("list"));
+		model.addAttribute("lastPage", map.get("lastPage"));
+		model.addAttribute("currentPage", currentPage);
 		return "systemAdmin/attraction/attractionList";
 	}
 	
 	// 승인 대기 리스트 출력
 	@GetMapping("/systemAdmin/approvalAttractionList")
-	public String approvalAttractionList(Model model) {
-		List<Attraction> list = attractionService.getApprovalAttractionList();
-		model.addAttribute("list", list);
+	public String approvalAttractionList(Model model,
+			@RequestParam(defaultValue="1") int currentPage,
+			@RequestParam(required = false) String approvalStatus) {
+		Map<String, Object> map = attractionService.getApprovalAttractionList(approvalStatus, currentPage, ROW_PER_PAGE);
+		model.addAttribute("list",map.get("list"));
+		model.addAttribute("lastPage", map.get("lastPage"));
+		model.addAttribute("currentPage", currentPage);
 		return "systemAdmin/attraction/approvalAttractionList";
 	}
 	
-	// 상세보기
+	// [시스템 관리자]상세보기
 	@GetMapping("/systemAdmin/attractionOne")
 	public String systemAdminGetAttractionOne(Model model, int attractionId, int detailAddressId) {
 		Map<String, Object> map = attractionService.getAttractionOne(attractionId, detailAddressId);
@@ -87,7 +95,25 @@ public class AttractionController {
 		model.addAttribute("address", map.get("address"));
 		model.addAttribute("hashtag",map.get("hashtag"));
 		return "/systemAdmin/attraction/attractionOne";
+	}	
+	
+	// [시스템 관리자] 미승인 상태 상세보기
+	@GetMapping("/systemAdmin/approvalAttractionOne")
+	public String systemAdminGetApprovalAttractionOne(Model model, int attractionId, int detailAddressId) {
+		Map<String, Object> map = attractionService.getApprovalAttractionOne(attractionId, detailAddressId);
+		model.addAttribute("attraction",map.get("attraction"));
+		model.addAttribute("address", map.get("address"));
+		model.addAttribute("hashtag",map.get("hashtag"));
+		return "/systemAdmin/attraction/approvalAttractionOne";
 	}		
+	
+	@GetMapping("systemAdmin/approvalAttraction")
+	public String getApprovalAttraction(int attractionId) {
+		attractionService.approvalAttraction(attractionId);
+		return "redirect:/systemAdmin/approvalAttractionList";
+	}
+	
+	
 	@GetMapping("/systemAdmin/removeAttraction")
 	public String getRemoveAttraction(int attractionId) {
 		// 명소 삭제

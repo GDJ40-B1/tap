@@ -92,6 +92,7 @@
 						<th>글 번호</th>
 						<th>카테고리</th>
 						<th>제목</th>
+						<th>답변 여부</th>
 						<th>작성자</th>
 						<th>작성일</th>
 					</tr>
@@ -106,6 +107,15 @@
 								
 								<c:when test="${q.secretStatus == 'Y' && loginUser == null || loginUser.userId != q.writerId}">
 									<td>비밀글 입니다.</td>
+								</c:when>
+							</c:choose>
+							<c:choose>
+								<c:when test="${q.answerStatus == 'N'}">
+									<td>미답변</td>
+								</c:when>
+								
+								<c:when test="${q.answerStatus == 'Y'}">
+									<td>답변완료</td>
 								</c:when>
 							</c:choose>
 							<td>${q.writerId}</td>

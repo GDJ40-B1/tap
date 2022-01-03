@@ -210,24 +210,6 @@
 			</c:otherwise>
 		</c:choose>	
 
-	  <!-- 임시로 추가 -->
-	  <script src="http://code.jquery.com/jquery-latest.js"></script> 
-	  
-	  <form class="form-inline" id="searchForm" action="${pageContext.request.contextPath}/searchList">
-      	<input class="form-control mr-sm-2" type="text" id="keyword" name="keyword">
-    	<button class="btn btn-primary" id="btn" type="button">Search</button>
-  	  </form>
-	 <script>
-		$('#btn').click(function(){
-			if($('#keyword').val() == '') {
-				alert('검색어를 입력하세요');
-				return;
-			}
-			$('#searchForm').submit();
-		});
-	</script>
-	</div> 
-
   </main><!-- End #main -->
 
   <!-- start : mainFooter -->

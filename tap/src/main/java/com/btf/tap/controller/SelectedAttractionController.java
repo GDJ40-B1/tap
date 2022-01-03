@@ -45,7 +45,7 @@ public class SelectedAttractionController {
 		model.addAttribute("list", list);
 		return "/selectedAttraction/selectedAttractionList";
 	}
-	
+	/*
 	// 명소 추가하기 리스트	
 	@GetMapping("/addSelectedAttractionList")
 	public String attractionList(Model model) {
@@ -53,7 +53,7 @@ public class SelectedAttractionController {
 		model.addAttribute("list",list);
 		return "selectedAttraction/addSelectedAttractionList";
 	}
-	
+	*/
 	// 명소 상세보기
 	@GetMapping("/addSelectedAttractionOne")
 	public String getAttractionOne(Model model, int attractionId, int detailAddressId) {

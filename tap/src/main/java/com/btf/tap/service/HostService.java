@@ -6,18 +6,23 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.btf.tap.common.Font;
 import com.btf.tap.mapper.HostMapper;
+import com.btf.tap.mapper.UserMapper;
 import com.btf.tap.vo.Host;
-import com.btf.tap.vo.Member;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Transactional
 @Service
 public class HostService {
 	@Autowired HostMapper hostMapper;
+	@Autowired UserMapper userMapper;
+	@Autowired FeeService feeService;
+
 	
 	// 호스트 한 명의 정보를 불러오기
 	// 입력: Host
@@ -37,14 +42,21 @@ public class HostService {
 	// 입력: Host
 	// 결과: int(호스트가입된 수)
 	public int addHost(Host host) {
+		int confirm = 0;
+		
+		String userId = host.getHostId();
 		
 		log.debug(Font.HW + "입력받은 호스트 호스트가입 정보 => " + host.toString() + Font.RESET);
 		
-		int confirm = hostMapper.insertHostOne(host);
+		int checkId = userMapper.selectUserId(userId);
 		
-		log.debug(Font.HW + "호스트 호스트가입된 수 => " + confirm  + Font.RESET);
+		log.debug(Font.HW + "중복 또는 탈퇴 ID 체크 => " + checkId + Font.RESET);
 		
-			
+		if(checkId == 0) {
+			confirm = hostMapper.insertHostOne(host);
+			log.debug(Font.HW + "호스트 호스트가입된 수 => " + confirm  + Font.RESET);
+		}
+		
 		return confirm;
 	}
 	
@@ -159,6 +171,8 @@ public class HostService {
 		// 포인트 전환 실행
 		confirm = hostMapper.updateHostPointSpend(host);
 		
+		feeService.addFee(host.getHostPoint());
+		
 		// 결과 확인
 		log.debug(Font.HW + "포인트 감소된 호스트 수 => " + confirm  + Font.RESET);
 		
@@ -213,5 +227,57 @@ public class HostService {
 		log.debug(Font.HS + "paramMap 객체에 저장된 값 => " + paramMap.toString() + Font.RESET);
 		
 		return paramMap;
+	}
+	
+	// 총 수익 포인트 합 조회
+	public int getRevenueHost(String hostId) {
+		int revenueHost = hostMapper.selectRevenueHost(hostId);
+		log.debug(Font.JSB + "총 수익 포인트 합 => " + revenueHost + Font.RESET);
+		
+		return revenueHost;
+	}
+	
+	// 연도별 수익 포인트 합 조회
+	public int getYearRevenueHost(int year, String hostId) {
+		int yearRevenueHost = 0;
+		
+		Map<String,Object> paramMap = new HashMap<>();
+		paramMap.put("year", year);
+		paramMap.put("hostId", hostId);
+		
+		Map<String, Object> resultMap = hostMapper.selectYearRevenueHost(paramMap);
+		
+		if(resultMap != null) {
+			yearRevenueHost = Integer.parseInt(resultMap.get("price").toString());
+		} 
+
+		log.debug(Font.JSB + "연도별 총 수익 포인트 합 => " + yearRevenueHost + Font.RESET);
+		
+		return yearRevenueHost;
+	}
+	
+	// 연도별 월간 수익 포인트 조회
+	public List<Map<String, Object>> getMonthRevenueHost(int year, String hostId) {
+		Map<String,Object> paramMap = new HashMap<>();
+		paramMap.put("year", year);
+		paramMap.put("hostId", hostId);
+		
+		List<Map<String, Object>> monthRevenueHost = hostMapper.selectMonthRevenueHost(paramMap);
+		log.debug(Font.JSB + "월간 수익 포인트 => " + monthRevenueHost.toString() + Font.RESET);
+		
+		return monthRevenueHost;
+	}
+	
+	// 연도별 숙소 월간 수익 포인트 조회
+	public List<Map<String, Object>> getRoomMonthRevenue(int year, String hostId, int roomId) {
+		Map<String,Object> paramMap = new HashMap<>();
+		paramMap.put("year", year);
+		paramMap.put("hostId", hostId);
+		paramMap.put("roomId", roomId);
+		
+		List<Map<String, Object>> roomRevenueHost = hostMapper.selectRoomMonthRevenue(paramMap);
+		log.debug(Font.JSB + "월간 숙소 수익 포인트 => " + roomRevenueHost.toString() + Font.RESET);
+		
+		return roomRevenueHost;
 	}
 }

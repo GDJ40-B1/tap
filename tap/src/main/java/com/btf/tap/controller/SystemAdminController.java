@@ -1,5 +1,8 @@
 package com.btf.tap.controller;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,12 +13,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.btf.tap.common.Font;
 import com.btf.tap.service.QuestionService;
 import com.btf.tap.service.SystemAdminService;
+import com.btf.tap.vo.Question;
 import com.btf.tap.vo.SystemAdmin;
 import com.btf.tap.vo.User;
 
@@ -26,13 +29,10 @@ import lombok.extern.slf4j.Slf4j;
 public class SystemAdminController {
 	@Autowired SystemAdminService systemAdminService;
 	@Autowired private QuestionService questionService;
-	private final int rowPerPage = 10;	
 	
 	// 시스템관리자 세션을 통한 myPage 구현
 	@GetMapping("/systemAdminMyPage")
-	public String getSystemAdminMyPage(HttpServletRequest request, Model model,
-										@RequestParam(name="unansweredCurrentPage", defaultValue = "1") int unansweredCurrentPage,
-										@RequestParam(required = false) String writerCategory) {
+	public String getSystemAdminMyPage(HttpServletRequest request, Model model, @RequestParam(name="year", defaultValue = "0") int year) {
 		HttpSession session = request.getSession();
 		log.debug(Font.HS + "getMyPageCont : " + session.toString() + Font.RESET);
 		
@@ -51,15 +51,27 @@ public class SystemAdminController {
 		systemAdmin = systemAdminService.getSystemAdminOne(systemAdmin.getSystemAdminId());
 		log.debug(Font.HS + "getMyPageCont : " + systemAdmin.toString() + Font.RESET);
 		
-		// 문의 미답변
-		Map<String, Object> questionMap = questionService.getUnansweredQuestionList(unansweredCurrentPage, rowPerPage, writerCategory);
-		questionMap.put("unansweredCurrentPage", unansweredCurrentPage);
-		questionMap.put("writerCategory", writerCategory);
-		log.debug(Font.JSB + questionMap.toString() + Font.RESET);
+		if(year == 0) {
+			LocalDate now = LocalDate.now();
+			year = now.getYear();
+		}
 		
-		// 시스템관리자 정보 주입
+		// 연도별 월간 / 연간 사이트 매출 차트 데이터 리스트
+		// 총합 이용자 수 및 수익, 미답변 문의 수
+		// 사이트 현재 수수료 조회
+		List<Map<String, Object>> revenueList = systemAdminService.getRevenueYearList(year);
+		List<Map<String, Object>> revenueYearList = systemAdminService.getRevenueYear();
+		Map<String, Object> revenueAndUser = systemAdminService.getRevenueAndUser();
+		int unansweredQuestionCount = questionService.getUnansweredQnaCount();
+		int feeRate = systemAdminService.getFeeRate();
+		
+		model.addAttribute("year", year);
 		model.addAttribute("systemAdmin", systemAdmin);
-		model.addAttribute("questionMap", questionMap);
+		model.addAttribute("revenueList", revenueList);
+		model.addAttribute("revenueYearList", revenueYearList);
+		model.addAttribute("revenueAndUser", revenueAndUser);
+		model.addAttribute("unansweredQuestionCount", unansweredQuestionCount);
+		model.addAttribute("feeRate", feeRate);
 		
 		// 시스템관리자 마이페이지로 이동
 		return "systemAdmin/systemAdminMyPage";
@@ -229,4 +241,63 @@ public class SystemAdminController {
 		return "redirect:/systemAdminList";
 	}
 	
+	// 시스템 관리자 탈퇴내역 조회
+	@GetMapping("/systemAdmin/withdrawalList")
+	public String getWithdrawalList(Model model) {
+		List<Map<String, Object>> list = systemAdminService.getWithdrawalList();
+		log.debug(Font.HS + "탈퇴내역 조회" + list.toString() + Font.RESET);
+		
+		model.addAttribute("list", list);
+		
+		return "systemAdmin/withdrawalList";
+	}
+	
+	// 특정 탈퇴내역 제거
+	@GetMapping("/systemAdmin/removeWithdrawal")
+	public String getRemoveWithdrawal(String userId) {
+		systemAdminService.removeWithdrawalList(userId);
+		
+		return "redirect:/systemAdmin/withdrawalList";
+	}
+	
+	// 사이트 이용자 기간별 포인트 내역 조회
+	@GetMapping("/systemAdmin/pointHistoryList")
+	public String getPointHistoryList(Model model, String minDay, String maxDay) {
+		
+		if(minDay == null && maxDay == null) {
+			minDay = "2000-01-01";
+			
+			LocalDate now = LocalDate.now();
+			DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			maxDay = now.format(dateTimeFormatter);
+		}
+		
+		List<Map<String, Object>> historyList = systemAdminService.getPointHistoryList(minDay, maxDay);
+		log.debug(Font.HS + historyList.toString() + Font.RESET);
+		
+		model.addAttribute("minDay", minDay);
+		model.addAttribute("maxDay", maxDay);
+		model.addAttribute("historyList", historyList);
+		return "systemAdmin/pointHistoryList";
+	}
+	
+	// 문의 미답변 리스트
+	@GetMapping("/systemAdmin/unansweredQuestionList")
+	public String getUnansweredQuestionList(Model model, @RequestParam(required = false) String writerCategory) {
+		// 문의 미답변
+		List<Question> questionList = questionService.getUnansweredQuestionList(writerCategory);
+		log.debug(Font.JSB + questionList.toString() + Font.RESET);
+		
+		model.addAttribute("questionList", questionList);
+		
+		return "/systemAdmin/unansweredQuestionList";
+	}
+	
+	// 사이트 수수료 변경
+	@GetMapping("/systemAdmin/modifyFeeRate")
+	public String getModifyFeeRate(@RequestParam(name="feeRate", defaultValue = "0") int feeRate) {
+		systemAdminService.modifyFeeRate(feeRate);
+		
+		return "redirect:/systemAdminMyPage";
+	}
 }

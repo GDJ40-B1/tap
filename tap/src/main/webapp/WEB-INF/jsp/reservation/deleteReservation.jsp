@@ -20,21 +20,42 @@
    
    <h5>예약을 취소하시겠습니까?</h5>
    
-   <form action="${pageContext.request.contextPath}/deleteReservation?reservationId=${reservation.reservationId}" method="post">
+   <form id="deleteReservationForm" action="${pageContext.request.contextPath}/deleteReservation?reservationId=${reservation.reservationId}" method="post">
    	   <div>회원 아이디 :</div>
-	   <div><input type="text" name="memberId" readonly="readonly" value="${loginUser.userId}"></div>
+	   <div><input type="text" name="memberId" id="memberId" readonly="readonly" value="${loginUser.userId}"></div>
 	   <div>체크인 :</div>
-	   <input type="date" name="checkInDate" readonly="readonly" value="${reservation.checkInDate}">
+	   <input type="date" name="checkInDate" id="checkInDate" readonly="readonly" value="${reservation.checkInDate}">
 	   <div>체크아웃 :</div>
-	   <input type="date" name="checkOutDate" readonly="readonly" value="${reservation.checkOutDate}">
-	   <div>인원</div>
-	   <input type="text" name="peopleNum" readonly="readonly" value="${reservation.peopleNum}">
+	   <input type="date" name="checkOutDate" id="checkOutDate" readonly="readonly" value="${reservation.checkOutDate}">
+	   <div>최대 인원</div>
+	   <input type="text" name="peopleNum" id="peopleNum" readonly="readonly" value="${reservation.peopleNum}">
    
 	   <div>
-	   		<button type="submit">삭제</button>
+	   		<button id="deleteBtn" type="button">삭제</button>
 	   </div>
    </form>
-   
+   <!-- 유효성 검사 -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script>
+		$("#deleteBtn").click(function(){
+			if($("#memberId").val() == "") {
+				alert("회원 아이디가 입력되지 않았습니다. 로그인이 필요합니다.");
+				return;
+			} else if($("#checkInDate").val() == "") {
+				alert("체크인 날짜가 입력되지 않았습니다.");
+				return;
+			} else if($("#checkOutDate").val() == "") {
+				alert("체크아웃 날짜가 입력되지 않았습니다.");
+				return;	
+			} else if($("#peopleNum").val() == "")	{
+				alert("인원수가 입력되지 않았습니다.");
+				return;
+			} else {
+				$("#deleteReservationForm").submit();
+			}
+		});
+		
+	</script>
    
    
    <!-- start : mainFooter -->

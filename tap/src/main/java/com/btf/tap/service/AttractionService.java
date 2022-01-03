@@ -43,6 +43,24 @@ public class AttractionService {
 		return map;
 	}	
 	
+	// (미승인된)특정 명소 정보 추출
+	public Map<String, Object> getApprovalAttractionOne(int attractionId, int detailAddressId){
+		Map<String, Object> map = new HashMap<>();
+		Address address = addressMapper.selectAddressOne(detailAddressId);
+		
+		// 시도+시군구+도로명+상세주소 합치기 => kakao 지도 API 검색을 위해
+		String detailAddress = address.getSido()+" "+address.getSigungu()+" "+address.getRoadName()+" "+address.getDetailAddress();
+		address.setDetailAddress(detailAddress);
+		
+		// 주소 정보
+		map.put("address", address);
+		// 명소 정보
+		map.put("attraction", attractionMapper.selectAttractionOne(attractionId));
+		// 해시태그 정보
+		map.put("hashtag", hashtagService.getHashtag("attraction", attractionId));
+		return map;
+	}		
+	
 	// 명소 카테고리
 	public List<String> getAttractionCategory(){
 		List<String> attractionCategoryList = attractionMapper.selectAttractionCategory();
@@ -56,6 +74,12 @@ public class AttractionService {
 		attractionMapper.deleteAttraction(attractionId);
 		addressMapper.deleteDetailAddress(detailAddressId);
 	}
+	
+	// 승인
+	public void approvalAttraction(int attractionId) {
+		attractionMapper.approvalAttraction(attractionId);
+	}
+	
 	
 	// 명소 수정
 	public Address modifyAttraction(Attraction attraction, Address address, String hashtag) {
@@ -127,9 +151,27 @@ public class AttractionService {
 	}
 	
 	// 승인 대기중인 명소리스트
-	public List<Attraction> getApprovalAttractionList(){
-		List<Attraction> list = attractionMapper.selectApprovalAttractionList();
-		return list;
+	public Map<String,Object> getApprovalAttractionList(String approvalStatus, int currentPage, int rowPerPage){
+		
+		Map<String, Object> paramMap = new HashMap<>();
+		
+		int beginRow = (currentPage-1)*rowPerPage;
+		paramMap.put("approvalStatus", approvalStatus);
+		paramMap.put("beginRow", beginRow);
+		paramMap.put("rowPerPage", rowPerPage);
+		
+		List<Attraction> list = attractionMapper.selectApprovalAttractionList(paramMap);
+		
+		Map<String, Object> returnMap = new HashMap<>();
+		int lastPage = 0;
+		int totalCount = attractionMapper.selectBeforeAttractionTotalCount(approvalStatus);
+		lastPage = totalCount/rowPerPage;
+		if(totalCount%rowPerPage!=0) {
+			lastPage +=1;
+		}
+		returnMap.put("list", list);
+		returnMap.put("lastPage", lastPage);
+		return returnMap;
 	}	
 	
 	

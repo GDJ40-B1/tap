@@ -31,6 +31,9 @@
   <!-- Template Main CSS File -->
   <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet">
 
+  <!-- Jquery -->
+  <script src="http://code.jquery.com/jquery-latest.js"></script> 
+
   <!-- =======================================================
   * Template Name: MeFamily - v4.7.0
   * Template URL: https://bootstrapmade.com/family-multipurpose-html-bootstrap-template-free/
@@ -40,12 +43,12 @@
 </head>
 
 <body>
-	
+
   <!-- header 불러오기 -->
   <c:import url="/partial/mainHeader.jsp"></c:import>
-
+	
   <!-- ======= Hero Section ======= -->
-  <section id="hero">
+  <section id="hero" style="height: 500px;">
     <div id="heroCarousel" data-bs-interval="5000" class="carousel slide carousel-fade" data-bs-ride="carousel">
 
       <ol class="carousel-indicators" id="hero-carousel-indicators"></ol>
@@ -53,15 +56,19 @@
       <div class="carousel-inner" role="listbox">
 
         <!-- Slide 1 -->
-        <div class="carousel-item active" style="background-image: url(${pageContext.request.contextPath}/resources/img/slide/slide-1.jpg)">
+        <div class="carousel-item active" style="background-image: url(${pageContext.request.contextPath}/resources/img/slide/index-slide1.jpg)">
         </div>
 
         <!-- Slide 2 -->
-        <div class="carousel-item" style="background-image: url(${pageContext.request.contextPath}/resources/img/slide/slide-2.jpg)">
+        <div class="carousel-item" style="background-image: url(${pageContext.request.contextPath}/resources/img/slide/index-slide2.jpg)">
         </div>
-
+        
         <!-- Slide 3 -->
-        <div class="carousel-item" style="background-image: url(${pageContext.request.contextPath}/resources/img/slide/slide-3.jpg)">
+        <div class="carousel-item" style="background-image: url(${pageContext.request.contextPath}/resources/img/slide/index-slide3.jpg)">
+        </div>
+        
+        <!-- Slide 4 -->
+        <div class="carousel-item" style="background-image: url(${pageContext.request.contextPath}/resources/img/slide/index-slide4.jpg)">
         </div>
 
       </div>
@@ -83,6 +90,27 @@
     <!-- ======= My & Family Section ======= -->
     <section id="about" class="about">
       <div class="container">
+      
+      	<form class="form-inline" id="searchByDistrictForm" action="${pageContext.request.contextPath}/searchListByDistrict">
+			<select name="districtSido" id="districtSido" onchange="sidoType(this.value);">
+		  		<option value="">==선택==</option>
+		  	<c:forEach var="s" items="${sidoList}">
+		  		<option value="${s}">${s}</option>
+		  	</c:forEach>
+			</select>
+			<select name="districtSigungu" id="districtSigungu">
+				<option value="">==선택==</option>
+			</select>
+			<input class="form-control mr-sm-2" type="text" id="keyword" name="keyword">
+    		<button class="btn btn-primary" id="districtBtn" type="button">검색</button>
+		</form>
+		
+	  	<div id="searchHistory">
+	  		<c:forEach var="s" items="${searchList}">
+		  		<span><a href="#" onclick="searchKeyword(this)">${s}</a> <a href="#" onclick="removeKeyword('${s}')">x</a></span>
+		  	</c:forEach>
+	  	</div>
+      
 		<h1>이달의 ${sigungu} 추천 인기 숙소</h1>
         <div>
         	<c:choose>
@@ -285,6 +313,71 @@
 
   <!-- Template Main JS File -->
   <script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
+  
+  	  <script>
+	  	$('#districtBtn').click(function(){
+	  		if($('#districtSido').val() == '') {
+				alert('시도를 선택하세요');
+				return;
+			}
+			
+	  		if($('#districtSigungu').val() == '') {
+				alert('시군구를 선택하세요');
+				return;
+			}
+	  		
+			if($('#districtKeyword').val() == '') {
+				alert('검색어를 입력하세요');
+				return;
+			}
+			
+			$('#searchByDistrictForm').submit();
+		});
+	  
+	  function searchKeyword(keyword) {
+		  var addKeyword = $(keyword).text();
+		  
+		  $("#keyword").val(addKeyword);
+	  }
+	  
+	  function sidoType(districtSido) {
+		  $.ajax({
+			  type: 'GET',
+			  contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+			  url : '${pageContext.request.contextPath}/sido',
+			  cache : false,
+			  data : { districtSido : districtSido },
+			  dataType: 'json',
+			  success : function(result){
+				  console.log(result)
+					
+				  $("#districtSigungu").find("option").remove().end().append("<option value=''>==선택==</option>")
+				  $.each(result, function(i){
+					 $("#districtSigungu").append("<option value='"+result[i]+"'>"+result[i]+"</option>")
+				  });
+			  }
+		  }).fail(function (error) {
+			  alert(JSON.stringify(error));
+		  })
+	  }
+	  
+	  function removeKeyword(keyword) {
+		  $.ajax({
+			  type: 'GET',
+			  contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+			  url : '${pageContext.request.contextPath}/removeSearchHistory',
+			  cache : false,
+			  data : { keyword : keyword },
+			  success : function(result){
+				  console.log(result)
+				  
+				  $("#searchHistory").load(location.href+' #searchHistory');
+				
+			  }
+		  })
+	  }
+	  </script>
+  
 </body>
 
 </html>

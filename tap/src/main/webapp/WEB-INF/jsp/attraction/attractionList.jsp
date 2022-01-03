@@ -43,7 +43,12 @@
 			</c:if>
 		</div>
 	</form>
+<<<<<<< HEAD
 
+=======
+	
+	<a href="${pageContext.request.contextPath}/addAttraction">명소 등록</a>
+>>>>>>> branch 'main' of https://github.com/GDJ40-B1/tap
 	</section>
 	</main>
 	

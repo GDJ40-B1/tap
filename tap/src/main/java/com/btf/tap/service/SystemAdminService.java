@@ -1,6 +1,10 @@
 package com.btf.tap.service;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.btf.tap.common.Font;
 import com.btf.tap.mapper.SystemAdminMapper;
+import com.btf.tap.mapper.UserMapper;
 import com.btf.tap.vo.SystemAdmin;
 
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public class SystemAdminService {
 	@Autowired SystemAdminMapper systemAdminMapper;
+	@Autowired UserMapper userMapper;
 	
 	// 시스템관리자 전체 목록 불러오기
 	public List<SystemAdmin> getSystemAdminList() {
@@ -35,14 +41,24 @@ public class SystemAdminService {
 	// 입력 : systemAdmin(입력받은 회원정보)
 	// 출력 : int(회원등록된 수)
 	public int addSystemAdmin(SystemAdmin systemAdmin) {
+		int confirm = 0;
+		
+		String userId = systemAdmin.getSystemAdminId();		
+		
 		// 입력받은 시스템관리자 회원 정보
 		log.debug(Font.HS + "addNameServ : " + systemAdmin.toString() + Font.RESET);
 		
-		int check = systemAdminMapper.insertSystemAdmin(systemAdmin);
-		// 회원등록된 수
-		log.debug(Font.HS + "addNameServ : " + check + Font.RESET);
+		int checkId = userMapper.selectUserId(userId);
 		
-		return check;
+		log.debug(Font.JSB + "중복 또는 탈퇴 ID 체크 => " + checkId + Font.RESET);
+		
+		if(checkId == 0) {
+			confirm = systemAdminMapper.insertSystemAdmin(systemAdmin);
+			// 회원등록된 수
+			log.debug(Font.HS + "addNameServ : " + confirm + Font.RESET);			
+		}
+		
+		return confirm;
 	}
 	
 	// 시스템관리자 한 명의 pw 수정하기
@@ -111,5 +127,84 @@ public class SystemAdminService {
 	// 시스템관리자 한 명의 정보 삭제하기
 	public void removeSystemAdmin(SystemAdmin systemAdmin) {
 		systemAdminMapper.deleteSystemAdmin(systemAdmin);
+	}
+	
+	// 전체 탈퇴내역 조회
+	public List<Map<String, Object>> getWithdrawalList() {
+		List<Map<String, Object>> list = new ArrayList<>();
+		list = systemAdminMapper.selectWithdrawalList();
+		log.debug(Font.JSB + "탈퇴내역 조회" + list.toString() + Font.RESET);
+		
+		return list;
+	}
+	
+	// 특정 탈퇴내역 삭제
+	public void removeWithdrawalList(String userId) {
+		systemAdminMapper.deleteWithdrawalList(userId);
+	}
+	
+	// 사이트 이용자 기간별 포인트 내역 조회
+	public List<Map<String, Object>> getPointHistoryList(String minDay, String maxDay){
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("minDay", minDay);
+		paramMap.put("maxDay", maxDay);
+		
+		List<Map<String, Object>> historyList = new ArrayList<>();
+		
+		historyList = systemAdminMapper.selectPointHistoryList(paramMap);
+		log.debug(Font.JSB + "전체 포인트 내역 조회" + historyList.toString() + Font.RESET);
+		
+		return historyList;
+	}
+	
+	// 연도별 사이트 관리자 월간 수익 조회
+	public List<Map<String, Object>> getRevenueYearList(int year){
+		List<Map<String, Object>> revenueList = new ArrayList<>();
+		
+		revenueList = systemAdminMapper.selectRevenueYearList(year);
+		log.debug(Font.JSB + "연도별 사이트 수익 조회" + revenueList.toString() + Font.RESET);
+		
+		return revenueList;
+	}
+	
+	// 연간 사이트 수익 조회
+	public List<Map<String, Object>> getRevenueYear() {
+		List<Map<String, Object>> revenueYearList = new ArrayList<>();
+		
+		revenueYearList = systemAdminMapper.selectRevenueYear();
+		log.debug(Font.JSB + "연간 사이트 수익" + revenueYearList.toString() + Font.RESET);
+		
+		return revenueYearList;
+	}
+	
+	// 사이트 총합 이용자 수 및 수익
+	public Map<String, Object> getRevenueAndUser(){
+		int userCount = systemAdminMapper.selectCountUser();
+		int resultRevenue = systemAdminMapper.selectRevenue();
+		
+		DecimalFormat decFormat = new DecimalFormat("###,###");
+		
+		String revenue = decFormat.format(resultRevenue);
+		
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("userCount", userCount);
+		paramMap.put("revenue", revenue); 
+		
+		log.debug(Font.JSB + "사이트 총합 이용자 수 및 수익" + paramMap.toString() + Font.RESET);
+		
+		return paramMap;
+	}
+
+	// 사이트 수수료 조회
+	public int getFeeRate() {
+		int feeRate = 0;
+		feeRate = systemAdminMapper.selectFeeRate();
+		
+		return feeRate;
+	}
+	
+	// 사이트 수수료 변경
+	public void modifyFeeRate(int feeRate) {
+		systemAdminMapper.updateFeeRate(feeRate);
 	}
 }

@@ -1,5 +1,7 @@
 package com.btf.tap.controller;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
@@ -22,11 +24,13 @@ import com.btf.tap.service.AmenitiesService;
 import com.btf.tap.service.HostService;
 import com.btf.tap.service.MemberService;
 import com.btf.tap.service.PartService;
+import com.btf.tap.service.ReservationService;
 import com.btf.tap.service.RoomQuestionService;
 import com.btf.tap.service.RoomReviewService;
 import com.btf.tap.service.RoomService;
 import com.btf.tap.vo.Address;
 import com.btf.tap.vo.PriceRoom;
+import com.btf.tap.vo.Reservation;
 import com.btf.tap.vo.Room;
 import com.btf.tap.vo.RoomQnaAnswer;
 import com.btf.tap.vo.RoomQuestion;
@@ -45,6 +49,7 @@ public class RoomController {
 	@Autowired RoomQuestionService roomQuestionService;
 	@Autowired MemberService memberService;
 	@Autowired RoomReviewService roomReviewService;
+	@Autowired ReservationService reservationService;
 	
 	@GetMapping("/roomList")
 	public String roomList(Model model, @RequestParam(value="currentPage", defaultValue ="1") int currentPage) {
@@ -71,7 +76,8 @@ public class RoomController {
 	@GetMapping("/roomOne")
 	public String roomOne(HttpServletRequest request, Model model, @RequestParam("roomId") int roomId, @RequestParam("detailAddressId") int detailAddressId,  
 								@RequestParam(value="roomQnaCurrentPage", defaultValue ="1") int roomQnaCurrentPage,
-								@RequestParam(value="roomReviewCurrentPage", defaultValue="1") int roomReviewCurrentPage) {
+								@RequestParam(value="roomReviewCurrentPage", defaultValue="1") int roomReviewCurrentPage,
+								@RequestParam(name="year", defaultValue = "0") int year) {
 		// 멤버 정보를 가져온다
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("loginUser");
@@ -80,21 +86,36 @@ public class RoomController {
 			user = new User();
 			user.setUserId("");
 		}
+		
+		if(year == 0) {
+			LocalDate now = LocalDate.now();
+			year = now.getYear();
+		}
+		
 		Map<String, Object> result = roomService.getRoomOne(roomId, detailAddressId, user.getUserId());
 		Map<String, Object> roomQna = roomQuestionService.getRoomQnaList(roomQnaCurrentPage, roomId);
 		Map<String, Object> roomReview = roomReviewService.getRoomReviewList(roomReviewCurrentPage, roomId);
 		int favorite = memberService.getFavorites(user.getUserId(), roomId);
+		List<Map<String, Object>> ageList = roomService.getRoomAgeList(roomId, year);
+		Map<String, Object> reservation = reservationService.getAddReservation(roomId);
 		
-		
+		// 숙소 정보
 		model.addAttribute("room",result.get("room"));
 		model.addAttribute("address",result.get("address"));
 		model.addAttribute("hashtag",result.get("hashtag"));
-		model.addAttribute("couponList",result.get("couponList"));
 		model.addAttribute("roomAmenitiesList",result.get("amenitiesList"));
 		model.addAttribute("roomPartList",result.get("roomPartList"));
+		// 쿠폰
+		model.addAttribute("couponList",result.get("couponList"));
+		//예약
+		model.addAttribute("ReservationDateList",reservation.get("ReservationDateList"));
+	    model.addAttribute("ReservationListOfDate",reservation.get("ReservationListOfDate"));
+	    
 		model.addAttribute("roomQna", roomQna);
 		model.addAttribute("roomReview", roomReview);
 		model.addAttribute("favorite", favorite);
+		model.addAttribute("ageList", ageList);
+		model.addAttribute("year", year);
 		
 		return "room/roomOne";
 	}
@@ -105,7 +126,7 @@ public class RoomController {
 		roomQuestionService.addRoomQnaAnswer(roomQnaAnswer);
 		log.debug(Font.JSB + roomQnaAnswer.toString() + Font.RESET);
 		
-		return "redirect:/roomOne?roomId="+roomId+"&detailAddressId="+detailAddressId+"#roomQna";
+		return "redirect:/roomOne?roomId="+roomId+"&detailAddressId="+detailAddressId;
 	}
 	
 	/* Question 관련 */
@@ -121,21 +142,21 @@ public class RoomController {
 		
 		roomQuestionService.removeRoomQuestion(roomQna);
 		
-		return "redirect:/roomOne?roomId="+roomId+"&detailAddressId="+detailAddressId+"#roomQna";
+		return "redirect:/roomOne?roomId="+roomId+"&detailAddressId="+detailAddressId;
 	}
 	
 	@GetMapping("/nonMember/removeRoomQnaAnswer")
 	public String getRemoveRoomQnaAnswer(HttpSession session, int roomQnaId, String hostId, int roomId, int detailAddressId) {
 		User loginUser = (User)session.getAttribute("loginUser");
 
-		// 해당 호스트가 아닌 가입자가 문의 답변 삭제 접근한 경우
-		if(loginUser != null && !loginUser.getUserLevel().equals("system_admin") && !hostId.equals(loginUser.getUserId())) {
+		// 해당 숙소 호스트가 아닌 호스트 가입자가 문의 답변 삭제 접근한 경우
+		if(loginUser != null && !hostId.equals(loginUser.getUserId()) && !loginUser.getUserLevel().equals("system_admin")) {
 			return "redirect:/";
 		}
 		
 		roomQuestionService.removeRoomQnaAnswer(roomQnaId);
 		
-		return "redirect:/roomOne?roomId="+roomId+"&detailAddressId="+detailAddressId+"#roomQna";
+		return "redirect:/roomOne?roomId="+roomId+"&detailAddressId="+detailAddressId;
 	}
 	
 	@GetMapping("/nonMember/roomQnaPopup")
@@ -232,12 +253,14 @@ public class RoomController {
 	}
 	
 	@PostMapping("/host/addRoom")
-	public String postAddRoom(Room room, Address address,
+	public String postAddRoom(RedirectAttributes redirect, Room room, Address address,
 			String hashtag, String amenities, String part,
 			MultipartHttpServletRequest mtRequest) {
 		// 숙소 추가
-		roomService.addRoom(room, address, hashtag, amenities, part, mtRequest);
-		return "redirect:/host/roomList";
+		Room newRoom = roomService.addRoom(room, address, hashtag, amenities, part, mtRequest);
+		redirect.addAttribute("roomId",newRoom.getRoomId());
+	    redirect.addAttribute("detailAddressId",newRoom.getDetailAddressId());
+	    return "redirect:/host/roomOne";
 	}
 	
 	@GetMapping("/host/roomList")
@@ -300,7 +323,23 @@ public class RoomController {
 	      redirect.addAttribute("roomId",room.getRoomId());
 	      redirect.addAttribute("detailAddressId",address.getDetailAddressId());
 	      return "redirect:/host/roomOne";
-	   }
+	}
+	
+	@GetMapping("/host/roomReservationList")
+	public String getRoomReservation(Model model, Room room) {
+		model.addAttribute("room",room);
+		model.addAttribute("reservationList",reservationService.getRoomReservationList(room.getRoomId()));
+		return "/host/room/roomReservationList";
+	}
+	
+	@GetMapping("/host/removeRoomReservationOne")
+	public String removeRoomReservationOne(Model model, Room room, int reservationId) {
+		Reservation reservation = new Reservation();
+		reservation.setReservationId(reservationId);
+		reservationService.deleteReservation(reservation);
+		return "redirect:/host/roomReservationList?"
+				+ "roomId="+room.getRoomId()+"&detailAddressId="+room.getDetailAddressId();
+	}
 	
 	/*------숙소별 가격-------*/
 	@GetMapping("/host/priceRoomList")
@@ -349,5 +388,53 @@ public class RoomController {
 		log.debug(Font.JSB + roomQnaAnswer.toString() + Font.RESET);
 		
 		return "redirect:/host/unansweredRoomQna";
+	}
+	
+	@GetMapping("/host/roomPaymentList")
+	public String getRoomPaymentList(HttpSession session, Model model, @RequestParam(name="roomId", defaultValue = "0") int roomId, String roomName, String minDay, String maxDay) {
+		User loginUser = (User)session.getAttribute("loginUser");
+		
+		List<Room> roomList = roomService.getPayRoomList(loginUser.getUserId());
+		log.debug(Font.JSB + roomList.toString() + Font.RESET);
+		
+		if(minDay == null && maxDay == null) {
+			minDay = "2000-01-01";
+			
+			LocalDate now = LocalDate.now();
+			DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			maxDay = now.format(dateTimeFormatter);
+		}
+		
+		List<Map<String, Object>> paymentlist = roomService.getPayRoomDateList(roomId, minDay, maxDay);
+		
+		model.addAttribute("minDay", minDay);
+		model.addAttribute("maxDay", maxDay);
+		model.addAttribute("roomName", roomName);
+		model.addAttribute("roomList", roomList);
+		model.addAttribute("paymentlist", paymentlist);
+		
+		return "/host/room/roomPaymentList";
+	}
+	
+	// 호스트 미답변 숙소후기 목록
+	@GetMapping("/host/unansweredRoomReview")
+	public String getUnansweredRoomReview(HttpSession session, Model model, @RequestParam(value="currentPage", defaultValue ="1") int currentPage) {
+		// 로그인한 정보 loginUser 객체에 담기
+		User loginUser = (User)session.getAttribute("loginUser");
+		
+		Map<String,Object> roomReview = roomReviewService.getUnansweredRoomReviewList(currentPage, loginUser.getUserId());
+		
+		model.addAttribute("roomReview", roomReview);
+		
+		return "/host/room/unansweredRoomReview";
+	}
+	
+	@PostMapping("/host/unansweredRoomReview")
+	public String postUnansweredRoomReview(RoomReviewComment roomReviewComment) {
+		// 숙소후기 답변 작성
+		roomReviewService.addRoomReviewComment(roomReviewComment);
+		log.debug(Font.HS + "roomReviewComment 객체안의 값 => " + roomReviewComment.toString() + Font.RESET);
+		
+		return "redirect:/host/unansweredRoomReview";
 	}
 }

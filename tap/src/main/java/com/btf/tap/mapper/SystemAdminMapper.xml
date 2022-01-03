@@ -90,4 +90,86 @@
 		FROM system_admin
 		WHERE system_admin_id = #{systemAdminId} AND system_admin_pw = #{systemAdminPw}
 	</delete>
+	
+	<!-- 탈퇴내역 조회 -->
+	<select id="selectWithdrawalList" resultType="java.util.Map">
+		SELECT
+			member_id memberId,
+			create_date createDate
+		FROM withdrawal_history
+	</select>
+	
+	<!-- 특정 탈퇴내역 삭제 -->
+	<delete id="deleteWithdrawalList" parameterType="String">
+		DELETE FROM withdrawal_history
+		<where>
+			member_id = #{userId}
+		</where>
+	</delete>
+	
+	<!-- 사이트 이용자 기간별 포인트 내역 조회 -->
+	<select id="selectPointHistoryList" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+			user_id userId,
+			point_history_category pointHistoryCategory,
+			point,
+			changed_point changedPoint,
+			create_date createDate
+		FROM view_user_point_history
+		<where>
+			create_date BETWEEN #{minDay} AND #{maxDay}
+		</where>
+		ORDER BY create_date DESC;	
+	</select>
+	
+	<!-- 연도별 사이트 관리자 월간 수익 조회 -->
+	<select id="selectRevenueYearList" parameterType="int" resultType="java.util.Map">
+		SELECT 
+			DATE_FORMAT(create_date, '%Y-%m') monthList, 
+			SUM(fee) revenue
+		FROM fee
+		<where>
+			YEAR(create_date) = #{year}
+		</where>
+		GROUP BY monthList;
+	</select>
+	
+	<!-- 연간 사이트 수익 조회 -->
+	<select id="selectRevenueYear" resultType="java.util.Map">
+		SELECT 
+			DATE_FORMAT(create_date, '%Y') yearList, 
+			SUM(fee) revenue
+		FROM fee
+		GROUP BY yearList;	
+	</select>
+	
+	<!-- 사이트 총합 이용자 수 -->
+	<select id="selectCountUser" resultType="int">
+		SELECT 
+			COUNT(*)
+		FROM view_user	
+	</select>
+	
+	<!-- 사이트 총합 수익 -->
+	<select id="selectRevenue" resultType="int">
+		SELECT 
+			SUM(fee) revenue
+		FROM fee	
+	</select>
+	
+	<!-- 현재 사이트 수수료 조회 -->
+	<select id="selectFeeRate" resultType="int">
+		SELECT
+			fee_rate
+		FROM
+			fee_rate
+	</select>
+	
+	<!-- 사이트 수수료 변경 -->
+	<update id="updateFeeRate" parameterType="int">
+		UPDATE fee_rate
+		SET
+			fee_rate = #{feeRate},
+			update_date = NOW()		
+	</update>
 </mapper>
