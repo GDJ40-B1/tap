@@ -228,4 +228,56 @@ public class HostService {
 		
 		return paramMap;
 	}
+	
+	// 총 수익 포인트 합 조회
+	public int getRevenueHost(String hostId) {
+		int revenueHost = hostMapper.selectRevenueHost(hostId);
+		log.debug(Font.JSB + "총 수익 포인트 합 => " + revenueHost + Font.RESET);
+		
+		return revenueHost;
+	}
+	
+	// 연도별 수익 포인트 합 조회
+	public int getYearRevenueHost(int year, String hostId) {
+		int yearRevenueHost = 0;
+		
+		Map<String,Object> paramMap = new HashMap<>();
+		paramMap.put("year", year);
+		paramMap.put("hostId", hostId);
+		
+		Map<String, Object> resultMap = hostMapper.selectYearRevenueHost(paramMap);
+		
+		if(resultMap != null) {
+			yearRevenueHost = Integer.parseInt(resultMap.get("price").toString());
+		} 
+
+		log.debug(Font.JSB + "연도별 총 수익 포인트 합 => " + yearRevenueHost + Font.RESET);
+		
+		return yearRevenueHost;
+	}
+	
+	// 연도별 월간 수익 포인트 조회
+	public List<Map<String, Object>> getMonthRevenueHost(int year, String hostId) {
+		Map<String,Object> paramMap = new HashMap<>();
+		paramMap.put("year", year);
+		paramMap.put("hostId", hostId);
+		
+		List<Map<String, Object>> monthRevenueHost = hostMapper.selectMonthRevenueHost(paramMap);
+		log.debug(Font.JSB + "월간 수익 포인트 => " + monthRevenueHost.toString() + Font.RESET);
+		
+		return monthRevenueHost;
+	}
+	
+	// 연도별 숙소 월간 수익 포인트 조회
+	public List<Map<String, Object>> getRoomMonthRevenue(int year, String hostId, int roomId) {
+		Map<String,Object> paramMap = new HashMap<>();
+		paramMap.put("year", year);
+		paramMap.put("hostId", hostId);
+		paramMap.put("roomId", roomId);
+		
+		List<Map<String, Object>> roomRevenueHost = hostMapper.selectRoomMonthRevenue(paramMap);
+		log.debug(Font.JSB + "월간 숙소 수익 포인트 => " + roomRevenueHost.toString() + Font.RESET);
+		
+		return roomRevenueHost;
+	}
 }

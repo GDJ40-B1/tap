@@ -23,4 +23,6 @@ public interface SystemAdminMapper {
 	List<Map<String, Object>> selectRevenueYear();	// 연간 사이트 수익 조회
 	int selectCountUser();	// 사이트 총합 이용자 수
 	int selectRevenue();	// 사이트 총합 수익
+	int selectFeeRate();	// 사이트 수수료 조회
+	int updateFeeRate(int feeRate);	// 사이트 수수료 변경
 }

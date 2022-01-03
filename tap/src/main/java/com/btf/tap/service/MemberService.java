@@ -345,4 +345,46 @@ public class MemberService {
 		
 		return payList;
 	}
+	
+	// 연도별 월간 결제 총액 조회
+	public List<Map<String, Object>> getTotalPaymentList(String memberId, int year){
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("memberId", memberId);
+		paramMap.put("year", year);
+		
+		List<Map<String, Object>> totalPayList = new ArrayList<>();
+		totalPayList = memberMapper.selectTotalPaymentList(paramMap);
+		log.debug(Font.JSB  + "회원 월간 결제 총액 => " + totalPayList.toString() + Font.RESET);
+		
+		return totalPayList;
+	}
+	
+	// 회원 사이트 총 결제 횟수 조회
+	public int getTotalPaymentCount(String memberId) {
+		int totalPayCount = memberMapper.selectTotalPaymentCount(memberId);
+		log.debug(Font.JSB  + "회원 총 결제횟수 => " + totalPayCount + Font.RESET);
+		
+		return totalPayCount;
+	}
+	
+	// 연도별 숙소 결제 금액 조회
+	public List<Map<String, Object>> getRoomTotalPayment(String memberId, int year){
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("memberId", memberId);
+		paramMap.put("year", year);
+		
+		List<Map<String, Object>> roomTotalPayment = new ArrayList<>();
+		roomTotalPayment = memberMapper.selectRoomTotalPayment(paramMap);
+		log.debug(Font.JSB  + "회원 연도별 숙소 결제금액 => " + roomTotalPayment.toString() + Font.RESET);
+		
+		return roomTotalPayment;
+	}
+	
+	// 회원 현재 보유쿠폰 조회
+	public int getCouponCount(String memberId) {
+		int couponCount = memberMapper.selectCouponCount(memberId);
+		log.debug(Font.JSB  + "회원 보유 쿠폰 수 => " + couponCount + Font.RESET);
+		
+		return couponCount;
+	}
 }

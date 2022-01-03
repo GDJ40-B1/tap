@@ -107,17 +107,19 @@
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">사이트 수수료 변경
+                                            	<input type="number" id="modifyFeeRate" name="modifyFeeRate">
+                                            	<button class="btn btn-primary" id="feeRateBtn" type="button">변경</button>
                                             </div>
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col-auto">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
+                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">${feeRate}%</div>
                                                 </div>
                                                 <div class="col">
                                                     <div class="progress progress-sm mr-2">
                                                         <div class="progress-bar bg-info" role="progressbar"
-                                                            style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-                                                            aria-valuemax="100"></div>
+                                                            style="width: ${feeRate}%" aria-valuenow="${feeRate}" aria-valuemin="0"
+                                                            aria-valuemax="50"></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -334,6 +336,14 @@
 
     <!-- Custom scripts for all pages-->
     <script src="${pageContext.request.contextPath}/resources/js/sb-admin-2.min.js"></script>
+
+	<script>	
+		$('#feeRateBtn').click(function(){
+			var feeRate = $("#modifyFeeRate").val();
+			
+			location.href="${pageContext.request.contextPath}/systemAdmin/modifyFeeRate?feeRate="+feeRate;
+		});
+    </script>
 
  	<script>
 		$(function(){

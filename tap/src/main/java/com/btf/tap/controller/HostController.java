@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.btf.tap.common.Font;
 import com.btf.tap.service.HostService;
 import com.btf.tap.service.ReservationService;
+import com.btf.tap.service.RoomQuestionService;
 import com.btf.tap.service.RoomService;
 import com.btf.tap.vo.Host;
 import com.btf.tap.vo.Room;
@@ -32,6 +33,7 @@ public class HostController {
 	@Autowired HostService hostService;
 	@Autowired ReservationService reservationService;
 	@Autowired RoomService roomService;
+	@Autowired RoomQuestionService roomQuestionService;
 	
 	@PostMapping("/earnHostPoint")
 	public String postEarnHostPoint(HttpServletRequest request, Model model, Host host) {
@@ -251,9 +253,7 @@ public class HostController {
 	}
 	
 	@GetMapping("/hostMyPage")
-	public String getMyPage(HttpServletRequest request, Model model, @RequestParam(name="roomId", defaultValue = "0") int roomId, @RequestParam(name="year", defaultValue = "0") int year, String roomName) {
-	
-		HttpSession session = request.getSession();
+	public String getMyPage(HttpSession session, Model model, @RequestParam(name="roomId", defaultValue = "0") int roomId, @RequestParam(name="year", defaultValue = "0") int year, String roomName) {
 			
 		// 로그인 되있있지 않을 경우, 홈페이지로 이동
 		if(session.getAttribute("loginUser") == null) {
@@ -262,6 +262,7 @@ public class HostController {
 		
 		// 세션에서 로그인 유저 객체 받기 
 		User user = (User) session.getAttribute("loginUser");
+		String hostId = user.getUserId();
 		
 		// 유저 객체속 아이디를 호스트 객체에 넣어 조회하기
 		Host host = new Host();
@@ -277,11 +278,17 @@ public class HostController {
 		List<Map<String, Object>> list = reservationService.getRoomReservationCheck(roomId, year);
 		log.debug(Font.JSB + "특정 숙소 연도별 이용객 수" + list.toString() + Font.RESET);
 		
-		List<Room> roomList = roomService.getHostRoomList(user.getUserId());
+		List<Room> roomList = roomService.getPayRoomList(hostId);
 		log.debug(Font.JSB + "숙소명 목록" + roomList.toString() + Font.RESET);
 		
 		List<Map<String, Object>> ageList = roomService.getRoomAgeList(roomId, year);
 		log.debug(Font.JSB + "특정 숙소 연도별 이용 연령층" + ageList.toString() + Font.RESET);
+		
+		int revenueHost = hostService.getRevenueHost(hostId);
+		int yearRevenueHost = hostService.getYearRevenueHost(year, hostId);
+		List<Map<String, Object>> monthRevenueHost = hostService.getMonthRevenueHost(year, hostId);
+		List<Map<String, Object>> roomMonthRevenue = hostService.getRoomMonthRevenue(year, hostId, roomId);
+		int unansweredRoomQnaCount = roomQuestionService.unansweredRoomQnaCount(hostId);
 		
 		// 호스트 정보 주입
 		model.addAttribute("host", host);
@@ -290,6 +297,11 @@ public class HostController {
 		model.addAttribute("roomName", roomName);
 		model.addAttribute("roomList", roomList);
 		model.addAttribute("ageList", ageList);
+		model.addAttribute("revenueHost", revenueHost);
+		model.addAttribute("yearRevenueHost", yearRevenueHost);
+		model.addAttribute("monthRevenueHost", monthRevenueHost);
+		model.addAttribute("roomMonthRevenue", roomMonthRevenue);
+		model.addAttribute("unansweredRoomQnaCount", unansweredRoomQnaCount);
 		
 		// 마이페이지로 이동
 		return "host/hostMyPage";

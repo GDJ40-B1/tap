@@ -272,6 +272,21 @@
 								</ol>
 							</div>
 							<div class="d-flex justify-content-between align-items-center">
+								<c:forEach var="rre" items="${r.reservation}">
+									${rre.memberId} |
+									<c:forEach var="rro" items="${r.room}">
+										${rro.roomCategory}[${rro.roomForm}]
+									</c:forEach>
+								</c:forEach>
+								<ol style="list-style: none;"> 
+									<li>
+										<c:set var="ocreateDate" value="${r.createDate}"/>
+										<c:set var="createDate" value="${fn:substring(ocreateDate,0,10)}"/>
+										${createDate}
+									</li>
+								</ol>
+							</div>	
+							<div>
 								숙소후기 평점 : 
 								<c:choose>
 									<c:when test="${r.roomReviewScore == 1}">
@@ -290,14 +305,7 @@
 										<td>★★★★★</td>
 									</c:when>
 								</c:choose>
-								<ol style="list-style: none;"> 
-									<li>
-										<c:set var="ocreateDate" value="${r.createDate}"/>
-										<c:set var="createDate" value="${fn:substring(ocreateDate,0,10)}"/>
-										${createDate}
-									</li>
-								</ol>
-							</div>	
+							</div>
 							<div>
 								숙소후기 내용 :
 								${r.roomReviewContent}
@@ -342,6 +350,21 @@
 	   				</c:when>
 	   				<c:otherwise>
 	   					<div class="d-flex justify-content-between align-items-center">
+	   						<c:forEach var="rre" items="${r.reservation}">
+								${rre.memberId} |
+								<c:forEach var="rro" items="${r.room}">
+									${rro.roomCategory}[${rro.roomForm}]
+								</c:forEach>
+							</c:forEach>
+							<ol style="list-style: none;">
+								<li>
+									<c:set var="ocreateDate" value="${r.createDate}"/>
+									<c:set var="createDate" value="${fn:substring(ocreateDate,0,10)}"/>
+									${createDate}					
+								</li>
+							</ol>
+						</div>
+						<div>
 							숙소후기 평점 : 
 							<c:choose>
 								<c:when test="${r.roomReviewScore == 1}">
@@ -360,13 +383,6 @@
 									<td>★★★★★</td>
 								</c:when>
 							</c:choose>
-							<ol style="list-style: none;">
-								<li>
-									<c:set var="ocreateDate" value="${r.createDate}"/>
-									<c:set var="createDate" value="${fn:substring(ocreateDate,0,10)}"/>
-									${createDate}					
-								</li>
-							</ol>
 						</div>
 						<div>
 							숙소후기 내용 :

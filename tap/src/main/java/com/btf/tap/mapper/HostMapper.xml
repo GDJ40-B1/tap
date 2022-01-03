@@ -153,5 +153,61 @@
 			host_id=#{hostId} AND
 			host_pw=#{hostPw}
 	</delete>
-
+	
+	<!-- 총 수익 포인트 합 조회 -->
+	<select id="selectRevenueHost" parameterType="String" resultType="int">
+		SELECT
+			earn - refund
+		FROM view_user_point_history_summary
+		<where>
+			user_id = #{hostId}
+		</where>
+	</select>	
+	
+	<!-- 연도별 수익 포인트 합 조회 -->
+	<select id="selectYearRevenueHost" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT 
+			host_id,
+			IFNULL(SUM(case when point_history_category='수입' then changed_point END), 0)
+			- IFNULL(SUM(case when point_history_category='환불' then changed_point END), 0)
+		 price
+		FROM host_point_history
+		<where>
+			YEAR(create_date) = #{year}
+			AND host_id = #{hostId}
+		GROUP BY host_id;
+		</where>
+	</select>
+	
+	<!-- 연도별 월간 수익 포인트 조회 -->
+	<select id="selectMonthRevenueHost" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT 
+			DATE_FORMAT(create_date, '%Y-%m') monthList,
+			IFNULL(SUM(case when point_history_category='수입' then changed_point END), 0)
+			- IFNULL(SUM(case when point_history_category='환불' then changed_point END), 0)
+		 price
+		FROM host_point_history
+		<where>
+			YEAR(create_date) = #{year}
+			AND host_id = #{hostId}
+		GROUP BY monthList;
+		</where>
+	</select>
+	
+	<!-- 연도별 숙소 월간 수익 포인트 조회 -->
+	<select id="selectRoomMonthRevenue" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT 
+			DATE_FORMAT(p.payment_date, '%Y-%m') monthList,
+			SUM(p.final_payment_price) price
+		FROM payment p
+		INNER JOIN reservation rv ON p.reservation_id = rv.reservation_id
+		INNER JOIN room r ON rv.room_id = r.room_id
+		<where>
+			YEAR(p.payment_date) = #{year}
+			AND r.host_id = #{hostId}
+			AND r.room_id = #{roomId}
+			AND p.refund_status = 'N'
+		</where>
+		GROUP BY monthList;
+	</select>	
 </mapper>

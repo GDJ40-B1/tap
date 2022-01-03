@@ -75,8 +75,8 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Earnings (Monthly)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                                                총 수익 포인트</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">${revenueHost}원</div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -93,8 +93,8 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Earnings (Annual)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                                                ${year}년 수익 포인트</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">${yearRevenueHost}원</div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -140,8 +140,8 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                                Pending Requests</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                                                등록 숙소 문의 미답변 수</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">${unansweredRoomQnaCount}개</div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-comments fa-2x text-gray-300"></i>
@@ -386,14 +386,26 @@
 	<script>
 	var arr = new Array();
 	var arr2 = new Array();
+	var arr3 = new Array();
+	var arr4 = new Array();
 	
 	<c:forEach items="${list}" var="m">
 		arr.push("${m.monthList}");
 		arr2.push("${m.userNum}");
 	</c:forEach>
+
+	<c:forEach items="${roomMonthRevenue}" var="r">
+		arr3.push("${r.price}");
+	</c:forEach>
+	
+	<c:forEach items="${monthRevenueHost}" var="mr">
+		arr4.push("${mr.price}");
+	</c:forEach>
 	
 	console.log(arr);
 	console.log(arr2);
+	console.log(arr3);
+	console.log(arr4);
 
 	var ctx = document.getElementById("myBarChart");
 	var myBarChart = new Chart(ctx, {
@@ -405,8 +417,24 @@
 	      backgroundColor: "#4e73df",
 	      hoverBackgroundColor: "#2e59d9",
 	      borderColor: "#4e73df",
-	      data: arr2,
-	    }],
+	      data: arr2
+	    },
+	    
+	    {
+		      label: "월 수익",
+		      backgroundColor: "#4e73df",
+		      hoverBackgroundColor: "#2e59d9",
+		      borderColor: "#4e73df",
+		      data: arr3
+		    },
+		    
+		    {
+		      label: "전체 총 수익",
+		      backgroundColor: "#4e73df",
+		      hoverBackgroundColor: "#2e59d9",
+		      borderColor: "#4e73df",
+		      data: arr4
+		    }],
 	  },
 	  options: {
 	    maintainAspectRatio: false,
@@ -435,8 +463,8 @@
 	      yAxes: [{
 	        ticks: {
 	          min: 0,
-	          max: 100,
-	          maxTicksLimit: 5,
+	          max: 10000000,
+	          maxTicksLimit: 8,
 	          padding: 10,
 	        },
 	        gridLines: {
@@ -470,27 +498,27 @@
 	</script>
 	
 	<script>
-	var arr3 = new Array();
-	var arr4 = new Array();
+	var arr5 = new Array();
+	var arr6 = new Array();
 	
 	<c:forEach items="${ageList}" var="a">
-		arr3.push("${a.ageGroup}");
-		arr4.push("${a.age}");
+		arr5.push("${a.ageGroup}");
+		arr6.push("${a.age}");
 	</c:forEach>
 	
-	console.log(arr3);
-	console.log(arr4);
+	console.log(arr5);
+	console.log(arr6);
 
 	var ctx = document.getElementById("myPieChart");
 	var myPieChart = new Chart(ctx, {
 	  type: 'pie',
 	  data: {
-	    labels: arr3,
+	    labels: arr5,
 	    datasets: [{
 	      backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', '#e34f66', '#ebe86e', '#e8c25a'],
 	      hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf', '#b8273d', '#c7c332', '#bd9426'],
 	      hoverBorderColor: "rgba(234, 236, 244, 1)",
-	      data: arr4,
+	      data: arr6,
 	    }],
 	  },
 	  options: {

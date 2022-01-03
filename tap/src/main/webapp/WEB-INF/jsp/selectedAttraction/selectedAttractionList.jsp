@@ -18,37 +18,29 @@
    
    	<h1>명소List</h1>
 	
-	<form action="${pageContext.request.contextPath}/attractionList" method="post">
+	<form action="${pageContext.request.contextPath}/selectedAttractionList" method="post">
 		<table border="1">
 			<tr>
-				<th>명소 카테고리</th>
+				<th>숙소 예약 번호</th>
 				<th>명소 이름</th>
-				<th>전화번호</th>
+				<th>날짜</th>
+				<th>시간</th>
+				<th>수정하기</th>
+				<th>삭제하기</th>
 			</tr>
 			<c:forEach items="${list }" var="list">
 				<tr>
-					<td>${list.attractionCategory }</td>
+					<td>${list.reservationId }</td>
 					<td><a href="${pageContext.request.contextPath}/attractionOne?attractionId=${list.attractionId}&detailAddressId=${list.detailAddressId}">${list.attractionName }</a></td>
-					<td>${list.attractionPhoneNumber }</td>
+					<td>${list.date }</td>
+					<td>${list.time }</td>
+					<td><a href="${pageContext.request.contextPath}/modifySelectedAttraction?selectedAttractionId=${list.selectedAttractionId }"></a>수정하기</td>
+					<td><a href="${pageContext.request.contextPath}/removeSelectedAttraction?selectedAttractionId=${list.selectedAttractionId }"></a>삭제하기</td>
 				</tr>
 				</c:forEach>
 
 		</table>
-			<div>
-			<c:if test="${currentPage > 1}">
-				<a href="/tap/attractionList?currentPage=${currentPage-1}">이전</a>
-			</c:if>
-			<c:if test="${currentPage < lastPage}">
-				<a href="/tap/attractionList?currentPage=${currentPage+1}">다음</a>
-			</c:if>
-		</div>
 	</form>
-<<<<<<< HEAD
-
-=======
-	
-	<a href="${pageContext.request.contextPath}/addAttraction">명소 등록</a>
->>>>>>> branch 'main' of https://github.com/GDJ40-B1/tap
 	</section>
 	</main>
 	

@@ -31,9 +31,29 @@
 		FROM 
 			attraction
 		WHERE
-			attraction_id=#{attractionId}
-		
+			attraction_id=#{attractionId}	
 	</select>
+	
+	<!-- [시스템 관리자] 미승인된 명소 상세보기 -->
+	<select id="selectApprovalAttractionOne" parameterType="int" resultType="com.btf.tap.vo.Attraction">
+		SELECT
+			attraction_id attractionId, detail_address_id detailAddress, attraction_category attractionCategory, attraction_name attractionName,
+			attraction_phone_number attractionPhoneNumber, attraction_content attractionContent, approval_status approvalStatus, update_date updateDate
+		FROM 
+			attraction
+		WHERE
+			attraction_id=#{attractionId}
+	</select>
+	
+	<!-- [관리자] 명소 승인 -->
+	<update id="approvalAttraction" parameterType="int">
+		UPDATE
+			attraction
+		SET
+			approval_status='Y'
+		WHERE
+			attraction_id=#{attractionId}
+	</update>
 	
 	<!-- [관리자] 명소 삭제 -->
 	<delete id="deleteAttraction" parameterType="int">
@@ -66,7 +86,25 @@
 			approval_status='Y'
 		ORDER BY
 			create_date DESC
+		LIMIT #{beginRow}, #{rowPerPage}
 	
+	</select>
+	<!-- 승인된 명소 전체 갯수 -->
+	<select id="selectAttractionTotalCount" parameterType="String" resultType="int">
+		SELECT COUNT(*) 
+		FROM
+			attraction
+		WHERE
+			approval_status='Y'
+	</select>
+	
+	<!-- 미승인된 명소 전체 갯수 -->	
+	<select id="selectBeforeAttractionTotalCount" parameterType="String" resultType="int">
+		SELECT COUNT(*) 
+		FROM
+			attraction
+		WHERE
+			approval_status='N'
 	</select>
 	
 	<!-- [관리자] 승인 대기중인 명소 목록 -->
@@ -78,7 +116,8 @@
 		WHERE
 			approval_status='N'
 		ORDER BY
-			create_date DESC	
+			create_date DESC
+		LIMIT #{beginRow}, #{rowPerPage}	
 	</select>
 	
 	<!-- [회원, 관리자] 명소 등록 -->
@@ -120,5 +159,5 @@
 			AND sigungu = #{sigungu}
 		</where>	
 	</select> 
-
+	
 </mapper>

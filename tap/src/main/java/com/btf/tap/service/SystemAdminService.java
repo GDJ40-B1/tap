@@ -194,4 +194,17 @@ public class SystemAdminService {
 		
 		return paramMap;
 	}
+
+	// 사이트 수수료 조회
+	public int getFeeRate() {
+		int feeRate = 0;
+		feeRate = systemAdminMapper.selectFeeRate();
+		
+		return feeRate;
+	}
+	
+	// 사이트 수수료 변경
+	public void modifyFeeRate(int feeRate) {
+		systemAdminMapper.updateFeeRate(feeRate);
+	}
 }

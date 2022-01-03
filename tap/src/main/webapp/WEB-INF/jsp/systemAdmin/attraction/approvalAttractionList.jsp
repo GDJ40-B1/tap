@@ -29,13 +29,21 @@
 			<c:forEach items="${list }" var="list">
 				<tr>
 					<td>${list.attractionCategory }</td>
-					<td><a href="${pageContext.request.contextPath}/systemAdmin/attractionOne?attractionId=${list.attractionId}&detailAddressId=${list.detailAddressId}">${list.attractionName }</a></td>
+					<td><a href="${pageContext.request.contextPath}/systemAdmin/approvalAttractionOne?attractionId=${list.attractionId}&detailAddressId=${list.detailAddressId}">${list.attractionName }</a></td>
 					<td>${list.attractionPhoneNumber }</td>
 					<td>${list.approvalStatus}</td>
 				</tr>
 				</c:forEach>
 
 		</table>
+			<div>
+			<c:if test="${currentPage > 1}">
+				<a href="${pageContext.request.contextPath }/approvalAttractionList?currentPage=${currentPage-1}">이전</a>
+			</c:if>
+			<c:if test="${currentPage < lastPage}">
+				<a href="${pageContext.request.contextPath }/approvalAttractionList?currentPage=${currentPage+1}">다음</a>
+			</c:if>
+		</div>
 	</form>
 	</section>
 	</main>
