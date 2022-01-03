@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.btf.tap.mapper.SelectedAttractionMapper">
+
+<resultMap type="com.btf.tap.vo.SelectedAttraction" id="resultSelectedAttraction">
+      <result column="selected_attraction_id" property="selectedAttractionId"></result>
+      <result column="attraction_id" property="attractionId"></result>
+      <result column="reservation_id" property="reservationId"></result>
+      <result column="time" property="time"></result>
+      <result column="date" property="date"></result>
+      <result column="create_date" property="createDate"></result>
+      <result column="update_date" property="updateDate"></result>
+</resultMap>
+
+
+   
+	<!-- 명소 선택하기(데이터 추가) -->
+<insert id="insertSelectedAttraction" parameterType="com.btf.tap.vo.SelectedAttraction">
+	INSERT INTO
+		selected_attraction(
+		selected_attraction_id, attraction_id, reservation_id, time, date, create_date, update_date
+	)VALUE(
+		#{selectedAttractionId}, #{attractionId}, #{reservationId}, #{time}, #{date}, NOW(), NOW()
+	) 
+	<!-- key값 return -->
+	<selectKey keyProperty="selectedAttractionId" order="AFTER" resultType="int">
+		SELECT LAST_INSERT_ID()
+	</selectKey>
+</insert>
+
+<!-- 추가되었던 명소 목록 보이기 -->
+<select id="selectSelectedAttractionList" resultType="com.btf.tap.vo.SelectedAttraction">
+	SELECT
+		selected_attraction_id, attraction_id, reservation_id, time, date
+	FROM
+		selected_attraction
+	ORDER BY
+		create_date DESC
+</select>
+<!-- 
+예약id,와 선택한 명소 같이 보여주기
+<select id="SelectedAttractionList2" resultType="com.btf.tap.vo.SelectedAttraction">
+SELECT 
+	a.attraction_name, sa.*, r.reservation_id
+FROM 
+	attraction a, selected_attraction sa, reservation r
+WHERE
+	a.attraction_id = sa.attraction_id
+AND 
+	sa.reservation_id = r.reservation_id
+ORDER BY
+	attraction_name;
+</select>
+-->
+
+<!-- 
+<update id="updateSelectedAttraction" parameterType="com.btf.tap.vo.SelectedAttraction">
+	UPDATE
+		selected_attraction
+	SET
+		time=#{time}, date=#{date}, update_date=NOW()
+	WHERE
+		selected_attraction_id=#{selectedAttrationId}		
+</update>
+-->
+
+<!-- 추가되었던 명소 삭제하기 -->
+<delete id="deleteSelectedAttraction" parameterType="int">
+	DELETE FROM
+		selected_attraction
+	WHERE
+		selected_attraction_id=#{selectedAttractionId}
+</delete>
+
+
+
+
+
+</mapper>

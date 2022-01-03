@@ -191,15 +191,19 @@
 	<!-- 특정회원 결제 내역 -->
 	<select id="selectMemberPayList" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT 
+			p.payment_id paymentId,
 			r.room_id roomId,
 			r.detail_address_id detailAddressId,
+			r.room_form roomForm,
 			p.room_name roomName,
 			p.final_payment_price price,
 			p.payment_date paymentDate,
-			p.refund_status refundStatus
+			p.refund_status refundStatus,
+			rr.room_review_content roomReviewContent
 		FROM payment p
 		LEFT JOIN reservation rv ON p.reservation_id = rv.reservation_id
 		LEFT JOIN room r ON rv.room_id = r.room_id
+		LEFT JOIN room_review rr ON p.payment_id = rr.payment_id
 		<where>
 			p.member_id = #{memberId}
 			AND p.payment_date BETWEEN #{minDay} AND #{maxDay} + INTERVAL 1 DAY

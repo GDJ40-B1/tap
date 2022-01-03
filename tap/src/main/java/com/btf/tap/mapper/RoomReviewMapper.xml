@@ -20,6 +20,10 @@
 			<result column="room_form" property="roomForm"/>
 			<result column="room_name" property="roomName"/>
 		</collection>
+		<collection property="reservation" ofType="com.btf.tap.vo.Reservation">
+			<id column="reservation_id" property="reservationId"/>
+			<result column="member_id" property="memberId"/>
+		</collection>
 	</resultMap>
  
 	<!-- 해당숙소의 전체 후기 조회하기 -->
@@ -34,7 +38,10 @@
 			 rr.update_date,
 			 rrc.room_review_id,
 			 rrc.room_review_comment_content,
-			 rrc.comment_create_date
+			 rrc.comment_create_date,
+			 rs.member_id,
+			 r.room_category,
+			 r.room_form
 		FROM room_review rr
 			 LEFT JOIN payment p ON rr.payment_id = p.payment_id
 			 LEFT JOIN reservation rs ON p.reservation_id = rs.reservation_id

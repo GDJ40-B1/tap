@@ -19,8 +19,11 @@
    
 	<h1>명소 상세보기</h1>
 	<div>${hashtag }</div>	
-	<form action="${pageContext.request.contextPath}/attractionOne" method="post">
-			
+	<form action="${pageContext.request.contextPath}/systemAdmin/approvalAttractionOne" method="post">
+		<a href="${pageContext.request.contextPath }/systemAdmin/modifyAttraction?attractionId=${attraction.attractionId }&detailAddressId=${address.detailAddressId}">수정하기</a>
+		<a href="${pageContext.request.contextPath }/systemAdmin/removeAttraction?attractionId=${attraction.attractionId }">반려하기</a>
+		<a href="${pageContext.request.contextPath}/systemAdmin/approvalAttraction?attractionId=${attraction.attractionId}">승인하기</a>
+		
 		<!-- 지도 -->
 		<div id="map" style="width:100%;height:400px;"></div>
 		<table border="1">
@@ -55,9 +58,9 @@
       <jsp:include page="/partial/mainFooter.jsp"></jsp:include>
    </div>
    <!-- end : mainFooter -->	
-   
+
    <!-- kakao API -->
-   <jsp:include page="/partial/kakaoAPIKey.jsp"></jsp:include>
+   <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e1c10213787b97f0d88e77cdafcb6687&libraries=services"></script>
    
 	<script>
 	var mapContainer = document.getElementById('map'), // 지도를 표시할 div 

@@ -6,7 +6,7 @@
 <head>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <meta charset="UTF-8">
-<title>attractionOne</title>
+<title>selectedAttractionOne</title>
 </head>
 <body>
 	<!-- start : mainHeader -->
@@ -18,8 +18,10 @@
    <section class="breadcrumbs">
    
 	<h1>명소 상세보기</h1>
-	<div>${hashtag }</div>	
-	<form action="${pageContext.request.contextPath}/attractionOne" method="post">
+	<div>${hashtag }</div>
+
+	<form action="${pageContext.request.contextPath}/addSelectedAttractionOne" method="post">
+		<a href="${pageContext.request.contextPath }/addSelectedAttraction?selectedAttractionId=${selectedAttraction.selectedAttractionId }">추가하기</a>
 			
 		<!-- 지도 -->
 		<div id="map" style="width:100%;height:400px;"></div>
@@ -44,6 +46,10 @@
 				<td>소개</td>
 				<td id="attractionContent">${attraction.attractionContent }</td>
 			</tr>
+			<tr>
+				<td>평균 별점</td>
+				<td>구현하기</td>
+			</tr>
 		</table>
 	</form>
 	
@@ -57,7 +63,7 @@
    <!-- end : mainFooter -->	
    
    <!-- kakao API -->
-   <jsp:include page="/partial/kakaoAPIKey.jsp"></jsp:include>
+   <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e1c10213787b97f0d88e77cdafcb6687&libraries=services"></script>
    
 	<script>
 	var mapContainer = document.getElementById('map'), // 지도를 표시할 div 

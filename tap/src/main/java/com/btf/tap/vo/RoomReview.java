@@ -16,4 +16,5 @@ public class RoomReview {
 	
 	private List<RoomReviewComment> roomReviewComment; 
 	private List<Room> room;
+	private List<Reservation> reservation;
 }
