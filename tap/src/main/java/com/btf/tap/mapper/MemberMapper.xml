@@ -202,7 +202,7 @@
 		LEFT JOIN room r ON rv.room_id = r.room_id
 		<where>
 			p.member_id = #{memberId}
-			AND p.payment_date BETWEEN #{minDay} AND #{maxDay}
+			AND p.payment_date BETWEEN #{minDay} AND #{maxDay} + INTERVAL 1 DAY
 		</where>
 		ORDER BY p.payment_date DESC;
 	</select>
