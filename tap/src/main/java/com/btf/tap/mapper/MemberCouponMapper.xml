@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.btf.tap.mapper.MemberCouponMapper">
+
+
+	<!-- 보유 쿠폰 불러오기 -->
+	<select id="selectMemberCouponList" parameterType="hashmap" resultType="com.btf.tap.vo.MemberCoupon">
+	SELECT 
+		member_coupon_id memberCouponId, coupon_id couponId, member_id memberId,
+		use_status useStatus, create_date createDate
+	FROM
+		member_coupon
+	WHERE
+		member_id=#{memberId}
+	ORDER BY
+		create_date DESC
+	LIMIT #{beginRow},#{rowPerPage}
+	</select>
+	
+	<!-- 쿠폰 전체 갯수 -->
+	<select id="selectMemberCouponTotalCount" parameterType="String" resultType="int">
+	SELECT COUNT(*)
+	FROM
+		member_coupon
+	WHERE
+		member_id=#{memberId}
+	</select>
+</mapper>
