@@ -137,7 +137,10 @@ public class ReservationService {
 		return reservationMapper.selectRoomReservation(roomId);
 	}
 	
-	
+	// 특정 숙소의 유효한 예약 개수 추출
+	public int getRoomReservationYetCount(int roomId) {
+		return reservationMapper.selectRoomReservationYetCount(roomId);
+	}
 	
 	// 페이징 알고리즘
 	   public Map<String, Object> pageOperation(int totalData, int ROW_PER_PAGE, int currentPage, int PAGE_PER_PAGE){

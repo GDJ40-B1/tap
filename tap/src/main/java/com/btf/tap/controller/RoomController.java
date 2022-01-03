@@ -75,9 +75,9 @@ public class RoomController {
 	
 	@GetMapping("/roomOne")
 	public String roomOne(HttpServletRequest request, Model model, @RequestParam("roomId") int roomId, @RequestParam("detailAddressId") int detailAddressId,  
-								@RequestParam(value="roomQnaCurrentPage", defaultValue ="1") int roomQnaCurrentPage,
-								@RequestParam(value="roomReviewCurrentPage", defaultValue="1") int roomReviewCurrentPage,
-								@RequestParam(name="year", defaultValue = "0") int year) {
+			@RequestParam(value="roomQnaCurrentPage", defaultValue ="1") int roomQnaCurrentPage,
+			@RequestParam(value="roomReviewCurrentPage", defaultValue="1") int roomReviewCurrentPage,
+			@RequestParam(name="year", defaultValue = "0") int year) {
 		// 멤버 정보를 가져온다
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("loginUser");
@@ -286,7 +286,8 @@ public class RoomController {
 	      model.addAttribute("roomAmenitiesList",result.get("amenitiesList"));
 	      model.addAttribute("roomPartList",result.get("roomPartList"));
 	      model.addAttribute("imageList",result.get("imageList"));
-	      System.out.println(result.get("amenitiesList"));
+	      // 체크인 날짜가 지나지 않은 예약건의 수
+	      model.addAttribute("yetReservationNum",reservationService.getRoomReservationYetCount(roomId));
 	      return "/host/room/roomOne";
 	   }
 	

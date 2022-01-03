@@ -43,6 +43,7 @@ public class RoomService {
    @Autowired AmenitiesService amenitiesService;
    @Autowired PartService partService;
    @Autowired ImageService imageService;
+   @Autowired RoomReviewService roomReviewService;
    
    // 사용자 설정 선호지역 별 인기 숙소 리스트
    public Map<String, Object> getPreferLocalRoomList(int preferRoomCurrent, String sido, String sigungu) {
@@ -289,6 +290,9 @@ public class RoomService {
       
       // 숙소 상세 주소 ID
       int detailAddressId = roomMapper.selectRoomOne(roomId).getDetailAddressId();
+      
+      // 숙소 후기 삭제
+      roomReviewService.removeRoomAllReview(roomId);
       
       // 숙소 이미지 삭제
       imageService.removeImage(request, "room", roomId);

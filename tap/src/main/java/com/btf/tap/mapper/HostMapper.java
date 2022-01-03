@@ -19,7 +19,7 @@ public interface HostMapper {
 	int updateHostPointEarn(Host host);												// 호스트 포인트 충전하기
 	int updateHostPointSpend(Host host);											// 호스트 포인트 전환하기
 	int updateHostPw(Host host);													// 호스트 비밀번호 수정하기
-	int selectRevenueHost(String hostId);											// 총 수익 포인트 합 조회
+	Integer selectRevenueHost(String hostId);											// 총 수익 포인트 합 조회
 	Map<String, Object> selectYearRevenueHost(Map<String, Object> paramMap);		// 연도별 수익 포인트 합 조회
 	List<Map<String, Object>> selectMonthRevenueHost(Map<String, Object> paramMap);	// 연도별 월간 수익 포인트 조회
 	List<Map<String, Object>> selectRoomMonthRevenue(Map<String, Object> paramMap);	// 연도별 숙소 월간 수익 포인트 조회

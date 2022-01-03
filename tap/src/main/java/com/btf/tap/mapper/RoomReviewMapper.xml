@@ -104,6 +104,18 @@
 				r.room_id = #{roomId}		 
 	</select>
 	
+	<!-- 특정 숙소의 숙소 후기 전부 삭제 -->
+	<delete id="deleteRoomAllReview" parameterType="int">
+		DELETE FROM room_review WHERE payment_id IN (
+			SELECT * FROM (
+				SELECT rr.payment_id FROM room_review rr
+				INNER JOIN payment p ON rr.payment_id=p.payment_id
+				INNER JOIN reservation rs ON p.reservation_id=rs.reservation_id
+				INNER JOIN room r ON rs.room_id=r.room_id WHERE r.room_id=#{roomId}
+			) roomReview
+		)
+	</delete>
+	
 	<!-- ******** 숙소후기 답변 ******** -->
 	<!-- 숙소후기 답변 작성하기 -->
 	<insert id="insertRoomReviewComment" parameterType="com.btf.tap.vo.RoomReviewComment">

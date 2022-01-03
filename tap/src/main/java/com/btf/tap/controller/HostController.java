@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.btf.tap.common.Font;
+import com.btf.tap.mapper.RoomMapper;
 import com.btf.tap.service.HostService;
 import com.btf.tap.service.ReservationService;
 import com.btf.tap.service.RoomQuestionService;
@@ -34,6 +35,7 @@ public class HostController {
 	@Autowired ReservationService reservationService;
 	@Autowired RoomService roomService;
 	@Autowired RoomQuestionService roomQuestionService;
+	@Autowired RoomMapper roomMapper;
 	
 	@PostMapping("/earnHostPoint")
 	public String postEarnHostPoint(HttpServletRequest request, Model model, Host host) {
@@ -355,14 +357,16 @@ public class HostController {
 	}
 	
 	@GetMapping("/removeHost")
-	public String getRemoveHost(HttpServletRequest request) {
+	public String getRemoveHost(HttpServletRequest request, Model model) {
 		
 		HttpSession session = request.getSession();
-		
+		User user = (User)session.getAttribute("loginUser");
 		// 로그인 되어있지 않을 경우, 홈페이지로 이동
 		if(session.getAttribute("loginUser") == null) {
 			return "redirect:/";
 		}
+		
+		model.addAttribute("roomNum",roomMapper.selectHostRoomNum(user.getUserId()));
 		
 		// 호스트탈퇴 페이지로 이동
 		return "host/hostWithdraw";

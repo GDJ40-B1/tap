@@ -113,11 +113,12 @@
     <!-- 숙소 삭제 클릭 시 -->
 	<script>
 		$('#delBtn').click(function(){
-			if(confirm("숙소를 삭제하시겠습니까? (해당 숙소의 모든 정보가 날아갑니다)") == true){
-				if(true){
-					alert('해당 숙소에 예약건이 남아있어 삭제할 수 없습니다.');
+			if(confirm("숙소를 삭제하시겠습니까? (해당 숙소의 모든 정보가 날아갑니다. 미방문 예약건이 있다면 예약취소를 먼저 해야합니다.)") == true){
+				if(${yetReservationNum}==0){
+					$(location).attr('href', "${pageContext.request.contextPath}/host/removeRoom?roomId=${room.roomId}");
+				} else{
+					alert('해당 숙소에 미방문 예약건이 남아있어 삭제할 수 없습니다.');
 				}
-				//$(location).attr('href', "${pageContext.request.contextPath}/host/removeRoom?roomId=${room.roomId}");
 			} else{
 				return;
 			}
