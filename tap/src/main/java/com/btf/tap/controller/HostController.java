@@ -285,12 +285,21 @@ public class HostController {
 		log.debug(Font.JSB + "특정 숙소 연도별 이용 연령층" + ageList.toString() + Font.RESET);
 		
 		int revenueHost = hostService.getRevenueHost(hostId);
-		int yearRevenueHost = hostService.getYearRevenueHost(year, hostId);
-		List<Map<String, Object>> monthRevenueHost = hostService.getMonthRevenueHost(year, hostId);
-		List<Map<String, Object>> roomMonthRevenue = hostService.getRoomMonthRevenue(year, hostId, roomId);
-		int unansweredRoomQnaCount = roomQuestionService.unansweredRoomQnaCount(hostId);
+		log.debug(Font.JSB + "총합 수익" + revenueHost + Font.RESET);
 		
-		// 호스트 정보 주입
+		int yearRevenueHost = hostService.getYearRevenueHost(year, hostId);
+		log.debug(Font.JSB + "연도별 수익" + yearRevenueHost + Font.RESET);
+		
+		List<Map<String, Object>> monthRevenueHost = hostService.getMonthRevenueHost(year, hostId);
+		log.debug(Font.JSB + "월별 총 수익" + monthRevenueHost.toString() + Font.RESET);
+		
+		List<Map<String, Object>> roomMonthRevenue = hostService.getRoomMonthRevenue(year, hostId, roomId);
+		log.debug(Font.JSB + "숙소 월별 수익" + roomMonthRevenue.toString() + Font.RESET);
+		
+		int unansweredRoomQnaCount = roomQuestionService.unansweredRoomQnaCount(hostId);
+		log.debug(Font.JSB + "문의 미답변 수" + unansweredRoomQnaCount + Font.RESET);
+		
+		
 		model.addAttribute("host", host);
 		model.addAttribute("year", year);
 		model.addAttribute("list", list);

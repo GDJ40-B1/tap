@@ -99,6 +99,13 @@ public class SearchController {
 		Map<String, Object> hashtagAttractionMap = searchService.getHashtagAttractionDistrictSearchList(districtSido, districtSigungu, hashtagAttractionCurrentPage, rowPerPage, keyword);
 		log.debug(Font.JSB + hashtagAttractionMap.toString() + Font.RESET);
 		
+		User loginUser = (User)session.getAttribute("loginUser");
+		
+		// 회원의 경우 검색어 기록 저장
+		if(loginUser != null && loginUser.getUserLevel().equals("member")) {
+			searchService.addSearchHistory(loginUser, keyword);
+		}
+		
 		model.addAttribute("roomMap", roomMap);
 		model.addAttribute("roomCurrentPage", roomCurrentPage);
 

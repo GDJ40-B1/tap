@@ -187,23 +187,12 @@
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">${year}년 ${roomName} 이용 연령대</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">${year}년 ${roomName} 이용 연령층</h6>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
                                     <div class="chart-pie pt-4 pb-2">
                                         <canvas id="myPieChart"></canvas>
-                                    </div>
-                                    <div class="mt-4 text-center small">
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-primary"></i> Direct
-                                        </span>
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-success"></i> Social
-                                        </span>
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-info"></i> Referral
-                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -413,7 +402,7 @@
 	  data: {
 	    labels: arr,
 	    datasets: [{
-	      label: "월 이용객 수",
+	      label: "이용객 수",
 	      backgroundColor: "#4e73df",
 	      hoverBackgroundColor: "#2e59d9",
 	      borderColor: "#4e73df",
@@ -421,7 +410,7 @@
 	    },
 	    
 	    {
-		      label: "월 수익",
+		      label: "숙소 수익",
 		      backgroundColor: "#4e73df",
 		      hoverBackgroundColor: "#2e59d9",
 		      borderColor: "#4e73df",
@@ -429,7 +418,7 @@
 		    },
 		    
 		    {
-		      label: "전체 총 수익",
+		      label: "총 수익",
 		      backgroundColor: "#4e73df",
 		      hoverBackgroundColor: "#2e59d9",
 		      borderColor: "#4e73df",
