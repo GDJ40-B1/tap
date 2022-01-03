@@ -51,17 +51,17 @@
 		       				</tr>
 		       				<tr class="qna" style="display: none;">
 								<td colspan = "4">
-									<div>문의 : ${q.content}</div>
-									<div><a href="javascript:removeQuestion(${q.roomQna},'${q.memberId}');">삭제</a></div>
+									<div>[문의]</div>
+									<div>${q.content}</div><br>
 									<div>
 										<form class="roomQnaAnswerForm" action="${pageContext.request.contextPath}/host/unansweredRoomQna" method="post">
 											<div class="form-group">
 												<input type="hidden" name="roomQnaId" value="${q.roomQna}">
-												<label for="questionAnswer">답변 작성 : </label>
+												<label for="questionAnswer">[답변 작성]</label>
 													<textarea class="form-control" rows="5" placeholder="답변을 작성해주세요" class="answer" name="answer"></textarea>
 											</div>
 											<div>
-												<button class="addRoomQnaAnswer" type ="button">작성</button>
+												<button class="btn btn-primary" id="addRoomQnaAnswer" type ="button">작성</button>
 											</div>
 										</form>		
 									</div>
@@ -73,18 +73,52 @@
 		       		</c:otherwise>
 		       	</c:choose>
 		       	
-		       	<c:if test="${roomQna.unansweredCurrentPage > 1}">
-					<a href="${pageContext.request.contextPath}/host/unansweredRoomQna?unansweredCurrentPage=${roomQna.unansweredCurrentPage-1}">이전</a>
-				</c:if>
-				
-				<c:forEach var="i" begin="${roomQna.unansweredStartPage}" end="${roomQna.unansweredEndPage}">
-					<a href="${pageContext.request.contextPath}/host/unansweredRoomQna?unansweredCurrentPage=${i}"><c:out value="${i}"/></a>
-				</c:forEach>
-				
-				<c:if test="${roomQna.unansweredCurrentPage < roomQna.unansweredLastPage}">
-					<a href="${pageContext.request.contextPath}/host/unansweredRoomQna?unansweredCurrentPage=${roomQna.unansweredCurrentPage+1}">다음</a>
-				</c:if>		
 		       	
+		       	
+		       	<div>
+				  <ul class="pagination justify-content-end">
+				  <c:choose>
+				  	<c:when test="${roomQna.unansweredCurrentPage > 1}">
+					    <li class="page-item">
+				  			<a class="page-link" href="${pageContext.request.contextPath}/host/unansweredRoomQna?unansweredCurrentPage=${roomQna.unansweredCurrentPage-1}">Previous</a>
+					    </li>
+				  	</c:when>
+				  	<c:otherwise>
+					    <li class="page-item disabled">
+				  			<a class="page-link" href="${pageContext.request.contextPath}/host/unansweredRoomQna?unansweredCurrentPage=${roomQna.unansweredCurrentPage-1}">Previous</a>
+					    </li>
+				  	</c:otherwise>
+				  </c:choose>
+				  
+					<c:forEach var="i" begin="${roomQna.unansweredStartPage}" end="${roomQna.unansweredEndPage}">
+				    	<c:choose>
+							<c:when test="${roomQna.unansweredCurrentPage==i}">
+								<li class="page-item active">
+									<a class="page-link" href="${pageContext.request.contextPath}/host/unansweredRoomQna?unansweredCurrentPage=${i}"><c:out value="${i}"/></a>
+								</li>
+							</c:when>
+							<c:otherwise>
+								<li class="page-item">
+									<a class="page-link" href="${pageContext.request.contextPath}/host/unansweredRoomQna?unansweredCurrentPage=${i}"><c:out value="${i}"/></a>
+								</li>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
+					
+					<c:choose>
+				  	  <c:when test="${roomReview.currentPage < roomReview.lastPage}">
+				  		<li class="page-item">
+							<a class="page-link" href="${pageContext.request.contextPath}/host/unansweredRoomQna?unansweredCurrentPage=${roomQna.unansweredCurrentPage+1}">Next</a>
+						</li>
+				  	  </c:when>
+				  	  <c:otherwise>
+				  		<li class="page-item disabled">
+							<a class="page-link" href="${pageContext.request.contextPath}/host/unansweredRoomQna?unansweredCurrentPage=${roomQna.unansweredCurrentPage+1}">Next</a>
+						</li>
+				  	  </c:otherwise>
+				    </c:choose>
+				  </ul>
+	       		</div>
 	            </div>
 	        </div>
 	    </div>
@@ -105,7 +139,7 @@
 	</script>
 	    
 	<script>	
-		$('.addRoomQnaAnswer').click(function(){
+		$('#addRoomQnaAnswer').click(function(){
 			if($(this).parents(".roomQnaAnswerForm").find('textarea').val() == '') {
 				alert('답변을 입력하세요');
 				return;

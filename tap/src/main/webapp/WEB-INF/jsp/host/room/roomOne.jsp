@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html>
 <html>
@@ -17,43 +18,62 @@
     
     <!-- start : content -->
 	<div id="content" class="container-fluid">
-		
-		<!-- breadcrumb : 3 level이 되는 부분부터 사용 -->
-		<nav aria-label="breadcrumb">
-			<ol class="breadcrumb bg-gray-100">
-				<li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/hostMyPage">홈</a></li>
-				<li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/host/roomList">숙소목록</a></li>
-				<li class="breadcrumb-item active" aria-current="page">숙소상세보기</li>
-			</ol>
-		</nav>
-		<c:forEach items="${imageList }" var="img">
-			<img src="${pageContext.request.contextPath}/resources/img/room/${img.imageName }" width="300px" height="300px">
-		</c:forEach>
-		<!-- 지도 -->
-		<div id="map" style="width:100%;height:400px;"></div>
+	
+		<!-- start : hostRoomNavi -->
+	    <div>
+	    	<jsp:include page="/partial/hostRoomNavi.jsp"></jsp:include>
+	    </div>
+	    <!-- end : hostRoomNavi -->
+	    <br>
+	    
+	    <h1 class="h3 mb-4 text-gray-800">[${room.roomCategory }] ${room.roomName }</h1>
 		<br>
+	    
+	    <c:forEach items="${imageList }" var="img">
+	    	<c:choose>
+				<c:when test="${fn:length(imageList)==1}">
+					<img src="${pageContext.request.contextPath}/resources/img/room/${img.imageName }" width="70%" height="500px" style="margin-left: 15%">
+				</c:when>
+				<c:when test="${fn:length(imageList)==2}">
+					<img src="${pageContext.request.contextPath}/resources/img/room/${img.imageName }" width="49%" height="400px">
+				</c:when>
+				<c:otherwise>
+					<img src="${pageContext.request.contextPath}/resources/img/room/${img.imageName }" width="33%" height="370px">
+				</c:otherwise>
+			</c:choose>
+	    </c:forEach>
+		<br><br>
 		
-		<!-- 호스트정보 카드 -->
-		<div class="card shadow mb-4">
-			<div class="card-header py-3">
-				<h6 class="m-0 font-weight-bold text-primary">숙소 상세보기</h6>
+		<div class="form-group row">
+			<div class="col-sm-6 mb-3 mb-sm-0">
+				<!-- 지도 -->
+				<div class="form-control" id="map" style="height:95%;"></div>
 			</div>
-			<div class="card-body">
-				<h4 class="small font-weight-bold">숙소명<span id="roomName" class="float-right">${room.roomName }</span></h4>
-				<h4 class="small font-weight-bold">주소<span id="address" class="float-right">${address.detailAddress }</span></h4>
-				<h4 class="small font-weight-bold">상세 주소<span class="float-right">${address.detailAddress2 }</span></h4>
-				<h4 class="small font-weight-bold">카테고리<span class="float-right">${room.roomCategory }</span></h4>
-				<h4 class="small font-weight-bold">숙소 소개<span class="float-right">${room.roomIntro }</span></h4>
-				<h4 class="small font-weight-bold">가격<span class="float-right">${room.roomPrice }</span></h4>
-				<h4 class="small font-weight-bold">체크인 시간<span class="float-right">${room.checkInTime }</span></h4>
-				<h4 class="small font-weight-bold">체크아웃 시간<span class="float-right">${room.checkOutTime }</span></h4>
-				<h4 class="small font-weight-bold">인원수<span class="float-right">${room.peopleNum }</span></h4>
-				<h4 class="small font-weight-bold">숙소 형태<span class="float-right">${room.roomForm }</span></h4>
-				<h4 class="small font-weight-bold">최소 숙박일<span class="float-right">${room.minDay }</span></h4>
-				<h4 class="small font-weight-bold">숙소 등록일<span class="float-right">${room.createDate }</span></h4>
-				<h4 class="small font-weight-bold">숙소 수정일<span class="float-right">${room.updateDate }</span></h4>
-				<br>
-				<h4 class="small font-weight-bold">${hashtag }</h4>
+			
+			<div class="col-sm-6 mb-3 mb-sm-0">
+				<!-- 호스트정보 카드 -->
+				<div class="card shadow mb-4">
+					<div class="card-header py-3">
+						<h6 class="m-0 font-weight-bold text-primary">숙소 상세정보</h6>
+					</div>
+					<div class="card-body">
+						<h4 class="small font-weight-bold">숙소명<span id="roomName" class="float-right">${room.roomName }</span></h4>
+						<h4 class="small font-weight-bold">주소<span id="address" class="float-right">${address.detailAddress }</span></h4>
+						<h4 class="small font-weight-bold">상세 주소<span class="float-right">${address.detailAddress2 }</span></h4>
+						<h4 class="small font-weight-bold">카테고리<span class="float-right">${room.roomCategory }</span></h4>
+						<h4 class="small font-weight-bold">숙소 소개<span class="float-right">${room.roomIntro }</span></h4>
+						<h4 class="small font-weight-bold">가격<span class="float-right">${room.roomPrice }</span></h4>
+						<h4 class="small font-weight-bold">체크인 시간<span class="float-right">${room.checkInTime }</span></h4>
+						<h4 class="small font-weight-bold">체크아웃 시간<span class="float-right">${room.checkOutTime }</span></h4>
+						<h4 class="small font-weight-bold">인원수<span class="float-right">${room.peopleNum }</span></h4>
+						<h4 class="small font-weight-bold">숙소 형태<span class="float-right">${room.roomForm }</span></h4>
+						<h4 class="small font-weight-bold">최소 숙박일<span class="float-right">${room.minDay }</span></h4>
+						<h4 class="small font-weight-bold">숙소 등록일<span class="float-right">${room.createDate }</span></h4>
+						<h4 class="small font-weight-bold">숙소 수정일<span class="float-right">${room.updateDate }</span></h4>
+						<br>
+						<h4 class="small font-weight-bold">${hashtag }</h4>
+					</div>
+				</div>
 			</div>
 		</div>
 		
@@ -78,9 +98,6 @@
 				</ul>
 			</div>
 		</div>
-		<a href="${pageContext.request.contextPath}/host/roomReservationList?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}">예약 목록</a>
-		<a href="${pageContext.request.contextPath}/host/priceRoomList?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}">가격 목록</a>
-		<a href="${pageContext.request.contextPath}/host/couponList?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}">쿠폰 목록</a>
 		<a href="${pageContext.request.contextPath}/host/modifyRoom?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}">숙소 수정</a>
    		<button id="delBtn" type="button" class="btn btn-link">숙소 삭제</button>
 	</div>
@@ -97,7 +114,10 @@
 	<script>
 		$('#delBtn').click(function(){
 			if(confirm("숙소를 삭제하시겠습니까? (해당 숙소의 모든 정보가 날아갑니다)") == true){
-				$(location).attr('href', "${pageContext.request.contextPath}/host/removeRoom?roomId=${room.roomId}");
+				if(true){
+					alert('해당 숙소에 예약건이 남아있어 삭제할 수 없습니다.');
+				}
+				//$(location).attr('href', "${pageContext.request.contextPath}/host/removeRoom?roomId=${room.roomId}");
 			} else{
 				return;
 			}

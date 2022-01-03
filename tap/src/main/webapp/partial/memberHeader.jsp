@@ -98,6 +98,13 @@
                     <i class="fas fa-fw fa-table"></i>
                     <span>결제내역 조회</span></a>
             </li>
+            
+            <!-- Nav Item - Tables -->
+            <li class="nav-item">
+                <a class="nav-link" href="${pageContext.request.contextPath}/member/memberCouponList">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>보유 쿠폰</span></a>
+            </li>
             			
 			<!-- Nav Item - Tables -->
             <li class="nav-item">

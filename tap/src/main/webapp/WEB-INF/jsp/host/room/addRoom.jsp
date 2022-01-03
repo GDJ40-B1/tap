@@ -17,15 +17,6 @@
     
     <!-- start : content -->
 	<div id="content" class="container-fluid">
-	
-		<!-- breadcrumb : 3 level이 되는 부분부터 사용 -->
-		<nav aria-label="breadcrumb">
-			<ol class="breadcrumb bg-gray-100">
-				<li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/hostMyPage">홈</a></li>
-				<li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/host/roomList">숙소목록</a></li>
-				<li class="breadcrumb-item active" aria-current="page">숙소등록</li>
-			</ol>
-		</nav>
 		
 		<h1 class="h3 mb-4 text-gray-800">숙소 등록</h1>
 		<br>

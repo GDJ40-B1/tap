@@ -19,9 +19,6 @@
     	<jsp:include page="/partial/hostHeader.jsp"></jsp:include>
     </div>
     <!-- end : hostHeader -->
-    
-    <!-- start : content -->
-	<div id="content" class="container-fluid">
 	
     <!-- start : content -->
 	<div id="content" class="container-fluid">
@@ -32,24 +29,27 @@
 			</div>
 			<div class="card-body">
 				<div class="text-center">
-					<c:if test="${!empty roomList}">
-						<select name="room" id="room">
-							<c:forEach var="s" items="${roomList}">
-								<option value="${s.roomId}">${s.roomName}</option>
-							</c:forEach>
-						</select>
-					</c:if>
 					<div class="form-row">
-						<div class="form-group col-md-6">
+						<div class="form-group col-md-4">
+							<c:if test="${!empty roomList}">
+								<label for="inputCity">숙소</label>
+								<select class="form-control" name="room" id="room">
+									<c:forEach var="s" items="${roomList}">
+										<option value="${s.roomId}">${s.roomName}</option>
+									</c:forEach>
+								</select>
+							</c:if>
+						</div>
+						<div class="form-group col-md-4">
 							<label for="inputCity">시작날짜</label>
 							<input type="text" id="dateRangePicker1" class="form-control" name="minDay" readonly>
 						</div>
-						<div class="form-group col-md-6">
+						<div class="form-group col-md-4">
 							<label for="inputState">끝날짜</label>
 							<input type="text" id="dateRangePicker2" class="form-control" name="maxDay" readonly>
 						</div>
-					</div>
-					<button class="btn btn-primary" id="dateBtn" type="button">조회</button>
+					</div><br>
+					<button class="btn btn-primary" id="dateBtn" type="button" style="width: 35%;'">조회</button>
 				</div>
 			</div>
 		</div>	
@@ -70,14 +70,6 @@
 	                            <th>결제일</th>
 	                        </tr>
 	                    </thead>
-	                    <tfoot>
-	                        <tr>
-	                            <th>숙소명</th>
-	                            <th>결제 회원</th>
-	                            <th>결제 금액</th>
-	                            <th>결제일</th>
-	                        </tr>
-	                    </tfoot>
 	                    <tbody>
 	                    	<c:forEach items="${paymentlist}" var="p">
 								<tr>

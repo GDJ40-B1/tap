@@ -38,18 +38,6 @@
 	                            <th>페이지로 이동</th>
 	                        </tr>
 	                    </thead>
-	                    <tfoot>
-	                        <tr>
-	                            <th>no.</th>
-	                            <th>숙소</th>
-	                            <th>카테고리</th>
-	                            <th>형태</th>
-	                            <th>최소숙박일</th>
-	                            <th>인원수</th>
-	                            <th>가격</th>
-	                            <th>페이지로 이동</th>
-	                        </tr>
-	                    </tfoot>
 	                    <tbody>
 	                    	<c:forEach items="${roomList }" var="room">
 								<tr>

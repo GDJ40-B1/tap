@@ -26,15 +26,12 @@
     <!-- start : content -->
 	<div id="content" class="container-fluid">
 	
-		<!-- breadcrumb : 3 level이 되는 부분부터 사용 -->
-		<nav aria-label="breadcrumb">
-			<ol class="breadcrumb bg-gray-100">
-				<li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/hostMyPage">홈</a></li>
-				<li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/host/roomList">숙소목록</a></li>
-				<li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/host/roomOne?roomId=${room.roomId }&detailAddressId=${room.detailAddressId }">숙소상세보기</a></li>
-				<li class="breadcrumb-item active" aria-current="page">가격목록</li>
-			</ol>
-		</nav>
+		<!-- start : hostRoomNavi -->
+	    <div>
+	    	<jsp:include page="/partial/hostRoomNavi.jsp"></jsp:include>
+	    </div>
+	    <!-- end : hostRoomNavi -->
+	    <br>
 		
 		<!-- 테이블 -->
 	    <div class="card shadow mb-4">
@@ -53,15 +50,6 @@
 	                            <th>삭제</th>
 	                        </tr>
 	                    </thead>
-	                    <tfoot>
-	                        <tr>
-	                        	<th>no.</th>
-	                            <th>시작날짜</th>
-	                            <th>끝날짜</th>
-	                            <th>가격</th>
-	                            <th>삭제</th>
-	                        </tr>
-	                    </tfoot>
 	                    <tbody>
 	                    	<c:forEach items="${priceRoomList }" var="list">
 								<tr>
