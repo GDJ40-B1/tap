@@ -22,17 +22,17 @@
 			<ol class="breadcrumb bg-gray-100">
 				<li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/systemAdminMyPage">홈</a></li>
 				<li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/systemAdmin/categoryList">카테고리별 관리</a></li>
-				<li class="breadcrumb-item active" aria-current="page">숙소 카테고리</li>
+				<li class="breadcrumb-item active" aria-current="page">명소 카테고리</li>
 			</ol>
 		</nav>
 		
 		<div class="card shadow mb-4">
 	        <div class="card-header py-3">
 	        	<div class="d-flex justify-content-between align-items-center">
-		            <h6 class="m-0 font-weight-bold text-primary">숙소 카테고리</h6>
+		            <h6 class="m-0 font-weight-bold text-primary">명소 카테고리</h6>
 		            <ol style="list-style: none;">
 						<li>
-							<a class="btn btn-outline-dark" href="${pageContext.request.contextPath}/systemAdmin/addRoomCategory">카테고리 추가</a>
+							<a class="btn btn-outline-dark" href="${pageContext.request.contextPath}/systemAdmin/addAttractionCategory">카테고리 추가</a>
 						</li>
 					</ol>
 				</div>
@@ -48,18 +48,18 @@
 	                        </tr>
 	                    </thead>
 	                    <tbody>
-	                    	<c:forEach items="${roomCategoryList}" var="rc">
+	                    	<c:forEach items="${attractionCategoryList}" var="ac">
 								<tr>
-									<td><input type="text" value="${rc.roomCategory}" readonly="readonly"></td>
+									<td><input type="text" value="${ac.attractionCategory}" readonly="readonly"></td>
 									<td>
-										<form action="${pageContext.request.contextPath}/systemAdmin/modifyRoomCategory" method="post">
-											<input type="hidden" name="roomCategory" value="${rc.roomCategory}">
-											<input type="text" name="newRoomCategory" value="${rc.roomCategory}">
+										<form action="${pageContext.request.contextPath}/systemAdmin/modifyAttractionCategory" method="post">
+											<input type="hidden" name="attractionCategory" value="${ac.attractionCategory}">
+											<input type="text" name="newAttractionCategory" value="${ac.attractionCategory}">
 											<button type="submit">수정하기</button>
 										</form>
 									<td>
-										<form action="${pageContext.request.contextPath}/systemAdmin/removeRoomCategory" method="post">
-											<input type="hidden" name="roomCategory" value="${rc.roomCategory}">
+										<form action="${pageContext.request.contextPath}/systemAdmin/removeAttractionCategory" method="post">
+											<input type="hidden" name="attractionCategory" value="${ac.attractionCategory}">
 											<button type="submit">삭제하기</button>
 										</form>
 									</td>

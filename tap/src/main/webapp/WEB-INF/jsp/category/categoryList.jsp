@@ -18,32 +18,30 @@
     <!-- start : content -->
 	<div id="content" class="container-fluid">
 		<div class="form-group row">
-			<div class="col-sm-4">
+			<div class="col-sm-5">
 				<a href="${pageContext.request.contextPath}/systemAdmin/roomCategoryList">
 					<img src="${pageContext.request.contextPath}/resources/img/category/room_category.PNG" class="rounded" style="width: 100%;">
 				</a>
 			</div>
 			
-			<div class="col-sm-4">
-				<img src="${pageContext.request.contextPath}/resources/img/category/attraction_category.PNG" class="rounded" style="width: 100%;">
-			</div>
-			
-			<div class="col-sm-4">
-				<img src="${pageContext.request.contextPath}/resources/img/category/attraction_category.PNG" class="rounded" style="width: 100%;">
+			<div class="col-sm-5">
+				<a href="${pageContext.request.contextPath}/systemAdmin/attractionCategoryList">
+					<img src="${pageContext.request.contextPath}/resources/img/category/attraction_category.PNG" class="rounded" style="width: 100%;">
+				</a>
 			</div>
 		</div>
-		
+		 
 		<div class="form-group row">
-			<div class="col-sm-4">
-				<img src="${pageContext.request.contextPath}/resources/img/category/room_category.PNG" class="rounded" style="width: 100%;">
+			<div class="col-sm-5">
+				<a href="${pageContext.request.contextPath}/systemAdmin/roomPartList">
+					<img src="${pageContext.request.contextPath}/resources/img/category/part_category.png" class="rounded" style="width: 100%;">
+				</a>
 			</div>
 			
-			<div class="col-sm-4">
-				<img src="${pageContext.request.contextPath}/resources/img/category/attraction_category.PNG" class="rounded" style="width: 100%;">
-			</div>
-			
-			<div class="col-sm-4">
-				<img src="${pageContext.request.contextPath}/resources/img/category/attraction_category.PNG" class="rounded" style="width: 100%;">
+			<div class="col-sm-5">
+				<a href="${pageContext.request.contextPath}/systemAdmin/roomAmenitiesList">
+					<img src="${pageContext.request.contextPath}/resources/img/category/amenities_category.png" class="rounded" style="width: 100%;">
+				</a>
 			</div>
 		</div>
 		
