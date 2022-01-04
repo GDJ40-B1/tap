@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class SearchController {
 	@Autowired private SearchService searchService;
-	private final int rowPerPage = 5;
+	private final int rowPerPage = 4;
 	
 	// 전체 검색 결과
 	@RequestMapping("/searchList")

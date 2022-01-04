@@ -26,7 +26,6 @@ pageEncoding="UTF-8"%>
   <link href="${pageContext.request.contextPath}/resources/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="${pageContext.request.contextPath}/resources/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="${pageContext.request.contextPath}/resources/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-  <link href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Template Main CSS File -->
   <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet">
@@ -128,56 +127,69 @@ pageEncoding="UTF-8"%>
     <!-- End My & Family Section -->
 
     <!-- ======= Features Section ======= -->
-    <section id="gallery" class="gallery">
+    <section id="event-list" class="event-list">
       <div class="container">
 
         <div class="row">
-	        <div class="section-title">
-				<h2>이달의 ${sigungu} 추천 인기 숙소</h2>
-			</div>
 	        <div>
 	        	<c:choose>
 				<c:when test="${empty preferRoomMap.list}">
-					<div>현재 추천 가능한 숙소가 없습니다.</div>
+			        <div class="section-title">
+						<h2>현재 추천 가능한 숙소가 없습니다.</h2>
+					</div>
 				</c:when>
 				
 				<c:otherwise>
-				<div class="row gallery-container">
-					<c:forEach items="${preferRoomMap.list}" var="list">
-						<div class="col-lg-3 col-md-6 gallery-item filter-home">
-							<div class="gallery-wrap">
-								<img src="${pageContext.request.contextPath}/resources/img/events-1.jpg" class="img-fluid" alt="">
-								<div class="gallery-info">
-									<h4>${list.roomName}</h4>
-									<p>${list.roomCategory}</p>
-									<p>${list.roomPrice}원</p>
-								<div class="gallery-links">
-									<a href="${pageContext.request.contextPath}/roomOne?roomId=${list.roomId}&detailAddressId=${list.detailAddressId}"><i class="bx bx-plus"></i></a>
-								</div>
-								</div>
-							</div>
-						</div>
-					</c:forEach>
-				</div>				
+				<div id="room" class="section-title">
+					<h2>이달의 ${sigungu} 추천 인기 숙소</h2>
+				</div>
+				
+				<c:forEach items="${preferRoomMap.list}" var="list">
+				<div class="col-lg-3 col-md-6 d-flex align-items-stretch">
+		            <div class="card">
+		              <div class="card-img">
+		                <a href="${pageContext.request.contextPath}/roomOne?roomId=${list.roomId}&detailAddressId=${list.detailAddressId}"><img src="${pageContext.request.contextPath}/resources/img/events-1.jpg" class="img-fluid" alt=""></a>
+		              </div>
+		              <div class="card-body">
+		                <h5 class="card-title">${list.roomName}</h5>
+		                <p class="fst-italic text-center">${list.roomCategory}</p>
+		                <p class="fst-italic text-center">${list.roomPrice}원</p>
+		                <p class="card-text">${list.roomIntro}</p>
+		              </div>
+		            </div>
+		        </div>
+		        </c:forEach>			
 
 				<!-- 페이징 -->
-				<nav style="margin-top: 50px">
-		   			<ul class="pagination" style="justify-content: center;">
-						<c:if test="${preferRoomMap.preferRoomCurrent > 1}">
-							<a href="${pageContext.request.contextPath}/?preferRoomCurrent=1&preferAttractionCurrent=${preferAttractionMap.preferAttractionCurrent}">처음으로</a>
-							<a href="${pageContext.request.contextPath}/?preferRoomCurrent=${preferRoomMap.preferRoomCurrent-1}&preferAttractionCurrent=${preferRoomMap.preferAttractionCurrent}">이전</a>
-						</c:if>
-						
-						<c:forEach var="i" begin="${preferRoomMap.startPage}" end="${preferRoomMap.endPage}">
-							<a href="${pageContext.request.contextPath}/?preferRoomCurrent=${i}&preferAttractionCurrent=${preferAttractionMap.preferAttractionCurrent}"><c:out value="${i}"/></a>
-						</c:forEach>
-						
-						<c:if test="${preferRoomMap.preferRoomCurrent < preferRoomMap.lastPage}">
-							<a href="${pageContext.request.contextPath}/?preferRoomCurrent=${preferRoomMap.preferRoomCurrent+1}&preferAttractionCurrent=${preferAttractionMap.preferAttractionCurrent}">다음</a>
-							<a href="${pageContext.request.contextPath}/?preferRoomCurrent=${preferRoomMap.lastPage}&preferAttractionCurrent=${preferAttractionMap.preferAttractionCurrent}">끝으로</a>
-						</c:if>		
+				<nav>
+			   		<ul class="pagination" style="justify-content: center;">
+			   			<li>
+							<c:if test="${preferRoomMap.preferAttractionCurrent > 1}">
+							<div class="btn-group me-2" role="group" aria-label="First group" style="justify-content: center;">
+								<a class="btn btn-secondary btn-sm" href="${pageContext.request.contextPath}/?preferRoomCurrent=1&preferAttractionCurrent=${preferAttractionMap.preferAttractionCurrent}#room">처음으로</a>
+							</div>
+							<div class="btn-group me-2" role="group" aria-label="First group" style="justify-content: center;">	
+								<a class="btn btn-primary" href="${pageContext.request.contextPath}/?preferRoomCurrent=${preferRoomMap.preferRoomCurrent-1}&preferAttractionCurrent=${preferRoomMap.preferAttractionCurrent}#room">이전</a>
+							</div>
+							</c:if>
+							
+							<div class="btn-group me-2" role="group" aria-label="First group" style="justify-content: center;">
+								<c:forEach var="i" begin="${preferRoomMap.startPage}" end="${preferRoomMap.endPage}">
+									<a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/?preferRoomCurrent=${i}&preferAttractionCurrent=${preferAttractionMap.preferAttractionCurrent}#room"><c:out value="${i}"/></a>
+								</c:forEach>
+							</div>
+														
+							<c:if test="${preferRoomMap.preferRoomCurrent < preferRoomMap.lastPage}">
+							<div class="btn-group me-2" role="group" aria-label="First group" style="justify-content: center;">
+								<a class="btn btn-primary" href="${pageContext.request.contextPath}/?preferRoomCurrent=${preferRoomMap.preferRoomCurrent+1}&preferAttractionCurrent=${preferAttractionMap.preferAttractionCurrent}#room">다음</a>
+							</div>
+							<div class="btn-group me-2" role="group" aria-label="First group" style="justify-content: center;">	
+								<a class="btn btn-secondary btn-sm" href="${pageContext.request.contextPath}/?preferRoomCurrent=${preferRoomMap.lastPage}&preferAttractionCurrent=${preferAttractionMap.preferAttractionCurrent}#room">끝으로</a>
+							</div>
+							</c:if>		
+						</li>
 					</ul>
-				</nav>
+				</nav>				
 				</c:otherwise>
 				</c:choose>
 	        </div>
@@ -185,61 +197,76 @@ pageEncoding="UTF-8"%>
       </div>
     </section>
     <!-- End Features Section -->
-
+    
+	<div class="container">
+		<hr>
+	</div>
+	
     <!-- ======= Features Section ======= -->
-    <section id="gallery" class="gallery">
-      <div class="container">
+    <section id="event-list" class="event-list">
+      <div id="attraction" class="container">
 
         <div class="row">
-	        <div class="section-title">
-				<h2>이달의 ${sigungu} 추천 인기 명소</h2>
-			</div>
-	        <div>
-	        	<c:choose>
-				<c:when test="${empty preferAttractionMap.list}">
-					<div>현재 추천 가능한 명소가 없습니다.</div>
-				</c:when>
-				
-				<c:otherwise>
-				<div class="row gallery-container">
-					<c:forEach items="${preferAttractionMap.list}" var="list">
-						<div class="col-lg-3 col-md-6 gallery-item filter-home">
-							<div class="gallery-wrap">
-								<img src="${pageContext.request.contextPath}/resources/img/events-1.jpg" class="img-fluid" alt="">
-								<div class="gallery-info">
-									<h4>${list.attractionName}</h4>
-									<p>${list.attractionCategory}</p>
-									<p>${list.attractionPhoneNumber}</p>
-								<div class="gallery-links">
-									<a href="${pageContext.request.contextPath}/attractionOne?attractionId=${list.attractionId}&detailAddressId=${list.detailAddressId}"><i class="bx bx-plus"></i></a>
-								</div>
-								</div>
-							</div>
-						</div>
-					</c:forEach>
-				</div>
-	            
-				<!-- 페이징 -->
-				<nav style="margin-top: 50px">
-		   			<ul class="pagination" style="justify-content: center;">
+        	<c:choose>
+			<c:when test="${empty preferAttractionMap.list}">
+		        <div class="section-title">
+					<h2>현재 추천 가능한 숙소가 없습니다.</h2>
+				</div>	
+			</c:when>
+			
+			<c:otherwise>
+			<div class="section-title">
+				<h2>${sigungu} 추천 인기 명소</h2>
+			</div>			
+			
+			<c:forEach items="${preferAttractionMap.list}" var="list">
+			<div class="col-lg-3 col-md-6 d-flex align-items-stretch">
+	            <div class="card">
+	              <div class="card-img">
+	                <a href="${pageContext.request.contextPath}/attractionOne?attractionId=${list.attractionId}&detailAddressId=${list.detailAddressId}"><img src="${pageContext.request.contextPath}/resources/img/events-1.jpg" class="img-fluid" alt=""></a>
+	              </div>
+	              <div class="card-body">
+	                <h5 class="card-title">${list.attractionName}</h5>
+	                <p class="fst-italic text-center">${list.attractionCategory}</p>
+	                <p class="fst-italic text-center">${list.attractionPhoneNumber}</p>
+	                <p class="card-text">${list.attractionContent}</p>
+	              </div>
+	            </div>
+	        </div>
+	        </c:forEach>		
+            
+			<!-- 페이징 -->
+			<nav>
+		   		<ul class="pagination" style="justify-content: center;">
+		   			<li>
 						<c:if test="${preferAttractionMap.preferAttractionCurrent > 1}">
-							<a href="${pageContext.request.contextPath}/?preferRoomCurrent=${preferRoomMap.preferRoomCurrent}&preferAttractionCurrent=1">처음으로</a>
-							<a href="${pageContext.request.contextPath}/?preferRoomCurrent=${preferRoomMap.preferRoomCurrent}&preferAttractionCurrent=${preferAttractionMap.preferAttractionCurrent-1}">이전</a>
+						<div class="btn-group me-2" role="group" aria-label="First group" style="justify-content: center;">
+							<a class="btn btn-secondary btn-sm" href="${pageContext.request.contextPath}/?preferRoomCurrent=${preferRoomMap.preferRoomCurrent}&preferAttractionCurrent=1#attraction">처음으로</a>
+						</div>
+						<div class="btn-group me-2" role="group" aria-label="First group" style="justify-content: center;">	
+							<a class="btn btn-primary" href="${pageContext.request.contextPath}/?preferRoomCurrent=${preferRoomMap.preferRoomCurrent}&preferAttractionCurrent=${preferAttractionMap.preferAttractionCurrent-1}#attraction">이전</a>
+						</div>
 						</c:if>
 						
-						<c:forEach var="i" begin="${preferAttractionMap.startPage}" end="${preferAttractionMap.endPage}">
-							<a href="${pageContext.request.contextPath}/?preferRoomCurrent=${preferRoomMap.preferRoomCurrent}&preferAttractionCurrent=${i}"><c:out value="${i}"/></a>
-						</c:forEach>
-						
+						<div class="btn-group me-2" role="group" aria-label="First group" style="justify-content: center;">
+							<c:forEach var="i" begin="${preferAttractionMap.startPage}" end="${preferAttractionMap.endPage}">
+								<a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/?preferRoomCurrent=${preferRoomMap.preferRoomCurrent}&preferAttractionCurrent=${i}#attraction"><c:out value="${i}"/></a>
+							</c:forEach>
+						</div>
+													
 						<c:if test="${preferAttractionMap.preferAttractionCurrent < preferAttractionMap.lastPage}">
-							<a href="${pageContext.request.contextPath}/?preferRoomCurrent=${preferRoomMap.preferRoomCurrent}&preferAttractionCurrent=${preferAttractionMap.preferAttractionCurrent+1}">다음</a>
-							<a href="${pageContext.request.contextPath}/?preferRoomCurrent=${preferRoomMap.preferRoomCurrent}&preferAttractionCurrent=${preferAttractionMap.lastPage}">끝으로</a>
+						<div class="btn-group me-2" role="group" aria-label="First group" style="justify-content: center;">
+							<a class="btn btn-primary" href="${pageContext.request.contextPath}/?preferRoomCurrent=${preferRoomMap.preferRoomCurrent}&preferAttractionCurrent=${preferAttractionMap.preferAttractionCurrent+1}#attraction">다음</a>
+						</div>
+						<div class="btn-group me-2" role="group" aria-label="First group" style="justify-content: center;">	
+							<a class="btn btn-secondary btn-sm" href="${pageContext.request.contextPath}/?preferRoomCurrent=${preferRoomMap.preferRoomCurrent}&preferAttractionCurrent=${preferAttractionMap.lastPage}#attraction">끝으로</a>
+						</div>
 						</c:if>		
-					</ul>
-				</nav>
-				</c:otherwise>
-				</c:choose>
-	        </div>
+					</li>
+				</ul>
+			</nav>
+			</c:otherwise>
+			</c:choose>
         </div>
       </div>
     </section>

@@ -38,7 +38,6 @@
 			notice_id,
 			title,
 			content,
-			kind,
 			create_date,
 			update_date
 		FROM notice

@@ -37,9 +37,10 @@
 	<select id="attractionSearchList" parameterType="java.util.Map" resultType="com.btf.tap.vo.Attraction">
 		SELECT
 			attraction_id attractionId,
+			detail_address_id detailAddressId,
 			attraction_category attractionCategory,
 			attraction_name attractionName,
-			attraction_content attractionContent
+			attraction_phone_number attractionPhoneNumber
 		FROM attraction
 		<where>
 			attraction_name LIKE
@@ -77,6 +78,7 @@
 		<where>
 			h.hashtag_name LIKE 
 			CONCAT ('%', #{keyword}, '%')
+			AND h.hashtag_target_category = 'room'
 		</where>
 		ORDER BY r.create_date DESC
 		LIMIT #{beginRow}, #{rowPerPage}	
@@ -91,6 +93,7 @@
 		<where>
 			h.hashtag_name LIKE 
 			CONCAT ('%', #{keyword}, '%')
+			AND h.hashtag_target_category = 'room'
 		</where>		
 	</select>	
 
@@ -98,14 +101,16 @@
 	<select id="hashtagAttractionSearchList" parameterType="java.util.Map" resultType="com.btf.tap.vo.Attraction">
 		SELECT DISTINCT
 			a.attraction_id attractionId,
+			a.detail_address_id detailAddressId,
 			a.attraction_category attractionCategory,
 			a.attraction_name attractionName,
-			a.attraction_content attractionContent
+			a.attraction_phone_number attractionPhoneNumber
 		FROM attraction a INNER JOIN hashtag h
 		ON a.attraction_id = h.hashtag_target
 		<where>
 			h.hashtag_name LIKE
 			CONCAT ('%', #{keyword}, '%')
+			AND h.hashtag_target_category = 'attraction'
 		</where>
 		ORDER BY a.create_date DESC
 		LIMIT #{beginRow}, #{rowPerPage}
@@ -120,6 +125,7 @@
 		<where>
 			h.hashtag_name LIKE
 			CONCAT ('%', #{keyword}, '%')
+			AND h.hashtag_target_category = 'attraction'
 		</where>		
 	</select>	
 	
@@ -167,9 +173,10 @@
 	<select id="attractionDistrictSearchList" parameterType="java.util.Map" resultType="com.btf.tap.vo.Attraction">
 		SELECT
 			a.attraction_id attractionId,
+			a.detail_address_id detailAddressId,
 			a.attraction_category attractionCategory,
 			a.attraction_name attractionName,
-			a.attraction_content attractionContent
+			a.attraction_phone_number attractionPhoneNumber
 		FROM attraction a
 		INNER JOIN detail_address da ON a.detail_address_id = da.detail_address_id
 		INNER JOIN address ON da.address_id = address.address_id
@@ -217,6 +224,7 @@
 		<where>
 			h.hashtag_name LIKE 
 			CONCAT ('%', #{keyword}, '%')
+			AND h.hashtag_target_category = 'room'
 			AND a.sido LIKE #{sido}
 			AND a.sigungu LIKE #{sigungu}						
 		</where>
@@ -235,6 +243,7 @@
 		<where>
 			h.hashtag_name LIKE 
 			CONCAT ('%', #{keyword}, '%')
+			AND h.hashtag_target_category = 'room'
 			AND a.sido LIKE #{sido}
 			AND a.sigungu LIKE #{sigungu}						
 		</where>		
@@ -244,9 +253,10 @@
 	<select id="hashtagAttractionDistrictSearchList" parameterType="java.util.Map" resultType="com.btf.tap.vo.Attraction">
 		SELECT DISTINCT
 			a.attraction_id attractionId,
+			a.detail_address_id detailAddressId,
 			a.attraction_category attractionCategory,
 			a.attraction_name attractionName,
-			a.attraction_content attractionContent
+			a.attraction_phone_number attractionPhoneNumber
 		FROM attraction a
 		INNER JOIN hashtag h ON a.attraction_id = h.hashtag_target
 		INNER JOIN detail_address da ON a.detail_address_id = da.detail_address_id
@@ -254,6 +264,7 @@
 		<where>
 			h.hashtag_name LIKE
 			CONCAT ('%', #{keyword}, '%')
+			AND h.hashtag_target_category = 'attraction'
 			AND address.sido LIKE #{sido}
 			AND address.sigungu LIKE #{sigungu}						
 		</where>
@@ -272,6 +283,7 @@
 		<where>
 			h.hashtag_name LIKE
 			CONCAT ('%', #{keyword}, '%')
+			AND h.hashtag_target_category = 'attraction'
 			AND address.sido LIKE #{sido}
 			AND address.sigungu LIKE #{sigungu}						
 		</where>		

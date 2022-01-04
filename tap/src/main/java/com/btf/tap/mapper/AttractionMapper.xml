@@ -159,13 +159,15 @@
 	<select id="selectPreferLocalAttractionList" parameterType="java.util.Map" resultType="com.btf.tap.vo.Attraction">
 		SELECT
 			attraction_id attractionId, detail_address_id detailAddressId, attraction_category attractionCategory, 
-			attraction_name attractionName, attraction_phone_number attractionPhoneNumber
+			attraction_name attractionName, attraction_phone_number attractionPhoneNumber, attraction_content attractionContent
 		FROM view_attraction_info
-		<where>
-			sido = #{sido}
-			AND sigungu = #{sigungu}
-		</where>
-			ORDER BY ranking_score DESC
+	   <if test="sido != null and sigungu != null">
+		   <where>
+			   sido = #{sido}
+			   AND sigungu = #{sigungu}
+		   </where>	  
+	   </if>
+			ORDER BY view_count DESC
 			LIMIT #{beginRow}, #{rowPerPage}		
 	</select>
   
@@ -174,10 +176,12 @@
 		SELECT
 			COUNT(*)
 		FROM view_attraction_info
-		<where>
-			sido = #{sido}
-			AND sigungu = #{sigungu}
-		</where>	
+	    <if test="sido != null and sigungu != null">
+		    <where>
+			    sido = #{sido}
+			    AND sigungu = #{sigungu}
+		    </where>	  
+	    </if>	
 	</select> 
 	
 </mapper>
