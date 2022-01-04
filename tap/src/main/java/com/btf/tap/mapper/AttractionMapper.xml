@@ -12,6 +12,8 @@
       <result column="approval_status" property="approvalStatus"></result>
       <result column="create_date" property="createDate"></result>
       <result column="update_date" property="updateDate"></result>
+      <result column="attraction_cnt" property="attractionCnt"></result>
+      
       <association property="address" javaType="com.btf.tap.vo.Address">
          <result column="address_id" property="addressId"></result>
          <result column="detail_address_id" property="detailAddressId"></result>
@@ -145,10 +147,10 @@
 		INSERT INTO 
 			attraction(
 			detail_address_id, attraction_category, attraction_name, attraction_phone_number, 
-			attraction_content, create_date, update_date
+			attraction_content, attraction_cnt, create_date, update_date
 		)VALUE(
 			#{detailAddressId}, #{attractionCategory}, #{attractionName}, #{attractionPhoneNumber},
-			#{attractionContent}, NOW(), NOW())
+			#{attractionContent}, 0, NOW(), NOW())
 		<!-- key값 return -->
 		<selectKey keyProperty="attractionId" order="AFTER" resultType="int">
 			SELECT LAST_INSERT_ID()
@@ -178,6 +180,16 @@
 			sido = #{sido}
 			AND sigungu = #{sigungu}
 		</where>	
-	</select> 
+	</select>
+	
+	<!-- 명소 조회수 -->
+	 <update id="updateAttractionCnt">
+	 	UPDATE
+	 		attraction
+	 	SET
+	 		attraction_cnt = attraction_cnt+1
+	 	WHERE
+	 		attraction_id = #{attractionId}
+	 </update>
 	
 </mapper>

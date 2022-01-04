@@ -218,4 +218,10 @@ public class AttractionService {
 	public List<Attraction> getAttractionArroundRoom(int roomId){
 		return attractionMapper.selectAttractionArroundRoom(roomId);
 	}
+	
+	// 명소 조회수
+	public int updateAttractionCnt(int attractionId) {
+		return attractionMapper.updateAttractionCnt(attractionId);
+	}
+	
 }

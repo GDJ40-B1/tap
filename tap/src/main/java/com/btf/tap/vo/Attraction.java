@@ -13,6 +13,7 @@ public class Attraction {
 	private String approvalStatus;
 	private String createDate;
 	private String updateDate;
+	private int attractionCnt;
 	
 	private Address address; // 명소의 주소 정보
 }
