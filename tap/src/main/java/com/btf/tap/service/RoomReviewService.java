@@ -134,6 +134,13 @@ public class RoomReviewService {
 		return check;
 	}
 	
+	// 특정 숙소의 숙소후기 전부 삭제하기
+	// 입력 : roomId
+	// 출력 : X
+	public void removeRoomAllReview(int roomId) {
+		roomReviewMapper.deleteRoomAllReview(roomId);
+	}
+	
 	// ***** 숙소후기 답변 *****
 	// 숙소후기 답변 작성하기
 	public int addRoomReviewComment(RoomReviewComment roomReviewComment) {

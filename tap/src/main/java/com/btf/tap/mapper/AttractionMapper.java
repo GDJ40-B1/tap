@@ -23,7 +23,9 @@ public interface AttractionMapper {
 	// 선호 지역 인기 명소 리스트
 	List<Attraction> selectPreferLocalAttractionList(Map<String, Object> page);
 	// 선호 지역 인기 명소 개수
-	int preferLocalAttractionTotalCount(Map<String, Object> page);	
+	int preferLocalAttractionTotalCount(Map<String, Object> page);
+	// 특정 숙소 주변 명소 목록 추출
+	List<Attraction> selectAttractionArroundRoom(int roomId);
 	
 	// [시스템 관리자]
 	// 명소 승인 대기 목록

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.btf.tap.common.Font;
+import com.btf.tap.mapper.RoomMapper;
 import com.btf.tap.service.HostService;
 import com.btf.tap.service.ReservationService;
 import com.btf.tap.service.RoomQuestionService;
@@ -34,6 +35,7 @@ public class HostController {
 	@Autowired ReservationService reservationService;
 	@Autowired RoomService roomService;
 	@Autowired RoomQuestionService roomQuestionService;
+	@Autowired RoomMapper roomMapper;
 	
 	@PostMapping("/earnHostPoint")
 	public String postEarnHostPoint(HttpServletRequest request, Model model, Host host) {
@@ -285,12 +287,21 @@ public class HostController {
 		log.debug(Font.JSB + "특정 숙소 연도별 이용 연령층" + ageList.toString() + Font.RESET);
 		
 		int revenueHost = hostService.getRevenueHost(hostId);
-		int yearRevenueHost = hostService.getYearRevenueHost(year, hostId);
-		List<Map<String, Object>> monthRevenueHost = hostService.getMonthRevenueHost(year, hostId);
-		List<Map<String, Object>> roomMonthRevenue = hostService.getRoomMonthRevenue(year, hostId, roomId);
-		int unansweredRoomQnaCount = roomQuestionService.unansweredRoomQnaCount(hostId);
+		log.debug(Font.JSB + "총합 수익" + revenueHost + Font.RESET);
 		
-		// 호스트 정보 주입
+		int yearRevenueHost = hostService.getYearRevenueHost(year, hostId);
+		log.debug(Font.JSB + "연도별 수익" + yearRevenueHost + Font.RESET);
+		
+		List<Map<String, Object>> monthRevenueHost = hostService.getMonthRevenueHost(year, hostId);
+		log.debug(Font.JSB + "월별 총 수익" + monthRevenueHost.toString() + Font.RESET);
+		
+		List<Map<String, Object>> roomMonthRevenue = hostService.getRoomMonthRevenue(year, hostId, roomId);
+		log.debug(Font.JSB + "숙소 월별 수익" + roomMonthRevenue.toString() + Font.RESET);
+		
+		int unansweredRoomQnaCount = roomQuestionService.unansweredRoomQnaCount(hostId);
+		log.debug(Font.JSB + "문의 미답변 수" + unansweredRoomQnaCount + Font.RESET);
+		
+		
 		model.addAttribute("host", host);
 		model.addAttribute("year", year);
 		model.addAttribute("list", list);
@@ -346,14 +357,16 @@ public class HostController {
 	}
 	
 	@GetMapping("/removeHost")
-	public String getRemoveHost(HttpServletRequest request) {
+	public String getRemoveHost(HttpServletRequest request, Model model) {
 		
 		HttpSession session = request.getSession();
-		
+		User user = (User)session.getAttribute("loginUser");
 		// 로그인 되어있지 않을 경우, 홈페이지로 이동
 		if(session.getAttribute("loginUser") == null) {
 			return "redirect:/";
 		}
+		
+		model.addAttribute("roomNum",roomMapper.selectHostRoomNum(user.getUserId()));
 		
 		// 호스트탈퇴 페이지로 이동
 		return "host/hostWithdraw";

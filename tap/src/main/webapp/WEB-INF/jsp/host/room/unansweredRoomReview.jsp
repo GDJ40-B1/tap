@@ -67,24 +67,18 @@
 								<td>${r.createDate}</td>
 		       				</tr>
 		       				<tr class="review" style="display: none;">
-								<td colspan = "4">
-									<div class="d-flex justify-content-between align-items-center">
-										<span>후기 : ${r.roomReviewContent}</span>
-										<ol style="list-style: none;">
-											<li>
-												<a class="btn btn-outline-dark" href="javascript:removeRoomReview('${r.roomReviewId}','${r.roomId}','${r.detailAddressId}');">후기삭제</a>
-											</li>
-										</ol>
-									</div>
+								<td colspan = "5">
+									<div>[후기]</div>
+									<div>${r.roomReviewContent}</div><br>
 									<div>
 										<form class="roomReviewAnswerForm" action="${pageContext.request.contextPath}/host/unansweredRoomReview" method="post">
 											<div class="form-group">
 												<input type="hidden" name="roomReviewId" value="${r.roomReviewId}">
-												<label for="roomReviewAnswer">답변 작성 : </label>
+												<label for="roomReviewAnswer">[답변 작성] </label>
 													<textarea class="form-control" rows="5" placeholder="후기답변을 작성해주세요" class="roomReviewCommentContent" name="roomReviewCommentContent"></textarea>
 											</div>
 											<div>
-												<button class="addRoomReviewAnswerBtn" type ="button">작성</button>
+												<button class="addRoomReviewAnswerBtn btn btn-primary" type ="button">작성</button>
 											</div>
 										</form>		
 									</div>
@@ -97,19 +91,48 @@
 		       	</c:choose>
 		    	
 		    	<div>
-		    		<c:if test="${roomReview.currentPage > 1}">
-						<a class="btn btn-secondary" href="${pageContext.request.contextPath}/host/unansweredRoomReview?currentPage=1">처음으로</a>
-						<a class="btn btn-secondary" href="${pageContext.request.contextPath}/host/unansweredRoomReview?currentPage=${roomReview.currentPage-1}">이전</a>
-					</c:if>
-					
+				  <ul class="pagination justify-content-end">
+				  <c:choose>
+				  	<c:when test="${roomReview.currentPage > 1}">
+					    <li class="page-item">
+				  			<a class="page-link" href="${pageContext.request.contextPath}/host/unansweredRoomReview?currentPage=${roomReview.currentPage-1}">Previous</a>
+					    </li>
+				  	</c:when>
+				  	<c:otherwise>
+					    <li class="page-item disabled">
+				  			<a class="page-link" href="${pageContext.request.contextPath}/host/unansweredRoomReview?currentPage=${roomReview.currentPage-1}">Previous</a>
+					    </li>
+				  	</c:otherwise>
+				  </c:choose>
+				  
 					<c:forEach var="i" begin="${roomReview.startPage}" end="${roomReview.endPage}">
-						<a class="btn btn-secondary" href="${pageContext.request.contextPath}/host/unansweredRoomReview?currentPage=${i}"><c:out value="${i}"/></a>
+				    	<c:choose>
+							<c:when test="${roomReview.currentPage==i}">
+								<li class="page-item active">
+									<a class="page-link" href="${pageContext.request.contextPath}/host/unansweredRoomReview?currentPage=${i}"><c:out value="${i}"/></a>
+								</li>
+							</c:when>
+							<c:otherwise>
+								<li class="page-item">
+									<a class="page-link" href="${pageContext.request.contextPath}/host/unansweredRoomReview?currentPage=${i}"><c:out value="${i}"/></a>
+								</li>
+							</c:otherwise>
+						</c:choose>
 					</c:forEach>
 					
-					<c:if test="${roomReview.currentPage < roomReview.lastPage}">
-						<a class="btn btn-secondary" href="${pageContext.request.contextPath}/host/unansweredRoomReview?currentPage=${roomReview.currentPage+1}">다음</a>
-						<a class="btn btn-secondary" href="${pageContext.request.contextPath}/host/unansweredRoomReview?currentPage=${roomReview.lastPage}">끝으로</a>
-					</c:if>		
+					<c:choose>
+				  	  <c:when test="${roomReview.currentPage < roomReview.lastPage}">
+				  		<li class="page-item">
+							<a class="page-link" href="${pageContext.request.contextPath}/host/unansweredRoomReview?currentPage=${roomReview.currentPage+1}">Next</a>
+						</li>
+				  	  </c:when>
+				  	  <c:otherwise>
+				  		<li class="page-item disabled">
+							<a class="page-link" href="${pageContext.request.contextPath}/host/unansweredRoomReview?currentPage=${roomReview.currentPage+1}">Next</a>
+						</li>
+				  	  </c:otherwise>
+				    </c:choose>
+				  </ul>
 	       		</div>	
 	       		       	
 	            </div>

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+pageEncoding="UTF-8"%>
 <%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
@@ -21,12 +21,12 @@
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
-  <link href="${pageContext.request.contextPath}/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="${pageContext.request.contextPath}/resources/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
   <link href="${pageContext.request.contextPath}/resources/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
   <link href="${pageContext.request.contextPath}/resources/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="${pageContext.request.contextPath}/resources/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="${pageContext.request.contextPath}/resources/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <link href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Template Main CSS File -->
   <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet">
@@ -90,211 +90,160 @@
     <!-- ======= My & Family Section ======= -->
     <section id="about" class="about">
       <div class="container">
-      
+      	
       	<form class="form-inline" id="searchByDistrictForm" action="${pageContext.request.contextPath}/searchListByDistrict">
-			<select name="districtSido" id="districtSido" onchange="sidoType(this.value);">
-		  		<option value="">==선택==</option>
-		  	<c:forEach var="s" items="${sidoList}">
-		  		<option value="${s}">${s}</option>
-		  	</c:forEach>
-			</select>
-			<select name="districtSigungu" id="districtSigungu">
-				<option value="">==선택==</option>
-			</select>
-			<input class="form-control mr-sm-2" type="text" id="keyword" name="keyword">
-    		<button class="btn btn-primary" id="districtBtn" type="button">검색</button>
+      		<div class="form-group">
+      			<div class="input-group mb-3">
+      				<div class="input-group-prepend">
+					<select class="form-select" name="districtSido" id="districtSido" onchange="sidoType(this.value);">
+				  		<option value="" selected disabled>시도</option>
+					  	<c:forEach var="s" items="${sidoList}">
+					  		<option value="${s}">${s}</option>
+					  	</c:forEach>
+					</select>
+					</div>
+					<div class="input-group-prepend">
+					<select class="form-select" name="districtSigungu" id="districtSigungu">
+						<option value="" selected disabled>시군구</option>
+					</select>
+					</div>
+					<input class="form-control" type="text" id="keyword" name="keyword">
+	    			<button class="btn btn-primary" id="districtBtn" type="button">검색</button>
+	    		</div>
+    		</div>
 		</form>
-		
-	  	<div id="searchHistory">
-	  		<c:forEach var="s" items="${searchList}">
-		  		<span><a href="#" onclick="searchKeyword(this)">${s}</a> <a href="#" onclick="removeKeyword('${s}')">x</a></span>
+
+	  	<div id="searchHistory" style="margin: 5px">
+	  		<c:forEach var="s" items="${searchList}" begin="0" end="6">
+	  			<div class="btn-group" role="group" aria-label="Button group with nested dropdown" style="margin: 5px">
+	                <button type="button" class="btn btn-primary" onclick="searchKeyword(this)">${s}</button>
+	                <div class="btn-group" role="group">
+	                  <button type="button" class="btn btn-outline-dark" onclick="removeKeyword('${s}')">x</button>
+	                </div>
+              	</div>
 		  	</c:forEach>
 	  	</div>
-      
-		<h1>이달의 ${sigungu} 추천 인기 숙소</h1>
-        <div>
-        	<c:choose>
-			<c:when test="${empty preferRoomMap.list}">
-				<div>현재 추천 가능한 숙소가 없습니다.</div>
-			</c:when>
-			
-			<c:otherwise>
-            <table class="table" border="1">
-            	<tr>
-	            	<c:forEach items="${preferRoomMap.list}" var="list">
-						<td>
-							<div>숙소명 : <a href="${pageContext.request.contextPath}/roomOne?roomId=${list.roomId}&detailAddressId=${list.detailAddressId}">${list.roomName}</a></div>
-			
-							<div>카테고리 : ${list.roomCategory}</div>
-					
-							<div>가격 : ${list.roomPrice}</div>
-						</td>
-					</c:forEach>
-				</tr>
-			</table>
-
-            
-			<!-- 페이징 -->
-			<nav style="margin-top: 50px">
-	   			<ul class="pagination" style="justify-content: center;">
-					<c:if test="${preferRoomMap.preferRoomCurrent > 1}">
-						<a href="${pageContext.request.contextPath}/?preferRoomCurrent=1&preferAttractionCurrent=${preferAttractionMap.preferAttractionCurrent}">처음으로</a>
-						<a href="${pageContext.request.contextPath}/?preferRoomCurrent=${preferRoomMap.preferRoomCurrent-1}&preferAttractionCurrent=${preferRoomMap.preferAttractionCurrent}">이전</a>
-					</c:if>
-					
-					<c:forEach var="i" begin="${preferRoomMap.startPage}" end="${preferRoomMap.endPage}">
-						<a href="${pageContext.request.contextPath}/?preferRoomCurrent=${i}&preferAttractionCurrent=${preferAttractionMap.preferAttractionCurrent}"><c:out value="${i}"/></a>
-					</c:forEach>
-					
-					<c:if test="${preferRoomMap.preferRoomCurrent < preferRoomMap.lastPage}">
-						<a href="${pageContext.request.contextPath}/?preferRoomCurrent=${preferRoomMap.preferRoomCurrent+1}&preferAttractionCurrent=${preferAttractionMap.preferAttractionCurrent}">다음</a>
-						<a href="${pageContext.request.contextPath}/?preferRoomCurrent=${preferRoomMap.lastPage}&preferAttractionCurrent=${preferAttractionMap.preferAttractionCurrent}">끝으로</a>
-					</c:if>		
-				</ul>
-			</nav>
-			</c:otherwise>
-			</c:choose>
-        </div>
-
-		<h1>이달의 ${sigungu} 추천 인기 명소</h1>
-        <div>
-        	<c:choose>
-			<c:when test="${empty preferAttractionMap.list}">
-				<div>현재 추천 가능한 명소가 없습니다.</div>
-			</c:when>
-			
-			<c:otherwise>
-            <table class="table" border="1">
-            	<tr>
-	            	<c:forEach items="${preferAttractionMap.list}" var="list">
-						<td>
-							<div>명소 카테고리 : ${list.attractionCategory}</div>
-			
-							<div>이름 : <a href="${pageContext.request.contextPath}/attractionOne?attractionId=${list.attractionId}&detailAddressId=${list.detailAddressId}">${list.attractionName}</a></div>
-					
-							<div>전화번호 : ${list.attractionPhoneNumber}</div>
-						</td>
-					</c:forEach>
-				</tr>
-			</table>
-
-            
-			<!-- 페이징 -->
-			<nav style="margin-top: 50px">
-	   			<ul class="pagination" style="justify-content: center;">
-					<c:if test="${preferAttractionMap.preferAttractionCurrent > 1}">
-						<a href="${pageContext.request.contextPath}/?preferRoomCurrent=${preferRoomMap.preferRoomCurrent}&preferAttractionCurrent=1">처음으로</a>
-						<a href="${pageContext.request.contextPath}/?preferRoomCurrent=${preferRoomMap.preferRoomCurrent}&preferAttractionCurrent=${preferAttractionMap.preferAttractionCurrent-1}">이전</a>
-					</c:if>
-					
-					<c:forEach var="i" begin="${preferAttractionMap.startPage}" end="${preferAttractionMap.endPage}">
-						<a href="${pageContext.request.contextPath}/?preferRoomCurrent=${preferRoomMap.preferRoomCurrent}&preferAttractionCurrent=${i}"><c:out value="${i}"/></a>
-					</c:forEach>
-					
-					<c:if test="${preferAttractionMap.preferAttractionCurrent < preferAttractionMap.lastPage}">
-						<a href="${pageContext.request.contextPath}/?preferRoomCurrent=${preferRoomMap.preferRoomCurrent}&preferAttractionCurrent=${preferAttractionMap.preferAttractionCurrent+1}">다음</a>
-						<a href="${pageContext.request.contextPath}/?preferRoomCurrent=${preferRoomMap.preferRoomCurrent}&preferAttractionCurrent=${preferAttractionMap.lastPage}">끝으로</a>
-					</c:if>		
-				</ul>
-			</nav>
-			</c:otherwise>
-			</c:choose>
-        </div>
-
-        <div class="row content">
-          <div class="col-lg-6">
-            <img src="${pageContext.request.contextPath}/resources/img/about.jpg" class="img-fluid" alt="">
-          </div>
-          <div class="col-lg-6 pt-4 pt-lg-0">
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-              magna aliqua.
-            </p>
-            <ul>
-              <li><i class="ri-check-double-line"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat</li>
-              <li><i class="ri-check-double-line"></i> Duis aute irure dolor in reprehenderit in voluptate velit</li>
-              <li><i class="ri-check-double-line"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat</li>
-            </ul>
-            <p>
-              Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-              velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-              culpa qui officia deserunt mollit anim id est laborum.
-            </p>
-            <a href="our-story.html" class="btn-learn-more">Learn More</a>
-          </div>
-        </div>
-
       </div>
     </section>
     <!-- End My & Family Section -->
 
     <!-- ======= Features Section ======= -->
-    <section id="features" class="features">
+    <section id="gallery" class="gallery">
       <div class="container">
 
         <div class="row">
-          <div class="col-lg-4 col-md-6 icon-box">
-            <div class="icon"><i class="bi bi-laptop"></i></div>
-            <h4 class="title"><a href="">Lorem Ipsum</a></h4>
-            <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>
-          </div>
-          <div class="col-lg-4 col-md-6 icon-box">
-            <div class="icon"><i class="bi bi-bar-chart"></i></div>
-            <h4 class="title"><a href="">Dolor Sitema</a></h4>
-            <p class="description">Minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat tarad limino ata</p>
-          </div>
-          <div class="col-lg-4 col-md-6 icon-box">
-            <div class="icon"><i class="bi bi-bounding-box"></i></div>
-            <h4 class="title"><a href="">Sed ut perspiciatis</a></h4>
-            <p class="description">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur</p>
-          </div>
-          <div class="col-lg-4 col-md-6 icon-box">
-            <div class="icon"><i class="bi bi-broadcast"></i></div>
-            <h4 class="title"><a href="">Magni Dolores</a></h4>
-            <p class="description">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
-          </div>
-          <div class="col-lg-4 col-md-6 icon-box">
-            <div class="icon"><i class="bi bi-camera"></i></div>
-            <h4 class="title"><a href="">Nemo Enim</a></h4>
-            <p class="description">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque</p>
-          </div>
-          <div class="col-lg-4 col-md-6 icon-box">
-            <div class="icon"><i class="bi bi-diagram-3"></i></div>
-            <h4 class="title"><a href="">Eiusmod Tempor</a></h4>
-            <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi</p>
-          </div>
-        </div>
+	        <div class="section-title">
+				<h2>이달의 ${sigungu} 추천 인기 숙소</h2>
+			</div>
+	        <div>
+	        	<c:choose>
+				<c:when test="${empty preferRoomMap.list}">
+					<div>현재 추천 가능한 숙소가 없습니다.</div>
+				</c:when>
+				
+				<c:otherwise>
+				<div class="row gallery-container">
+					<c:forEach items="${preferRoomMap.list}" var="list">
+						<div class="col-lg-3 col-md-6 gallery-item filter-home">
+							<div class="gallery-wrap">
+								<img src="${pageContext.request.contextPath}/resources/img/events-1.jpg" class="img-fluid" alt="">
+								<div class="gallery-info">
+									<h4>${list.roomName}</h4>
+									<p>${list.roomCategory}</p>
+									<p>${list.roomPrice}원</p>
+								<div class="gallery-links">
+									<a href="${pageContext.request.contextPath}/roomOne?roomId=${list.roomId}&detailAddressId=${list.detailAddressId}"><i class="bx bx-plus"></i></a>
+								</div>
+								</div>
+							</div>
+						</div>
+					</c:forEach>
+				</div>				
 
+				<!-- 페이징 -->
+				<nav style="margin-top: 50px">
+		   			<ul class="pagination" style="justify-content: center;">
+						<c:if test="${preferRoomMap.preferRoomCurrent > 1}">
+							<a href="${pageContext.request.contextPath}/?preferRoomCurrent=1&preferAttractionCurrent=${preferAttractionMap.preferAttractionCurrent}">처음으로</a>
+							<a href="${pageContext.request.contextPath}/?preferRoomCurrent=${preferRoomMap.preferRoomCurrent-1}&preferAttractionCurrent=${preferRoomMap.preferAttractionCurrent}">이전</a>
+						</c:if>
+						
+						<c:forEach var="i" begin="${preferRoomMap.startPage}" end="${preferRoomMap.endPage}">
+							<a href="${pageContext.request.contextPath}/?preferRoomCurrent=${i}&preferAttractionCurrent=${preferAttractionMap.preferAttractionCurrent}"><c:out value="${i}"/></a>
+						</c:forEach>
+						
+						<c:if test="${preferRoomMap.preferRoomCurrent < preferRoomMap.lastPage}">
+							<a href="${pageContext.request.contextPath}/?preferRoomCurrent=${preferRoomMap.preferRoomCurrent+1}&preferAttractionCurrent=${preferAttractionMap.preferAttractionCurrent}">다음</a>
+							<a href="${pageContext.request.contextPath}/?preferRoomCurrent=${preferRoomMap.lastPage}&preferAttractionCurrent=${preferAttractionMap.preferAttractionCurrent}">끝으로</a>
+						</c:if>		
+					</ul>
+				</nav>
+				</c:otherwise>
+				</c:choose>
+	        </div>
+        </div>
       </div>
     </section>
     <!-- End Features Section -->
 
-    <!-- ======= Recent Photos Section ======= -->
-    <section id="recent-photos" class="recent-photos">
+    <!-- ======= Features Section ======= -->
+    <section id="gallery" class="gallery">
       <div class="container">
 
-        <div class="section-title">
-          <h2>Recent Photos</h2>
-          <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+        <div class="row">
+	        <div class="section-title">
+				<h2>이달의 ${sigungu} 추천 인기 명소</h2>
+			</div>
+	        <div>
+	        	<c:choose>
+				<c:when test="${empty preferAttractionMap.list}">
+					<div>현재 추천 가능한 명소가 없습니다.</div>
+				</c:when>
+				
+				<c:otherwise>
+				<div class="row gallery-container">
+					<c:forEach items="${preferAttractionMap.list}" var="list">
+						<div class="col-lg-3 col-md-6 gallery-item filter-home">
+							<div class="gallery-wrap">
+								<img src="${pageContext.request.contextPath}/resources/img/events-1.jpg" class="img-fluid" alt="">
+								<div class="gallery-info">
+									<h4>${list.attractionName}</h4>
+									<p>${list.attractionCategory}</p>
+									<p>${list.attractionPhoneNumber}</p>
+								<div class="gallery-links">
+									<a href="${pageContext.request.contextPath}/attractionOne?attractionId=${list.attractionId}&detailAddressId=${list.detailAddressId}"><i class="bx bx-plus"></i></a>
+								</div>
+								</div>
+							</div>
+						</div>
+					</c:forEach>
+				</div>
+	            
+				<!-- 페이징 -->
+				<nav style="margin-top: 50px">
+		   			<ul class="pagination" style="justify-content: center;">
+						<c:if test="${preferAttractionMap.preferAttractionCurrent > 1}">
+							<a href="${pageContext.request.contextPath}/?preferRoomCurrent=${preferRoomMap.preferRoomCurrent}&preferAttractionCurrent=1">처음으로</a>
+							<a href="${pageContext.request.contextPath}/?preferRoomCurrent=${preferRoomMap.preferRoomCurrent}&preferAttractionCurrent=${preferAttractionMap.preferAttractionCurrent-1}">이전</a>
+						</c:if>
+						
+						<c:forEach var="i" begin="${preferAttractionMap.startPage}" end="${preferAttractionMap.endPage}">
+							<a href="${pageContext.request.contextPath}/?preferRoomCurrent=${preferRoomMap.preferRoomCurrent}&preferAttractionCurrent=${i}"><c:out value="${i}"/></a>
+						</c:forEach>
+						
+						<c:if test="${preferAttractionMap.preferAttractionCurrent < preferAttractionMap.lastPage}">
+							<a href="${pageContext.request.contextPath}/?preferRoomCurrent=${preferRoomMap.preferRoomCurrent}&preferAttractionCurrent=${preferAttractionMap.preferAttractionCurrent+1}">다음</a>
+							<a href="${pageContext.request.contextPath}/?preferRoomCurrent=${preferRoomMap.preferRoomCurrent}&preferAttractionCurrent=${preferAttractionMap.lastPage}">끝으로</a>
+						</c:if>		
+					</ul>
+				</nav>
+				</c:otherwise>
+				</c:choose>
+	        </div>
         </div>
-
-        <div class="recent-photos-slider swiper">
-          <div class="swiper-wrapper align-items-center">
-            <div class="swiper-slide"><a href="${pageContext.request.contextPath}/resources/img/recent-photos/recent-photos-1.jpg" class="glightbox"><img src="${pageContext.request.contextPath}/resources/img/recent-photos/recent-photos-1.jpg" class="img-fluid" alt=""></a></div>
-            <div class="swiper-slide"><a href="${pageContext.request.contextPath}/resources/img/recent-photos/recent-photos-2.jpg" class="glightbox"><img src="${pageContext.request.contextPath}/resources/img/recent-photos/recent-photos-2.jpg" class="img-fluid" alt=""></a></div>
-            <div class="swiper-slide"><a href="${pageContext.request.contextPath}/resources/img/recent-photos/recent-photos-3.jpg" class="glightbox"><img src="${pageContext.request.contextPath}/resources/img/recent-photos/recent-photos-3.jpg" class="img-fluid" alt=""></a></div>
-            <div class="swiper-slide"><a href="${pageContext.request.contextPath}/resources/img/recent-photos/recent-photos-4.jpg" class="glightbox"><img src="${pageContext.request.contextPath}/resources/img/recent-photos/recent-photos-4.jpg" class="img-fluid" alt=""></a></div>
-            <div class="swiper-slide"><a href="${pageContext.request.contextPath}/resources/img/recent-photos/recent-photos-5.jpg" class="glightbox"><img src="${pageContext.request.contextPath}/resources/img/recent-photos/recent-photos-5.jpg" class="img-fluid" alt=""></a></div>
-            <div class="swiper-slide"><a href="${pageContext.request.contextPath}/resources/img/recent-photos/recent-photos-6.jpg" class="glightbox"><img src="${pageContext.request.contextPath}/resources/img/recent-photos/recent-photos-6.jpg" class="img-fluid" alt=""></a></div>
-            <div class="swiper-slide"><a href="${pageContext.request.contextPath}/resources/img/recent-photos/recent-photos-7.jpg" class="glightbox"><img src="${pageContext.request.contextPath}/resources/img/recent-photos/recent-photos-7.jpg" class="img-fluid" alt=""></a></div>
-            <div class="swiper-slide"><a href="${pageContext.request.contextPath}/resources/img/recent-photos/recent-photos-8.jpg" class="glightbox"><img src="${pageContext.request.contextPath}/resources/img/recent-photos/recent-photos-8.jpg" class="img-fluid" alt=""></a></div>
-          </div>
-          <div class="swiper-pagination"></div>
-        </div>
-
       </div>
     </section>
-    <!-- End Recent Photos Section -->
+    <!-- End Features Section -->
 
   </main>
   <!--  End #main   -->
@@ -351,7 +300,7 @@
 			  success : function(result){
 				  console.log(result)
 					
-				  $("#districtSigungu").find("option").remove().end().append("<option value=''>==선택==</option>")
+				  $("#districtSigungu").find("option").remove().end().append("<option value='' selected disabled>시군구 선택</option>")
 				  $.each(result, function(i){
 					 $("#districtSigungu").append("<option value='"+result[i]+"'>"+result[i]+"</option>")
 				  });

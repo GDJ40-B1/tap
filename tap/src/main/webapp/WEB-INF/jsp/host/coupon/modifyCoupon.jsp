@@ -17,13 +17,17 @@
     
     <!-- start : content -->
 	<div id="content" class="container-fluid">
+		
+		<!-- start : hostRoomNavi -->
+	    <div>
+	    	<jsp:include page="/partial/hostRoomNavi.jsp"></jsp:include>
+	    </div>
+	    <!-- end : hostRoomNavi -->
+	    <br>
 	
 		<!-- breadcrumb : 3 level이 되는 부분부터 사용 -->
 		<nav aria-label="breadcrumb">
 			<ol class="breadcrumb bg-gray-100">
-				<li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/hostMyPage">홈</a></li>
-				<li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/host/roomList">숙소목록</a></li>
-				<li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/host/roomOne?roomId=${room.roomId }&detailAddressId=${room.detailAddressId }">숙소상세보기</a></li>
 				<li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/host/couponList?roomId=${room.roomId }&detailAddressId=${room.detailAddressId }">쿠폰목록</a></li>
 				<li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/host/couponOne?roomId=${room.roomId }&detailAddressId=${room.detailAddressId }&couponId=${coupon.couponId}">쿠폰상세보기</a></li>
 				<li class="breadcrumb-item active" aria-current="page">쿠폰수정</li>

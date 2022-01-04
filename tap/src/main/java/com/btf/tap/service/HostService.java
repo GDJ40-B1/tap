@@ -231,10 +231,13 @@ public class HostService {
 	
 	// 총 수익 포인트 합 조회
 	public int getRevenueHost(String hostId) {
-		int revenueHost = hostMapper.selectRevenueHost(hostId);
-		log.debug(Font.JSB + "총 수익 포인트 합 => " + revenueHost + Font.RESET);
+		Integer point = hostMapper.selectRevenueHost(hostId);
+		if(point == null) {
+			return 0;
+		}
+		log.debug(Font.JSB + "총 수익 포인트 합 => " + point + Font.RESET);
 		
-		return revenueHost;
+		return point;
 	}
 	
 	// 연도별 수익 포인트 합 조회

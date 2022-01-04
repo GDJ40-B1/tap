@@ -68,7 +68,7 @@
 		
 	</select>
 	
-	 <!-- 숙소 목록 개수 -->
+	 <!-- 예약 목록 개수 -->
    <select id="selectReservationNum" resultType="int">
       SELECT COUNT(*) FROM reservation
    </select>
@@ -146,6 +146,11 @@
 			reservation_id, member_id, room_id, check_in_date, check_out_date,
 			people_num, final_payment_price, create_date, update_date
 		from reservation WHERE room_id=#{roomId}
+	</select>
+	
+	<!-- 특정 숙소의 유효한 예약 개수 추출(아직 체크인 날짜가 지나지 않은 예약 추출) -->
+	<select id="selectRoomReservationYetCount" parameterType="int" resultType="int">
+		SELECT COUNT(*) FROM reservation WHERE room_id=#{roomId} AND check_in_date > NOW()
 	</select>
 	
 	<!-- 특정 숙소의 예약 날짜 목록 추출 -->

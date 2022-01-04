@@ -206,7 +206,7 @@
 		LEFT JOIN room_review rr ON p.payment_id = rr.payment_id
 		<where>
 			p.member_id = #{memberId}
-			AND p.payment_date BETWEEN #{minDay} AND #{maxDay}
+			AND p.payment_date BETWEEN #{minDay} AND #{maxDay} + INTERVAL 1 DAY
 		</where>
 		ORDER BY p.payment_date DESC;
 	</select>

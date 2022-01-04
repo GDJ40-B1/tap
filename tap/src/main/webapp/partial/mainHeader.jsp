@@ -21,8 +21,8 @@
   <link href="${pageContext.request.contextPath}/resources/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="${pageContext.request.contextPath}/resources/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
   
-  <!-- bootstrap 4 -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- bootstrap -->
+  <link href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Template Main CSS File -->
   <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet">
@@ -42,11 +42,10 @@
       <h1 class="logo"><a href="${pageContext.request.contextPath}/">T A P</a></h1>
       <!-- Uncomment below if you prefer to use an image logo -->
       <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
-      
-      <form class="form-inline" id="searchForm" action="${pageContext.request.contextPath}/searchList">
-         <input class="form-control mr-sm-2" type="text" id="keyword" name="keyword">
-         <button class="btn btn-primary" id="btn" type="button">전체 검색</button>
-	  </form>
+      <form class="d-flex" id="searchForm" action="${pageContext.request.contextPath}/searchList">
+			<input class="form-control me-sm-2" type="text" id="keyword" name="keyword">
+			<button class="btn btn-secondary my-2 my-sm-0" id="btn" type="button">Search</button>
+      </form>
 
       <nav id="navbar" class="navbar">
         <ul>

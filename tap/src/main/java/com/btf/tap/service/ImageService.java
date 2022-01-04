@@ -63,7 +63,13 @@ public class ImageService {
 
         String path = mtRequest.getSession().getServletContext().getRealPath("/resources/img/"+imageTargetCategory+"/");
         
+        int i=0;
         for (MultipartFile mf : fileList) {
+        	if(i>5) {
+        		break;
+        	} else {
+        		i++;
+        	}
             String originFileName = mf.getOriginalFilename(); // 원본 파일 명
             log.debug(Font.HJ + "사진 명 :" + originFileName + Font.RESET);
             if(originFileName==null || originFileName.equals("")) {

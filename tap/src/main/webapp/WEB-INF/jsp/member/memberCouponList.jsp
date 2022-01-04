@@ -16,20 +16,20 @@
    <main id="main">
    <section class="breadcrumbs">
    
-   	<h1>명소List</h1>
+   	<h1>나의 보유 쿠폰</h1>
 	
-	<form action="${pageContext.request.contextPath}/attractionList" method="post">
+	<form action="${pageContext.request.contextPath}/member/memberCouponList" method="get">
 		<table border="1">
 			<tr>
-				<th>명소 카테고리</th>
-				<th>명소 이름</th>
-				<th>전화번호</th>
+				<th>보유 쿠폰 ID</th>
+				<th>쿠폰 ID</th>
+				<th>사용여부</th>
 			</tr>
 			<c:forEach items="${list }" var="list">
 				<tr>
-					<td>${list.attractionCategory }</td>
-					<td><a href="${pageContext.request.contextPath}/attractionOne?attractionId=${list.attractionId}&detailAddressId=${list.detailAddressId}">${list.attractionName }</a></td>
-					<td>${list.attractionPhoneNumber }</td>
+					<td>${list.memberCouponId }</td>
+					<td>${list.couponId }</td>
+					<td>${list.useStatus}</td>
 				</tr>
 				</c:forEach>
 
@@ -43,7 +43,6 @@
 			</c:if>
 		</div>
 	</form>
-	<a href="${pageContext.request.contextPath}/addAttraction">명소 등록</a>
 	</section>
 	</main>
 	
