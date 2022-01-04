@@ -5,8 +5,10 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.btf.tap.common.Font;
 import com.btf.tap.service.UserService;
@@ -22,17 +24,17 @@ public class UserController {
 	
 	// 로그인 페이지로 이동
 	@GetMapping("login")
-	public String GetLogin(HttpServletRequest request) {
+	public String GetLogin(HttpServletRequest request, Model model,
+			@RequestParam(value="userType", defaultValue ="none") String userType) {
 		
 		HttpSession session = request.getSession();
 		
 		// 로그인 되있을 경우, 홈페이지로 이동
 		if(session.getAttribute("loginUser") != null) {
 			log.debug(Font.HW + "이미 로그인한 유저 => index 페이지로 이동" + Font.RESET);
-			
 			return "redirect:/";
 		}
-		
+		model.addAttribute("userType", userType);
 		return "/user/login";
 	}
 	
