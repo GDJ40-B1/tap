@@ -178,7 +178,7 @@ public class AttractionService {
 	// 사용자 설정 선호지역 별 인기 명소 리스트
 	public Map<String, Object> getPreferLocalAttractionList(int preferAttractionCurrent, String sido, String sigungu) {
 		int defaultPage = 10;
-		final int rowPerPage = 10;
+		final int rowPerPage = 8;
 		int startPage = ((preferAttractionCurrent - 1) / defaultPage) * defaultPage + 1;
 		int endPage = startPage + defaultPage - 1;		
 		int beginRow = (preferAttractionCurrent-1) * rowPerPage;

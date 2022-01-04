@@ -9,7 +9,7 @@
 # General
 --------------------------------------------------------------*/
 body {
-  font-family: "Open Sans", sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
   color: #444444;
 }
 
@@ -24,7 +24,7 @@ a:hover {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Raleway", sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
 }
 
 /*--------------------------------------------------------------
@@ -106,9 +106,9 @@ h1, h2, h3, h4, h5, h6 {
   align-items: center;
   justify-content: space-between;
   padding: 10px 0 10px 30px;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 700;
   color: #2b3c6f;
   white-space: nowrap;
   transition: 0.3s;
@@ -408,7 +408,7 @@ h1, h2, h3, h4, h5, h6 {
 # Sections General
 --------------------------------------------------------------*/
 section {
-  padding: 60px 0;
+  padding: 30px 0;
 }
 
 .section-bg {
@@ -627,7 +627,7 @@ section {
 .breadcrumbs h2 {
   font-size: 28px;
   margin-bottom: 0;
-  font-weight: 300;
+  font-weight: 500;
 }
 .breadcrumbs ol {
   display: flex;

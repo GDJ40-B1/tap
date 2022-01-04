@@ -49,7 +49,7 @@ public class RoomService {
    // 사용자 설정 선호지역 별 인기 숙소 리스트
    public Map<String, Object> getPreferLocalRoomList(int preferRoomCurrent, String sido, String sigungu) {
       final int defaultPage = 10;
-      final int rowPerPage = 10;
+      final int rowPerPage = 8;
       int startPage = ((preferRoomCurrent - 1) / defaultPage) * defaultPage + 1;
       int endPage = startPage + defaultPage - 1;      
       int beginRow = (preferRoomCurrent-1) * rowPerPage;
@@ -65,6 +65,7 @@ public class RoomService {
       log.debug(Font.JSB + list.toString() + Font.RESET);
       
       int totalRowCount = roomMapper.preferLocalRoomTotalCount(page);
+      log.debug(Font.JSB + totalRowCount + Font.RESET);
       
       lastPage = totalRowCount / rowPerPage;
       

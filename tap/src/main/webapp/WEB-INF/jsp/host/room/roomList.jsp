@@ -6,10 +6,14 @@
 <head>
     <meta charset="utf-8">
 	<title>Insert title here</title>
-	<script src="http://code.jquery.com/jquery-latest.js"></script> 
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	
+    <!-- Custom styles for this template-->
+    <link href="${pageContext.request.contextPath}/resources/css/sb-admin-2.min.css" rel="stylesheet">
+	 
 </head>
 <body id="page-top">
-
+	
     <!-- start : hostHeader -->
     <div>
     	<jsp:include page="/partial/hostHeader.jsp"></jsp:include>
@@ -72,6 +76,10 @@
        <jsp:include page="/partial/hostFooter.jsp"></jsp:include>
     </div>
     <!-- end : hostFooter -->
+    
+    <!-- Bootstrap core JavaScript-->
+    <script src="${pageContext.request.contextPath}/resources/vendor/jquery/jquery.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/vendor/bootstrap_sb/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
 

@@ -36,19 +36,15 @@ public class HomeController {
 		
 		User loginUser = (User)session.getAttribute("loginUser");
 		
+		String sido = null;
+		String sigungu = null;
+		
 		if(loginUser != null && loginUser.getUserLevel().equals("member")) {
 			Map<String, Object> localMap = memberService.getPreferLocal(loginUser);
 			log.debug(Font.JSB + "설정된 선호지역 => " + localMap.toString()  + Font.RESET);
-			String sido = (String)localMap.get("sido");
-			String sigungu = (String)localMap.get("sigungu");
+			sido = (String)localMap.get("sido");
+			sigungu = (String)localMap.get("sigungu");
 			
-			// 설정 선호지역 이달의 추천 숙소 리스트
-			Map<String, Object> preferRoomMap = roomService.getPreferLocalRoomList(preferRoomCurrent, sido, sigungu);
-			preferRoomMap.put("preferRoomCurrent", preferRoomCurrent);
-			
-			// 설정 선호지역 이달의 추천 명소 리스트
-			Map<String, Object> preferAttractionMap = attractionService.getPreferLocalAttractionList(preferAttractionCurrent, sido, sigungu);
-			preferAttractionMap.put("preferAttractionCurrent", preferAttractionCurrent);
 			
 			// 검색어 기록 저장
 			if(keyword != null) {
@@ -61,15 +57,23 @@ public class HomeController {
 
 			model.addAttribute("searchList", searchList);
 			model.addAttribute("sigungu", sigungu);
-			model.addAttribute("preferRoomMap", preferRoomMap);
-			model.addAttribute("preferAttractionMap", preferAttractionMap);
 		}
 		
 		// DB 전체 시도 리스트 조회
 		List<String> sidoList = searchService.getSidoList();
+
+		// 이달의 추천 숙소 리스트
+		Map<String, Object> preferRoomMap = roomService.getPreferLocalRoomList(preferRoomCurrent, sido, sigungu);
+		preferRoomMap.put("preferRoomCurrent", preferRoomCurrent);
+		
+		// 이달의 추천 명소 리스트
+		Map<String, Object> preferAttractionMap = attractionService.getPreferLocalAttractionList(preferAttractionCurrent, sido, sigungu);
+		preferAttractionMap.put("preferAttractionCurrent", preferAttractionCurrent);
 		
 		model.addAttribute("sidoList", sidoList);
-
+		model.addAttribute("preferRoomMap", preferRoomMap);
+		model.addAttribute("preferAttractionMap", preferAttractionMap);
+		
 		return"/index";
 	}
 	
