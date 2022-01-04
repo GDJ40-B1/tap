@@ -7,6 +7,17 @@
 <script src="http://code.jquery.com/jquery-latest.js"></script> 
 <meta charset="UTF-8">
 <title>카테고리 추가</title>
+<style>
+	@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;500;700&display=swap');
+	#font h4 {
+		font-family: 'Noto Sans KR', sans-serif;
+		font-weight: 700;
+	} 
+	#font span {
+		font-family: 'Noto Sans KR', sans-serif;
+		font-weight: 500;
+	} 
+</style>
 
 <!-- Favicons -->
 <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="icon">
@@ -37,7 +48,7 @@
 				</div>
 	        </div><br>
 	        
-        	<ul>
+        	<ul id="font">
         		<li class="text-dark">
 		        	<h4><b>숙소 카테고리</b></h4>
 		        	<form action="${pageContext.request.contextPath}/systemAdmin/addRoomCategory" method="post">
