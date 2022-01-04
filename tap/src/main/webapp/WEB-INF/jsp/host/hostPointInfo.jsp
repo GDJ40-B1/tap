@@ -18,6 +18,9 @@
     <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="icon">
     <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="apple-touch-icon">
 
+	<!-- Favicons -->
+    <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="icon">
+    <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="apple-touch-icon">
     <!-- Custom fonts for this template-->
     <link href="${pageContext.request.contextPath}/resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
