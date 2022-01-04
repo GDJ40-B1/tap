@@ -43,7 +43,7 @@
 			</c:if>
 		</div>
 	</form>
-	<a href="${pageContext.request.contextPath}/addAttraction">명소 등록</a>
+	<a href="${pageContext.request.contextPath}/member/addAttraction">명소 등록</a>
 	</section>
 	</main>
 	
