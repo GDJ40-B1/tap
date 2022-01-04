@@ -167,7 +167,7 @@
 			sido = #{sido}
 			AND sigungu = #{sigungu}
 		</where>
-			ORDER BY ranking_score DESC
+			ORDER BY view_count DESC
 			LIMIT #{beginRow}, #{rowPerPage}		
 	</select>
   
