@@ -66,7 +66,7 @@ public class ReservationController {
 		return "/host/reservation/reservationList";
 	}
 	
-	//예약 정보 리스트 제작중
+	//회원 예약 정보 리스트 제작중
 		@GetMapping("/member/reservationList")
 		public String getReservationList2(HttpServletRequest request, Model model, @RequestParam(value="currentPage", defaultValue ="1") int currentPage) {
 			
