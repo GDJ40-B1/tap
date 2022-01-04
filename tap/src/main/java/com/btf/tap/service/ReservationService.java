@@ -132,6 +132,12 @@ public class ReservationService {
 		return result;
 	}
 	
+	// 호스트 숙소 전체 리스트 출력(최근 생성된 숙소 순으로)
+	   public List<Reservation> getHostReservationList(String hostId) {
+	      List<Reservation> reservationList = reservationMapper.selectHostReservationList(hostId);
+	      return reservationList;
+	   }
+	
 	// 특정 숙소의 예약 목록 추출
 	public List<Reservation> getRoomReservationList(int roomId) {
 		return reservationMapper.selectRoomReservation(roomId);

@@ -5,6 +5,9 @@
 <head>
 <meta charset="UTF-8">
 <title>deleteReservation.jsp</title>
+<title>예약 : 삭제 | TAP</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
 <!-- Favicons -->
   <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="icon">
   <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="apple-touch-icon">

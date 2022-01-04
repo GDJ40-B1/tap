@@ -4,7 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>deleteNotice.jsp</title>
+<title>공지사항 : 삭제 | TAP</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
 <!-- Favicons -->
   <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="icon">
   <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="apple-touch-icon">
@@ -43,12 +45,7 @@
 					<div>내용 :</div>
 					<div><textarea rows="10" cols="20" name="content" readonly="readonly">${notice.content}</textarea></div>
 					<div>종류 :</div>
-					<div>
-					<select name="kind" value="${notice.kind}" disabled="disabled">
-						<option value="Y" >Y</option>
-						<option value="N" >N</option>
-					</select>
-					</div>
+				
 					<div><button type="submit">삭제하기</button></div>
 				</form>
 			</div>

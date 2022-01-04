@@ -1,6 +1,7 @@
 package com.btf.tap.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,7 @@ import com.btf.tap.common.Font;
 import com.btf.tap.service.CouponService;
 import com.btf.tap.service.ReservationService;
 import com.btf.tap.vo.Reservation;
+import com.btf.tap.vo.Room;
 import com.btf.tap.vo.User;
 
 import lombok.extern.slf4j.Slf4j;
@@ -30,12 +32,9 @@ public class ReservationController {
 	CouponService couponService;
 	
 	//예약 정보 리스트 제작중
-	@GetMapping("/host/reservationList")
-	public String getReservationList(HttpServletRequest request, Model model, @RequestParam(value="currentPage", defaultValue ="1") int currentPage) {
+	@GetMapping("reservationList")
+	public String getReservationList(Model model, @RequestParam(value="currentPage", defaultValue ="1") int currentPage) {
 		
-		// 회원정보 세션으로 가져오기
-		HttpSession session = request.getSession();
-		User user = (User) session.getAttribute("loginUser");
 		
 		// 숙소 리스트와 페이징 관련 데이터를 result에 담기
 		Map<String, Object> result = reservationService.getReservationList(currentPage);
@@ -45,7 +44,20 @@ public class ReservationController {
 		model.addAttribute("result", result);
 		log.debug(Font.KSB +" reservationController단  result 값 "+  result.toString() + Font.RESET);
 		
-		return "/host/reservation/reservationList";
+		return "reservation/reservationList";
+	}
+	@GetMapping("/host/reservationList") //호스트 필터를 거친다 
+	public String hostReservationList(HttpServletRequest request, Model model) {
+		// 호스트 정보를 가져온다
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("loginUser");
+		
+		// 숙소 목록 추출
+		List<Reservation> reservationList = reservationService.getHostReservationList(user.getUserId());
+		//세션을 서비스로 보내고 리턴 받은걸 리스트에 저장해서 뷰에 뿌린다.
+		model.addAttribute("reservationList", reservationList);
+		
+		return "/host/room/roomList";
 	}
 	
 	//예약 정보 리스트 제작중

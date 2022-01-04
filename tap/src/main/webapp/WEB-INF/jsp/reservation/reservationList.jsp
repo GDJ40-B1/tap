@@ -5,7 +5,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>예약 목록</title>
+<title>예약 : 목록 | TAP</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
 <!-- Favicons -->
   <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="icon">
   <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="apple-touch-icon">

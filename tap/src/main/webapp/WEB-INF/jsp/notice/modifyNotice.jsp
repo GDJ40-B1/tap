@@ -5,7 +5,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>modifyNotice.jsp</title>
+<title>공지사항 : 수정 | TAP</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
 <!-- Favicons -->
   <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="icon">
   <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="apple-touch-icon">
@@ -45,12 +47,7 @@
 						<textarea rows="10" cols="20" name="content">${notice.content}</textarea>
 					</div>
 					<div>종류 :</div>
-					<div>
-						<select name="kind" value="${notice.kind}">
-							<option value="Y">Y</option>
-							<option value="N">N</option>
-						</select>
-					</div>
+					
 					<div>	
 						<button type="submit">수정</button>
 					</div>

@@ -6,7 +6,9 @@
 <head>
 <script src="http://code.jquery.com/jquery-latest.js"></script> 
 <meta charset="UTF-8">
-<title>addReservation.jsp</title>
+<title>예약 : 추가 | TAP</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
 <!-- Favicons -->
   <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="icon">
   <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="apple-touch-icon">
