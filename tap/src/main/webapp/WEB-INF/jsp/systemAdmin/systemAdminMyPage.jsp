@@ -31,11 +31,11 @@
 
 <body id="page-top">
 
-    <!-- start : hostHeader -->
+    <!-- start : systemAdminHeader -->
     <div>
     	<jsp:include page="/partial/systemAdminHeader.jsp"></jsp:include>
     </div>
-    <!-- end : hostHeader -->
+    <!-- end : systemAdminHeader -->
     
     <!-- start : content -->
     <div id="content" class="container-fluid">
@@ -196,11 +196,6 @@
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- Footer -->
-		            <c:import url="/partial/systemAdminFooter.jsp"></c:import>
-		            <!-- End of Footer -->
-
                 </div>
                 <!-- /.container-fluid -->
 
