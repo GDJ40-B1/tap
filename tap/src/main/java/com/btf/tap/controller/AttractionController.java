@@ -45,6 +45,7 @@ public class AttractionController {
 		model.addAttribute("attraction",map.get("attraction"));
 		model.addAttribute("address", map.get("address"));
 		model.addAttribute("hashtag",map.get("hashtag"));
+		attractionService.updateAttractionCnt(attractionId);
 		return "attraction/attractionOne";
 	}	
 	

@@ -16,20 +16,26 @@
    <!-- end : mainHeader -->
    <main id="main">
    <section class="breadcrumbs">
-  
+   	<div class="container">
+		<div class="d-flex justify-content-between align-items-center">  
    	<h1>명소 등록</h1>
-	<form action="${pageContext.request.contextPath}/addAttraction" method="post">
+	</div>
+	</div>
+	</section>	
+		<section class="event-list">
+		<div class="container">
+		<form action="${pageContext.request.contextPath}/member/addAttraction" method="post">
 		
-		<div>
-			<label>명소 이름</label>
-			<div>
-				<input type="text" name="attractionName">			
+		<div class="form-group">
+			<label class="form-label mt-4">명소 이름</label>
+			<div class="col-sm-10">
+				<input type="text" name="attractionName" class="form-control">			
 			</div>
 		</div>
-		<div>
-			<label>카테고리</label>
+		<div class="form-group">
+			<label class="form-label mt-4">카테고리</label>
 			<div>
-				<select name="attractionCategory">
+				<select name="attractionCategory" class="form-select">
 					<c:forEach items="${attractionCategoryList}" var="list">
 						<option>${list }</option>
 					</c:forEach>
@@ -39,42 +45,43 @@
 		
 		<div>
 			<!-- 전화번호 형태? 예쁘게 만들기+숫자만 들어가게끔 하기 -->
-			<label>전화번호</label>
-			<div>
-				<input type="text" name="attractionPhoneNumber">
+			<label class="form-label mt-4">전화번호</label>
+			<div class="col-sm-10">
+				<input type="text" name="attractionPhoneNumber" class="form-control">
 			</div>
 		</div>
 		
-		<div>
-			<label>명소 소개</label>
+		<div class="form-group">
+			<label class="form-label mt-4">명소 소개</label>
 			<div>
-			<textarea name="attractionContent"></textarea>
+			<textarea name="attractionContent" class="form-control"></textarea>
 			</div>
 		</div>
 		<div>
-			<label>주소</label>
+			<label class="form-label mt-4">주소</label>
 			<div>
-				<input type="text" name="detailAddress" id="address">
+				<input type="text" name="detailAddress" id="address" class="form-control" style="margin-bottom:10px;">
 			</div>			
 			<div>
-				<button type="button" name="searchBtn"id="searchBtn">찾기</button>
+				<button type="button" name="searchBtn"id="searchBtn"class="btn btn-secondary">찾기</button>
 			</div>
-			<div>상세주소</div>
+			<div style="margin-top:10px;">상세주소</div>
 			<div>
-				<input type="text" name="detailAddress2" id="detailAddress2">
+				<input type="text" name="detailAddress2" id="detailAddress2" class="form-control">
 			</div>
-			<div id="map" style="width:600px; height:359px;"></div>
+			<div id="map" style="width:600px; height:359px; margin-top:20px; margin-bottom:10px;"></div>
 			
 			<div>
-				<label>해시태그</label>
+				<label class="form-label mt-4">해시태그</label>
 			<div>
-            	<input type="text" id="hashtag" name="hashtag" value="#">			
+            	<input type="text" id="hashtag" name="hashtag" value="#" class="form-control">			
 			</div>
          	</div>		
 		</div>			
 			<br>
-			<button type="submit" id="addBtn">명소등록</button>
+			<button type="submit" id="addBtn" class="btn btn-info">명소등록</button>
 		</form>	
+		</div>
 	</section>
 	</main>
 	

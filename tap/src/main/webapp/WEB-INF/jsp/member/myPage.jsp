@@ -12,7 +12,11 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Dashboard</title>
+    <title>마이페이지</title>
+    
+    <!-- Favicons -->
+    <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="icon">
+    <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="apple-touch-icon">
 	
 	<script src="http://code.jquery.com/jquery-latest.js"></script> 
 	
@@ -28,23 +32,12 @@
 </head>
 
 <body id="page-top">
-
-    <!-- Page Wrapper -->
-    <div id="wrapper">
-
 		<!-- header 불러오기 -->
 		<c:import url="/partial/memberHeader.jsp"></c:import>
 		
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-
-                    <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
-                    </div>
                     
                     <!-- 회원정보 카드 -->
                     <div class="card shadow mb-4">
@@ -191,192 +184,23 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- Content Row -->
-                    <div class="row">
-
-                        <!-- Content Column -->
-                        <div class="col-lg-6 mb-4">
-
-
-
-                            <!-- Color System -->
-                            <div class="row">
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-primary text-white shadow">
-                                        <div class="card-body">
-                                            Primary
-                                            <div class="text-white-50 small">#4e73df</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-success text-white shadow">
-                                        <div class="card-body">
-                                            Success
-                                            <div class="text-white-50 small">#1cc88a</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-info text-white shadow">
-                                        <div class="card-body">
-                                            Info
-                                            <div class="text-white-50 small">#36b9cc</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-warning text-white shadow">
-                                        <div class="card-body">
-                                            Warning
-                                            <div class="text-white-50 small">#f6c23e</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-danger text-white shadow">
-                                        <div class="card-body">
-                                            Danger
-                                            <div class="text-white-50 small">#e74a3b</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-secondary text-white shadow">
-                                        <div class="card-body">
-                                            Secondary
-                                            <div class="text-white-50 small">#858796</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-light text-black shadow">
-                                        <div class="card-body">
-                                            Light
-                                            <div class="text-black-50 small">#f8f9fc</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-dark text-white shadow">
-                                        <div class="card-body">
-                                            Dark
-                                            <div class="text-white-50 small">#5a5c69</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="col-lg-6 mb-4">
-
-                            <!-- Illustrations -->
-                            <div class="card shadow mb-4">
-                                <div id="favoritesList" class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">숙소 즐겨찾기 리스트</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="text-center">
-                                    	<c:choose>
-                                    		<c:when test="${empty favMap.list}">
-												<div>등록하신 숙소가 없습니다.</div>
-											</c:when>
-											
-											<c:otherwise>
-												<table border="1">
-													<tr>
-														<th>숙소</th>
-													</tr>
-													<c:forEach var="f" items="${favMap.list}">
-														<tr>
-															<td><button type="button" class="btn btn-danger" value="${f.roomId}" id='removeFavorites'>취소</button></td>
-															<td><a href="${f.favoritesUrl}">${f.favoritesTitle}</a></td>
-														</tr>
-													</c:forEach>
-												</table>
-											</c:otherwise>
-										</c:choose>
-                                    	
-                                    	<c:if test="${favMap.favCurrentPage > 1}">
-                                    		<a href="${pageContext.request.contextPath}/myPage?favCurrentPage=${favMap.favCurrentPage-1}#favoritesList">이전</a>
-                                    	</c:if>
-											
-										<c:forEach var="i" begin="${favMap.favStartPage}" end="${favMap.favEndPage}">
-											<a href="${pageContext.request.contextPath}/myPage?favCurrentPage=${i}#favoritesList"><c:out value="${i}"/></a>
-										</c:forEach>
-											
-										<c:if test="${favMap.favCurrentPage < favMap.favLastPage}">
-											<a href="${pageContext.request.contextPath}/myPage?ufavCurrentPage=${favMap.favCurrentPage+1}#favoritesList">다음</a>
-										</c:if>
-									</div>
-								</div>
-							</div>
-
-                            <!-- Approach -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Development Approach</h6>
-                                </div>
-                                <div class="card-body">
-                                    <p>SB Admin 2 makes extensive use of Bootstrap 4 utility classes in order to reduce
-                                        CSS bloat and poor page performance. Custom CSS classes are used to create
-                                        custom components and custom utility classes.</p>
-                                    <p class="mb-0">Before working with this theme, you should become familiar with the
-                                        Bootstrap framework, especially the utility classes.</p>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
+                    
+                    <!-- Footer -->
+		            <footer class="sticky-footer bg-white">
+		                <div class="container my-auto">
+		                    <div class="copyright text-center my-auto">
+		                        <span>Copyright &copy; Your Website 2021</span>
+		                    </div>
+		                </div>
+		            </footer>
+		            <!-- End of Footer -->
                 </div>
                 <!-- /.container-fluid -->
-
-            </div>
-            <!-- End of Main Content -->
-
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2021</span>
-                    </div>
-                </div>
-            </footer>
-            <!-- End of Footer -->
-
-        </div>
-        <!-- End of Content Wrapper -->
-
-    </div>
-    <!-- End of Page Wrapper -->
 
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">Ã</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
 	
 	<script>
 	   $('#removeFavorites').click(function() {
@@ -410,12 +234,8 @@
                }
            })
 	   });   
-    </script>  
+    </script> 
 	
-    <!-- Bootstrap core JavaScript-->
-    <script src="${pageContext.request.contextPath}/resources/vendor/jquery/jquery.min.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/vendor/bootstrap_sb/js/bootstrap.bundle.min.js"></script>
-
     <!-- Core plugin JavaScript-->
     <script src="${pageContext.request.contextPath}/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
 

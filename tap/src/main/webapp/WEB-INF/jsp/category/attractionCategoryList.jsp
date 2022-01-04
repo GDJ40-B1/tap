@@ -6,7 +6,11 @@
 <head>
 <script src="http://code.jquery.com/jquery-latest.js"></script> 
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>명소 카테고리</title>
+
+<!-- Favicons -->
+<link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="icon">
+
 </head>
 <body id="page-top">
 	<!-- start : systemAdminHeader -->
@@ -32,7 +36,7 @@
 		            <h6 class="m-0 font-weight-bold text-primary">명소 카테고리</h6>
 		            <ol style="list-style: none;">
 						<li>
-							<a class="btn btn-outline-dark" href="${pageContext.request.contextPath}/systemAdmin/addAttractionCategory">카테고리 추가</a>
+							<a class="btn btn-danger" href="${pageContext.request.contextPath}/systemAdmin/addAttractionCategory">카테고리 추가</a>
 						</li>
 					</ol>
 				</div>
@@ -50,17 +54,17 @@
 	                    <tbody>
 	                    	<c:forEach items="${attractionCategoryList}" var="ac">
 								<tr>
-									<td><input type="text" value="${ac.attractionCategory}" readonly="readonly"></td>
+									<td><input class="btn btn-outline-primary" type="text" value="${ac.attractionCategory}" readonly="readonly"></td>
 									<td>
 										<form action="${pageContext.request.contextPath}/systemAdmin/modifyAttractionCategory" method="post">
 											<input type="hidden" name="attractionCategory" value="${ac.attractionCategory}">
-											<input type="text" name="newAttractionCategory" value="${ac.attractionCategory}">
-											<button type="submit">수정하기</button>
+											<input class="btn btn-outline-dark" type="text" name="newAttractionCategory" value="${ac.attractionCategory}">
+											<button class="btn btn-secondary" type="submit">수정하기</button>
 										</form>
 									<td>
 										<form action="${pageContext.request.contextPath}/systemAdmin/removeAttractionCategory" method="post">
 											<input type="hidden" name="attractionCategory" value="${ac.attractionCategory}">
-											<button type="submit">삭제하기</button>
+											<button class="btn btn-secondary" type="submit">삭제하기</button>
 										</form>
 									</td>
 								</tr>

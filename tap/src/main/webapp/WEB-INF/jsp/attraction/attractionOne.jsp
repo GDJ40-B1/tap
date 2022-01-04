@@ -6,7 +6,7 @@
 <head>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <meta charset="UTF-8">
-<title>attractionOne</title>
+<title>명소상세보기</title>
 </head>
 <body>
 	<!-- start : mainHeader -->
@@ -16,17 +16,24 @@
    <!-- end : mainHeader -->
    <main id="main">
    <section class="breadcrumbs">
-   
-	<h1>명소 상세보기</h1>
-	<div>${hashtag }</div>	
+   	<div class="container">
+		<div class="d-flex justify-content-between align-items-center"> 
+	<h2>명소</h2>
+	</div>
+	</div>
+	</section>
+	<section class="event-list">
+		<div class="container">
+	<div style="margin-bottom:20px; font-size:20px;"class="badge rounded-pill bg-info">${hashtag }</div>
+
 	<form action="${pageContext.request.contextPath}/attractionOne" method="post">
 			
 		<!-- 지도 -->
 		<div id="map" style="width:100%;height:400px;"></div>
-		<table border="1">
+		<table border="1" style=" margin-top: 20px;"class="table table-hover"">
 			<tr>
-				<td>명소 이름</td>
-				<td id="attractionName">${attraction.attractionName }</td>
+				<td style="width:20%;">명소 이름</td>
+				<td id="attractionName" style="width:80%">${attraction.attractionName }</td>
 			</tr>
 			<tr>
 				<td>명소 카테고리</td>
@@ -47,7 +54,7 @@
 		</table>
 	</form>
 	
-	
+	</div>
 	</section>
 	</main>	
 	<!-- start : mainFooter -->

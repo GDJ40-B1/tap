@@ -32,6 +32,7 @@
 		WHERE
 			user_id=#{userId} AND
 			user_pw=#{userPw} AND
+			user_level=#{userLevel} AND
 			user_level!='withdrawal'
 	</select>
 

@@ -5,7 +5,15 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>insertNotice.jsp</title>
+<title>공지사항 : 입력 | TAP</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+ <!-- Favicons -->
+  <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="icon">
+  <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 </head>
 <body>
 	 
@@ -35,13 +43,7 @@
 					<div><input type="text" name="title"></div>
 					<div>내용 :</div>
 					<div><textarea rows="10" cols="20" name="content"></textarea></div>
-					<div>종류 :</div>
-					<div>
-						<select name="kind">
-							<option value="Y">Y</option>
-							<option value="N">N</option>
-						</select>
-					</div>
+					
 					<div><button type="submit">추가</button></div>
 				</form>
 			</div>	
