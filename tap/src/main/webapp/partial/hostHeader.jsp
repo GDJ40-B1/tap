@@ -72,6 +72,12 @@
             </li>
             
             <li class="nav-item">
+                <a class="nav-link" href="${pageContext.request.contextPath}/host/reservationList">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>예약된 숙소</span></a>
+            </li>
+            
+            <li class="nav-item">
                 <a class="nav-link" href="${pageContext.request.contextPath}/host/roomPaymentList">
                     <i class="fas fa-fw fa-table"></i>
                     <span>숙소별 결제내역 확인</span></a>

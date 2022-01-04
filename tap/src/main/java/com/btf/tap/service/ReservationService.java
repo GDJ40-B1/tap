@@ -133,9 +133,40 @@ public class ReservationService {
 	}
 	
 	// 호스트 숙소 전체 리스트 출력(최근 생성된 숙소 순으로)
-	   public List<Reservation> getHostReservationList(String hostId) {
-	      List<Reservation> reservationList = reservationMapper.selectHostReservationList(hostId);
-	      return reservationList;
+	   public Map<String, Object> getHostReservationList(String hostId, int currentPage) {
+		// 페이징에 필요한 요소들
+			final int ROW_PER_PAGE = 10;
+			final int PAGE_PER_PAGE = 10;
+			int beginRow = (currentPage-1)*ROW_PER_PAGE;
+			
+			// 검색 결과 리스트 및 개수 추출
+			Map<String, Object> selectHostReservationList = new HashMap<>();
+			selectHostReservationList.put("beginRow", beginRow);
+			selectHostReservationList.put("rowPerPage", ROW_PER_PAGE);
+			selectHostReservationList.put("hostId", hostId);
+			
+
+	      List<Reservation> reservationList = reservationMapper.selectHostReservationList(selectHostReservationList);
+	      log.debug(Font.KSB +" reservationService단 selectHostReservationList에 hostId값 들어오는지 확인 "+  selectHostReservationList + Font.RESET);
+	      
+	      int totalHData = reservationMapper.selectHostReservationNum();
+	      log.debug(Font.KSB +" reservationService단 totalHData 들어오는 값 "+  totalHData + Font.RESET);
+			// 페이지 연산
+			Map<String, Object> page = pageOperation(totalHData, ROW_PER_PAGE, currentPage, PAGE_PER_PAGE);
+			log.debug(Font.KSB +" reservationService단 page 들어오는 값 "+  page.toString() + Font.RESET);
+	      
+			// return으로 넘길 값 map으로 묶어 보내기
+			Map<String, Object> result2 = new HashMap<>();
+			log.debug(Font.KSB +" reservationService단 HostReservation result 값 "+  result2.toString() + Font.RESET);
+			
+			result2.put("reservationList", reservationList);
+			result2.put("rowPerPage", ROW_PER_PAGE);
+		    result2.put("lastPage", page.get("lastPage"));
+		    result2.put("lastnumPage", page.get("lastnumPage"));
+		    result2.put("currentnumPage", page.get("currentnumPage"));
+		    result2.put("pagePerPage", PAGE_PER_PAGE);
+		    
+			return result2;
 	   }
 	
 	// 특정 숙소의 예약 목록 추출

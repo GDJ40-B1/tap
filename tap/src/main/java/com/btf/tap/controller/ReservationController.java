@@ -31,7 +31,7 @@ public class ReservationController {
 	@Autowired
 	CouponService couponService;
 	
-	//예약 정보 리스트 제작중
+	//전체 예약 정보 리스트
 	@GetMapping("reservationList")
 	public String getReservationList(Model model, @RequestParam(value="currentPage", defaultValue ="1") int currentPage) {
 		
@@ -46,18 +46,24 @@ public class ReservationController {
 		
 		return "reservation/reservationList";
 	}
+	//호스트별 예약 정보 리스트 
 	@GetMapping("/host/reservationList") //호스트 필터를 거친다 
-	public String hostReservationList(HttpServletRequest request, Model model) {
+	public String hostReservationList(HttpServletRequest request, Model model, @RequestParam(value="currentPage", defaultValue ="1") int currentPage) {
 		// 호스트 정보를 가져온다
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("loginUser");
 		
-		// 숙소 목록 추출
-		List<Reservation> reservationList = reservationService.getHostReservationList(user.getUserId());
-		//세션을 서비스로 보내고 리턴 받은걸 리스트에 저장해서 뷰에 뿌린다.
-		model.addAttribute("reservationList", reservationList);
 		
-		return "/host/room/roomList";
+		System.out.println("!!!!"+ user.getUserId());
+		// 숙소 목록 추출
+		Map<String, Object> result2 = reservationService.getHostReservationList(user.getUserId(), currentPage);
+		//세션을 서비스로 보내고 리턴 받은걸 리스트에 저장해서 뷰에 뿌린다.
+		
+		model.addAttribute("result2", result2);
+		
+		log.debug(Font.KSB +" reservationController단  result2 값 "+  result2.toString() + Font.RESET);
+		
+		return "/host/reservation/reservationList";
 	}
 	
 	//예약 정보 리스트 제작중
