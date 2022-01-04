@@ -103,8 +103,8 @@
 	<!-- 호스트별 예약 목록 개수 -->
 	<select id="selectHostReservationNum" resultType="int">
       SELECT COUNT(*)
-		FROM (SELECT * FROM room ) r 
-      INNER JOIN reservation res ON r.room_id = res.room_id
+		FROM (SELECT * FROM reservation ) res 
+      INNER JOIN room r ON res.room_id = r.room_id
       <where>host_id=#{hostId}</where>    
     </select>
 	 <!-- 예약 목록 개수 -->

@@ -16,11 +16,11 @@
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 </head>
 <body>
-	<!-- start : mainHeader -->
-   <div>
-      <jsp:include page="/partial/mainHeader.jsp"></jsp:include>
-   </div>
-   <!-- end : mainHeader -->
+	<!-- start : hostHeader -->
+    <div>
+    	<jsp:include page="/partial/hostHeader.jsp"></jsp:include>
+    </div>
+    <!-- end : hostHeader -->
    
    <main id="main">
    		<!-- ======= Breadcrumbs ======= -->
@@ -109,11 +109,11 @@
 		</section>
 	</main>
 	
-	<!-- start : mainFooter -->
-   <div>
-      <jsp:include page="/partial/mainFooter.jsp"></jsp:include>
-   </div>
-   <!-- end : mainFooter -->
+	<!-- start : hostFooter -->
+    <div>
+       <jsp:include page="/partial/hostFooter.jsp"></jsp:include>
+    </div>
+    <!-- end : hostFooter -->
    
    <!-- kakao API -->
    <jsp:include page="/partial/kakaoAPIKey.jsp"></jsp:include>

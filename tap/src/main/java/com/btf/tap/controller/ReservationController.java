@@ -58,7 +58,7 @@ public class ReservationController {
 		// 숙소 목록 추출
 		Map<String, Object> result2 = reservationService.getHostReservationList(user.getUserId(), currentPage);
 		//세션을 서비스로 보내고 리턴 받은걸 리스트에 저장해서 뷰에 뿌린다.
-		
+		result2.put("currentPage", currentPage);
 		model.addAttribute("result2", result2);
 		
 		log.debug(Font.KSB +" reservationController단  result2 값 "+  result2.toString() + Font.RESET);

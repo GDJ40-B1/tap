@@ -14,7 +14,7 @@ public interface ReservationMapper {
 	List<Reservation> selectRoomReservation(int roomId); // 특정 숙소의 예약 목록 추출
 	List<Reservation> selectRoomReservationDateList(int roomId); // 특정 숙소의 예약 날짜 목록 추출
 	List<Reservation> selectReservationList(Map selectReservationList); //숙소 별 전체 예약 목록
-	List<Reservation> selectHostReservationList(Map selectReservationList); // host의 숙소 전체 목록 출력
+	List<Reservation> selectHostReservationList(Map selectHostReservationList); // host의 숙소 전체 목록 출력
 	int selectRoomReservationYetCount(int roomId); // 특정 숙소의 유효한 예약 개수 추출
 	int selectReservationNum(); // 예약 갯수
 	int selectHostReservationNum();
