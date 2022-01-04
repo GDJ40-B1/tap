@@ -66,24 +66,24 @@ public class ReservationController {
 		return "/host/reservation/reservationList";
 	}
 	
-	//회원 예약 정보 리스트 제작중
-		@GetMapping("/member/reservationList")
-		public String getReservationList2(HttpServletRequest request, Model model, @RequestParam(value="currentPage", defaultValue ="1") int currentPage) {
-			
-			// 회원정보 세션으로 가져오기
-			// 회원정보 세션으로 가져오기
+	//회원별 예약 정보 리스트 
+		@GetMapping("/member/reservationList") //호스트 필터를 거친다 
+		public String memberReservationList(HttpServletRequest request, Model model, @RequestParam(value="currentPage", defaultValue ="1") int currentPage) {
+			// 호스트 정보를 가져온다
 			HttpSession session = request.getSession();
 			User user = (User) session.getAttribute("loginUser");
 			
-			// 숙소 리스트와 페이징 관련 데이터를 result에 담기
-			Map<String, Object> result = reservationService.getReservationList(currentPage);
 			
+			System.out.println("!!!!"+ user.getUserId());
+			// 숙소 목록 추출
+			Map<String, Object> result3 = reservationService.getMemberReservationList(user.getUserId(), currentPage);
+			//세션을 서비스로 보내고 리턴 받은걸 리스트에 저장해서 뷰에 뿌린다.
+			result3.put("currentPage", currentPage);
+			model.addAttribute("result3", result3);
 			
-			result.put("currentPage", currentPage);
-			model.addAttribute("result", result);
-			log.debug(Font.KSB +" reservationController단  result 값 "+  result.toString() + Font.RESET);
+			log.debug(Font.KSB +" reservationController단  result3 값 "+  result3.toString() + Font.RESET);
 			
-			return "member/reservation/reservationList";
+			return "/member/reservation/reservationList";
 		}
 	
 	@GetMapping("/member/addPayment")

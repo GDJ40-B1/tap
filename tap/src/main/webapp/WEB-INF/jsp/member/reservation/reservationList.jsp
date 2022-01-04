@@ -16,11 +16,11 @@
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 </head>
 <body>
-	<!-- start : hostHeader -->
-    <div>
-    	<jsp:include page="/partial/hostHeader.jsp"></jsp:include>
-    </div>
-    <!-- end : hostHeader -->
+	<!-- start : mainHeader -->
+   <div>
+      <jsp:include page="/partial/memberHeader.jsp"></jsp:include>
+   </div>
+   <!-- end : mainHeader -->
    
    <main id="main">
    		<!-- ======= Breadcrumbs ======= -->
@@ -60,7 +60,7 @@
 				<th> 가격 </th>
 				<th> 수정일 </th>
 			</tr>
-			<c:forEach items="${result2.reservationList}" var="reservation" >
+			<c:forEach items="${result3.reservationList}" var="reservation" >
 			<tr>
 				<td>${reservation.reservationId}</td>
 				<td><a href="${pageContext.request.contextPath}/roomOne?roomId=${reservation.room.roomId}&detailAddressId=${reservation.room.detailAddressId}">${reservation.room.roomName}</a></td>
@@ -82,26 +82,26 @@
 				<!-- 페이징 -->
 				<nav style="margin-top: 50px">
 		   			<ul class="pagination" style="justify-content: center;">
-					    <c:if test="${result2.currentPage!=1}">
-						    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/host/reservationList?currentPage=<%=1 %>">처음</a></li>
+					    <c:if test="${result3.currentPage!=1}">
+						    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/member/reservationList?currentPage=<%=1 %>">처음</a></li>
 						</c:if>
 						
-						<c:if test="${result2.currentnumPage>0}">
-						    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/host/reservationList?currentPage=${result2.pagePerPage*(result2.currentnumPage-1)+1 }">이전</a></li>
+						<c:if test="${result3.currentnumPage>0}">
+						    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/member/reservationList?currentPage=${result3.pagePerPage*(result3.currentnumPage-1)+1 }">이전</a></li>
 						</c:if>
 						
-						<c:forEach begin="0" end="${result2.pagePerPage-1}" step="1" var="i">
-							<c:if test="${result2.lastPage>=(result2.pagePerPage*result2.currentnumPage)+i+1}">
-							    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/host/reservationList?currentPage=${(result2.pagePerPage*result2.currentnumPage)+i+1 }">${(result.pagePerPage*result.currentnumPage)+i+1 }</a></li>
+						<c:forEach begin="0" end="${result3.pagePerPage-1}" step="1" var="i">
+							<c:if test="${result3.lastPage>=(result3.pagePerPage*result3.currentnumPage)+i+1}">
+							    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/member/reservationList?currentPage=${(result3.pagePerPage*result.currentnumPage)+i+1 }">${(result3.pagePerPage*result3.currentnumPage)+i+1 }</a></li>
 							</c:if>
 						</c:forEach>
 						    
-						<c:if test="${result2.lastnumPage>result2.currentnumPage}">
-						    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/host/reservationList?currentPage=${result2.pagePerPage*(result2.currentnumPage+1)+1 }">다음</a></li>
+						<c:if test="${result3.lastnumPage>result.currentnumPage}">
+						    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/member/reservationList?currentPage=${result3.pagePerPage*(result3.currentnumPage+1)+1 }">다음</a></li>
 						</c:if>
 						
-						<c:if test="${result2.currentPage!=result2.lastPage && result2.lastPage!=0}">
-						    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/host/reservationList?currentPage=${result2.lastPage }">끝</a></li>
+						<c:if test="${result3.currentPage!=result3.lastPage && result3.lastPage!=0}">
+						    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/member/reservationList?currentPage=${result3.lastPage }">끝</a></li>
 						</c:if>
 					</ul>
 				</nav>
@@ -109,11 +109,11 @@
 		</section>
 	</main>
 	
-	<!-- start : hostFooter -->
-    <div>
-       <jsp:include page="/partial/hostFooter.jsp"></jsp:include>
-    </div>
-    <!-- end : hostFooter -->
+	<!-- start : mainFooter -->
+   <div>
+      <jsp:include page="/partial/memberFooter.jsp"></jsp:include>
+   </div>
+   <!-- end : mainFooter -->
    
    <!-- kakao API -->
    <jsp:include page="/partial/kakaoAPIKey.jsp"></jsp:include>
@@ -130,7 +130,7 @@
 	var geocoder = new kakao.maps.services.Geocoder();
 	
 	// 각 숙소의 정보를 토대로 마커를 찍습니다
-	<c:forEach items="${result2.reservationList}" var="r" varStatus="status">
+	<c:forEach items="${result3.reservationList}" var="r" varStatus="status">
 		// 주소로 좌표를 검색합니다
 		geocoder.addressSearch("${r.address.detailAddress}", function(result, status) {
 

@@ -132,7 +132,7 @@ public class ReservationService {
 		return result;
 	}
 	
-	// 호스트 숙소 전체 리스트 출력(최근 생성된 숙소 순으로)
+	// 호스트 전체 예약 리스트 출력(최근 생성된 숙소 순으로)
 	   public Map<String, Object> getHostReservationList(String hostId, int currentPage) {
 		// 페이징에 필요한 요소들
 			final int ROW_PER_PAGE = 10;
@@ -167,6 +167,43 @@ public class ReservationService {
 		    result2.put("pagePerPage", PAGE_PER_PAGE);
 		    
 			return result2;
+	   }
+	   
+	// 회원별 전체 예약 리스트 출력
+	   public Map<String, Object> getMemberReservationList(String memberId, int currentPage) {
+		// 페이징에 필요한 요소들
+			final int ROW_PER_PAGE = 10;
+			final int PAGE_PER_PAGE = 10;
+			int beginRow = (currentPage-1)*ROW_PER_PAGE;
+			
+			// 검색 결과 리스트 및 개수 추출
+			Map<String, Object> selectMemberReservationList = new HashMap<>();
+			selectMemberReservationList.put("beginRow", beginRow);
+			selectMemberReservationList.put("rowPerPage", ROW_PER_PAGE);
+			selectMemberReservationList.put("memberId", memberId);
+			
+
+	      List<Reservation> reservationList = reservationMapper.selectMemberReservationList(selectMemberReservationList);
+	      log.debug(Font.KSB +" reservationService단 selectMemberReservationList에 memberId값 들어오는지 확인 "+  selectMemberReservationList + Font.RESET);
+	      
+	      int totalMData = reservationMapper.selectMemberReservationNum();
+	      log.debug(Font.KSB +" reservationService단 totalMData 들어오는 값 "+  totalMData + Font.RESET);
+			// 페이지 연산
+			Map<String, Object> page = pageOperation(totalMData, ROW_PER_PAGE, currentPage, PAGE_PER_PAGE);
+			log.debug(Font.KSB +" reservationService단 page 들어오는 값 "+  page.toString() + Font.RESET);
+	      
+			// return으로 넘길 값 map으로 묶어 보내기
+			Map<String, Object> result3 = new HashMap<>();
+			log.debug(Font.KSB +" reservationService단 HostReservation result 값 "+  result3.toString() + Font.RESET);
+			
+			result3.put("reservationList", reservationList);
+			result3.put("rowPerPage", ROW_PER_PAGE);
+		    result3.put("lastPage", page.get("lastPage"));
+		    result3.put("lastnumPage", page.get("lastnumPage"));
+		    result3.put("currentnumPage", page.get("currentnumPage"));
+		    result3.put("pagePerPage", PAGE_PER_PAGE);
+		    
+			return result3;
 	   }
 	
 	// 특정 숙소의 예약 목록 추출

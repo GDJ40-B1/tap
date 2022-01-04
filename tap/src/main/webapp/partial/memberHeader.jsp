@@ -66,6 +66,12 @@
             </div>
             
 			<!-- Nav Item - Tables -->
+			<li class="nav-item">
+                <a class="nav-link" href="${pageContext.request.contextPath}/member/reservationList">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>내 예약 내역</span></a>
+            </li>
+			
             <li class="nav-item">
                 <a class="nav-link" href="${pageContext.request.contextPath}/member/getPayList">
                     <i class="fas fa-fw fa-table"></i>
