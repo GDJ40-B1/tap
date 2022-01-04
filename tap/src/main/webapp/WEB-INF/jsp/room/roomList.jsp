@@ -112,7 +112,7 @@
 	var geocoder = new kakao.maps.services.Geocoder();
 	
 	// 각 숙소의 정보를 토대로 마커를 찍습니다
-	<c:forEach items="${result.roomList}" var="r" varStatus="status">
+	<c:forEach items="${result.reservationList}" var="r" varStatus="status">
 		// 주소로 좌표를 검색합니다
 		geocoder.addressSearch("${r.address.detailAddress}", function(result, status) {
 

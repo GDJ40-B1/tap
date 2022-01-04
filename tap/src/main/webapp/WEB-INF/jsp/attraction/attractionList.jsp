@@ -5,7 +5,8 @@
 <head>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <meta charset="UTF-8">
-<title>attractionList</title>
+<title>명소 목록</title>
+
 </head>
 <body>
 	<!-- start : mainHeader -->
@@ -15,14 +16,17 @@
    <!-- end : mainHeader -->
    <main id="main">
    <section class="breadcrumbs">
-   
-   	<h1>명소List</h1>
-	
+	<div class="container">
+		<div class="d-flex justify-content-between align-items-center">   
+    		<h1>명소</h1>  
+    	</div>
+   </div>
+	<div class="container">
 	<form action="${pageContext.request.contextPath}/attractionList" method="post">
-		<table border="1">
-			<tr>
-				<th>명소 카테고리</th>
-				<th>명소 이름</th>
+		 <table style=" width:100%; height: 100px; margin: auto; text-align: center;"class="table table-hover">
+			<tr class="table-primary">
+				<th>카테고리</th>
+				<th>이름</th>
 				<th>전화번호</th>
 			</tr>
 			<c:forEach items="${list }" var="list">
@@ -43,7 +47,10 @@
 			</c:if>
 		</div>
 	</form>
-	<a href="${pageContext.request.contextPath}/addAttraction">명소 등록</a>
+		<div class="btn btn-outline-primary" style="margin:20px;">
+			<a href="${pageContext.request.contextPath}/member/addAttraction">명소 등록</a>
+		</div>
+	</div>
 	</section>
 	</main>
 	

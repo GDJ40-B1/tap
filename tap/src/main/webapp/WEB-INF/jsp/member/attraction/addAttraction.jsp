@@ -18,7 +18,7 @@
    <section class="breadcrumbs">
   
    	<h1>명소 등록</h1>
-	<form action="${pageContext.request.contextPath}/addAttraction" method="post">
+	<form action="${pageContext.request.contextPath}/member/addAttraction" method="post">
 		
 		<div>
 			<label>명소 이름</label>

@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     
-        <!-- Custom fonts for this template-->
+    <!-- Custom fonts for this template-->
     <link href="${pageContext.request.contextPath}/resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
@@ -177,6 +177,10 @@
                 </nav>
                 <!-- End of Topbar -->
                
+                <!-- Bootstrap core JavaScript-->
+    			<script src="${pageContext.request.contextPath}/resources/vendor/jquery/jquery.min.js"></script>
+    			<script src="${pageContext.request.contextPath}/resources/vendor/bootstrap_sb/js/bootstrap.bundle.min.js"></script>
+			    
                 <!-- Logout Modal-->
 			    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
 			        aria-hidden="true">
@@ -184,14 +188,11 @@
 			            <div class="modal-content">
 			                <div class="modal-header">
 			                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-			                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-			                        <span aria-hidden="true">Ã</span>
-			                    </button>
 			                </div>
-			                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+			                <div class="modal-body">현재의 로그인 세션을 종료하시겠습니까?</div>
 			                <div class="modal-footer">
-			                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-			                    <a class="btn btn-primary" href="${pageContext.request.contextPath}/logout">Logout</a>
+			                    <button class="btn btn-secondary" type="button" data-dismiss="modal">취소</button>
+			                    <a class="btn btn-primary" href="${pageContext.request.contextPath}/logout">로그아웃</a>
 			                </div>
 			            </div>
 			        </div>

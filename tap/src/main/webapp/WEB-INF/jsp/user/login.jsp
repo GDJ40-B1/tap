@@ -1,18 +1,21 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
-    <title>login</title>
+	<script src="http://code.jquery.com/jquery-latest.js"></script> 
+    <title>로그인</title>
+    
+    <!-- Favicons -->
+    <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="icon">
+    <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="apple-touch-icon">
 
     <!-- Custom fonts for this template-->
     <link href="${pageContext.request.contextPath}/resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -38,39 +41,101 @@
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
                         <div class="row">
-                            <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-7">
+                            		<div class="form-row" style="height: 100%;">
+									    <div class="form-group col-md-4" style="height: 100%;">
+									      <a href="${pageContext.request.contextPath}/login?userType=member">
+									      	<div style="width: 100%; height: 100%; background: #EBE8FF;">
+									      		<c:choose>
+													<c:when test="${userType eq 'member'}">
+														<img src="${pageContext.request.contextPath}/resources/img/login/selected_member_login.png" width="100%" height="100%">
+													</c:when>
+													<c:otherwise>
+														<img src="${pageContext.request.contextPath}/resources/img/login/member_login.png" width="100%" height="100%">
+													</c:otherwise>
+												</c:choose>
+									      	</div>
+									      </a>
+									    </div>
+									    <div class="form-group col-md-4" style="height: 100%;">
+									      <a href="${pageContext.request.contextPath}/login?userType=host">
+									      	<div style="width: 100%; height: 100%; background: #FFECE2;">
+									      		<c:choose>
+													<c:when test="${userType eq 'host'}">
+														<img src="${pageContext.request.contextPath}/resources/img/login/selected_host_login.png" width="100%" height="100%">
+													</c:when>
+													<c:otherwise>
+														<img src="${pageContext.request.contextPath}/resources/img/login/host_login.png" width="100%" height="100%">
+													</c:otherwise>
+												</c:choose>
+									      	</div>
+									      </a>
+									    </div>
+									    <div class="form-group col-md-4" style="height: 100%;">
+									      <a href="${pageContext.request.contextPath}/login?userType=system_admin">
+									      	<div style="width: 100%; height: 100%; background: #E2F3FF;">
+									      		<c:choose>
+													<c:when test="${userType eq 'system_admin'}">
+														<img src="${pageContext.request.contextPath}/resources/img/login/selected_systemAdmin_login.png" width="100%" height="100%">
+													</c:when>
+													<c:otherwise>
+														<img src="${pageContext.request.contextPath}/resources/img/login/systemAdmin_login.png" width="100%" height="100%">
+													</c:otherwise>
+												</c:choose>
+									      	</div>
+									      </a>
+									    </div>
+									  </div>
+                            </div>
+                            <div class="col-lg-5">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                                        <h1 class="h4 text-gray-900 mb-4">TAP과 함께 떠나볼까요?</h1>
                                     </div>
-                                    <form class="user" action="${pageContext.request.contextPath}/login" method="post">
+                                    <form id="loginForm" class="user" action="${pageContext.request.contextPath}/login" method="post">
                                         <div class="form-group">
-                                            <input type="email" class="form-control form-control-user"
-                                                id="exampleInputEmail" aria-describedby="emailHelp"
-                                                placeholder="Enter Email Address..." name="userId">
+                                        	<!-- 객체가 선택되었다면 테스트 아이디 입력 -->
+                                        	<c:choose>
+													<c:when test="${userType eq 'member'}">
+														<input type="email" class="form-control form-control-user"
+                                                			id="userId" placeholder="tap@email.com" name="userId" value="fjdkslvn9@gmail.com">
+													</c:when>
+													<c:when test="${userType eq 'host'}">
+														<input type="email" class="form-control form-control-user"
+                                                			id="userId" placeholder="tap@email.com" name="userId" value="dhtnsehf9@gmail.com">
+													</c:when>
+													<c:when test="${userType eq 'system_admin'}">
+														<input type="email" class="form-control form-control-user"
+                                                			id="userId" placeholder="tap@email.com" name="userId" value="dhekfhd9@naver.com">
+													</c:when>
+													<c:otherwise>
+														<input type="email" class="form-control form-control-user"
+                                                			id="userId" placeholder="tap@email.com" name="userId">
+													</c:otherwise>
+												</c:choose>
+                                                
+                                                
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" class="form-control form-control-user"
-                                                id="exampleInputPassword" placeholder="Password" name="userPw">
+                                        	<c:choose>
+													<c:when test="${userType ne 'none'}">
+														<input type="password" class="form-control form-control-user"
+                                                			id="userPw" placeholder="Password" name="userPw" value="1234">
+													</c:when>
+													<c:otherwise>
+														<input type="password" class="form-control form-control-user"
+                                                			id="userPw" placeholder="password" name="userPw">
+													</c:otherwise>
+												</c:choose>
                                         </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck">
-                                                <label class="custom-control-label" for="customCheck">Remember
-                                                    Me</label>
-                                            </div>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary btn-user btn-block">Login</button>
+                                        <input id="userType" name="userLevel" type="hidden" value="${userType }">
+                                        <button id="loginBtn" type="button" class="btn btn-primary btn-user btn-block">로그인</button>
                                     </form>
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small" href="forgot-password.html">Forgot Password?</a>
-                                    </div>
-                                    <div class="text-center">
-                                        <a class="small" href="${pageContext.request.contextPath}/addMember">Create an Account!</a><br>
-                                        <a class="small" href="${pageContext.request.contextPath}/addHost">Create a Host Account!</a><br>
-                                        <a class="small" href="${pageContext.request.contextPath}/addSystemAdmin">Create a Admin Account!</a>
+                                        <a class="small" href="${pageContext.request.contextPath}/addMember">일반 회원 가입</a><br>
+                                        <a class="small" href="${pageContext.request.contextPath}/addHost">호스트 회원 가입</a><br>
+                                        <a class="small" href="${pageContext.request.contextPath}/addSystemAdmin">관리자 회원 가입</a>
                                     </div>
                                 </div>
                             </div>
@@ -83,6 +148,21 @@
         </div>
 
     </div>
+    
+    <script>
+    $('#loginBtn').click(function(){
+		if("${userType}"=='none'){
+			alert('정체를 선택해주세요!');
+		} else if($('#userId').val()==''){
+			alert('아이디를 입력하세요');
+		} else if($('#userPw').val()==''){
+			alert('비밀번호를 입력하세요');
+		} else{
+			<!-- loginForm으로 이동 -->
+			$('#loginForm').submit();
+		}
+	});
+    </script>
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
