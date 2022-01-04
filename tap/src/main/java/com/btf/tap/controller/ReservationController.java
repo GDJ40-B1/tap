@@ -30,12 +30,12 @@ public class ReservationController {
 	CouponService couponService;
 	
 	//예약 정보 리스트 제작중
-	@GetMapping("reservationList")
-	public String getReservationList(HttpSession session, Model model, @RequestParam(value="currentPage", defaultValue ="1") int currentPage) {
+	@GetMapping("/host/reservationList")
+	public String getReservationList(HttpServletRequest request, Model model, @RequestParam(value="currentPage", defaultValue ="1") int currentPage) {
 		
 		// 회원정보 세션으로 가져오기
-			
-			User user = (User)session.getAttribute("loginUser");
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("loginUser");
 		
 		// 숙소 리스트와 페이징 관련 데이터를 result에 담기
 		Map<String, Object> result = reservationService.getReservationList(currentPage);
@@ -45,8 +45,28 @@ public class ReservationController {
 		model.addAttribute("result", result);
 		log.debug(Font.KSB +" reservationController단  result 값 "+  result.toString() + Font.RESET);
 		
-		return "reservation/reservationList";
+		return "/host/reservation/reservationList";
 	}
+	
+	//예약 정보 리스트 제작중
+		@GetMapping("/member/reservationList")
+		public String getReservationList2(HttpServletRequest request, Model model, @RequestParam(value="currentPage", defaultValue ="1") int currentPage) {
+			
+			// 회원정보 세션으로 가져오기
+			// 회원정보 세션으로 가져오기
+			HttpSession session = request.getSession();
+			User user = (User) session.getAttribute("loginUser");
+			
+			// 숙소 리스트와 페이징 관련 데이터를 result에 담기
+			Map<String, Object> result = reservationService.getReservationList(currentPage);
+			
+			
+			result.put("currentPage", currentPage);
+			model.addAttribute("result", result);
+			log.debug(Font.KSB +" reservationController단  result 값 "+  result.toString() + Font.RESET);
+			
+			return "member/reservation/reservationList";
+		}
 	
 	@GetMapping("/member/addPayment")
 	public String getAddPayment(HttpSession session, Model model, Reservation reservation) {
