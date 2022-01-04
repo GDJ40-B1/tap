@@ -47,49 +47,6 @@
 
             <!-- Heading -->
             <div class="sidebar-heading">
-                Interface
-            </div>
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Components</span>
-                </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Components:</h6>
-                        <a class="collapse-item" href="buttons.html">Buttons</a>
-                        <a class="collapse-item" href="cards.html">Cards</a>
-                    </div>
-                </div>
-            </li>
-
-            <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                    aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-wrench"></i>
-                    <span>Utilities</span>
-                </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Utilities:</h6>
-                        <a class="collapse-item" href="utilities-color.html">Colors</a>
-                        <a class="collapse-item" href="utilities-border.html">Borders</a>
-                        <a class="collapse-item" href="utilities-animation.html">Animations</a>
-                        <a class="collapse-item" href="utilities-other.html">Other</a>
-                    </div>
-                </div>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
                 Addons
             </div>
 			<!-- Nav Item - Tables -->
@@ -104,34 +61,13 @@
                 <a class="nav-link" href="${pageContext.request.contextPath}/member/memberCouponList">
                     <i class="fas fa-fw fa-table"></i>
                     <span>보유 쿠폰</span></a>
-            </li>
-            			
-			<!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="${pageContext.request.contextPath}/modifyMemberInfo">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>회원정보 변경</span></a>
-            </li>
-            
-            <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="${pageContext.request.contextPath}/modifyMemberPw">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>비밀번호 변경</span></a>
-            </li>
+            </li>   
 
             <!-- Nav Item - Charts -->
             <li class="nav-item">
                 <a class="nav-link" href="${pageContext.request.contextPath}/pointInfo">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>포인트</span></a>
-            </li>
-
-            <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="${pageContext.request.contextPath}/removeMember">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>회원탈퇴</span></a>
             </li>
 
             <!-- Divider -->
@@ -352,22 +288,22 @@
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Profile
-                                </a>
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="${pageContext.request.contextPath}/modifyMemberInfo">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Settings
+                                    개인 정보 변경
                                 </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Activity Log
+                                <a class="dropdown-item" href="${pageContext.request.contextPath}/modifyMemberPw">
+                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    비밀번호 변경
+                                </a>
+                                <a class="dropdown-item" href="${pageContext.request.contextPath}/removeMember">
+                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    회원 탈퇴
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="${pageContext.request.contextPath}/logout" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
+                                    로그아웃
                                 </a>
                             </div>
                         </li>
@@ -376,6 +312,10 @@
 
                 </nav>
                 <!-- End of Topbar -->
+                
+                <!-- Bootstrap core JavaScript-->
+			    <script src="${pageContext.request.contextPath}/resources/vendor/jquery/jquery.min.js"></script>
+			    <script src="${pageContext.request.contextPath}/resources/vendor/bootstrap_sb/js/bootstrap.bundle.min.js"></script>
                 
                 <!-- Logout Modal-->
 			    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
