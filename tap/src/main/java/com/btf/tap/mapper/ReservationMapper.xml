@@ -81,6 +81,7 @@
 		   r.host_id,
 		   res.check_in_date, 
 		   res.check_out_date,
+		   res.member_id,
 		   res.final_payment_price, 
 		   r.check_in_time, 
 		   r.check_out_time, 
