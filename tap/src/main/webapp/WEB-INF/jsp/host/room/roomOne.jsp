@@ -98,8 +98,8 @@
 				</ul>
 			</div>
 		</div>
-		<a href="${pageContext.request.contextPath}/host/modifyRoom?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}">숙소 수정</a>
-   		<button id="delBtn" type="button" class="btn btn-link">숙소 삭제</button>
+		<button type="button" class="btn btn-info" onclick="location.href='${pageContext.request.contextPath}/host/modifyRoom?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}' ">숙소 수정</button>
+   		<button type="button" id="delBtn" class="btn btn-info">숙소 삭제</button>
 	</div>
 	<!-- end : content -->
 	
