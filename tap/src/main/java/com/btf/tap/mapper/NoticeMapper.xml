@@ -6,7 +6,6 @@
 		<result column="system_admin_id" property="systemAdminId"/>
 		<result column="title" property="title"/>
 		<result column="content" property="content"/>
-		<result column="kind" property="kind"/>
 		<result column="create_date" property="createDate"/>
 		<result column="update_date" property="updateDate"/>
 	</resultMap>
@@ -20,12 +19,9 @@
 			create_date,
 			update_date     
 		FROM notice 
-		 
         ORDER BY create_date DESC
-		LIMIT #{beginRow}, 10
+		LIMIT #{beginRow}, #{rowPerPage}
 	</select>
-	
-	
 	
 	<!-- 총 게시글의 수 -->
 	<select id="totalRowCount" resultType="int">
@@ -44,16 +40,17 @@
 		WHERE notice_id = #{noticeId}
 	</select>
 		
-		<!-- 공지사항 추가 -->
+	<!-- 공지사항 추가 -->
 	<insert id="insertNotice" parameterType="com.btf.tap.vo.Notice">
 		INSERT INTO notice(
-			system_admin_id, title, content, kind, create_date, update_date
+			system_admin_id, title, content, create_date, update_date
 		) VALUES (
 			#{systemAdminId}, #{title}, #{content}, NOW(), NOW())
 			<selectKey keyProperty="noticeId" order="AFTER" resultType="int">
 			SELECT LAST_INSERT_ID()
 		</selectKey>
 	</insert>
+	
 	<!-- 공지사항 수정 -->
 	<update id="updateNotice" parameterType="com.btf.tap.vo.Notice">
 		UPDATE notice SET

@@ -13,7 +13,7 @@ import com.btf.tap.vo.Notice;
 @Mapper
 public interface NoticeMapper {
 	// List 뽑아오기
-	List<Notice> selectNoticeList(Map<String, Integer> paramMap);
+	List<Notice> selectNoticeList(Map<String, Object> page);
 	
 	
 	int totalRowCount();	// 게시판 페이징시 마지막 페이지를 구하기 위한 총 게시글의 수

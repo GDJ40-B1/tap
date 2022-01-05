@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.btf.tap.common.Font;
+import com.btf.tap.service.NoticeService;
 import com.btf.tap.service.QuestionService;
 import com.btf.tap.service.SystemAdminService;
+import com.btf.tap.vo.Notice;
 import com.btf.tap.vo.Question;
 import com.btf.tap.vo.SystemAdmin;
 import com.btf.tap.vo.User;
@@ -29,6 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 public class SystemAdminController {
 	@Autowired SystemAdminService systemAdminService;
 	@Autowired private QuestionService questionService;
+	@Autowired private NoticeService noticeService;
 	
 	// 시스템관리자 세션을 통한 myPage 구현
 	@GetMapping("/systemAdminMyPage")
@@ -299,5 +302,65 @@ public class SystemAdminController {
 		systemAdminService.modifyFeeRate(feeRate);
 		
 		return "redirect:/systemAdminMyPage";
+	}
+	
+	// *** 공지사항 관련 ***
+	// 공지사항 게시글 조회
+	@GetMapping("/systemAdmin/noticeList")
+	public String getNoticeList(HttpSession session, Model model, @RequestParam(value="currentPage", defaultValue= "1") int currentPage) {
+		// 로그인한 정보 loginUser 객체에 담기
+		User loginUser = (User)session.getAttribute("loginUser");
+		
+		Map<String,Object> noticeList = noticeService.getNoticeList(currentPage);
+		model.addAttribute("noticeList", noticeList);
+		model.addAttribute("lastPage", noticeList.get("lastPage"));
+		model.addAttribute("startPage", noticeList.get("startPage"));
+		model.addAttribute("endPage", noticeList.get("endPage"));
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("totalNoticeCount", noticeList.get("totalNoticeCount"));
+		
+		return "systemAdmin/noticeList";
+	}
+	
+	// 공지사항 게시글 추가하기
+	@GetMapping("/systemAdmin/addNotice")
+	public String getAddNotice(HttpSession session, Model model) {
+		User loginUser = (User)session.getAttribute("loginUser");
+		
+		model.addAttribute("systemAdminId", loginUser.getUserId());
+		
+		return "systemAdmin/addNotice";
+	}
+	@PostMapping("/systemAdmin/addNotice")
+	public String postAddNotice(Notice notice) {
+		log.debug(Font.HS + "notice 객체 입력받은 값 => " + notice.toString() + Font.RESET);
+			
+		noticeService.addNotice(notice);
+		
+		return "redirect:/systemAdmin/noticeList";
+	}
+	
+	// 공지사항 게시글 수정하기
+	@PostMapping("/systemAdmin/modifyNotice")
+	public String postModifyNotice(Notice notice) {
+		log.debug(Font.HS + "notice 객체 입력받은 값 => " + notice.toString() + Font.RESET);
+		
+		noticeService.modifyNotice(notice);
+		
+		return "redirect:/systemAdmin/noticeList";
+	}
+	
+	// 공지사항 게시글 삭제하기
+	@GetMapping("/systemAdmin/removeNotice")
+	public String getRemoveNotice(Model model, int noticeId) {
+		log.debug(Font.HS + "noticeId 입력받은 값 => " + noticeId + Font.RESET);
+		
+		// deleteNotice()메소드의 notice 객체 생성
+		Notice notice = new Notice();
+		notice.setNoticeId(noticeId);
+		
+		noticeService.deleteNotice(notice);
+		
+		return "redirect:/systemAdmin/noticeList";	
 	}
 }

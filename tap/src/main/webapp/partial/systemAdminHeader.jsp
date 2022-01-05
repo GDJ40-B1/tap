@@ -95,9 +95,9 @@
                                     
             <!-- Nav Item - Notices -->
             <li class="nav-item">
-                <a class="nav-link" href="${pageContext.request.contextPath}/noticeList">
+                <a class="nav-link" href="${pageContext.request.contextPath}/systemAdmin/noticeList">
                     <i class="fas fa-sticky-note"></i>
-                    <span>공지사항</span></a>
+                    <span>공지사항 관리</span></a>
             </li>
             
             <!-- Nav Item - Questions -->

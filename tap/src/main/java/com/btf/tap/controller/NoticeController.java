@@ -1,6 +1,7 @@
 package com.btf.tap.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -24,19 +25,6 @@ public class NoticeController {
 	@Autowired
 	NoticeService noticeService;
 	
-	@GetMapping("/systemAdmin/addNotice")
-	public String addNotice(HttpServletRequest request, Model model) {
-		
-		// addNotice.jsp에서 writerId값을 세션 id값으로 대체하기 위해 생성
-		HttpSession session = request.getSession();
-		
-		User loginUser = (User)session.getAttribute("loginUser");
-		log.debug(Font.HS + "로그인한 세션 정보 => " + loginUser.toString() + Font.RESET);
-		
-		model.addAttribute("loginUser", loginUser);
-		
-		return "notice/addNotice";
-	}
 	@PostMapping("/addNotice")
 	public String addNotice(Notice notice) {
 		noticeService.addNotice(notice);
@@ -89,7 +77,7 @@ public class NoticeController {
 		}
 		
 		
-			List<Notice> noticeList = noticeService.getNoticeList(currentPage);
+			Map<String,Object> noticeList = noticeService.getNoticeList(currentPage);
 			
 			model.addAttribute("noticeList", noticeList);
 			model.addAttribute("currentPage",currentPage);
