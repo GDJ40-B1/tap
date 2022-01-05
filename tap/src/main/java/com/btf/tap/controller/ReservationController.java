@@ -55,7 +55,7 @@ public class ReservationController {
 		
 		
 		System.out.println("!!!!"+ user.getUserId());
-		// 숙소 목록 추출
+		// 목록 추출
 		Map<String, Object> result2 = reservationService.getHostReservationList(user.getUserId(), currentPage);
 		//세션을 서비스로 보내고 리턴 받은걸 리스트에 저장해서 뷰에 뿌린다.
 		result2.put("currentPage", currentPage);
@@ -75,7 +75,7 @@ public class ReservationController {
 			
 			
 			System.out.println("!!!!"+ user.getUserId());
-			// 숙소 목록 추출
+			// 목록 추출
 			Map<String, Object> result3 = reservationService.getMemberReservationList(user.getUserId(), currentPage);
 			//세션을 서비스로 보내고 리턴 받은걸 리스트에 저장해서 뷰에 뿌린다.
 			result3.put("currentPage", currentPage);
