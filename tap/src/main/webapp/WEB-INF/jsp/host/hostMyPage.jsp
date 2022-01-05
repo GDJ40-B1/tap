@@ -11,15 +11,15 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-<<<<<<< HEAD
-    <title>호스트 마이 페이지 | TAP</title>
-=======
+
+    <title>호스트 마이 페이지</title>
+
     <title>마이페이지</title>
     
     <!-- Favicons -->
     <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="icon">
     <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="apple-touch-icon">
->>>>>>> branch 'main' of https://github.com/GDJ40-B1/tap.git
+
     
     <!-- Favicons -->
   <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="icon">
