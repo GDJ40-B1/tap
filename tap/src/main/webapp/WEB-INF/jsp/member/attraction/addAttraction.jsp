@@ -28,7 +28,7 @@
 		
 		<div class="form-group">
 			<label class="form-label mt-4">명소 이름</label>
-			<div class="col-sm-10">
+			<div>
 				<input type="text" name="attractionName" class="form-control">			
 			</div>
 		</div>
@@ -46,7 +46,7 @@
 		<div>
 			<!-- 전화번호 형태? 예쁘게 만들기+숫자만 들어가게끔 하기 -->
 			<label class="form-label mt-4">전화번호</label>
-			<div class="col-sm-10">
+			<div >
 				<input type="text" name="attractionPhoneNumber" class="form-control">
 			</div>
 		</div>

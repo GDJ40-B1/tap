@@ -48,6 +48,10 @@
 								<td id="address">${address.detailAddress }</td>
 							</tr>
 							<tr>
+								<td>명소 상세주소</td>
+								<td id="address2">${address.detailAddress2 }</td>							
+							</tr>
+							<tr>
 								<td>전화번호</td>
 								<td id="attractionPhoneNumber">${attraction.attractionPhoneNumber }</td>
 							</tr>
@@ -111,7 +115,7 @@
 
 	        // 인포윈도우로 장소에 대한 설명을 표시합니다
 	        var infowindow = new kakao.maps.InfoWindow({
-	            content: '<div style="width:150px;text-align:center;padding:6px 0;">'+$('#AttractionName').text()+'</div>'
+	            content: '<div style="width:150px;text-align:center;padding:6px 0;">'+$('#attractionName').text()+'</div>'
 	        });
 	        infowindow.open(map, marker);
 
