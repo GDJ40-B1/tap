@@ -3,22 +3,18 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
-<!-- test용 주석 -->
-<!-- test용 주석2 -->
-<!-- test용 주석3 -->
-<!-- test용 주석4 -->
-<!-- test용 주석5 -->
-<!-- test용 주석6 -->
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Register</title>
+    <title>회원 정보 수정</title>
+    
+    <!-- Favicons -->
+    <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="icon">
+    <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="apple-touch-icon">
 
 	<script src="http://code.jquery.com/jquery-latest.js"></script> 
 
@@ -41,56 +37,61 @@
             <div class="card-body p-0">
                 <!-- Nested Row within Card Body -->
                 <div class="row">
-                    <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+                    <div class="col-lg-5">
+                    	<img src="${pageContext.request.contextPath}/resources/img/system/update_user.png"
+                    	width="70%" height="70%" style="margin-left: 20%; margin-top: 15%;">
+                    </div>
                     <div class="col-lg-7">
                         <div class="p-5">
                             <div class="text-center">
-                                <h1 class="h4 text-gray-900 mb-4">Modify Your Info!</h1>
+                                <h1 class="h4 text-gray-900 mb-4">회원 정보를 수정하세요!</h1>
                             </div>
-                            <form class="user" method="post" action="${pageContext.request.contextPath}/modifyMemberInfo" >
+                            <form id="modifyMemberForm" class="user" method="post" action="${pageContext.request.contextPath}/modifyMemberInfo" >
                                 <div class="form-group">
-                                    <input type="hidden" class="form-control form-control-user" id="exampleInputEmail"
+                                    <input type="hidden" class="form-control form-control-user"
                                         placeholder="Email Address" name="memberId" value="${member.memberId}">
                                 </div>                                
                                 <div class="form-group">
                                     <h4 class="small font-weight-bold">이름</h4>
-                                    <input type="text" class="form-control form-control-user" id="exampleInputName"
-                                        placeholder="name" name="memberName" value="${member.memberName}">
+                                    <input type="text" class="form-control form-control-user"
+                                        placeholder="name" id="memberName" name="memberName" value="${member.memberName}">
                                 </div>                                
                                 <div class="form-group">
                                 	<h4 class="small font-weight-bold">나이</h4>
-                                    <input type="text" class="form-control form-control-user" id="exampleInputAge"
-                                        placeholder="age" name="memberAge" value="${member.memberAge}">
+                                    <input type="number" class="form-control form-control-user"
+                                        placeholder="age" id="memberAge" name="memberAge" value="${member.memberAge}">
                                 </div>
                                 <div class="form-group">
                                 	<h4 class="small font-weight-bold">전화번호</h4>
-                                    <input type="text" class="form-control form-control-user" id="exampleInputPhone"
-                                        placeholder="phone number" name="memberPhone" value="${member.memberPhone}">
+                                    <input type="text" class="form-control form-control-user"
+                                        placeholder="phone number" id="memberPhone" name="memberPhone" value="${member.memberPhone}">
                                 </div>
                                 <div class="form-group">
                                 	<h4 class="small font-weight-bold">선호지역</h4>
-									<select name="sido" id="sido" onchange="sidoType(this.value);">
-								  		<option value="${localMap.sido}" selected disabled>${localMap.sido}</option>
-								  	<c:forEach var="s" items="${sidoList}">
-								  		<option value="${s}">${s}</option>
-								  	</c:forEach>
-									</select>
-									<select name="sigungu" id="sigungu">
-										<option value="${localMap.sigungu}" selected disabled>${localMap.sigungu}</option>
-									</select>                                
+                                	<div class="form-group row">
+                                		<div class="form-group col-md-6">
+                                			<select class="form-control" name="sido" id="sido" onchange="sidoType(this.value);">
+										  	<c:forEach var="s" items="${sidoList}">
+										  		<c:choose>
+													<c:when test="${s eq localMap.sido }">
+														<option value="${localMap.sido}" selected>${localMap.sido}</option>
+													</c:when>
+													<c:otherwise>
+														<option value="${s}">${s}</option>
+													</c:otherwise>
+												</c:choose>
+										  	</c:forEach>
+											</select>
+                                		</div>
+                                		<div class="form-group col-md-6">
+                                			<select class="form-control" name="sigungu" id="sigungu">
+												<option value="${localMap.sigungu}" selected>${localMap.sigungu}</option>
+											</select>
+                                		</div>
+                                	</div>                   
                                 </div>
-<!--                                 <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="password" class="form-control form-control-user"
-                                            id="exampleInputPassword" placeholder="Password">
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <input type="password" class="form-control form-control-user"
-                                            id="exampleRepeatPassword" placeholder="Repeat Password">
-                                    </div>
-                                </div> -->
-                                <button type="submit" class="btn btn-primary btn-user btn-block">
-                                    modify your Info 
+                                <button id="modifyMemberBtn" type="button" class="btn btn-primary btn-user btn-block">
+                                    수정
                                 </button>
                             </form>
                         </div>
@@ -132,6 +133,20 @@
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
+    
+    <script>
+		$('#modifyMemberBtn').click(function(){
+			if($('#memberName').val()==''){
+				alert('이름을 입력하세요.');
+			} else if($('#memberAge').val()==''){
+				alert('나이를 입력하세요.');
+			} else if($('#memberPhone').val()==''){
+				alert('전화번호를 입력하세요.');
+			} else{
+				$('#modifyMemberForm').submit();
+			}
+		});
+    </script>
 
 </body>
 

@@ -170,7 +170,7 @@ public class SystemAdminController {
 		// 시스템관리자 정보 주입
 		model.addAttribute("systemAdmin", systemAdmin);
 		
-		return "systemAdmin/systemAdminMyPage";
+		return "redirect:/logout";
 	}
 	
 	// 시스템관리자 한 명의 정보(name, age, phone) 수정하기

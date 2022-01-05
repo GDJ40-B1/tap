@@ -17,6 +17,7 @@
 		SELECT 
 			member_id,
 			member_name,
+			member_pw,
 			member_age,
 			member_phone,
 			member_point,
@@ -169,7 +170,7 @@
 	</update>
 	
 	<!-- 회원 한 명의 정보를 수정(비밀번호) -->
-	<update id="updateMemberPw" parameterType="com.btf.tap.vo.Member" statementType="CALLABLE">
+	<update id="updateMemberPw" parameterType="com.btf.tap.vo.Member">
 		UPDATE
 			member
 		SET
@@ -180,7 +181,7 @@
 	</update>
 	
 	<!-- 회원 한 명의 정보를 삭제 -->
-	<delete id="deleteMemberOne" parameterType="com.btf.tap.vo.Member" statementType="CALLABLE">
+	<delete id="deleteMemberOne" parameterType="com.btf.tap.vo.Member">
 		DELETE FROM
 			member
 		WHERE

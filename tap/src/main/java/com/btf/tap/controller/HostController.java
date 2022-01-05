@@ -200,8 +200,8 @@ public class HostController {
 		// 호스트 정보 주입
 		model.addAttribute("host", host);
 		
-		// 마이페이지로 이동
-		return "host/hostMyPage";
+		// 로그아웃
+		return "redirect:/logout";
 	}
 	
 	@GetMapping("/modifyHostInfo")
@@ -251,7 +251,7 @@ public class HostController {
 		model.addAttribute("host", host);
 		
 		// 호스트 마이페이지로 이동
-		return "host/hostMyPage";
+		return "redirect:/hostMyPage";
 	}
 	
 	@GetMapping("/hostMyPage")

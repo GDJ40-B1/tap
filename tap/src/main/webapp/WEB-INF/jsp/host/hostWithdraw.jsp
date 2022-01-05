@@ -40,7 +40,7 @@
                 <div class="row">
                     <div class="col-lg-5">
                     	<img src="${pageContext.request.contextPath}/resources/img/system/escape_user.png"
-                    	width="80%" height="80%" style="margin-left: 10%; margin-top: 10%;">
+                    	width="80%" height="80%" style="margin-left: 15%; margin-top: 10%;">
                     </div>
                     <div class="col-lg-7">
                         <div class="p-5">
@@ -79,7 +79,6 @@
 				alert('등록하신 숙소가 존재하여 탈퇴할 수 없습니다.');
 				$(location).attr('href', "${pageContext.request.contextPath}/hostMyPage");
 			} else{
-				<!-- postAddRoom으로 이동 -->
 				$('#removeHostForm').submit();
 			}
 		});
