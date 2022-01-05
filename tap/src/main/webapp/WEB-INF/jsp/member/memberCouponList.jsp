@@ -1,55 +1,73 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
 <head>
-<script src="http://code.jquery.com/jquery-latest.js"></script>
-<meta charset="UTF-8">
-<title>attractionList</title>
+    <meta charset="utf-8">
+	<title>보유 쿠폰</title>
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	
+	<!-- Favicons -->
+    <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="icon">
+    <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="apple-touch-icon">
+	
+    <!-- Custom styles for this template-->
+    <link href="${pageContext.request.contextPath}/resources/css/sb-admin-2.min.css" rel="stylesheet">
+	 
 </head>
-<body>
-	<!-- start : mainHeader -->
-   <div>
-      <jsp:include page="/partial/mainHeader.jsp"></jsp:include>
-   </div>
-   <!-- end : mainHeader -->
-   <main id="main">
-   <section class="breadcrumbs">
-   
-   	<h1>나의 보유 쿠폰</h1>
+<body id="page-top">
 	
-	<form action="${pageContext.request.contextPath}/member/memberCouponList" method="get">
-		<table border="1">
-			<tr>
-				<th>보유 쿠폰 ID</th>
-				<th>쿠폰 ID</th>
-				<th>사용여부</th>
-			</tr>
-			<c:forEach items="${list }" var="list">
-				<tr>
-					<td>${list.memberCouponId }</td>
-					<td>${list.couponId }</td>
-					<td>${list.useStatus}</td>
-				</tr>
-				</c:forEach>
-
-		</table>
-			<div>
-			<c:if test="${currentPage > 1}">
-				<a href="/tap/attractionList?currentPage=${currentPage-1}">이전</a>
-			</c:if>
-			<c:if test="${currentPage < lastPage}">
-				<a href="/tap/attractionList?currentPage=${currentPage+1}">다음</a>
-			</c:if>
-		</div>
-	</form>
-	</section>
-	</main>
+    <!-- start : hostHeader -->
+    <div>
+    	<jsp:include page="/partial/memberHeader.jsp"></jsp:include>
+    </div>
+    <!-- end : hostHeader -->
+    
+    <!-- start : content -->
+	<div id="content" class="container-fluid">
+		<!-- DataTales Example -->
+	    <div class="card shadow mb-4">
+	        <div class="card-header py-3">
+	            <h6 class="m-0 font-weight-bold text-primary">보유 쿠폰</h6>
+	        </div>
+	        <div class="card-body">
+	            <div class="table-responsive">
+	                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+	                    <thead>
+	                        <tr>
+	                            <th>no.</th>
+	                            <th>적용 숙소</th>
+	                            <th>쿠폰명</th>
+	                            <th>할인률</th>
+	                            <th>사용 시작일</th>
+	                            <th>사용 종료일</th>
+	                        </tr>
+	                    </thead>
+	                    <tbody>
+	                    	<c:forEach items="${couponList }" var="c">
+								<tr>
+									<td>${c.memberCouponId }</td>
+									<td><a href="${pageContext.request.contextPath}/roomOne?roomId=${c.room.roomId}&detailAddressId=${c.room.detailAddressId }">${c.room.roomName }</a></td>
+									<td>${c.coupon.couponName }</td>
+									<td>${c.coupon.discount }${c.coupon.couponType }</td>
+									<td>${c.coupon.couponEffectiveDate }</td>
+									<td>${c.coupon.couponExpirationDate }</td>
+								</tr>
+							</c:forEach>
+	                    </tbody>
+	                </table>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	<!-- end : content -->
 	
-	<!-- start : mainFooter -->
-   <div>
-      <jsp:include page="/partial/mainFooter.jsp"></jsp:include>
-   </div>
-   <!-- end : mainFooter -->	
+	<!-- start : hostFooter -->
+    <div>
+       <jsp:include page="/partial/memberFooter.jsp"></jsp:include>
+    </div>
+    <!-- end : hostFooter -->
 </body>
 </html>
+

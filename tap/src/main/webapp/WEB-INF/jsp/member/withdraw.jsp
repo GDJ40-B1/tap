@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -12,7 +12,12 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Register</title>
+    <title>회원 탈퇴</title>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    
+    <!-- Favicons -->
+    <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="icon">
+    <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="apple-touch-icon">
 
     <!-- Custom fonts for this template-->
     <link href="${pageContext.request.contextPath}/resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -33,24 +38,27 @@
             <div class="card-body p-0">
                 <!-- Nested Row within Card Body -->
                 <div class="row">
-                    <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+                    <div class="col-lg-5">
+                    	<img src="${pageContext.request.contextPath}/resources/img/system/escape_user.png"
+                    	width="80%" height="80%" style="margin-left: 15%; margin-top: 10%;">
+                    </div>
                     <div class="col-lg-7">
                         <div class="p-5">
                             <div class="text-center">
-                                <h1 class="h3 text-gray-900 mb-3">저희를 떠나실 건가요?</h1>
-                                <h1 class="h5 text-gray-900 mb-5">확인을 위해 비밀번호를 입력해 주세요.<br>전환하지 않은 보유 포인트는 모두 소멸됩니다.</h1>
+                                <h1 class="h3 text-gray-900 mb-3">TAP과의 이별을 진행하시겠습니까?</h1><br>
+                                <h1 class="h5 text-gray-900 mb-5">전환하지 않은 보유 포인트는 모두 소멸됩니다.</h1>
                             </div>
-                            <form class="user" method="post" action="${pageContext.request.contextPath}/removeMember" >
+                            <form id="removeMemberForm" class="user" method="post" action="${pageContext.request.contextPath}/removeMember" >
                                 <div class="form-group">
                                     <input type="hidden" class="form-control form-control-user" id="exampleInputEmail"
                                         placeholder="Email Address" name="memberId" value="${loginUser.userId}">
                                 </div>                                
                                 <div class="form-group">
-                                    <input type="text" class="form-control form-control-user" id="exampleInputPw"
+                                    <input type="text" class="form-control form-control-user" id="memberPw"
                                         placeholder="password" name="memberPw">
                                 </div>
-                                <button type="submit" class="btn btn-danger btn-user btn-block">
-                                   withdraw Account
+                                <button id="removeMemberBtn" type="button" class="btn btn-danger btn-user btn-block">
+                                   회원 탈퇴
                                 </button>
                             </form>
                         </div>
@@ -70,6 +78,17 @@
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
+    
+    <script>
+ 		// 탈퇴 버튼 클릭 시
+		$('#removeMemberBtn').click(function(){
+			if($('#memberPw').val()==''){
+				alert('비밀번호를 입력하세요.');
+			} else{
+				$('#removeMemberForm').submit();
+			}
+		});
+    </script>
 
 </body>
 

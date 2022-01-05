@@ -200,8 +200,8 @@ public class MemberController {
 		// 회원 정보 주입
 		model.addAttribute("member", member);
 		
-		// 마이페이지로 이동
-		return "member/myPage";
+		// 로그아웃
+		return "redirect:/logout";
 	}
 	
 	@GetMapping("/modifyMemberInfo")
@@ -346,20 +346,11 @@ public class MemberController {
 		// 입력 디버깅
 		log.debug(Font.HW + "입력받은 회원탈퇴 정보 => ", member.toString() + Font.RESET);
 		
-		// 회원탈퇴 처리 후, 결과를 저장
-		int confirm = memberService.removeMember(member);
-		
-		// 회원탈퇴가 안 되어었을 경우 다시 회원가입 실패 알림
-		if(confirm == 0) {
-			log.debug(Font.HW + "회원가입 실패 " + Font.RESET);
-			return "redirect:/removeMember";
-		}
-		
-		// 출력 디버깅
-		log.debug(Font.HW + "회원가입 성공 " + Font.RESET);
+		// 회원탈퇴 처리
+		memberService.removeMember(member);
 		
 		// 로그아웃 시킴
-		return "redirect:/logout";	
+		return "redirect:/logout";
 		
 	}
 	

@@ -8,7 +8,6 @@ public class Notice {
 	private String systemAdminId;
 	private String title;
 	private String content;
-	private String kind;
 	private String createDate;
 	private String updateDate;
 	public int getNoticeOne(int noticeId2) {

@@ -12,10 +12,10 @@
     <meta name="author" content="">
 
     <title>호스트 마이 페이지 | TAP</title>
-    
+
     <!-- Favicons -->
-    <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="icon">
-    <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="apple-touch-icon">
+  <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="icon">
+  <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="apple-touch-icon">
   
     <!-- Custom fonts for this template-->
     <link href="${pageContext.request.contextPath}/resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">

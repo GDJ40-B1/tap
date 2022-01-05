@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -13,6 +13,7 @@
     <meta name="author" content="">
 
     <title>호스트 정보 수정</title>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
     
     <!-- Favicons -->
     <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="icon">
@@ -39,34 +40,34 @@
                 <div class="row">
                     <div class="col-lg-5">
                     	<img src="${pageContext.request.contextPath}/resources/img/system/update_user.png"
-                    	width="70%" height="70%" style="margin-left: 15%; margin-top: 15%;">
+                    	width="70%" height="70%" style="margin-left: 20%; margin-top: 15%;">
                     </div>
                     <div class="col-lg-7">
                         <div class="p-5">
                             <div class="text-center">
                                 <h1 class="h4 text-gray-900 mb-4">호스트 정보를 수정하세요!</h1>
                             </div>
-                            <form class="user" method="post" action="${pageContext.request.contextPath}/modifyHostInfo" >
+                            <form id="modifyHostForm" class="user" method="post" action="${pageContext.request.contextPath}/modifyHostInfo" >
                                 <div class="form-group">
                                     <input type="hidden" class="form-control form-control-user" id="exampleInputEmail"
                                         placeholder="Email Address" name="hostId" value="${host.hostId}">
                                 </div>                                
                                 <div class="form-group">
                                     <h4 class="small font-weight-bold">이름</h4>
-                                    <input type="text" class="form-control form-control-user" id="exampleInputName"
+                                    <input type="text" class="form-control form-control-user" id="hostName"
                                         placeholder="name" name="hostName" value="${host.hostName}">
                                 </div>                                
                                 <div class="form-group">
                                 	<h4 class="small font-weight-bold">나이</h4>
-                                    <input type="text" class="form-control form-control-user" id="exampleInputAge"
+                                    <input type="number" class="form-control form-control-user" id="hostAge"
                                         placeholder="age" name="hostAge" value="${host.hostAge}">
                                 </div>
                                 <div class="form-group">
                                 	<h4 class="small font-weight-bold">전화번호</h4>
-                                    <input type="text" class="form-control form-control-user" id="exampleInputPhone"
+                                    <input type="text" class="form-control form-control-user" id="hostPhone"
                                         placeholder="phone number" name="hostPhone" value="${host.hostPhone}">
                                 </div>
-                                <button type="submit" class="btn btn-primary btn-user btn-block">
+                                <button id="modifyHostBtn" type="button" class="btn btn-primary btn-user btn-block">
                                     수정
                                 </button>
                             </form>
@@ -87,7 +88,20 @@
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
-
+	
+	<script>
+		$('#modifyHostBtn').click(function(){
+			if($('#hostName').val()==''){
+				alert('이름을 입력하세요.');
+			} else if($('#hostAge').val()==''){
+				alert('나이를 입력하세요.');
+			} else if($('#hostPhone').val()==''){
+				alert('전화번호를 입력하세요.');
+			} else{
+				$('#modifyHostForm').submit();
+			}
+		});
+    </script>
 </body>
 
 </html>

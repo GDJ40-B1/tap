@@ -58,7 +58,7 @@
 		   r.room_price, 
 		   res.update_date
 		FROM (SELECT * from reservation
-			ORDER BY create_date DESC LIMIT #{beginRow}, #{rowPerPage}) res  
+			ORDER BY create_date DESC) res  
 		
 		INNER JOIN 
 			room r ON res.room_id=r.room_id
@@ -81,6 +81,7 @@
 		   r.host_id,
 		   res.check_in_date, 
 		   res.check_out_date,
+		   res.member_id,
 		   res.final_payment_price, 
 		   r.check_in_time, 
 		   r.check_out_time, 
@@ -89,7 +90,7 @@
 		   r.room_price, 
 		   res.update_date
 		FROM (SELECT * from reservation
-			ORDER BY create_date DESC LIMIT #{beginRow}, #{rowPerPage}) res  
+			ORDER BY create_date DESC) res  
 		
 		INNER JOIN 
 			room r ON res.room_id=r.room_id

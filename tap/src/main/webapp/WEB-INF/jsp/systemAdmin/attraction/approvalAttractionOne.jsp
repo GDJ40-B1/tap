@@ -1,63 +1,87 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html>
 <head>
-<script src="http://code.jquery.com/jquery-latest.js"></script>
-<meta charset="UTF-8">
-<title>attractionOne</title>
+    <meta charset="utf-8">
+	<title>명소 상세보기</title>
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	
+    <!-- Custom styles for this template-->
+    <link href="${pageContext.request.contextPath}/resources/css/sb-admin-2.min.css" rel="stylesheet">
+	 
 </head>
-<body>
-	<!-- start : mainHeader -->
-   <div>
-      <jsp:include page="/partial/mainHeader.jsp"></jsp:include>
-   </div>
-   <!-- end : mainHeader -->
-   <main id="main">
-   <section class="breadcrumbs">
-   
-	<h1>명소 상세보기</h1>
-	<div>${hashtag }</div>	
-	<form action="${pageContext.request.contextPath}/systemAdmin/approvalAttractionOne" method="post">
-		<a href="${pageContext.request.contextPath }/systemAdmin/modifyAttraction?attractionId=${attraction.attractionId }&detailAddressId=${address.detailAddressId}">수정하기</a>
-		<a href="${pageContext.request.contextPath }/systemAdmin/removeAttraction?attractionId=${attraction.attractionId }">반려하기</a>
-		<a href="${pageContext.request.contextPath}/systemAdmin/approvalAttraction?attractionId=${attraction.attractionId}">승인하기</a>
-		
-		<!-- 지도 -->
-		<div id="map" style="width:100%;height:400px;"></div>
-		<table border="1">
-			<tr>
-				<td>명소 이름</td>
-				<td id="attractionName">${attraction.attractionName }</td>
-			</tr>
-			<tr>
-				<td>명소 카테고리</td>
-				<td id="attractionCategory">${ attraction.attractionCategory}</td>
-			</tr>
-			<tr>
-				<td>명소 주소</td>
-				<td id="address">${address.detailAddress }</td>
-			</tr>
-			<tr>
-				<td>전화번호</td>
-				<td id="attractionPhoneNumber">${attraction.attractionPhoneNumber }</td>
-			</tr>
-			<tr>
-				<td>소개</td>
-				<td id="attractionContent">${attraction.attractionContent }</td>
-			</tr>
-		</table>
-	</form>
+<body id="page-top">
 	
+    <!-- start : systemAdminHeader -->
+    <div>
+    	<jsp:include page="/partial/systemAdminHeader.jsp"></jsp:include>
+    </div>
+    <!-- end : systemAdminHeader -->
+    
+    <!-- start : content -->
+	<div id="content" class="container-fluid">
+		<!-- DataTales Example -->
+	    <div class="card shadow mb-4">
+	        <div class="card-header py-3">
+	            <h6 class="m-0 font-weight-bold text-primary">명소 상세보기</h6>
+	        </div>
+	        <div class="card-body">
+	        	
+	            <div class="table-responsive">
+				<form action="${pageContext.request.contextPath}/systemAdmin/approvalAttractionOne" method="post">
+					<div style="margin-top:20px; margin-bottom:20px; font-size:20px; color:white;"class="badge rounded-pill bg-info">${hashtag }</div>		
+					<!-- 지도 -->
+					<div id="map" style="width:100%;height:400px; margin-bottom:20px"></div>				        
+				        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+							<tr>
+								<td>명소 이름</td>
+								<td id="attractionName">${attraction.attractionName }</td>
+							</tr>
+							<tr>
+								<td>명소 카테고리</td>
+								<td id="attractionCategory">${ attraction.attractionCategory}</td>
+							</tr>
+							<tr>
+								<td>명소 주소</td>
+								<td id="address">${address.detailAddress }</td>
+							</tr>
+							<tr>
+								<td>명소 상세주소</td>
+								<td id="address2">${address.detailAddress2 }</td>							
+							</tr>
+							<tr>
+								<td>전화번호</td>
+								<td id="attractionPhoneNumber">${attraction.attractionPhoneNumber }</td>
+							</tr>
+							<tr>
+								<td>소개</td>
+								<td id="attractionContent">${attraction.attractionContent }</td>
+							</tr>
+	                </table>
+	                <br>
+	                <a class="btn btn-outline-danger" href="${pageContext.request.contextPath }/systemAdmin/removeAttraction?attractionId=${attraction.attractionId }">반려하기</a>
+					<a style="margin-left:20px;" class="btn btn-outline-success" href="${pageContext.request.contextPath}/systemAdmin/approvalAttraction?attractionId=${attraction.attractionId}">승인하기</a>
+					<br>
+	                </form>
+	            </div>
+	        </div>
+	    </div>
+
+	</div>
+	<!-- end : content -->
 	
-	</section>
-	</main>	
-	<!-- start : mainFooter -->
-   <div>
-      <jsp:include page="/partial/mainFooter.jsp"></jsp:include>
-   </div>
-   <!-- end : mainFooter -->	
+	<!-- start : systemAdminFooter -->
+    <div>
+       <jsp:include page="/partial/systemAdminFooter.jsp"></jsp:include>
+    </div>
+    <!-- end : systemAdminFooter -->
+    
+    <!-- Bootstrap core JavaScript-->
+    <script src="${pageContext.request.contextPath}/resources/vendor/jquery/jquery.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/vendor/bootstrap_sb/js/bootstrap.bundle.min.js"></script>
+
 
    <!-- kakao API -->
    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e1c10213787b97f0d88e77cdafcb6687&libraries=services"></script>
@@ -91,7 +115,7 @@
 
 	        // 인포윈도우로 장소에 대한 설명을 표시합니다
 	        var infowindow = new kakao.maps.InfoWindow({
-	            content: '<div style="width:150px;text-align:center;padding:6px 0;">'+$('#AttractionName').text()+'</div>'
+	            content: '<div style="width:150px;text-align:center;padding:6px 0;">'+$('#attractionName').text()+'</div>'
 	        });
 	        infowindow.open(map, marker);
 
@@ -103,3 +127,4 @@
 	</script>
 </body>
 </html>
+

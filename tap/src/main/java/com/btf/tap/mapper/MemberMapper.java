@@ -21,7 +21,7 @@ public interface MemberMapper {
 	int selectMemberPw(Member member);												// 회원 비밀번호 확인하기(수정용)
 	int updateMemberPointEarn(Member member);										// 회원 포인트 충전하기
 	int updateMemberPointSpend(Member member);										// 회원 포인트 전환하기
-	int updateMemberPw(Member member);												// 회원 비밀번호 수정하기
+	void updateMemberPw(Member member);												// 회원 비밀번호 수정하기
 	List<Map<String, Object>> selectMemberPayList(Map<String, Object> paramMap);	// 특정 회원 결제내역 조회
 	List<Map<String, Object>> selectTotalPaymentList(Map<String, Object> paramMap);	// 연도별 월간 결제 총액 조회
 	int selectTotalPaymentCount(String memberId);									// 회원 사이트 총 결제 횟수 조회

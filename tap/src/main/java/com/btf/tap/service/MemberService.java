@@ -98,16 +98,11 @@ public class MemberService {
 	
 	// 회원 한 명의 정보를 삭제하기
 	// 입력: Member
-	// 결과: int(회원탈퇴된 수)
-	public int removeMember(Member member) {
+	public void removeMember(Member member) {
 		
 		log.debug(Font.HW + "입력받은 회원탈퇴 정보 => " + member.toString() + Font.RESET);
 		
-		int confirm = memberMapper.deleteMemberOne(member);
-		
-		log.debug(Font.HW + "회원탈퇴된 수 => " + confirm  + Font.RESET);
-		
-		return confirm;
+		memberMapper.deleteMemberOne(member);
 	}
 
 	// 회원 한 명의 정보를 수정하기
@@ -146,15 +141,14 @@ public class MemberService {
 		log.debug(Font.HW + "입력받은 비밀번호 변경 정보 => " + member.toString() + Font.RESET);
 		
 		// 회원 비밀번호 변경
-		int confirm = memberMapper.updateMemberPw(member);
-		
-		log.debug(Font.HW + "비밀번호 변경된 회원 수 => " + confirm  + Font.RESET);
+		memberMapper.updateMemberPw(member);
 		
 		// 변경된 회원 정보 주입
-		member = memberMapper.selectMemberOne(member);
-		
-		log.debug(Font.HW + "변경된 회원 정보 => " + member.toString() + Font.RESET);
-		
+		Member newInfoMember = memberMapper.selectMemberOne(member);
+		if(newInfoMember.getMemberPw().equals(member.getMemberPw())) {
+			member = newInfoMember;
+			log.debug(Font.HW + "변경된 회원 정보 => " + member.toString() + Font.RESET);
+		}
 		return member;
 	}
 	

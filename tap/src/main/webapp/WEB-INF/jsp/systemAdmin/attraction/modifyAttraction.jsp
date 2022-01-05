@@ -1,44 +1,51 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html>
 <head>
-<script src="http://code.jquery.com/jquery-latest.js"></script> 
-<meta charset="UTF-8">
-<title>modifyAttraction</title>
+    <meta charset="utf-8">
+	<title>명소 수정</title>
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	
+    <!-- Custom styles for this template-->
+    <link href="${pageContext.request.contextPath}/resources/css/sb-admin-2.min.css" rel="stylesheet">
+	 
 </head>
-<body>
-	<!-- start : mainHeader -->
-   <div>
-      <jsp:include page="/partial/mainHeader.jsp"></jsp:include>
-   </div>
-   <!-- end : mainHeader -->
-   <main id="main">
-   <section class="breadcrumbs">
-   
-	<h1>명소 수정</h1>
-	<form action="${pageContext.request.contextPath}/systemAdmin/modifyAttraction" method="post">
-		<!-- 전달 -->
-		<input type="hidden" name="attractionId" value="${attraction.attractionId }">
-		<input type="hidden" name="detailAddressId" value="${address.detailAddressId}">
+<body id="page-top">
+	
+    <!-- start : systemAdminHeader -->
+    <div>
+    	<jsp:include page="/partial/systemAdminHeader.jsp"></jsp:include>
+    </div>
+    <!-- end : systemAdminHeader -->
+    
+    <!-- start : content -->
+	<div id="content" class="container-fluid">
+		<!-- DataTales Example -->
+	    <div class="card shadow mb-4">
+	        <div class="card-header py-3">
+	            <h6 class="m-0 font-weight-bold text-primary">명소 수정</h6>
+	        </div>
+	        <div class="card-body">
+	        	
+	            <div class="table-responsive">
+	            	<form action="${pageContext.request.contextPath}/systemAdmin/modifyAttraction" method="post">
+						<!-- 전달 -->
+						<input type="hidden" name="attractionId" value="${attraction.attractionId }">
+						<input type="hidden" name="detailAddressId" value="${address.detailAddressId}">
 		
-		<div>
-			<label>승인여부</label>
-			<input type="radio" name="approvalStatus" value="Y">Y
-			<input type="radio" name="approvalStatus" value="N">N
+		<div class="form-group">
+			<label class="form-label mt-4">명소 이름</label>
+			<div>
+				<input type="text" name="attractionName" class="form-control" value="${attraction.attractionName }">			
+			</div>
 		</div>
-		
-		<div>
-			<label>명소 이름</label>
-			<input type="text" name="attractionName" value="${attraction.attractionName }">
-		</div>
-		
-		<div>
-			<label>카테고리</label>
-				<select name="attractionCategory">
-                  <c:forEach items="${attractionCategoryList}" var="list">
+		<div class="form-group">
+			<label class="form-label mt-4">카테고리</label>
+			<div class="form-group">
+				<select name="attractionCategory" class="form-control">
+                 <c:forEach items="${attractionCategoryList}" var="list">
                      <c:choose>
                         <c:when test="${list eq attraction.attractionCategory }">
                            <option selected>${list }</option>
@@ -48,57 +55,73 @@
                         </c:otherwise>
                         </c:choose>
                      </c:forEach>
-                </select>			
+				</select>			
+			</div>
+
 		</div>
 		
-		<table border="1">			
-			
-			<tr>
-				<!-- 전화번호 형태? 예쁘게 만들기+숫자만 들어가게끔 하기 -->
-				<td>전화번호</td>
-				<td><input type="text" name="attractionPhoneNumber" value="${attraction.attractionPhoneNumber }"></td>
-			</tr>
-			<tr>
-				<!-- 명소 소개 -->
-				<td>명소 소개</td>
-				<td><textarea name="attractionContent">${attraction.attractionContent }</textarea></td>
-			</tr>
-			<tr>
-		</table>
-			<div>주소</div>
+		<div>
+			<!-- 전화번호 형태? 예쁘게 만들기+숫자만 들어가게끔 하기 -->
+			<label class="form-label mt-4">전화번호</label>
 			<div>
-				<input type="text" name="detailAddress" id="address" value="${address.detailAddress }">
+				<input type="text" name="attractionPhoneNumber" class="form-control" value="${attraction.attractionPhoneNumber}">
+			</div>
+		</div>
+		<br>
+		<table>
+			<tr style="top-margin:20px;">
+				<td >명소 소개</td>
+			</tr>
+			<tr>
+				<td><textarea name="attractionContent" class="form-control" style="height:400px; width:1680px; bottom-margin:20px; top-margin:20px;">${attraction.attractionContent }</textarea></td>
+			
+			</tr>
+		</table>
+		
+		<div>
+			<label class="form-label mt-4">주소</label>
+			<div>
+				<input type="text" name="detailAddress" id="address" class="form-control" style="margin-bottom:10px;" value="${address.detailAddress }">
 			</div>			
 			<div>
-				<button type="button" name="searchBtn"id="searchBtn">찾기</button>
+				<button type="button" name="searchBtn"id="searchBtn"class="btn btn-secondary">찾기</button>
 			</div>
-			<div>상세주소</div>
+			<div style="margin-top:10px;">상세주소</div>
 			<div>
-				<input type="text" name="detailAddress2" id="detailAddress2" value="${address.detailAddress2 }">
+				<input type="text" name="detailAddress2" id="detailAddress2" class="form-control" value="${address.detailAddress2 }">
 			</div>
-			<div id="map" style="width:600px; height:359px;"></div>
+			<div id="map" style="width:600px; height:359px; margin-top:20px; margin-bottom:10px;"></div>
 			
 			<div>
-				<label>해시태그</label>
-				<input type="text" id="hashtag" name="hashtag" value="${hashtag }">
+				<label class="form-label mt-4">해시태그</label>
+			<div>
+            	<input type="text" id="hashtag" name="hashtag" value="${hashtag }" class="form-control">			
 			</div>
-			
+         	</div>		
+		</div>			
 			<br>
-		
-	<button type="submit" id="modifyBtn">수정하기</button>
-	</form>
-	</section>
-	</main>
+			<button type="submit" id="modifyBtn" class="btn btn-outline-success">수정하기</button>
+		</form>	
+
+	            </div>
+	        </div>
+	    </div>
+
+	</div>
+	<!-- end : content -->
 	
-	<!-- start : mainFooter -->
-   <div>
-      <jsp:include page="/partial/mainFooter.jsp"></jsp:include>
-   </div>
-   <!-- end : mainFooter -->
-   
+	<!-- start : systemAdminFooter -->
+    <div>
+       <jsp:include page="/partial/systemAdminFooter.jsp"></jsp:include>
+    </div>
+    <!-- end : systemAdminFooter -->
+    
+    <!-- Bootstrap core JavaScript-->
+    <script src="${pageContext.request.contextPath}/resources/vendor/jquery/jquery.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/vendor/bootstrap_sb/js/bootstrap.bundle.min.js"></script>
+
    <script>
 		<!-- 해시태그 관련 script -->
-		
 		// hashtag input에서 데이터를 모두 지워도 #은 남도록 한다.
 		$('#hashtag').keydown(function(event) {
 			var oldvalue=$(this).val();
@@ -123,9 +146,12 @@
 					event.preventDefault();
 				}
 		 });
-	</script>
-		<!-- kakao API -->
-	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e1c10213787b97f0d88e77cdafcb6687&libraries=services"></script>
+		
+	</script>	
+
+   <!-- kakao API -->
+   <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e1c10213787b97f0d88e77cdafcb6687&libraries=services"></script>
+   
 	<script>
 	var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 	    mapOption = {
@@ -133,7 +159,8 @@
 	        level: 3 // 지도의 확대 레벨
 	    };  
 	
-	var map = new kakao.maps.Map(mapContainer, mapOption);	
+	// 지도를 생성합니다    
+	var map = new kakao.maps.Map(mapContainer, mapOption); 
 	$('#searchBtn').click(function(){
 		// 버튼을 click했을때
 		
@@ -185,6 +212,7 @@
 		});  
 	});
 	  
-	</script>   
-   </body>
+	</script>
+</body>
 </html>
+

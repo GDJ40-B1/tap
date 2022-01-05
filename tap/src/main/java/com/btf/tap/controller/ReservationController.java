@@ -48,17 +48,17 @@ public class ReservationController {
 	}
 	//호스트별 예약 정보 리스트 
 	@GetMapping("/host/reservationList") //호스트 필터를 거친다 
-	public String hostReservationList(HttpServletRequest request, Model model, @RequestParam(value="currentPage", defaultValue ="1") int currentPage) {
+	public String hostReservationList(HttpServletRequest request, Model model) {
 		// 호스트 정보를 가져온다
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("loginUser");
 		
 		
 		System.out.println("!!!!"+ user.getUserId());
-		// 숙소 목록 추출
-		Map<String, Object> result2 = reservationService.getHostReservationList(user.getUserId(), currentPage);
+		// 목록 추출
+		Map<String, Object> result2 = reservationService.getHostReservationList(user.getUserId());
 		//세션을 서비스로 보내고 리턴 받은걸 리스트에 저장해서 뷰에 뿌린다.
-		result2.put("currentPage", currentPage);
+
 		model.addAttribute("result2", result2);
 		
 		log.debug(Font.KSB +" reservationController단  result2 값 "+  result2.toString() + Font.RESET);
@@ -68,17 +68,17 @@ public class ReservationController {
 	
 	//회원별 예약 정보 리스트 
 		@GetMapping("/member/reservationList") //호스트 필터를 거친다 
-		public String memberReservationList(HttpServletRequest request, Model model, @RequestParam(value="currentPage", defaultValue ="1") int currentPage) {
+		public String memberReservationList(HttpServletRequest request, Model model) {
 			// 호스트 정보를 가져온다
 			HttpSession session = request.getSession();
 			User user = (User) session.getAttribute("loginUser");
 			
 			
 			System.out.println("!!!!"+ user.getUserId());
-			// 숙소 목록 추출
-			Map<String, Object> result3 = reservationService.getMemberReservationList(user.getUserId(), currentPage);
+			// 목록 추출
+			Map<String, Object> result3 = reservationService.getMemberReservationList(user.getUserId());
 			//세션을 서비스로 보내고 리턴 받은걸 리스트에 저장해서 뷰에 뿌린다.
-			result3.put("currentPage", currentPage);
+			
 			model.addAttribute("result3", result3);
 			
 			log.debug(Font.KSB +" reservationController단  result3 값 "+  result3.toString() + Font.RESET);
