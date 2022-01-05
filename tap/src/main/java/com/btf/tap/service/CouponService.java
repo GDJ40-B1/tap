@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.btf.tap.mapper.CouponMapper;
 import com.btf.tap.vo.Coupon;
+import com.btf.tap.vo.MemberCoupon;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,6 +24,11 @@ import lombok.extern.slf4j.Slf4j;
 public class CouponService {
 	@Autowired CouponMapper couponMapper;
 	// add, modify, get, remove
+	
+	// 특정 회원의 보유 쿠폰 추출
+	public List<MemberCoupon> getMemberCouponList(String memberId){
+		return couponMapper.selectMemberOneCouponList(memberId);	
+	}
 	
 	// 쿠폰 사용시 사용 여부 변경
 	public void modifyUseMemberCoupon(Map<String, Object> map) {

@@ -14,6 +14,38 @@
 		<result column="update_date" property="updateDate"></result>
 	</resultMap>
 	
+	<resultMap type="com.btf.tap.vo.MemberCoupon" id="resultMemberCoupon">
+		<result column="member_coupon_id" property="memberCouponId"></result>
+		<result column="coupon_id" property="couponId"></result>
+		<result column="member_id" property="memberId"></result>
+		<result column="use_status" property="useStatus"></result>
+		<result column="create_date" property="createDate"></result>
+		<association property="coupon" javaType="com.btf.tap.vo.Coupon">
+            <result column="coupon_id" property="couponId"></result>
+			<result column="room_id" property="roomId"></result>
+			<result column="coupon_name" property="couponName"></result>
+			<result column="coupon_effective_date" property="couponEffectiveDate"></result>
+			<result column="coupon_expiration_date" property="couponExpirationDate"></result>
+			<result column="discount" property="discount"></result>
+			<result column="coupon_type" property="couponType"></result>
+        </association>
+        <association property="room" javaType="com.btf.tap.vo.Room">
+			<result column="room_id" property="roomId"></result>
+			<result column="room_name" property="roomName"></result>
+			<result column="detail_address_id" property="detailAddressId"></result>
+        </association>
+	</resultMap>
+	
+	<!-- 특정 회원의 보유 쿠폰 불러오기 -->
+	<select id="selectMemberOneCouponList" parameterType="String" resultMap="resultMemberCoupon">
+		SELECT
+			mc.member_coupon_id, mc.coupon_id, c.coupon_name, c.coupon_effective_date,
+			c.coupon_expiration_date, c.discount, c.coupon_type, r.room_id, r.room_name, r.detail_address_id FROM 
+		(SELECT member_coupon_id, coupon_id FROM member_coupon WHERE member_id=#{memberId} AND use_status=0) mc
+		INNER JOIN coupon c ON mc.coupon_id=c.coupon_id
+		INNER JOIN (SELECT room_id, room_name, detail_address_id from room) r ON c.room_id=r.room_id;
+	</select>
+	
 	<!-- 쿠폰 사용시 사용여부 변경 -->
 	<update id="updateUseMemberCoupon" parameterType="hashMap">
 		UPDATE member_coupon SET

@@ -6,9 +6,13 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.btf.tap.vo.Coupon;
+import com.btf.tap.vo.MemberCoupon;
 
 @Mapper
 public interface CouponMapper {
+	
+	// 특정 회원이 보유중인 쿠폰 리스트
+	List<MemberCoupon> selectMemberOneCouponList(String memberId);
 	
 	// 쿠폰 사용시 사용여부 변경
 	void updateUseMemberCoupon(Map<String, Object> map);

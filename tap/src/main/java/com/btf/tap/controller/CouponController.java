@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.btf.tap.service.CouponService;
+import com.btf.tap.service.MemberService;
 import com.btf.tap.vo.Coupon;
+import com.btf.tap.vo.MemberCoupon;
 import com.btf.tap.vo.Room;
 import com.btf.tap.vo.User;
 
@@ -26,6 +28,16 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CouponController {
 	@Autowired CouponService couponService;
+	
+	@GetMapping("/member/memberCouponList")
+	public String memberCouponList(HttpSession session, Model model) {
+		// 로그인 한 유저 정보 세션으로 가져오기
+		User user = (User)session.getAttribute("loginUser");
+		
+		model.addAttribute("couponList",couponService.getMemberCouponList(user.getUserId()));
+		return "member/memberCouponList";
+		
+	}
 	
 	@GetMapping("/member/addMemberCoupon")
 	public String addMemberCoupon(RedirectAttributes redirect, HttpServletRequest request, Model model,
