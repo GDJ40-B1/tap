@@ -170,16 +170,11 @@ public class ReservationService {
 	   }
 	   
 	// 회원별 전체 예약 리스트 출력
-	   public Map<String, Object> getMemberReservationList(String memberId, int currentPage) {
-		// 페이징에 필요한 요소들
-			final int ROW_PER_PAGE = 10;
-			final int PAGE_PER_PAGE = 10;
-			int beginRow = (currentPage-1)*ROW_PER_PAGE;
+	   public Map<String, Object> getMemberReservationList(String memberId) {
+		
 			
-			// 검색 결과 리스트 및 개수 추출
+			// 회원 아이디 
 			Map<String, Object> selectMemberReservationList = new HashMap<>();
-			selectMemberReservationList.put("beginRow", beginRow);
-			selectMemberReservationList.put("rowPerPage", ROW_PER_PAGE);
 			selectMemberReservationList.put("memberId", memberId);
 			
 
@@ -188,20 +183,14 @@ public class ReservationService {
 	      
 	      int totalMData = reservationMapper.selectMemberReservationNum();
 	      log.debug(Font.KSB +" reservationService단 totalMData 들어오는 값 "+  totalMData + Font.RESET);
-			// 페이지 연산
-			Map<String, Object> page = pageOperation(totalMData, ROW_PER_PAGE, currentPage, PAGE_PER_PAGE);
-			log.debug(Font.KSB +" reservationService단 page 들어오는 값 "+  page.toString() + Font.RESET);
+			
 	      
 			// return으로 넘길 값 map으로 묶어 보내기
 			Map<String, Object> result3 = new HashMap<>();
 			log.debug(Font.KSB +" reservationService단 HostReservation result 값 "+  result3.toString() + Font.RESET);
 			
 			result3.put("reservationList", reservationList);
-			result3.put("rowPerPage", ROW_PER_PAGE);
-		    result3.put("lastPage", page.get("lastPage"));
-		    result3.put("lastnumPage", page.get("lastnumPage"));
-		    result3.put("currentnumPage", page.get("currentnumPage"));
-		    result3.put("pagePerPage", PAGE_PER_PAGE);
+			
 		    
 			return result3;
 	   }
