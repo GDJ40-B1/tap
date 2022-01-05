@@ -9,16 +9,13 @@ pageEncoding="UTF-8"%>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>MeFamily Bootstrap Template - Index</title>
+  <title>TAP - 숙박 공유 서비스</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
   <!-- Favicons -->
   <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="icon">
   <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="apple-touch-icon">
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="${pageContext.request.contextPath}/resources/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
@@ -106,22 +103,25 @@ pageEncoding="UTF-8"%>
 						<option value="" selected disabled>시군구</option>
 					</select>
 					</div>
-					<input class="form-control" type="text" id="keyword" name="keyword">
+					<input class="form-control" type="text" id="districtKeyword" name="districtKeyword">
 	    			<button class="btn btn-primary" id="districtBtn" type="button">검색</button>
 	    		</div>
     		</div>
 		</form>
-
-	  	<div id="searchHistory" style="margin: 5px">
-	  		<c:forEach var="s" items="${searchList}" begin="0" end="6">
-	  			<div class="btn-group" role="group" aria-label="Button group with nested dropdown" style="margin: 5px">
-	                <button type="button" class="btn btn-primary" onclick="searchKeyword(this)">${s}</button>
-	                <div class="btn-group" role="group">
-	                  <button type="button" class="btn btn-outline-dark" onclick="removeKeyword('${s}')">x</button>
-	                </div>
-              	</div>
-		  	</c:forEach>
-	  	</div>
+		
+		<div class="card border-primary">
+			<div class="card-header">최근 검색어</div>
+			<div id="searchHistory" class="card-body">
+				<c:forEach var="s" items="${searchList}" begin="0" end="6">
+					<div class="btn-group" role="group" aria-label="Button group with nested dropdown" style="margin-left: 7px; margin-right: 7px;">
+						<button type="button" class="btn btn-primary" onclick="searchKeyword(this)">${s}</button>
+						<div class="btn-group" role="group">
+ 							<button type="button" class="btn btn-outline-dark" onclick="removeKeyword('${s}')">x</button>
+ 						</div>
+					</div>
+				</c:forEach>
+			</div>
+        </div>
       </div>
     </section>
     <!-- End My & Family Section -->
@@ -227,8 +227,8 @@ pageEncoding="UTF-8"%>
 	              </div>
 	              <div class="card-body">
 	                <h5 class="card-title">${list.attractionName}</h5>
-	                <p class="fst-italic text-center">${list.attractionCategory}</p>
-	                <p class="fst-italic text-center">${list.attractionPhoneNumber}</p>
+	                <p class="text-center">${list.attractionCategory}</p>
+	                <p class="text-center">${list.attractionPhoneNumber}</p>
 	                <p class="card-text">${list.attractionContent}</p>
 	              </div>
 	            </div>
@@ -313,7 +313,7 @@ pageEncoding="UTF-8"%>
 	  function searchKeyword(keyword) {
 		  var addKeyword = $(keyword).text();
 		  
-		  $("#keyword").val(addKeyword);
+		  $("#districtKeyword").val(addKeyword);
 	  }
 	  
 	  function sidoType(districtSido) {
@@ -346,8 +346,7 @@ pageEncoding="UTF-8"%>
 			  data : { keyword : keyword },
 			  success : function(result){
 				  console.log(result)
-				  
-				  $("#searchHistory").load(location.href+' #searchHistory');
+				  $("#searchHistory").load(location.href+' #searchHistory>*', "");
 				
 			  }
 		  })

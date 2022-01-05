@@ -278,28 +278,28 @@ public class HostController {
 		}
 		
 		List<Map<String, Object>> list = reservationService.getRoomReservationCheck(roomId, year);
-		log.debug(Font.JSB + "특정 숙소 연도별 이용객 수" + list.toString() + Font.RESET);
+		log.debug(Font.JSB + "특정 숙소 연도별 이용객 수 =>" + list.toString() + Font.RESET);
 		
 		List<Room> roomList = roomService.getPayRoomList(hostId);
-		log.debug(Font.JSB + "숙소명 목록" + roomList.toString() + Font.RESET);
+		log.debug(Font.JSB + "숙소명 목록 =>" + roomList.toString() + Font.RESET);
 		
 		List<Map<String, Object>> ageList = roomService.getRoomAgeList(roomId, year);
-		log.debug(Font.JSB + "특정 숙소 연도별 이용 연령층" + ageList.toString() + Font.RESET);
+		log.debug(Font.JSB + "특정 숙소 연도별 이용 연령층 =>" + ageList.toString() + Font.RESET);
 		
-		int revenueHost = hostService.getRevenueHost(hostId);
-		log.debug(Font.JSB + "총합 수익" + revenueHost + Font.RESET);
+		String revenueHost = hostService.getRevenueHost(hostId);
+		log.debug(Font.JSB + "총합 수익 =>" + revenueHost + Font.RESET);
 		
-		int yearRevenueHost = hostService.getYearRevenueHost(year, hostId);
-		log.debug(Font.JSB + "연도별 수익" + yearRevenueHost + Font.RESET);
+		String yearRevenueHost = hostService.getYearRevenueHost(year, hostId);
+		log.debug(Font.JSB + "연도별 수익 =>" + yearRevenueHost + Font.RESET);
 		
 		List<Map<String, Object>> monthRevenueHost = hostService.getMonthRevenueHost(year, hostId);
-		log.debug(Font.JSB + "월별 총 수익" + monthRevenueHost.toString() + Font.RESET);
+		log.debug(Font.JSB + "월별 총 수익 =>" + monthRevenueHost.toString() + Font.RESET);
 		
 		List<Map<String, Object>> roomMonthRevenue = hostService.getRoomMonthRevenue(year, hostId, roomId);
-		log.debug(Font.JSB + "숙소 월별 수익" + roomMonthRevenue.toString() + Font.RESET);
+		log.debug(Font.JSB + "숙소 월별 수익 =>" + roomMonthRevenue.toString() + Font.RESET);
 		
 		int unansweredRoomQnaCount = roomQuestionService.unansweredRoomQnaCount(hostId);
-		log.debug(Font.JSB + "문의 미답변 수" + unansweredRoomQnaCount + Font.RESET);
+		log.debug(Font.JSB + "문의 미답변 수 =>" + unansweredRoomQnaCount + Font.RESET);
 		
 		
 		model.addAttribute("host", host);

@@ -1,5 +1,6 @@
 package com.btf.tap.service;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,12 +35,32 @@ public class MemberService {
 		log.debug(Font.HW + "입력받은 회원 정보 => " + member.toString() + Font.RESET);
 		
 		member = memberMapper.selectMemberOne(member);
-		
+	
 		log.debug(Font.HW + "조회 결과 회원 정보 => " + member.toString() + Font.RESET);
 		
 		return member;
 	}
-
+	
+	// 관리 페이지 회원정보 조회
+	public Map<String, Object> getMemberMyPage(Member member) {
+		
+		log.debug(Font.HW + "입력받은 회원 정보 => " + member.toString() + Font.RESET);
+		
+		member = memberMapper.selectMemberOne(member);
+		int revenue = member.getMemberPoint();
+		
+		DecimalFormat decFormat = new DecimalFormat("###,###");
+		String point = decFormat.format(revenue);
+		
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("member", member);
+		paramMap.put("point", point);
+		
+		log.debug(Font.HW + "조회 결과 회원 정보 => " + member.toString() + Font.RESET);
+		
+		return paramMap;
+	}
+	
 	// 회원 한 명의 정보를 추가하기
 	// 입력: Member
 	// 결과: int(회원가입된 수)

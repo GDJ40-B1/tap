@@ -102,13 +102,6 @@
             
             <!-- Nav Item - Questions -->
             <li class="nav-item">
-                <a class="nav-link" href="${pageContext.request.contextPath}/questionList">
-                    <i class="fas fa-question-circle"></i>
-                    <span>문의</span></a>
-            </li>
-            
-            <!-- Nav Item - Questions -->
-            <li class="nav-item">
                 <a class="nav-link" href="${pageContext.request.contextPath}/systemAdmin/unansweredQuestionList">
                     <i class="fas fa-question-circle"></i>
                     <span>문의 미답변 리스트</span></a>
@@ -118,7 +111,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="${pageContext.request.contextPath}/systemAdmin/approvalAttractionList">
                     <i class="fas fa-question-circle"></i>
-                    <span>명소</span></a>
+                    <span>명소 승인</span></a>
             </li>
             
 			<!-- Divider -->

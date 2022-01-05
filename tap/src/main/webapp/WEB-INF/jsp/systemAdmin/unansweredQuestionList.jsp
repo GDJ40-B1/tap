@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-	<title>Insert title here</title>
+	<title>문의 미답변 리스트</title>
 	<script src="http://code.jquery.com/jquery-latest.js"></script> 
 </head>
 <body id="page-top">

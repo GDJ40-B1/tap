@@ -15,5 +15,5 @@ public class Question {
 	private String answerStatus;
 	private String createDate;
 	private String updateDate;
-	private List<QuestionAnswer> questionAnswer;
+	private QuestionAnswer questionAnswer;
 }

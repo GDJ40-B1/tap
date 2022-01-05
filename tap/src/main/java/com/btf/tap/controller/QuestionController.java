@@ -99,7 +99,7 @@ public class QuestionController {
 			return "redirect:/";
 		}
 		
-		Question question = questionService.getQuestionOne(questionId);
+		Question question = questionService.getModifyQuestionOne(questionId);
 		log.debug(Font.JSB + question.toString() + Font.RESET);
 		
 		model.addAttribute("question", question);

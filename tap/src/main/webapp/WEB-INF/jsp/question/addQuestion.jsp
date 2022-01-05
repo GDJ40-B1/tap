@@ -51,68 +51,54 @@
 
   <main id="main">
 
-    <!-- ======= Breadcrumbs ======= -->
     <section id="breadcrumbs" class="breadcrumbs">
       <div class="container">
 
         <div class="d-flex justify-content-between align-items-center">
           <h2>문의 글 작성</h2>
           <ol>
-            <li><a href="index.html">Home</a></li>
-            <li>문의 게시판</li>
+            <li><a href="${pageContext.request.contextPath}/">Home</a></li>
+            <li><a href="${pageContext.request.contextPath}/questionList">문의 게시판</a></li>
+            <li>문의 글 작성</li>
           </ol>
         </div>
 
       </div>
-    </section><!-- End Breadcrumbs -->
+    </section>
 
     <!-- ======= Table Section ======= -->
-    <section id="list" class="list">
-      <div class="container">
-		
+    <section id="list" class="list" style="padding-bottom:80px;">
+      <div class="container" style="width:60%;">
+      
 		<form id="addQuestionForm" action ="${pageContext.request.contextPath}/addQuestion" method="post">
 			<!-- 세션 ID, 카테고리 -->
 			<input type="hidden" name="writerId" value="${loginUser.userId}">
 			<input type="hidden" name="writerCategory" value="${loginUser.userLevel}">
 			<div class="form-group">
-			<label for="questionTitle">제목 : </label>
+			<label for="questionTitle" class="form-label mt-4">제목</label>
 				<input type ="text" class="form-control" placeholder="제목을 입력해주세요" id="questionTitle" name="questionTitle" >
 			</div>
 			<div class="form-group">
-			<label for="questionContent">내용 : </label>
+			<label for="questionContent" class="form-label mt-4">내용</label>
 				<textarea class="form-control" rows="5" placeholder="내용을 입력해주세요" id="questionContent" name="questionContent" ></textarea>
 			</div>
-			<div class="form-check">
-			 <label class="form-check-label">
+			<fieldset class="form-group" style="margin-top:10px;">
+			 <div class="form-check">
+			  <label class="form-check-label">
 			    <input type="radio" class="form-check-input" name="secretStatus" value="Y">비밀글 작성
-			 </label>
-			</div>
-			<div class="form-check">
-	  		<label class="form-check-label">
+			  </label>
+			 </div>
+			 <div class="form-check">
+	  		  <label class="form-check-label">
 	   			<input type="radio" class="form-check-input" name="secretStatus" value="N" checked>외부 공개 허용
-	  		</label>
-			</div>
-			<div>
-				<button id="questionBtn" type ="button">작성</button>
-			</div>
+	  		  </label>
+			 </div>
+			</fieldset>
 		</form>
-	
-	<script>
-		$('#questionBtn').click(function(){
-			if($('#questionTitle').val() == '') {
-				alert('제목을 입력하세요');
-				return;
-			}
-			if($('#questionContent').val() == '') {
-				alert('내용을 입력하세요');
-				return;
-			}
 			
-			$('#addQuestionForm').submit();
-		});
-	</script>
-		
-      </div>
+		<button type="button" class="btn btn-secondary" style="float:right;" id="questionBtn">작성</button>
+     
+     </div>
     </section><!-- End Table Section -->
 	
 	
@@ -134,6 +120,21 @@
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
 
+  <script>
+	$('#questionBtn').click(function(){
+		if($('#questionTitle').val() == '') {
+			alert('제목을 입력하세요');
+			return;
+		}
+		if($('#questionContent').val() == '') {
+			alert('내용을 입력하세요');
+			return;
+		}
+		
+		$('#addQuestionForm').submit();
+	});
+  </script>
+	
 </body>
 
 </html>

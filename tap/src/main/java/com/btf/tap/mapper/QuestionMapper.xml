@@ -28,7 +28,7 @@
 			question_title,
 			secret_status,
 			answer_status,
-			create_date
+			DATE_FORMAT(create_date,'%Y-%m-%d %H:%i') create_date
 		FROM question
 		<where>
 			<if test="writerCategory != null">
@@ -60,7 +60,7 @@
 			question_title,
 			secret_status,
 			answer_status,
-			create_date
+			DATE_FORMAT(create_date,'%Y-%m-%d %H:%i') create_date
 		FROM question
 		<where>
 				answer_status = 'N'
@@ -127,7 +127,7 @@
 			q.question_title,
 			q.question_content,
 			q.secret_status,
-			q.create_date,
+			DATE_FORMAT(q.create_date,'%Y-%m-%d %H:%i') create_date,
 			a.system_admin_id,
 			a.question_answer_content
 		FROM question q LEFT JOIN question_answer a

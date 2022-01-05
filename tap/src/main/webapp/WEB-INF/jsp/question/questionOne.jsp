@@ -5,6 +5,23 @@
 <html lang="en">
 
 <head>
+  <style type="text/css">
+	.title {
+	  display: flex;
+	}
+	.box-left {
+	  flex: 1;
+	}
+	.box-center {
+	  flex: 3;
+	  text-align: center;
+	}
+	.box-right {
+	  flex: 1;
+	  text-align: right;
+	}
+  </style>
+
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
@@ -16,9 +33,6 @@
   <!-- Favicons -->
   <link href="${pageContext.request.contextPath}/resources/img/favicon.png" rel="icon">
   <link href="${pageContext.request.contextPath}/resources/img/apple-touch-icon.png" rel="apple-touch-icon">
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="${pageContext.request.contextPath}/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -60,7 +74,8 @@
           <h2>문의 게시판</h2>
           <ol>
             <li><a href="index.html">Home</a></li>
-            <li>문의 게시판</li>
+            <li><a href="${pageContext.request.contextPath}/questionList">문의 게시판</a></li>
+            <li>${question.questionTitle}</li>
           </ol>
         </div>
 
@@ -70,42 +85,39 @@
 	
     <!-- ======= Table Section ======= -->
     <section id="list" class="list">
-      <div class="container">
-		
-		<table border="1">
-			<tr>
-				<td>글 번호</td>
-				<td>${question.questionId}</td>
-			</tr>
-			<tr>
-				<td>제목</td>
-				<td>${question.questionTitle}</td>
-			</tr>
-			<tr>
-				<td>작성자</td>
-				<td>${question.writerId}</td>
-			</tr>
-			<tr>
-				<td>내용</td>
-				<td>${question.questionContent}</td>
-			</tr>
-			<c:if test="${question.writerId == loginUser.userId}">
+      <div class="container" style="width:60%;">
+		<table class="table">
+			<thead class="table-primary">
+			 <tr>
+			 	<th>
+			 		<div class="title">
+				 		<div class='box-left'>${question.questionId}</div>
+				 		<div class='box-center'>${question.writerId}</div>
+				 		<div class='box-right'>${question.createDate}</div>
+			 		</div>
+				</th>
+			 </tr>
+			</thead>
+			<tbody>
 				<tr>
-					<td>비밀글 여부</td>
-					<td>${question.secretStatus}</td>
+					<td>
+						<div style="margin-top:20px;">
+							<h2>${question.questionTitle}</h2>
+							<c:if test="${question.writerId == loginUser.userId}">
+								<div style="text-align: right;">비밀글 : ${question.secretStatus}</div>
+							</c:if>	
+						</div>
+						<div style="margin: 40px;">${question.questionContent}</div>
+					</td>
 				</tr>
-			</c:if>
-			<tr>
-				<td>작성일</td>
-				<td>${question.createDate}</td>
-			</tr>
+			</tbody>
 		</table>
-       	
-       	<c:if test="${question.writerId == loginUser.userId || loginUser.userLevel == 'system_admin'}">
-       		<a href="${pageContext.request.contextPath}/nonMember/modifyQuestion?questionId=${question.questionId}&writerId=${question.writerId}&secretStatus=${question.secretStatus}">문의글 수정</a>
-			<a href="javascript:removeButton();">문의글 삭제</a>
+      </div>
+      <div class="container" style="width:60%;">
+		<c:if test="${question.writerId == loginUser.userId || loginUser.userLevel == 'system_admin'}">
+			<a class="btn btn-outline-danger" style="float:right;" href="javascript:removeButton();">문의글 삭제</a>
+       		<a class="btn btn-outline-success" style="float:right; margin-right:10px;" href="${pageContext.request.contextPath}/nonMember/modifyQuestion?questionId=${question.questionId}&writerId=${question.writerId}&secretStatus=${question.secretStatus}">문의글 수정</a>
        	</c:if>
-		
       </div>
     </section><!-- End Table Section -->
 	
@@ -138,61 +150,40 @@
 	
   	<!-- ======= Table Section ======= -->
     <section id="list" class="list">
-      <div class="container">
+      <div class="container" style="width:60%;">
 		<c:choose>
 			<c:when test="${empty question.questionAnswer}">
-				<div>답변 대기중 입니다.</div>
+				<div class="section-title">
+					<h2>답변 대기중 입니다.</h2>
+				</div>
 			</c:when>
 			
 			<c:otherwise>
-				<table border="1">
-					<tr>
-						<th>관리자</th>
-						<th>내용</th>
-						<th>삭제</th>
-					</tr>
-					<c:forEach var="a" items="${question.questionAnswer}">
-						<tr>
-							<td>${a.systemAdminId}</td>
-							<td>${a.questionAnswerContent}</td>
-							<c:if test="${loginUser != null && loginUser.userLevel == 'system_admin'}">
-								<td><a href="javascript:removeAnswer();">삭제</a></td>
+			<table class="table">
+				<thead class="table-primary">
+				 <tr>
+				 	<th>
+				 		<div class="title">
+					 		<div class='box-left'>관리자 (${question.questionAnswer.systemAdminId})</div>
+					 		<c:if test="${loginUser != null && loginUser.userLevel == 'system_admin'}">
+								<div class='box-right'><a class="btn btn-danger btn-sm" href="javascript:removeAnswer();">삭제</a></div>
 							</c:if>
-						</tr>
-					</c:forEach>
-				</table>
-		</c:otherwise>
+				 		</div>
+					</th>
+				 </tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>
+							<div style="margin:20px;">${question.questionAnswer.questionAnswerContent}</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>			
+			</c:otherwise>
 		</c:choose>
       </div>
     </section><!-- End Table Section -->
-	
-	<script>
-		function removeButton(){
-			if(confirm("문의 글을 삭제 하시겠습니까?") == true){
-				location.href="${pageContext.request.contextPath}/nonMember/removeQuestion?questionId=${question.questionId}&writerId=${question.writerId}";
-			} else {
-				return;	
-			}
-		}
-		
-		$('#answerBtn').click(function(){
-			if($('#questionAnswerContent').val() == '') {
-				alert('답변을 입력하세요');
-				return;
-			}
-					
-			$('#questionAnswerForm').submit();
-		});
-		
-		function removeAnswer(){
-			if(confirm("작성하신 답변을 삭제 하시겠습니까?") == true){
-				location.href="${pageContext.request.contextPath}/nonMember/removeQuestionAnswer?answerQuestionId=${question.questionId}&writerId=${question.writerId}&secretStatus=${question.secretStatus}";
-			} else {
-				return;	
-			}
-		}
-	</script>
-	
   </main><!-- End #main -->
 
   <!-- start : mainFooter -->
@@ -210,6 +201,33 @@
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
+
+  <script>
+	function removeButton(){
+		if(confirm("문의 글을 삭제 하시겠습니까?") == true){
+			location.href="${pageContext.request.contextPath}/nonMember/removeQuestion?questionId=${question.questionId}&writerId=${question.writerId}";
+		} else {
+			return;	
+		}
+	}
+	
+	$('#answerBtn').click(function(){
+		if($('#questionAnswerContent').val() == '') {
+			alert('답변을 입력하세요');
+			return;
+		}
+				
+		$('#questionAnswerForm').submit();
+	});
+	
+	function removeAnswer(){
+		if(confirm("작성하신 답변을 삭제 하시겠습니까?") == true){
+			location.href="${pageContext.request.contextPath}/nonMember/removeQuestionAnswer?answerQuestionId=${question.questionId}&writerId=${question.writerId}&secretStatus=${question.secretStatus}";
+		} else {
+			return;	
+		}
+	}
+  </script>
 
 </body>
 

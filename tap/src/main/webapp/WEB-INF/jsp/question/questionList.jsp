@@ -5,6 +5,12 @@
 <html lang="en">
 
 <head>
+  <style type="text/css">
+  	table {	
+		text-align: center;
+	}
+  </style>
+
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
@@ -15,9 +21,6 @@
   <!-- Favicons -->
   <link href="${pageContext.request.contextPath}/resources/img/favicon.png" rel="icon">
   <link href="${pageContext.request.contextPath}/resources/img/apple-touch-icon.png" rel="apple-touch-icon">
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="${pageContext.request.contextPath}/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -58,7 +61,7 @@
         <div class="d-flex justify-content-between align-items-center">
           <h2>문의 게시판</h2>
           <ol>
-            <li><a href="/tap/index">Home</a></li>
+            <li><a href="${pageContext.request.contextPath}/">Home</a></li>
             <li>문의 게시판</li>
           </ol>
         </div>
@@ -67,12 +70,19 @@
     </section><!-- End Breadcrumbs -->
 
 	<!-- ======= category Section ======= -->
-    <section id="pageNumber" class="pageNumber">
+    <section id="pageNumber" class="pageNumber" style="padding-bottom:0px;">
       <div class="container">
-      
-		<a href="${pageContext.request.contextPath}/questionList?writerCategory=member">회원</a>
-		<a href="${pageContext.request.contextPath}/questionList?writerCategory=host">숙소 호스트</a>
-		
+        	<ul class="nav nav-tabs">
+        		<li class="nav-item">
+        			<a class="nav-link" href="${pageContext.request.contextPath}/questionList">전체</a>
+          		</li>
+          		<li class="nav-item">
+            		<a class="nav-link" href="${pageContext.request.contextPath}/questionList?writerCategory=member">회원</a>
+          		</li>
+          		<li class="nav-item">
+           	 		<a class="nav-link" href="${pageContext.request.contextPath}/questionList?writerCategory=host">호스트</a>
+          		</li>
+            </ul>   
       </div>
     </section><!-- End category Section -->
 
@@ -83,19 +93,24 @@
 		
 		<c:choose>
 			<c:when test="${empty list}">
-				<div>검색 결과가 없습니다.</div>
+				<div class="section-title" style="margin-top:50px;">
+					<h2>문의 내역이 없습니다.</h2>
+				</div>	
 			</c:when>
 			
 			<c:otherwise>
-				<table border="1">
-					<tr>
+				<table class="table table-hover">
+					<thead class="table-primary">
+					 <tr>
 						<th>글 번호</th>
 						<th>카테고리</th>
 						<th>제목</th>
 						<th>답변 여부</th>
 						<th>작성자</th>
 						<th>작성일</th>
-					</tr>
+					 </tr>
+					</thead>
+					<tbody>
 					<c:forEach var="q" items="${list}">
 						<tr>
 							<td>${q.questionId}</td>
@@ -122,11 +137,12 @@
 							<td>${q.createDate}</td>
 						</tr>
 					</c:forEach>
+					</tbody>
 				</table>
 			</c:otherwise>
 		</c:choose>
 		
-		<button type="button" class="btn btn-danger" id='addQuestion'>문의글 작성</button>
+		<button type="button" class="btn btn-secondary" style="float:right;" id='addQuestion'>문의글 작성</button>
 		
       </div>
     </section><!-- End Table Section -->
@@ -134,21 +150,36 @@
 	<!-- ======= Paging Section ======= -->
     <section id="pageNumber" class="pageNumber">
       <div class="container">
-      
-		<c:if test="${currentPage > 1}">
-			<a href="${pageContext.request.contextPath}/questionList?currentPage=1&writerCategory=${writerCategory}">처음으로</a>
-			<a href="${pageContext.request.contextPath}/questionList?currentPage=${currentPage-1}&writerCategory=${writerCategory}">이전</a>
-		</c:if>
-		
-		<c:forEach var="i" begin="${startPage}" end="${endPage}">
-			<a href="${pageContext.request.contextPath}/questionList?currentPage=${i}&writerCategory=${writerCategory}"><c:out value="${i}"/></a>
-		</c:forEach>
-		
-		<c:if test="${currentPage < lastPage}">
-			<a href="${pageContext.request.contextPath}/questionList?currentPage=${currentPage+1}&writerCategory=${writerCategory}">다음</a>
-			<a href="${pageContext.request.contextPath}/questionList?currentPage=${lastPage}&writerCategory=${writerCategory}">끝으로</a>
-		</c:if>		
-		
+      <!-- 페이징 -->
+		<nav>
+	   		<ul class="pagination" style="justify-content: center;">
+	   			<li>
+					<c:if test="${currentPage > 1}">
+					<div class="btn-group me-2" role="group" aria-label="First group" style="justify-content: center;">
+						<a class="btn btn-secondary btn-sm" href="${pageContext.request.contextPath}/questionList?currentPage=1&writerCategory=${writerCategory}">처음으로</a>
+					</div>
+					<div class="btn-group me-2" role="group" aria-label="First group" style="justify-content: center;">	
+						<a class="btn btn-primary" href="${pageContext.request.contextPath}/questionList?currentPage=${currentPage-1}&writerCategory=${writerCategory}">이전</a>
+					</div>
+					</c:if>
+					
+					<div class="btn-group me-2" role="group" aria-label="First group" style="justify-content: center;">
+						<c:forEach var="i" begin="${startPage}" end="${endPage}">
+							<a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/questionList?currentPage=${i}&writerCategory=${writerCategory}"><c:out value="${i}"/></a>
+						</c:forEach>
+					</div>
+												
+					<c:if test="${currentPage < lastPage}">
+					<div class="btn-group me-2" role="group" aria-label="First group" style="justify-content: center;">
+						<a class="btn btn-primary" href="${pageContext.request.contextPath}/questionList?currentPage=${currentPage+1}&writerCategory=${writerCategory}">다음</a>
+					</div>
+					<div class="btn-group me-2" role="group" aria-label="First group" style="justify-content: center;">	
+						<a class="btn btn-secondary btn-sm" href="${pageContext.request.contextPath}/questionList?currentPage=${lastPage}&writerCategory=${writerCategory}">끝으로</a>
+					</div>
+					</c:if>		
+				</li>
+			</ul>
+		</nav>	
       </div>
     </section><!-- End Paging Section -->
 

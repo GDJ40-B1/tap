@@ -101,9 +101,23 @@ public class QuestionService {
 		
 		return question;
 	}
+
+	// 특정 문의 글 수정 시 이전 데이터 조회
+	public Question getModifyQuestionOne(int questionId) {
+		Question question = new Question();
+		question = questionMapper.selectQuestionOne(questionId);
+		
+		String content = question.getQuestionContent();
+		question.setQuestionContent(content.replace("<br>", "\r\n"));
+		
+		return question;
+	}	
 	
 	// 문의 글 수정
 	public void modifyQuestion(Question question) {
+		String content = question.getQuestionContent();
+		question.setQuestionContent(content.replace("\r\n","<br>"));
+
 		questionMapper.updateQuestion(question);
 	}
 	

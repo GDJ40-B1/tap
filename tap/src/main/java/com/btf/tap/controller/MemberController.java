@@ -277,7 +277,7 @@ public class MemberController {
 		// 유저 객체속 아이디를 회원 객체에 넣어 조회하기
 		Member member = new Member();
 		member.setMemberId(user.getUserId());
-		member = memberService.getMemberOne(member);
+		Map<String, Object> memberMap = memberService.getMemberMyPage(member);
 		
 		// 즐겨찾기 리스트 및 페이징
 		Map<String, Object> favMap = memberService.getFavoritesList(favCurrentPage, user.getUserId());
@@ -294,7 +294,8 @@ public class MemberController {
 		int couponCount = memberService.getCouponCount(memberId);
 		
 		// 회원 정보 주입
-		model.addAttribute("member", member);
+		model.addAttribute("member", memberMap.get("member"));
+		model.addAttribute("point", memberMap.get("point"));
 
 		model.addAttribute("favMap", favMap);
 		model.addAttribute("year", year);

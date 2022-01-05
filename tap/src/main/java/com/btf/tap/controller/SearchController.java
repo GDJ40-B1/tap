@@ -81,29 +81,29 @@ public class SearchController {
 																					   @RequestParam(name="attractionCurrentPage", defaultValue="1") int attractionCurrentPage, 
 																					   @RequestParam(name="hashtagRoomCurrentPage", defaultValue = "1") int hashtagRoomCurrentPage,
 																					   @RequestParam(name="hashtagAttractionCurrentPage", defaultValue = "1") int hashtagAttractionCurrentPage,
-																					   String districtSido, String districtSigungu, String keyword) {
+																					   String districtSido, String districtSigungu, String districtKeyword) {
 		
 		// 지역별 숙소 검색 결과
-		Map<String, Object> roomMap = searchService.getRoomDistrictSearchList(districtSido, districtSigungu, roomCurrentPage, rowPerPage, keyword);
+		Map<String, Object> roomMap = searchService.getRoomDistrictSearchList(districtSido, districtSigungu, roomCurrentPage, rowPerPage, districtKeyword);
 		log.debug(Font.JSB + roomMap.toString() + Font.RESET);
 
 		// 지역별 명소 검색 결과
-		Map<String, Object> attractionMap = searchService.getAttractionDistrictSearchList(districtSido, districtSigungu, attractionCurrentPage, rowPerPage, keyword);
+		Map<String, Object> attractionMap = searchService.getAttractionDistrictSearchList(districtSido, districtSigungu, attractionCurrentPage, rowPerPage, districtKeyword);
 		log.debug(Font.JSB + attractionMap.toString() + Font.RESET);
 		
 		// 지역별 해시태그 숙소 검색 결과
-		Map<String, Object> hashtagRoomMap = searchService.getHashtagRoomDistrictSearchList(districtSido, districtSigungu, hashtagRoomCurrentPage, rowPerPage, keyword);
+		Map<String, Object> hashtagRoomMap = searchService.getHashtagRoomDistrictSearchList(districtSido, districtSigungu, hashtagRoomCurrentPage, rowPerPage, districtKeyword);
 		log.debug(Font.JSB + hashtagRoomMap.toString() + Font.RESET);
 		
 		// 지역별 해시태그 명소 검색 결과 
-		Map<String, Object> hashtagAttractionMap = searchService.getHashtagAttractionDistrictSearchList(districtSido, districtSigungu, hashtagAttractionCurrentPage, rowPerPage, keyword);
+		Map<String, Object> hashtagAttractionMap = searchService.getHashtagAttractionDistrictSearchList(districtSido, districtSigungu, hashtagAttractionCurrentPage, rowPerPage, districtKeyword);
 		log.debug(Font.JSB + hashtagAttractionMap.toString() + Font.RESET);
 		
 		User loginUser = (User)session.getAttribute("loginUser");
 		
 		// 회원의 경우 검색어 기록 저장
 		if(loginUser != null && loginUser.getUserLevel().equals("member")) {
-			searchService.addSearchHistory(loginUser, keyword);
+			searchService.addSearchHistory(loginUser, districtKeyword);
 		}
 		
 		model.addAttribute("roomMap", roomMap);

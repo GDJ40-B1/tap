@@ -48,20 +48,19 @@
 
    <main id="main">
 
-    <!-- ======= Breadcrumbs ======= -->
-    <section id="breadcrumbs" class="breadcrumbs">
+    <section id="breadcrumbs" class="breadcrumbs" style="padding-bottom : 0px;">
       <div class="container">
 
         <div class="d-flex justify-content-between align-items-center">
           <h2>${keyword} 검색</h2>
           <ol>
-            <li><a href="/tap/index">Home</a></li>
-            <li>전체 검색</li>
+            <li><a href="${pageContext.request.contextPath}/">Home</a></li>
+            <li>지역별 검색</li>
           </ol>
         </div>
-		
+		<hr style="margin-top : 1em; margin-bottom : 0px;">
       </div>
-    </section><!-- End Breadcrumbs -->
+    </section>
     
     <c:choose>
 		<c:when test="${empty roomMap.roomList && empty attractionMap.attractionList && empty hashtagRoomMap.hashtagRoomList && empty hashtagAttractionList}">
@@ -73,14 +72,13 @@
 		<c:otherwise>
     
 	    <c:if test="${!empty roomMap.roomList}">
-	     <!-- ======= Breadcrumbs ======= -->
 	    <section id="breadcrumbs" class="breadcrumbs" style="margin-top:0px;">
 		 <div id="roomList" class="container">
 		   <div class="d-flex justify-content-between align-items-center">
 		     <h2>숙소 검색 결과</h2>
 		   </div>	
 		 </div>
-	    </section><!-- End Breadcrumbs -->
+	    </section>
 	    <section id="gallery" class="gallery">
 	      <div class="container">
 	
@@ -139,14 +137,13 @@
 	    </c:if>
 		
 		<c:if test="${!empty attractionMap.attractionList}">
-	    <!-- ======= Breadcrumbs ======= -->
 	    <section id="breadcrumbs" class="breadcrumbs" style="margin-top:0px;">
 	      <div id="attractionList" class="container">
 	        <div class="d-flex justify-content-between align-items-center">
 	          <h2>명소 검색 결과</h2>
 	        </div>	
 	      </div>
-	    </section><!-- End Breadcrumbs -->
+	    </section>
 		
 	    <section id="gallery" class="gallery">
 	      <div class="container">
@@ -206,14 +203,13 @@
 		</c:if>
 	
 		<c:if test="${!empty hashtagRoomMap.hashtagRoomList}">
-	    <!-- ======= Breadcrumbs ======= -->
 	    <section id="breadcrumbs" class="breadcrumbs" style="margin-top:0px;">
 	      <div id="hashtagRoomList" class="container">
 	        <div class="d-flex justify-content-between align-items-center">
 	          <h2>해시태그 숙소 관련 검색 결과</h2>
 	        </div>
 	      </div>
-	    </section><!-- End Breadcrumbs -->
+	    </section>
 		
 	   <section id="gallery" class="gallery">
 	      <div class="container">
@@ -273,14 +269,13 @@
 		</c:if>
 		
 		<c:if test="${!empty hashtagAttractionMap.hashtagAttractionList}">
-	    <!-- ======= Breadcrumbs ======= -->
 	    <section id="breadcrumbs" class="breadcrumbs" style="margin-top:0px;">
 	      <div id="hashtagAttractionList" class="container">
 	        <div class="d-flex justify-content-between align-items-center">
 	          <h2>해시태그 명소 관련 검색 결과</h2>
 	        </div>	
 	      </div>
-	    </section><!-- End Breadcrumbs -->
+	    </section>
 		
 	   <section id="gallery" class="gallery">
 	      <div class="container">

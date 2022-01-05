@@ -1,5 +1,6 @@
 package com.btf.tap.service;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -230,29 +231,28 @@ public class HostService {
 	}
 	
 	// 총 수익 포인트 합 조회
-	public int getRevenueHost(String hostId) {
-		Integer point = hostMapper.selectRevenueHost(hostId);
-		if(point == null) {
-			return 0;
-		}
-		log.debug(Font.JSB + "총 수익 포인트 합 => " + point + Font.RESET);
+	public String getRevenueHost(String hostId) {
+		int result = hostMapper.selectRevenueHost(hostId);
+		log.debug(Font.JSB + "총 수익 포인트 합 => " + result + Font.RESET);
+		DecimalFormat decFormat = new DecimalFormat("###,###");
+		
+		String point = decFormat.format(result);
 		
 		return point;
 	}
 	
 	// 연도별 수익 포인트 합 조회
-	public int getYearRevenueHost(int year, String hostId) {
-		int yearRevenueHost = 0;
+	public String getYearRevenueHost(int year, String hostId) {
+		DecimalFormat decFormat = new DecimalFormat("###,###");
 		
 		Map<String,Object> paramMap = new HashMap<>();
 		paramMap.put("year", year);
 		paramMap.put("hostId", hostId);
 		
 		Map<String, Object> resultMap = hostMapper.selectYearRevenueHost(paramMap);
+		int result = Integer.parseInt(resultMap.get("price").toString());
 		
-		if(resultMap != null) {
-			yearRevenueHost = Integer.parseInt(resultMap.get("price").toString());
-		} 
+		String yearRevenueHost = decFormat.format(result);
 
 		log.debug(Font.JSB + "연도별 총 수익 포인트 합 => " + yearRevenueHost + Font.RESET);
 		
