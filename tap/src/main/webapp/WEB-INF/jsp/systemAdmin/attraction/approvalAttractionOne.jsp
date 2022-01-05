@@ -25,44 +25,45 @@
 		<!-- DataTales Example -->
 	    <div class="card shadow mb-4">
 	        <div class="card-header py-3">
-	            <h6 class="m-0 font-weight-bold text-primary">승인 대기중인 명소</h6>
+	            <h6 class="m-0 font-weight-bold text-primary">명소 상세보기</h6>
 	        </div>
 	        <div class="card-body">
+	        	
 	            <div class="table-responsive">
-	            	<form action="${pageContext.request.contextPath}/systemAdmin/approvalAttractionList" method="post">
-	                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-	                    <thead>
-	                        <tr>
-								<th>명소 카테고리</th>
-								<th>명소 이름</th>
-								<th>전화번호</th>
-								<th>승인여부</th>
-	                        </tr>
-	                    </thead>
-	                    <tbody>
-	                    	<c:forEach items="${list }" var="list">
-								<tr>
-									<td>${list.attractionCategory }</td>
-									<td><a href="${pageContext.request.contextPath}/systemAdmin/approvalAttractionOne?attractionId=${list.attractionId}&detailAddressId=${list.detailAddressId}">${list.attractionName }</a></td>
-									<td>${list.attractionPhoneNumber }</td>
-									<td>${list.approvalStatus}</td>
-								</tr>
-							</c:forEach>
-	                    </tbody>
+				<form action="${pageContext.request.contextPath}/systemAdmin/approvalAttractionOne" method="post">
+					<div style="margin-top:20px; margin-bottom:20px; font-size:20px; color:white;"class="badge rounded-pill bg-info">${hashtag }</div>		
+					<!-- 지도 -->
+					<div id="map" style="width:100%;height:400px; margin-bottom:20px"></div>				        
+				        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+							<tr>
+								<td>명소 이름</td>
+								<td id="attractionName">${attraction.attractionName }</td>
+							</tr>
+							<tr>
+								<td>명소 카테고리</td>
+								<td id="attractionCategory">${ attraction.attractionCategory}</td>
+							</tr>
+							<tr>
+								<td>명소 주소</td>
+								<td id="address">${address.detailAddress }</td>
+							</tr>
+							<tr>
+								<td>전화번호</td>
+								<td id="attractionPhoneNumber">${attraction.attractionPhoneNumber }</td>
+							</tr>
+							<tr>
+								<td>소개</td>
+								<td id="attractionContent">${attraction.attractionContent }</td>
+							</tr>
 	                </table>
+	                <br>
+	                <a class="btn btn-outline-danger" href="${pageContext.request.contextPath }/systemAdmin/removeAttraction?attractionId=${attraction.attractionId }">반려하기</a>
+					<a style="margin-left:20px;" class="btn btn-outline-success" href="${pageContext.request.contextPath}/systemAdmin/approvalAttraction?attractionId=${attraction.attractionId}">승인하기</a>
+					<br>
 	                </form>
 	            </div>
 	        </div>
 	    </div>
-	    
-			<div>
-			<c:if test="${currentPage > 1}">
-				<a href="${pageContext.request.contextPath }/approvalAttractionList?currentPage=${currentPage-1}">이전</a>
-			</c:if>
-			<c:if test="${currentPage < lastPage}">
-				<a href="${pageContext.request.contextPath }/approvalAttractionList?currentPage=${currentPage+1}">다음</a>
-			</c:if>
-		</div>
 
 	</div>
 	<!-- end : content -->
@@ -76,6 +77,50 @@
     <!-- Bootstrap core JavaScript-->
     <script src="${pageContext.request.contextPath}/resources/vendor/jquery/jquery.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/vendor/bootstrap_sb/js/bootstrap.bundle.min.js"></script>
+
+
+   <!-- kakao API -->
+   <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e1c10213787b97f0d88e77cdafcb6687&libraries=services"></script>
+   
+	<script>
+	var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+	    mapOption = {
+	        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+	        level: 3 // 지도의 확대 레벨
+	    };  
+	
+	// 지도를 생성합니다    
+	var map = new kakao.maps.Map(mapContainer, mapOption); 
+	
+	// 주소-좌표 변환 객체를 생성합니다
+	var geocoder = new kakao.maps.services.Geocoder();
+	
+	// 주소로 좌표를 검색합니다
+	geocoder.addressSearch($('#address').text(), function(result, status) {
+
+	    // 정상적으로 검색이 완료됐으면 
+	     if (status === kakao.maps.services.Status.OK) {
+
+	        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+	        
+	        // 결과값으로 받은 위치를 마커로 표시합니다
+	        var marker = new kakao.maps.Marker({
+	            map: map,
+	            position: coords
+	        });
+
+	        // 인포윈도우로 장소에 대한 설명을 표시합니다
+	        var infowindow = new kakao.maps.InfoWindow({
+	            content: '<div style="width:150px;text-align:center;padding:6px 0;">'+$('#AttractionName').text()+'</div>'
+	        });
+	        infowindow.open(map, marker);
+
+	        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+	        map.setCenter(coords);
+	    } 
+	});
+	  
+	</script>
 </body>
 </html>
 
