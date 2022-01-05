@@ -7,6 +7,14 @@
     <meta charset="utf-8">
 	<title>공지사항 작성</title>
 	
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;500;700&display=swap');
+		#font li, h4 {
+			font-family: 'Noto Sans KR', sans-serif;
+			font-weight: 700;
+		} 
+	</style>
+	
 	<!-- Favicons -->
 	<link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="icon">
 	
@@ -33,16 +41,20 @@
 			</nav>
 	        <div class="card-body">
 	            <div class="table-responsive">
-	                <form action="${pageContext.request.contextPath}/systemAdmin/addNotice" method="post">
+	                <form id="addNoticeForm" action="${pageContext.request.contextPath}/systemAdmin/addNotice" method="post">
 	              		 <input type="hidden" name="systemAdminId" value="${systemAdminId}"> 	
-	              		 <div>[제목]</div>	
-	              		 <div><input type="text" name="title"></div><br>
+	              		 <div class="form-group">
+						 	<h4><label class="col-form-label mt-4" for="inputDefault">[제목]</label></h4>
+							<input type="text" class="form-control-sm btn btn-primary" style="text-align:left;" name="title" id="title">
+						 </div>
 	              		 
-	              		 <div>[내용]</div>
-	              		 <textarea rows="5" cols="50" name="content" placeholder="내용을 입력해주세요"></textarea>
+	              		 <div class="form-group">
+					     	<h4><label for="exampleTextarea" class="form-label mt-4">[내용]</label></h4>
+					     	<textarea class="btn btn-primary" name="content" style="text-align:left;" rows="3" cols="80"></textarea>
+					     </div>
 	              		 
 	              		 <div>
-	              		 	<button type="submit">작성</button>
+	              		 	<button class="btn btn-outline-primary" type="button" id="addNoticeBtn">작성</button>
 	              		 </div>
 	                </form>
 	            </div>
@@ -56,6 +68,17 @@
        <jsp:include page="/partial/systemAdminFooter.jsp"></jsp:include>
     </div>
     <!-- end : systemAdminFooter -->
+    
+    <!-- 공지사항 작성 버튼 클릭 시 -->
+    <script>
+	    $('#addNoticeBtn').click(function() {
+			if ($('#title').val() == '') {
+				alert('제목을 입력해주세요');
+				return;
+			} 
+			
+			$('#addNoticeForm').submit();
+		});
+    </script>
 </body>
 </html>
-

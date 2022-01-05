@@ -7,6 +7,14 @@
     <meta charset="utf-8">
 	<title>공지사항 관리</title>
 	
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;500;700&display=swap');
+		#font li, h4 {
+			font-family: 'Noto Sans KR', sans-serif;
+			font-weight: 700;
+		} 
+	</style>
+	
 	<!-- Favicons -->
 	<link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="icon">
 	
@@ -26,9 +34,9 @@
 	    <div class="card shadow mb-4">
 	        <div class="card-header py-3">
 	        	<div class="d-flex justify-content-between align-items-center">
-					<h6 class="m-0 font-weight-bold text-primary">
-		           		<span>공지사항(총 : ${totalNoticeCount}개)</span>
-		           	</h6>
+					<h4 class="m-0 font-weight-bold text-primary">
+		           		<span>공지사항(총 ${totalNoticeCount}개)</span>
+		           	</h4>
 		           	<ol style="list-style: none;">
 						<li>
 							<a class="btn btn-danger" href="${pageContext.request.contextPath}/systemAdmin/addNotice">공지사항 작성</a>
@@ -52,24 +60,29 @@
 	                    	<c:forEach var="n" items="${noticeList.list}">
 	                    		<tr>
 	                    			<td>${n.noticeId}</td>
-	                    			<td><a href="#notice" onclick="result(this)" style="text-overflow: ellipsis;">${n.title}</a></td>
+	                    			<td><a class="btn btn-link" href="#notice" onclick="result(this)" style="text-overflow: ellipsis;">${n.title}</a></td>
 	                    			<td>${n.systemAdminId}</td>
 	                    			<td>${n.createDate}</td>
 	                    			<td>${n.updateDate}</td>
 	                    		</tr>
 	                    		<tr class="notice" style="display: none;">
-	                    			<td colspan="5">
+	                    			<td colspan="3">
 	                    				<form action="${pageContext.request.contextPath}/systemAdmin/modifyNotice" method="post">
 		                    				<input type="hidden" name="noticeId" value="${n.noticeId}">
-		                    				<div>[제목]</div>
-		                    				<div><input type="text" name="title" value="${n.title}"></div><br>
 		                    				
-		                    				<div>[내용]</div>
-		                    				<div><textarea rows="5" cols="50" name="content">${n.content}</textarea></div>
+		                    				<div class="form-group">
+											  <h4><label class="col-form-label mt-4" for="inputDefault">[제목]</label></h4>
+											  <input type="text" class="form-control-sm btn btn-primary" style="text-align:left;" name="title" value="${n.title}">
+											</div>
+		                    			
+		                    				<div class="form-group">
+										      <h4><label for="exampleTextarea" class="form-label mt-4">[내용]</label></h4>
+										      <textarea class="form-control btn btn-primary" name="content" style="text-align:left;" rows="3">${n.content}</textarea>
+										    </div>
 		                    				
-		                    				<div>
-		                    					<button type="submit">수정</button>
-		                    					<a href="${pageContext.request.contextPath}/systemAdmin/removeNotice?noticeId=${n.noticeId}">삭제</a>
+		                    				<div style="text-align:center;" >
+		                    					<button class="btn btn-outline-primary" type="submit">수정</button>&ensp;
+		                    					<a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/systemAdmin/removeNotice?noticeId=${n.noticeId}">삭제</a>
 		                    				</div>	                    		
 	                    				</form>
 	                    			</td>
@@ -83,17 +96,17 @@
 		    <section id="pageNumber" class="pageNumber">
 		      <div class="container" style="text-align:center"> 
 				<c:if test="${currentPage > 1}">
-					<a href="${pageContext.request.contextPath}/systemAdmin/noticeList?currentPage=1">처음으로</a>
-					<a href="${pageContext.request.contextPath}/systemAdmin/noticeList?currentPage=${currentPage-1}">이전</a>
+					<a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/systemAdmin/noticeList?currentPage=1">처음으로</a>
+					<a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/systemAdmin/noticeList?currentPage=${currentPage-1}">이전</a>
 				</c:if>
 				
 				<c:forEach var="i" begin="${startPage}" end="${endPage}">
-					<a href="${pageContext.request.contextPath}/systemAdmin/noticeList?currentPage=${i}"><c:out value="${i}"/></a>
+					<a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/systemAdmin/noticeList?currentPage=${i}"><c:out value="${i}"/></a>
 				</c:forEach>
 				
 				<c:if test="${currentPage < lastPage}">
-					<a href="${pageContext.request.contextPath}/systemAdmin/noticeList?currentPage=${currentPage+1}">다음</a>
-					<a href="${pageContext.request.contextPath}/systemAdmin/noticeList?currentPage=${lastPage}">끝으로</a>
+					<a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/systemAdmin/noticeList?currentPage=${currentPage+1}">다음</a>
+					<a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/systemAdmin/noticeList?currentPage=${lastPage}">끝으로</a>
 				</c:if>		
 		      </div>
 		    </section>
