@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-	<title>Insert title here</title>
+	<title>대기중인 명소</title>
 	<script src="http://code.jquery.com/jquery-latest.js"></script>
 	
     <!-- Custom styles for this template-->
