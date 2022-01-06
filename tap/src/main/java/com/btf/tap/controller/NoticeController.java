@@ -75,10 +75,11 @@ public class NoticeController {
 		if(currentNum!=null) {
 			currentPage = Integer.parseInt(currentNum);
 		}
-		
-		
-			Map<String,Object> noticeList = noticeService.getNoticeList(currentPage);
+
+
 			
+			Map<String,Object> noticeList = noticeService.getNoticeList(currentPage);
+
 			model.addAttribute("noticeList", noticeList);
 			model.addAttribute("currentPage",currentPage);
 		
@@ -94,7 +95,6 @@ public class NoticeController {
 		
 		// 화면에 보여질 시작 페이지 번호
 		int startPage = ((currentPage - 1) / displayPage) * displayPage + 1;
-
 		// 화면에 보여질 마지막 페이지 번호
 		int endPage = 0;
 		if(lastPage<displayPage){
@@ -119,5 +119,7 @@ public class NoticeController {
 			
 			return "notice/noticeList";
 	}
+	
+	
 	
 }
