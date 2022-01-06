@@ -195,8 +195,8 @@
 			
 				<c:otherwise>
 				
-	       		<table id="roomQna" border="1">
-	       			<tr>
+	       		<table style="margin-top:10px;"class="table table-hover" id="roomQna" border="1">
+	       			<tr class="table-active">
 	       				<td>답변상태</td>
 	       				<td>문의내역</td>
 	       				<td>작성자</td>
@@ -318,13 +318,13 @@
 								숙소후기 평점 : 
 								<c:choose>
 									<c:when test="${r.roomReviewScore == 1}">
-										<td>★☆☆☆☆</td>
+										<td >★☆☆☆☆</td>
 									</c:when>
 									<c:when test="${r.roomReviewScore == 2}">
 										<td>★★☆☆☆</td>
 									</c:when>
 									<c:when test="${r.roomReviewScore == 3}">
-										<td>★★★☆☆</td>
+										<td >★★★☆☆</td>
 									</c:when>
 									<c:when test="${r.roomReviewScore == 4}">
 										<td>★★★★☆</td>
