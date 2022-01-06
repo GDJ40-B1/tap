@@ -62,7 +62,7 @@
 							</tr>
 	                </table>
 	                <br>
-	                <a class="btn btn-outline-danger" href="${pageContext.request.contextPath }/systemAdmin/removeAttraction?attractionId=${attraction.attractionId }">반려하기</a>
+	                <a class="btn btn-outline-danger" href="${pageContext.request.contextPath }/systemAdmin/removeAttraction?attractionId=${attraction.attractionId }">삭제하기</a>
 					<a style="margin-left:20px;" class="btn btn-outline-warning" href="${pageContext.request.contextPath }/systemAdmin/modifyAttraction?attractionId=${attraction.attractionId }&detailAddressId=${address.detailAddressId}">수정하기</a>
 					<br>
 	                </form>
