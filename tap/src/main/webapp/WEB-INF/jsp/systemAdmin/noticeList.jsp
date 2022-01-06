@@ -9,9 +9,8 @@
 	
 	<style>
 		@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;500;700&display=swap');
-		#font li, h4 {
+		li, span {
 			font-family: 'Noto Sans KR', sans-serif;
-			font-weight: 700;
 		} 
 	</style>
 	
@@ -34,9 +33,9 @@
 	    <div class="card shadow mb-4">
 	        <div class="card-header py-3">
 	        	<div class="d-flex justify-content-between align-items-center">
-					<h4 class="m-0 font-weight-bold text-primary">
+					<h5 class="m-0 font-weight-bold text-primary">
 		           		<span>공지사항(총 ${totalNoticeCount}개)</span>
-		           	</h4>
+		           	</h5>
 		           	<ol style="list-style: none;">
 						<li>
 							<a class="btn btn-danger" href="${pageContext.request.contextPath}/systemAdmin/addNotice">공지사항 작성</a>

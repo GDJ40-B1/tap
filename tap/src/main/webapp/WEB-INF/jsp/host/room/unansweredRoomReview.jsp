@@ -5,8 +5,25 @@
 <html>
 <head>
     <meta charset="utf-8">
-	<title>Insert title here</title>
-	<script src="http://code.jquery.com/jquery-latest.js"></script> 
+	<title>숙소후기 미답변 목록</title>
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	
+	<style>
+	@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
+	
+	h6 {
+	 	font-family: 'Noto Sans KR', sans-serif;
+	}
+	
+	#font1, #font2, #font3 {
+		font-family: 'Noto Sans KR', sans-serif;
+		font-weight: 300;
+	}
+	</style>
+	
+	<!-- Favicons -->
+	<link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="icon">
+ 
 </head>
 <body id="page-top">
 
@@ -27,7 +44,7 @@
 	            <div class="table-responsive">
 		        	<c:choose>
 						<c:when test="${empty roomReview.list}">
-							<div>미답변 숙소후기 내역이 없습니다.</div>
+							<div id="font1">미답변 숙소후기 내역이 없습니다.</div>
 						</c:when>
 				
 					<c:otherwise>
@@ -45,7 +62,7 @@
 		       			<tbody>
 		       				<tr>
 		       					<td><a href="${pageContext.request.contextPath}/roomOne?roomId=${r.roomId}&detailAddressId=${r.detailAddressId}">${r.roomName}</a></td>
-								<td><a href="#roomReview" onclick="result(this)" style="text-overflow: ellipsis;">${r.roomReviewContent}</a></td>
+								<td><a class="btn btn-link" href="#roomReview" onclick="result(this)" style="text-overflow: ellipsis;">${r.roomReviewContent}</a></td>
 								<c:choose>
 									<c:when test="${r.roomReviewScore == 1}">
 										<td>★☆☆☆☆</td>
@@ -68,13 +85,13 @@
 		       				</tr>
 		       				<tr class="review" style="display: none;">
 								<td colspan = "5">
-									<div>[후기]</div>
+									<div id="font2">[후기]</div>
 									<div>${r.roomReviewContent}</div><br>
 									<div>
 										<form class="roomReviewAnswerForm" action="${pageContext.request.contextPath}/host/unansweredRoomReview" method="post">
 											<div class="form-group">
 												<input type="hidden" name="roomReviewId" value="${r.roomReviewId}">
-												<label for="roomReviewAnswer">[답변 작성] </label>
+												<label for="roomReviewAnswer" id="font3">[답변 작성] </label>
 													<textarea class="form-control" rows="5" placeholder="후기답변을 작성해주세요" class="roomReviewCommentContent" name="roomReviewCommentContent"></textarea>
 											</div>
 											<div>

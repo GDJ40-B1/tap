@@ -5,13 +5,24 @@
 <head>
 <meta charset="UTF-8">
 <title>회원 목록</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
+
+h6 {
+ font-family: 'Noto Sans KR', sans-serif;
+}
+</style>
+
+<!-- Favicons -->
+<link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="icon">
+
 </head>
 <body>
-	<!-- start : mainHeader -->
+	<!-- start : systemAdminHeader -->
     <div>
        <jsp:include page="/partial/systemAdminHeader.jsp"></jsp:include>
     </div>
-    <!-- end : mainHeader -->
+    <!-- end : systemAdminHeader -->
 
     <!-- start : content -->
 	<div id="content" class="container-fluid">
@@ -23,56 +34,41 @@
 	        <div class="card-body">
 	        
 	        <div class="table-responsive">
-	            	<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-					<tr>
-						<th>회원 아이디</th>
-						<th>회원 이름</th>
-						<th>회원 나이</th>
-						<th>회원 전화번호</th>
-						<th>회원 포인트</th>
-						<th>정보 생성일</th>
-						<th>정보 수정일</th>
-					</tr>
-					<c:forEach var="m" items="${list}">
+            	<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+	            	<thead>
 						<tr>
-							<td>${m.memberId}</td>
-							<td>${m.memberName}</td>
-							<td>${m.memberAge}</td>
-							<td>${m.memberPhone}</td>
-							<td>${m.memberPoint}</td>
-							<td>${m.createDate}</td>
-							<td>${m.updateDate}</td>
+							<th>회원 아이디</th>
+							<th>회원 이름</th>
+							<th>회원 나이</th>
+							<th>회원 전화번호</th>
+							<th>회원 포인트</th>
+							<th>정보 생성일</th>
+							<th>정보 수정일</th>
 						</tr>
-					</c:forEach>
-					</table>
+					</thead>
+					<tbody>
+						<c:forEach var="m" items="${list}">
+							<tr>
+								<td>${m.memberId}</td>
+								<td>${m.memberName}</td>
+								<td>${m.memberAge}</td>
+								<td>${m.memberPhone}</td>
+								<td>${m.memberPoint}</td>
+								<td>${m.createDate}</td>
+								<td>${m.updateDate}</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
 				</div>
 	        </div>
-	        <!-- ======= Paging Section ======= -->
-		    <section id="pageNumber" class="pageNumber">
-		      <div class="container" style="text-align:center"> 
-				<c:if test="${currentPage > 1}">
-					<a class="btn btn-secondary" href="${pageContext.request.contextPath}/systemAdmin/memberList?currentPage=1">처음으로</a>
-					<a class="btn btn-secondary" href="${pageContext.request.contextPath}/systemAdmin/memberList?currentPage=${currentPage-1}">이전</a>
-				</c:if>
-				
-				<c:forEach var="i" begin="${startPage}" end="${endPage}">
-					<a class="btn btn-secondary" href="${pageContext.request.contextPath}/systemAdmin/memberList?currentPage=${i}"><c:out value="${i}"/></a>
-				</c:forEach>
-				
-				<c:if test="${currentPage < lastPage}">
-					<a class="btn btn-secondary" href="${pageContext.request.contextPath}/systemAdmin/memberList?currentPage=${currentPage+1}">다음</a>
-					<a class="btn btn-secondary" href="${pageContext.request.contextPath}/systemAdmin/memberList?currentPage=${lastPage}">끝으로</a>
-				</c:if>		
-		      </div>
-		    </section>
-		    <!-- End Paging Section -->
 	    </div>	
 	</div>
     
-  	<!-- start : mainFooter -->
+  	<!-- start : systemAdminFooter -->
 	<div>
       <jsp:include page="/partial/systemAdminFooter.jsp"></jsp:include>
     </div>
- 	<!-- end : mainFooter -->
+ 	<!-- end : systemAdminFooter -->
 </body>
 </html>
