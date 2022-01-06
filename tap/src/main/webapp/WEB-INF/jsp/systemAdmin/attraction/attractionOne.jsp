@@ -79,9 +79,6 @@
     </div>
     <!-- end : systemAdminFooter -->
     
-    <!-- Bootstrap core JavaScript-->
-    <script src="${pageContext.request.contextPath}/resources/vendor/jquery/jquery.min.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/vendor/bootstrap_sb/js/bootstrap.bundle.min.js"></script>
 
 
    <!-- kakao API -->

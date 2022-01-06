@@ -43,25 +43,25 @@
    		<section class="event-list">
    			<div class="container">
    				<form id="addPaymentForm" action="${pageContext.request.contextPath}/member/addPayment" method="post">
-   					<label>회원</label>
-				   <input type="text" name="memberId" value="${reservation.memberId}" readonly="readonly">
+   					<label class="form-label mt-4">회원</label>
+				   <input class="form-control" type="text" name="memberId" value="${reservation.memberId}" readonly="readonly">
 				   <br>
-				   <label>숙소ID</label>
-				   <input type="text" name="roomId" value="${reservation.roomId}" readonly="readonly">
+				   <label class="form-label mt-4">숙소ID</label>
+				   <input class="form-control" type="text" name="roomId" value="${reservation.roomId}" readonly="readonly">
 				   <br>
-				   <label>숙소명</label>
-				   <input type="text" name="room.roomName" value="${reservation.room.roomName }" readonly="readonly">
+				   <label class="form-label mt-4">숙소명</label>
+				   <input class="form-control" type="text" name="room.roomName" value="${reservation.room.roomName }" readonly="readonly">
 				   <br>
-				   <label>체크인 날짜</label>
-				   <input type="text" name="checkInDate" value="${reservation.checkInDate}" readonly="readonly">
+				   <label class="form-label mt-4">체크인 날짜</label>
+				   <input class="form-control" type="text" name="checkInDate" value="${reservation.checkInDate}" readonly="readonly">
 				   <br>
-				   <label>체크아웃 날짜</label>
-				   <input type="text" name="checkOutDate" value="${reservation.checkOutDate}" readonly="readonly">
+				   <label class="form-label mt-4">체크아웃 날짜</label>
+				   <input  class="form-control" type="text" name="checkOutDate" value="${reservation.checkOutDate}" readonly="readonly">
 				   <br>
-				   <label>최대 인원수</label>
-				   <input type="text" name="peopleNum" value="${reservation.peopleNum }" readonly="readonly">
+				   <label class="form-label mt-4">최대 인원수</label>
+				   <input class="form-control" type="text" name="peopleNum" value="${reservation.peopleNum }" readonly="readonly">
 				   <br>
-				   <label>쿠폰</label>
+				   <label class="form-label mt-4">쿠폰</label>
 					<select class="form-control" id="coupon" name="couponId" onchange="chageLangSelect()">
 						<option value="0">==쿠폰 없이 결제할게요==</option>
 						<c:forEach items="${couponList }" var="c">
@@ -69,11 +69,11 @@
 						</c:forEach>
 					</select>
 					<br>
-				   <label>예상 결제 금액</label>
+				   <label class="form-label mt-4">예상 결제 금액</label>
 				   <input type="hidden" id="realFinalPaymentPrice" value="${reservation.finalPaymentPrice }">
-				   <input type="text" id="finalPaymentPrice" name="finalPaymentPrice" value="${reservation.finalPaymentPrice }" readonly="readonly">
+				   <input class="form-control" type="text" id="finalPaymentPrice" name="finalPaymentPrice" value="${reservation.finalPaymentPrice }" readonly="readonly">
 				   <br>
-				   <button type="button" id="paymentBtn">결제하기</button>
+				   <button type="button" id="paymentBtn" class="btn btn-outline-success">결제하기</button>
 				</form>
 			</div>
 		</section>
