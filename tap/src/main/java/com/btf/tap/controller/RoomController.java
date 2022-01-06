@@ -105,6 +105,7 @@ public class RoomController {
 		model.addAttribute("hashtag",result.get("hashtag"));
 		model.addAttribute("roomAmenitiesList",result.get("amenitiesList"));
 		model.addAttribute("roomPartList",result.get("roomPartList"));
+		model.addAttribute("imageList",result.get("imageList"));
 		// 쿠폰
 		model.addAttribute("couponList",result.get("couponList"));
 		//예약

@@ -43,8 +43,8 @@
 		
 		<!-- 추후에 남은 수량, 회원들이 발급한 수량, 사용수량등을 보여주면 좋을듯 함 -->
 		
-		<a href="${pageContext.request.contextPath}/host/modifyCoupon?roomId=${room.roomId}&detailAddressId=${room.detailAddressId}&couponId=${coupon.couponId}">쿠폰 수정</a>
-   		<a href="${pageContext.request.contextPath}/host/removeCoupon?roomId=${room.roomId}&detailAddressId=${room.detailAddressId}&couponId=${coupon.couponId}">쿠폰 삭제</a>
+		<button type="button" class="btn btn-info" onclick="location.href='${pageContext.request.contextPath}/host/modifyCoupon?roomId=${room.roomId}&detailAddressId=${room.detailAddressId}&couponId=${coupon.couponId}' ">쿠폰 수정</button>
+   		<button type="button" id="delBtn" class="btn btn-info">쿠폰 삭제</button>
 	</div>
 	<!-- end : content -->
 	
@@ -53,6 +53,17 @@
        <jsp:include page="/partial/hostFooter.jsp"></jsp:include>
     </div>
     <!-- end : hostFooter -->
+    
+    <!-- 쿠폰 삭제 클릭 시 -->
+	<script>
+		$('#delBtn').click(function(){
+			if(confirm("쿠폰을 삭제하시겠습니까?") == true){
+				$(location).attr('href', "${pageContext.request.contextPath}/host/removeCoupon?roomId=${room.roomId}&detailAddressId=${room.detailAddressId}&couponId=${coupon.couponId}");
+			} else{
+				return;
+			}
+		});
+	</script>
 </body>
 </html>
 

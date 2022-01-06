@@ -326,10 +326,10 @@
    					
    					var money;
    					
-   					if (rows.pointCategory=="충전" || rows.pointCategory=="수입") {
+   					if (rows.pointCategory=="충전" || rows.pointCategory=="수입" || rows.pointCategory=="환불") {
    						money = "+ " + data.toLocaleString() + "원";
    					} else{
-   						money = "- " + data.toLocaleString() + "원";
+   						money = data.toLocaleString() + "원";
    					}
    					
    					return money;

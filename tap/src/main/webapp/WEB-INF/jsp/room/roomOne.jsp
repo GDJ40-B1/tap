@@ -5,9 +5,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script src="http://code.jquery.com/jquery-latest.js"></script> 
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<script src="http://code.jquery.com/jquery-latest.js"></script> 
+	<meta charset="UTF-8">
+	<title>${room.roomName }</title>
+
+	<!-- Favicons -->
+    <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="icon">
+    <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="apple-touch-icon">
+    
+    <style type="text/css">
+    	.customoverlay {position:relative;bottom:85px;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;float:left;}
+		.customoverlay:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
+		.customoverlay a {display:block;text-decoration:none;color:#000;text-align:center;border-radius:6px;font-size:14px;font-weight:bold;overflow:hidden;background: #d95050;background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;}
+		.customoverlay .title {display:block;text-align:center;background:#fff;margin-right:35px;padding:10px 15px;font-size:14px;font-weight:bold;}
+		.customoverlay:after {content:'';position:absolute;margin-left:-12px;left:50%;bottom:-12px;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+    </style>
 </head>
 <body>
    <!-- start : mainHeader -->
@@ -35,19 +47,35 @@
     
          <section class="event-list">
          	<div class="container">
-         		<!-- 지도 -->
-	            <div id="map" style="width:100%;height:350px;"></div>
-	            
+         		
+         		<!-- 숙소 이미지 -->
+         		<c:forEach items="${imageList }" var="img">
+			    	<c:choose>
+						<c:when test="${fn:length(imageList)==1}">
+							<img src="${pageContext.request.contextPath}/resources/img/room/${img.imageName }" width="70%" height="500px" style="margin-left: 15%">
+						</c:when>
+						<c:when test="${fn:length(imageList)==2}">
+							<img src="${pageContext.request.contextPath}/resources/img/room/${img.imageName }" width="49%" height="400px">
+						</c:when>
+						<c:otherwise>
+							<img src="${pageContext.request.contextPath}/resources/img/room/${img.imageName }" width="33%" height="370px">
+						</c:otherwise>
+					</c:choose>
+			    </c:forEach>
+				<br>
+				
+	            <!-- 쿠폰 -->
 	            <div style="margin: 20px">
 	            	<c:forEach items="${couponList}" var="c">
 	            		<button id="${c.couponId }-couponBtn" type="button" class="btn btn-outline-danger">${c.couponName }</button>
 	            	</c:forEach>
 	            </div>
+	            
 	            <!-- 숙소 정보 -->
-                <table border="1" class="table">
+                <table border="1" class="table" style="width: 100%;">
                      <tr>
-                        <td style="width:10%;">숙소명</td>
-                        <td id="roomName" style="width:90%;">${room.roomName }</td>
+                        <td style="width:20%;">숙소명</td>
+                        <td id="roomName" style="width:80%;">${room.roomName }</td>
                      </tr>
                      <tr>
                         <td>주소</td>
@@ -97,13 +125,10 @@
                         <td>숙소 수정일</td>
                         <td>${room.updateDate }</td>
                      </tr>
-                     <tr>
-                        <td></td>
-                        <td>${hashtag }</td>
-                     </tr>
                 </table>
-                
-                <div class="form-group row">
+                <div style="margin-bottom:20px; font-size:17px;"class="badge rounded-pill bg-info">${hashtag }</div>
+	            
+	            <div class="form-group row">
 					<div class="col-sm-6 mb-3 mb-sm-0">
 						<label>숙소 구성</label>
 						<ul class="list-group">
@@ -124,7 +149,10 @@
 						</ul>
 					</div>
 				</div>
-                <a href="${pageContext.request.contextPath}/member/addReservation?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}">예약</a>
+	            
+	            <br>
+	            <!-- 지도 -->
+	            <div id="map" style="width:100%;height:350px;"></div>
             </div>
       </section>
  		<div class="container">
@@ -593,31 +621,6 @@
    // 주소-좌표 변환 객체를 생성합니다
    var geocoder = new kakao.maps.services.Geocoder();
    
-   // 주소로 좌표를 검색합니다
-   geocoder.addressSearch($('#address').text(), function(result, status) {
-
-       // 정상적으로 검색이 완료됐으면 
-        if (status === kakao.maps.services.Status.OK) {
-
-           var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-           
-           // 결과값으로 받은 위치를 마커로 표시합니다
-           var marker = new kakao.maps.Marker({
-               map: map,
-               position: coords
-           });
-
-           // 인포윈도우로 장소에 대한 설명을 표시합니다
-           var infowindow = new kakao.maps.InfoWindow({
-               content: '<div style="width:150px;text-align:center;padding:6px 0;">'+$('#roomName').text()+'</div>'
-           });
-           infowindow.open(map, marker);
-
-           // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-           map.setCenter(coords);
-       } 
-   });
-   
    /* 명소 리스트 찍기 */
 	// 주소-좌표 변환 객체를 생성합니다
 	var geocoder_at = new kakao.maps.services.Geocoder();
@@ -629,33 +632,101 @@
 
 		    // 정상적으로 검색이 완료됐으면 
 		    if (status === kakao.maps.services.Status.OK) {
+		    	
+		    	// 마커 이미지 정보
+		    	var imageSrc = '${pageContext.request.contextPath}/resources/img/system/attraction_marker.png', // 마커이미지의 주소입니다    
+		        imageSize = new kakao.maps.Size(30, 32), // 마커이미지의 크기입니다
+		        imageOption = {offset: new kakao.maps.Point(15, 40)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+		          
+		    	// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+		    	var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
 				
 				var marker_at = new kakao.maps.Marker({
 		 	        map: map, // 마커를 표시할 지도
 		 	        title: "${a.attractionName}", // 명소 이름
-		 	        position: new kakao.maps.LatLng(result[0].y, result[0].x) // 마커의 위치
+		 	        position: new kakao.maps.LatLng(result[0].y, result[0].x), // 마커의 위치
+		 	        image : markerImage
 		 	    });
-			 
-			    // 마커에 표시할 인포윈도우를 생성합니다 
-			    var infowindow_at = new kakao.maps.InfoWindow({
-			        content: '<div style="width:150px;text-align:center;padding:6px 0;">${a.attractionName}</div>' // 인포윈도우에 표시할 내용
-			    });
-				// 인포윈도우를 띄웁니다
-			    infowindow_at.open(map, marker_at);
+				
+			 	// 커스텀 오버레이에 표출될 내용으로 HTML 문자열이나 document element가 가능합니
+		           var content = '<span class="badge bg-warning">${a.attractionName}</span>';
+		           var custom_position = new kakao.maps.LatLng(result[0].y-0.0001, result[0].x);  
+
+		           // 커스텀 오버레이를 생성합니다
+		           var customOverlay = new kakao.maps.CustomOverlay({
+		               map: map,
+		               position: custom_position,
+		               content: content,
+		               yAnchor: 1 
+		           });
 
 			    // 마커에 클릭 이벤트를 달아줍니다
-			    kakao.maps.event.addListener(marker_at, 'click', makeClickListener("${a.attractionId}","${a.address.detailAddressId}"));
+			    kakao.maps.event.addListener(marker_at, 'click', makeAttractionClickListener("${a.attractionId}","${a.address.detailAddressId}"));
 		    }
 		});	
 	</c:forEach>
+	
+	/* 숙소 찍기 */
+	// 주소로 좌표를 검색합니다
+   geocoder.addressSearch($('#address').text(), function(result, status) {
 
-	// 마커 클릭 이벤트
-	function makeClickListener(attractionId,detailAddressId) {
-		    return function() {
-	            // 마커 클릭시 실행할 이벤트 구현
-		    	$(location).attr('href', "${pageContext.request.contextPath}/attractionOne?attractionId="+attractionId+"&detailAddressId="+detailAddressId);
-		    };
-		}
+       // 정상적으로 검색이 완료됐으면 
+        if (status === kakao.maps.services.Status.OK) {
+
+           var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+           
+        	// 마커 이미지 정보
+	    	var imageSrc = '${pageContext.request.contextPath}/resources/img/system/room_marker.png', // 마커이미지의 주소입니다    
+	    	imageSize = new kakao.maps.Size(64, 69), // 마커이미지의 크기입니다
+	        imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+	          
+	    	// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+	    	var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+			
+           
+           // 결과값으로 받은 위치를 마커로 표시합니다
+           var marker = new kakao.maps.Marker({
+               map: map,
+               position: coords,
+               image : markerImage
+           });
+           
+           // 숙소 마커 클릭시 길찾기로 이동
+           kakao.maps.event.addListener(marker, 'click', function() {
+        	   window.open('https://map.kakao.com/link/to/'+$('#roomName').text()+','+result[0].y+','+result[0].x, '_blank');
+        	});
+           
+        // 커스텀 오버레이에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+        var link_room = 'https://map.kakao.com/link/to/'+$('#roomName').text()+','+result[0].y+','+result[0].x;
+           var content = '<div class="customoverlay">' +
+               '  <a href="'+link_room+'" target="_blank">' +
+               '    <span class="title">${room.roomName }</span>' +
+               '  </a>' +
+               '</div>';
+
+           // 커스텀 오버레이가 표시될 위치입니다 
+           var custom_position = new kakao.maps.LatLng(result[0].y, result[0].x);  
+
+           // 커스텀 오버레이를 생성합니다
+           var customOverlay = new kakao.maps.CustomOverlay({
+               map: map,
+               position: custom_position,
+               content: content,
+               yAnchor: 1 
+           });
+           // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+           map.setCenter(coords);
+       } 
+   });
+
+	/* 마커 클릭 이벤트 */
+	// 명소 클릭 시 명소 상세보기로 이동
+	function makeAttractionClickListener(attractionId,detailAddressId) {
+	    return function() {
+            // 마커 클릭시 실행할 이벤트 구현
+	    	window.open("${pageContext.request.contextPath}/attractionOne?attractionId="+attractionId+"&detailAddressId="+detailAddressId, '_blank');
+	    };
+	}
    </script>
  
     <script>

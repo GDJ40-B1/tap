@@ -322,7 +322,7 @@
    					if (rows.pointCategory=="충전" || rows.pointCategory=="수입") {
    						money = "+ " + data.toLocaleString();
    					} else{
-   						money = "- " + data.toLocaleString();
+   						money = data.toLocaleString();
    					}
    					
    					return money;

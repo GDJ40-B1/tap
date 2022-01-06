@@ -161,6 +161,8 @@ public class RoomService {
       result.put("room", roomMapper.selectRoomOne(roomId));
       // 해시태그 정보
       result.put("hashtag", hashtagService.getHashtag("room", roomId));
+      // 이미기 정보
+      result.put("imageList", imageService.getTargetImage("room", roomId));
       // 쿠폰 목록 추출
       if(memberId.equals("")) {
          // 로그인 되어있지 않다면, 해당 숙소의 모든 쿠폰 추출
