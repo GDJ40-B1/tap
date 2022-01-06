@@ -47,7 +47,7 @@
 
             <!-- Heading -->
             <div class="sidebar-heading">
-                수업 보고서
+                포인트 통계
             </div>
             
             <!-- Nav Item - Charts -->
@@ -64,8 +64,14 @@
             <div class="sidebar-heading">
                 업무 관리
             </div>
-            
+
 			<!-- Nav Item - Tables -->
+			<li class="nav-item">
+                <a class="nav-link" href="${pageContext.request.contextPath}/member/myFavorites">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>숙소 즐겨찾기</span></a>
+            </li>
+            
 			<li class="nav-item">
                 <a class="nav-link" href="${pageContext.request.contextPath}/member/reservationList">
                     <i class="fas fa-fw fa-table"></i>

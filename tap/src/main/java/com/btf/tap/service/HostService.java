@@ -232,8 +232,14 @@ public class HostService {
 	
 	// 총 수익 포인트 합 조회
 	public String getRevenueHost(String hostId) {
-		int result = hostMapper.selectRevenueHost(hostId);
+		Integer result = hostMapper.selectRevenueHost(hostId);
 		log.debug(Font.JSB + "총 수익 포인트 합 => " + result + Font.RESET);
+		
+		// 결과 값이 null인 경우 하단 코드를 실행시키지 않고 null을 반환
+		if(result == null) {
+			return null;
+		}
+		
 		DecimalFormat decFormat = new DecimalFormat("###,###");
 		
 		String point = decFormat.format(result);
@@ -243,6 +249,7 @@ public class HostService {
 	
 	// 연도별 수익 포인트 합 조회
 	public String getYearRevenueHost(int year, String hostId) {
+		String yearRevenueHost = null;
 		DecimalFormat decFormat = new DecimalFormat("###,###");
 		
 		Map<String,Object> paramMap = new HashMap<>();
@@ -250,9 +257,12 @@ public class HostService {
 		paramMap.put("hostId", hostId);
 		
 		Map<String, Object> resultMap = hostMapper.selectYearRevenueHost(paramMap);
-		int result = Integer.parseInt(resultMap.get("price").toString());
 		
-		String yearRevenueHost = decFormat.format(result);
+		// null이 아닌 경우, 가져온 포인트 합의 형식을 변경시키고 반환, null인 경우 null 반환
+		if(resultMap != null) {
+			int result = Integer.parseInt(resultMap.get("price").toString());
+			yearRevenueHost = decFormat.format(result);
+		}
 
 		log.debug(Font.JSB + "연도별 총 수익 포인트 합 => " + yearRevenueHost + Font.RESET);
 		

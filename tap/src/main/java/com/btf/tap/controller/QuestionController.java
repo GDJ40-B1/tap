@@ -24,13 +24,12 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class QuestionController {
 	@Autowired private QuestionService questionService;
-	private final int rowPerPage = 10;
 	
 	// 전체 문의 글 내역
 	@RequestMapping("/questionList")
 	public String requestQuestionList(Model model, @RequestParam(name="currentPage", defaultValue = "1") int currentPage,
 												   @RequestParam(required = false) String writerCategory) {
-		Map<String, Object> map = questionService.getQuestionList(currentPage, rowPerPage, writerCategory);
+		Map<String, Object> map = questionService.getQuestionList(currentPage, writerCategory);
 		log.debug(Font.JSB + map.toString() + Font.RESET);
 
 		model.addAttribute("list", map.get("list"));
@@ -77,16 +76,6 @@ public class QuestionController {
 		questionService.addQuestion(question);
 		
 		return "redirect:/questionList";
-	}
-	
-	
-	// 문의 답변 작성
-	@PostMapping("/questionOne")
-	public String getAddQuestionAnswer(QuestionAnswer questionAnswer, String writerId, String secretStatus) {
-		int questionId = questionAnswer.getAnswerQuestionId();
-		questionService.addQuestionAnswer(questionAnswer);
-		
-		return "redirect:/questionOne?questionId="+questionId+"&secretStatus="+secretStatus+"&writerId="+writerId;
 	}
 	
 	// 특정 문의 글 수정

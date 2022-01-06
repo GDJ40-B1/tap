@@ -5,7 +5,18 @@
 <html lang="en">
 
 <head>
+	<style type="text/css">
+		.title {
+		  display: flex;
+		}
+		.box-left {
+		  margin-right: auto;
+		}
 
+		.box-right {
+		  margin-left: auto;
+		}
+	</style>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -55,7 +66,32 @@
                             <h4 class="small font-weight-bold">전화번호 <span
                                     class="float-right">${systemAdmin.systemAdminPhone}</span></h4>                
                             <h4 class="small font-weight-bold">가입날짜 <span
-                                    class="float-right">${systemAdmin.createDate.substring(0,11)}</span></h4>
+                                    class="float-right">${systemAdmin.createDate.substring(0,11)}</span></h4>                                                     
+                        </div>
+                    </div>
+
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">연도 설정 및 사이트 수수료 변경</h6>
+                        </div>
+                        <div class="card-body">
+                        	<div class="title">
+							<div class='box-left'>
+								<select class="form-control" name="year" id="year" onchange="selectYear()">
+									<option value="">연도 선택</option>
+								</select>
+							</div> 
+							                    
+                        	<div class='box-right'>
+                        	
+                        	<div class="form-group">
+				      			<div class="input-group mb-3">
+				      			    <input class="form-control" type="number" placeholder="수수료율 입력" class="form-control" id="modifyFeeRate" name="modifyFeeRate">
+                                	<button class="btn btn-primary" id="feeRateBtn" type="button">변경</button>
+					    		</div>
+				    		</div>
+                        	</div>                                      
+                        </div>
                         </div>
                     </div>
 
@@ -104,15 +140,7 @@
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">사이트 수수료 변경
-                                            	<div class="form-group row">
-                                            		<div class="col-md-7">
-	                                            		<input type="number" class="form-control" id="modifyFeeRate" name="modifyFeeRate">
-	                                            	</div>
-	                                            	<div class="col-md-5">
-	                                            		<button class="btn btn-primary" id="feeRateBtn" type="button">변경</button>
-                                            		</div>
-                                            	</div>
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">사이트 설정 수수료
                                             </div>
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col-auto">
@@ -164,11 +192,6 @@
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold text-primary">${year}년 매출 통계</h6>
-                                    <div class="col-md-4">
-	                                    <select class="form-control" name="year" id="year" onchange="selectYear()">
-											<option value="">연도 선택</option>
-										</select>
-									</div>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">

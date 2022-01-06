@@ -22,6 +22,7 @@ import com.btf.tap.service.MemberService;
 import com.btf.tap.service.PointService;
 import com.btf.tap.service.RoomReviewService;
 import com.btf.tap.service.SearchService;
+import com.btf.tap.vo.Favorites;
 import com.btf.tap.vo.Member;
 import com.btf.tap.vo.RoomReview;
 import com.btf.tap.vo.User;
@@ -260,8 +261,7 @@ public class MemberController {
 	}
 	
 	@GetMapping("/myPage")
-	public String getMyPage(HttpServletRequest request, Model model, @RequestParam(value="favCurrentPage", defaultValue ="1") int favCurrentPage,
-																	 @RequestParam(name="year", defaultValue = "0") int year) {
+	public String getMyPage(HttpServletRequest request, Model model, @RequestParam(name="year", defaultValue = "0") int year) {
 	
 		HttpSession session = request.getSession();
 			
@@ -279,9 +279,6 @@ public class MemberController {
 		member.setMemberId(user.getUserId());
 		Map<String, Object> memberMap = memberService.getMemberMyPage(member);
 		
-		// 즐겨찾기 리스트 및 페이징
-		Map<String, Object> favMap = memberService.getFavoritesList(favCurrentPage, user.getUserId());
-		
 		if(year == 0) {
 			LocalDate now = LocalDate.now();
 			year = now.getYear();
@@ -297,7 +294,6 @@ public class MemberController {
 		model.addAttribute("member", memberMap.get("member"));
 		model.addAttribute("point", memberMap.get("point"));
 
-		model.addAttribute("favMap", favMap);
 		model.addAttribute("year", year);
 		model.addAttribute("totalPaymentList", totalPaymentList);
 		model.addAttribute("totalPaymentCount", totalPaymentCount);
@@ -496,5 +492,18 @@ public class MemberController {
 		roomReviewService.addRoomReview(roomReview);
 		
 		return "redirect:/member/getPayList";
+	}
+	
+	// 회원 즐겨찾기 리스트
+	@GetMapping("/member/myFavorites")
+	public String getMyFavorites(Model model, HttpSession session) {
+		User user = (User) session.getAttribute("loginUser");
+		
+		// 즐겨찾기 리스트
+		List<Favorites> favoritesList = memberService.getFavoritesList(user.getUserId());
+		
+		model.addAttribute("favoritesList", favoritesList);
+		
+		return "member/myFavorites";
 	}
 }

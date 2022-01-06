@@ -41,8 +41,8 @@
 			       				<td>작성일</td>
 			       			</tr>
 			       		</thead>
+			       		<tbody>
 		       			<c:forEach var="q" items="${roomQna.list}">
-		       			<tbody>
 		       				<tr>
 		       					<td><a href="${pageContext.request.contextPath}/roomOne?roomId=${q.roomId}&detailAddressId=${q.detailAddressId}">${q.roomName}</a></td>
 								<td><a href="#roomQna" onclick="result(this)" style="text-overflow: ellipsis;">${q.content}</a></td>
@@ -67,8 +67,8 @@
 									</div>
 								</td>
 		       				</tr>
-		       			</tbody>
 		       			</c:forEach>
+		       			</tbody>
 		       		</table>
 		       		</c:otherwise>
 		       	</c:choose>

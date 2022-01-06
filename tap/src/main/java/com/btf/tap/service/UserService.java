@@ -1,8 +1,4 @@
 package com.btf.tap.service;
-
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,5 +35,15 @@ public class UserService {
 		
 		return user;
 	}
-
+	
+	
+	// 기간만료 된 탈퇴내역 삭제
+	public int removeWithdrawalHistory() {
+		return userMapper.deleteWithdrawalHistory();
+	}
+	
+	// 기간만료 된 보유쿠폰 삭제
+	public int removeMemberCoupon() {
+		return userMapper.deleteMemberCoupon();
+	}
 }

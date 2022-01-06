@@ -202,40 +202,6 @@
         <i class="fas fa-angle-up"></i>
     </a>
 	
-	<script>
-	   $('#removeFavorites').click(function() {
-           var roomId = $(this).val();
-           var memberId = "${member.memberId}";
-
-           console.log("roomId: " + roomId);
-           console.log("memberId: " + memberId);
-
-           var form = {
-               roomId : roomId,
-               memberId : memberId,
-           };
-
-           $.ajax({
-               type : 'POST',
-               contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-               url : '${pageContext.request.contextPath}/removeFavorites',
-               cache : false,
-               data : form,
-               success : function(result) {
-                   console.log(result);
-                   console.log("즐겨찾기 삭제 완료")
-                   alert('즐겨찾기 등록을 취소했습니다.');
-                   location.reload();
-               },
-               error : function(e) {
-                   console.log(e);
-                   alert('문제가 발생했습니다.');
-                   location.reload();
-               }
-           })
-	   });   
-    </script> 
-	
     <!-- Core plugin JavaScript-->
     <script src="${pageContext.request.contextPath}/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
 

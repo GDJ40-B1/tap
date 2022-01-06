@@ -155,7 +155,7 @@
 	</delete>
 	
 	<!-- 총 수익 포인트 합 조회 -->
-	<select id="selectRevenueHost" parameterType="String" resultType="int">
+	<select id="selectRevenueHost" parameterType="String" resultType="Integer">
 		SELECT
 			earn - refund
 		FROM view_user_point_history_summary

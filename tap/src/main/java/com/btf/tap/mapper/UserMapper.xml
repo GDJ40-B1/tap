@@ -35,5 +35,22 @@
 			user_level=#{userLevel} AND
 			user_level!='withdrawal'
 	</select>
-
+	
+	<!-- 30일 경과 된 탈퇴내역 삭제 -->
+	<delete id="deleteWithdrawalHistory">
+		DELETE FROM withdrawal_history 
+		<where>
+			<![CDATA[create_date < (NOW() - INTERVAL 1 MONTH)]]>
+		</where>
+	</delete>
+	
+	<!-- 기간 만료된 쿠폰 및 보유쿠폰 삭제 -->
+	<delete id="deleteMemberCoupon">
+		DELETE c, mc 
+		FROM coupon c
+		LEFT JOIN member_coupon mc ON mc.coupon_id = c.coupon_id
+		<where>
+			<![CDATA[c.coupon_expiration_date < NOW()]]>
+		</where>
+	</delete>
 </mapper>

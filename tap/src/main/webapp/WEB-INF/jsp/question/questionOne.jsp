@@ -121,33 +121,6 @@
       </div>
     </section><!-- End Table Section -->
 	
-	
-	<!-- ======= Answer Section ======= -->
-	<c:if test="${empty question.questionAnswer && loginUser.userLevel == 'system_admin'}">
-    <section id="list" class="list">
-      <div class="container">
-
-		<form id="questionAnswerForm" action="${pageContext.request.contextPath}/questionOne" method="post">
-			<div class="form-group">
-				<input type="hidden" name="answerQuestionId" value="${question.questionId}">
-				<input type="hidden" name="writerId" value="${question.writerId}">
-				<input type="hidden" name="secretStatus" value="${question.secretStatus}">
-				<input type="hidden" name="systemAdminId" value="${loginUser.userId}">
-				<label for="questionAnswer">답변 작성 : </label>
-					<textarea class="form-control" rows="5" placeholder="답변을 작성해주세요" id="questionAnswerContent" name="questionAnswerContent"></textarea>
-			</div>
-			<div>
-				<button id="answerBtn" type ="button">작성</button>
-			</div>
-		</form>		
-		
-      </div>
-      
-      
-    </section>
-    </c:if><!-- End Answer Section -->	
-	
-	
   	<!-- ======= Table Section ======= -->
     <section id="list" class="list">
       <div class="container" style="width:60%;">

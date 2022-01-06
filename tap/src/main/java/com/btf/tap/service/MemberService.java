@@ -309,42 +309,12 @@ public class MemberService {
 	}
 	
 	// 특정 회원 등록 즐겨찾기 리스트
-	public Map<String, Object> getFavoritesList(int favCurrentPage, String memberId) {
-		final int defaultPage = 10;
-		final int rowPerPage = 10;
-		int favStartPage = ((favCurrentPage - 1) / defaultPage) * defaultPage + 1;
-		int favEndPage = favStartPage + defaultPage - 1;		
-		int beginRow = (favCurrentPage-1) * rowPerPage;
-		int favLastPage = 0;
+	public List<Favorites> getFavoritesList(String memberId) {
 		
-		Map<String, Object> page = new HashMap<>();
-		page.put("beginRow", beginRow);
-		page.put("rowPerPage", rowPerPage);
-		page.put("memberId", memberId);
-		
-		List<Favorites> list = favoritesMapper.selectFavoritesList(page);
+		List<Favorites> list = favoritesMapper.selectFavoritesList(memberId);
 		log.debug(Font.JSB  + "회원 즐겨찾기 리스트 => " + list.toString() + Font.RESET);
 		
-		int totalRowCount = favoritesMapper.favTotalRowCount(memberId);
-		
-		favLastPage = totalRowCount / rowPerPage;
-		
-		if(totalRowCount % rowPerPage != 0) {
-			favLastPage+=1;
-		}
-		
-		if(favEndPage > favLastPage) {
-			favEndPage = favLastPage;
-		}		
-		
-		Map<String, Object> paramMap = new HashMap<>();
-		paramMap.put("list", list);
-		paramMap.put("favStartPage", favStartPage);
-		paramMap.put("favEndPage", favEndPage);
-		paramMap.put("favLastPage", favLastPage);
-		paramMap.put("favCurrentPage", favCurrentPage);
-		
-		return paramMap;
+		return list;
 	}
 	
 	// 특정 회원 결제내역 조회

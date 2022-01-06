@@ -20,7 +20,7 @@ import com.btf.tap.service.NoticeService;
 import com.btf.tap.service.QuestionService;
 import com.btf.tap.service.SystemAdminService;
 import com.btf.tap.vo.Notice;
-import com.btf.tap.vo.Question;
+import com.btf.tap.vo.QuestionAnswer;
 import com.btf.tap.vo.SystemAdmin;
 import com.btf.tap.vo.User;
 
@@ -286,14 +286,23 @@ public class SystemAdminController {
 	
 	// 문의 미답변 리스트
 	@GetMapping("/systemAdmin/unansweredQuestionList")
-	public String getUnansweredQuestionList(Model model, @RequestParam(required = false) String writerCategory) {
+	public String getUnansweredQuestionList(Model model, @RequestParam(name="currentPage", defaultValue = "1") int currentPage, 
+														 @RequestParam(required = false) String writerCategory) {
 		// 문의 미답변
-		List<Question> questionList = questionService.getUnansweredQuestionList(writerCategory);
+		Map<String, Object> questionList = questionService.getUnansweredQuestionList(currentPage, writerCategory);
 		log.debug(Font.JSB + questionList.toString() + Font.RESET);
 		
 		model.addAttribute("questionList", questionList);
 		
 		return "/systemAdmin/unansweredQuestionList";
+	}
+	
+	// 문의 답변 작성
+	@PostMapping("/unansweredQuestionList")
+	public String getAddQuestionAnswer(QuestionAnswer questionAnswer) {
+		questionService.addQuestionAnswer(questionAnswer);
+		
+		return "redirect:/systemAdmin/unansweredQuestionList";
 	}
 	
 	// 사이트 수수료 변경

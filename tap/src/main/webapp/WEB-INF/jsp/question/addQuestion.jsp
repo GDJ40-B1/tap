@@ -80,7 +80,7 @@
 			</div>
 			<div class="form-group">
 			<label for="questionContent" class="form-label mt-4">내용</label>
-				<textarea class="form-control" rows="5" placeholder="내용을 입력해주세요" id="questionContent" name="questionContent" ></textarea>
+				<textarea class="form-control" rows="10" cols="20" wrap="hard" placeholder="내용을 입력해주세요" id="questionContent" name="questionContent" ></textarea>
 			</div>
 			<fieldset class="form-group" style="margin-top:10px;">
 			 <div class="form-check">

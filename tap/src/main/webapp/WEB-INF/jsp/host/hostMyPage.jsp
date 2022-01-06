@@ -60,6 +60,25 @@
                         </div>
                     </div>
 
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">조회할 숙소 및 연도 선택</h6>
+                        </div>
+                        <div class="card-body">
+                        	<div class="row">
+							<c:if test="${!empty roomList}">
+								<select class="form-control" name="room" id="room" style="width: 20%; margin-left: 1%;;">
+									<c:forEach var="s" items="${roomList}">
+										<option value="${s.roomId}">${s.roomName}</option>
+									</c:forEach>
+								</select>
+							</c:if>
+							<select class="form-control" name="year" id="year" style="width: 10%; margin-left: 1%;"></select>
+							<button class="btn btn-primary" id="roomAndYearBtn" type="button" style="width: 5%; margin-left: 1%;">조회</button>                      
+                        	</div>
+                        </div>
+                    </div>
+
                     <!-- Content Row --> 
                     <div class="row">
 
@@ -157,15 +176,6 @@
                                 <div id="roomChart"
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold text-primary" style="width: 44%;">${year}년 ${roomName} 월별 숙소 이용객 수</h6>
-                                    <c:if test="${!empty roomList}">
-										<select class="form-control" name="room" id="room" style="width: 40%;">
-											<c:forEach var="s" items="${roomList}">
-												<option value="${s.roomId}">${s.roomName}</option>
-											</c:forEach>
-										</select>
-										<select class="form-control" name="year" id="year" style="width: 20%; margin-left: 3%;"></select>
-										<button class="btn btn-primary" id="roomAndYearBtn" type="button" style="width: 10%; margin-left: 3%;">조회</button>
-									</c:if>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">

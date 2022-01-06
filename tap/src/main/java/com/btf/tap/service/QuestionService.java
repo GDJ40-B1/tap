@@ -20,9 +20,10 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public class QuestionService {
 	@Autowired private QuestionMapper questionMapper;
+	private final int rowPerPage = 10;
 	
 	// 전체 문의 리스트
-	public Map<String, Object> getQuestionList(int currentPage, int rowPerPage, String writerCategory) {
+	public Map<String, Object> getQuestionList(int currentPage, String writerCategory) {
 		int defaultPage = 10;
 		int startPage = ((currentPage - 1) / defaultPage) * defaultPage + 1;
 		int endPage = startPage + defaultPage - 1;		
@@ -64,16 +65,46 @@ public class QuestionService {
 	}
 
 	// 미답변 문의 리스트
-	public List<Question> getUnansweredQuestionList(String writerCategory) {
+	public Map<String, Object> getUnansweredQuestionList(int currentPage, String writerCategory) {		
+		int defaultPage = 10;
+		int startPage = ((currentPage - 1) / defaultPage) * defaultPage + 1;
+		int endPage = startPage + defaultPage - 1;		
+		int beginRow = (currentPage-1) * rowPerPage;
+		int lastPage = 0;
+		
 		// 회원, 호스트 카테고리를 선택하지 않은 전체 리스트 출력 시 카테고리 변수 값이 null이 되도록 수정
 		if(writerCategory == "") {
 			writerCategory = null;
 		}
 		
-		List<Question> questionList = questionMapper.unansweredQuestionList(writerCategory);
-		log.debug(Font.JSB + questionList.toString() + Font.RESET);
+		Map<String, Object> page = new HashMap<>();
+		page.put("beginRow", beginRow);
+		page.put("rowPerPage", rowPerPage);
+		page.put("writerCategory", writerCategory);
 		
-		return questionList;
+		List<Question> list = questionMapper.unansweredQuestionList(page);
+		log.debug(Font.JSB + list.toString() + Font.RESET);
+		
+		int totalRowCount = questionMapper.unansweredRowCount(writerCategory);
+		
+		lastPage = totalRowCount / rowPerPage;
+		
+		if(totalRowCount % rowPerPage != 0) {
+			lastPage+=1;
+		}
+		
+		if(endPage > lastPage) {
+			endPage = lastPage;
+		}		
+		
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("list", list);
+		paramMap.put("currentPage", currentPage);
+		paramMap.put("startPage", startPage);
+		paramMap.put("endPage", endPage);
+		paramMap.put("lastPage", lastPage);
+		
+		return paramMap;
 	}
 	
 	// 미답변 문의 수 체크
@@ -85,11 +116,17 @@ public class QuestionService {
 	
 	// 문의 글 삽입
 	public void addQuestion(Question question) {
+		String content = question.getQuestionContent();
+		question.setQuestionContent(content.replace("\r\n","<br>"));
+		
 		questionMapper.insertQuestion(question);
 	}
 	
 	// 문의 답변 삽입
 	public void addQuestionAnswer(QuestionAnswer questionAnswer) {
+		String content = questionAnswer.getQuestionAnswerContent();
+		questionAnswer.setQuestionAnswerContent(content.replace("\r\n","<br>"));
+		
 		questionMapper.insertQuestionAnswer(questionAnswer);
 		questionMapper.updateAnswerCheck(questionAnswer);
 	}	
