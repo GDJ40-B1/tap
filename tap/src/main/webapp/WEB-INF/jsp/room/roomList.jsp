@@ -4,9 +4,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script src="http://code.jquery.com/jquery-latest.js"></script>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	<meta charset="UTF-8">
+	<title>숙소</title>
+	
+	<!-- Favicons -->
+    <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="icon">
+    <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="apple-touch-icon">
+    
+    <style type="text/css">
+    	.customoverlay {position:relative;bottom:85px;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;float:left;}
+		.customoverlay:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
+		.customoverlay a {display:block;text-decoration:none;color:#000;text-align:center;border-radius:6px;font-size:14px;font-weight:bold;overflow:hidden;background: #d95050;background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;}
+		.customoverlay .title {display:block;text-align:center;background:#fff;margin-right:35px;padding:10px 15px;font-size:14px;font-weight:bold;}
+		.customoverlay:after {content:'';position:absolute;margin-left:-12px;left:50%;bottom:-12px;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+    
+    	table {	
+			text-align: center;
+		}
+    </style>
 </head>
 <body>
 	<!-- start : mainHeader -->
@@ -39,8 +55,8 @@
 	                  <td style="width:40%;"><div id="map" style="width:100%;height:350px;"></div></td>
 	                  <td style="width:10%;"></td>
 	                  <td style="width:50%;">
-	                     <table class="table" border="1">
-							<tr>
+	                     <table class="table table-hover" border="1">
+							<tr class="table-primary">
 								<td>숙소명</td>
 								<td>카테고리</td>
 								<td>가격</td>
@@ -60,30 +76,29 @@
 	                  </td>
 	               </tr>
 	            </table>
-	            
 				<!-- 페이징 -->
 				<nav style="margin-top: 50px">
 		   			<ul class="pagination" style="justify-content: center;">
 					    <c:if test="${result.currentPage!=1}">
-						    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/roomList?currentPage=<%=1 %>">처음</a></li>
+						    <li class="page-item"><a class="btn btn-secondary btn-sm" href="${pageContext.request.contextPath}/roomList?currentPage=<%=1 %>">처음</a></li>
 						</c:if>
 						
 						<c:if test="${result.currentnumPage>0}">
-						    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/roomList?currentPage=${result.pagePerPage*(result.currentnumPage-1)+1 }">이전</a></li>
+						    <li class="page-item"><a class="btn btn-primary" href="${pageContext.request.contextPath}/roomList?currentPage=${result.pagePerPage*(result.currentnumPage-1)+1 }">이전</a></li>
 						</c:if>
 						
 						<c:forEach begin="0" end="${result.pagePerPage-1}" step="1" var="i">
 							<c:if test="${result.lastPage>=(result.pagePerPage*result.currentnumPage)+i+1}">
-							    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/roomList?currentPage=${(result.pagePerPage*result.currentnumPage)+i+1 }">${(result.pagePerPage*result.currentnumPage)+i+1 }</a></li>
+							    <li class="page-item"><a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/roomList?currentPage=${(result.pagePerPage*result.currentnumPage)+i+1 }">${(result.pagePerPage*result.currentnumPage)+i+1 }</a></li>
 							</c:if>
 						</c:forEach>
 						    
 						<c:if test="${result.lastnumPage>result.currentnumPage}">
-						    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/roomList?currentPage=${result.pagePerPage*(result.currentnumPage+1)+1 }">다음</a></li>
+						    <li class="page-item"><a class="btn btn-primary" href="${pageContext.request.contextPath}/roomList?currentPage=${result.pagePerPage*(result.currentnumPage+1)+1 }">다음</a></li>
 						</c:if>
 						
 						<c:if test="${result.currentPage!=result.lastPage && result.lastPage!=0}">
-						    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/roomList?currentPage=${result.lastPage }">맨끝</a></li>
+						    <li class="page-item"><a class="btn btn-secondary btn-sm" href="${pageContext.request.contextPath}/roomList?currentPage=${result.lastPage }">끝으로</a></li>
 						</c:if>
 					</ul>
 				</nav>
@@ -91,7 +106,7 @@
 		</section>
 	</main>
 	
-	<!-- start : mainFooter -->
+   <!-- start : mainFooter -->
    <div>
       <jsp:include page="/partial/mainFooter.jsp"></jsp:include>
    </div>
@@ -118,19 +133,40 @@
 
 		    // 정상적으로 검색이 완료됐으면 
 		    if (status === kakao.maps.services.Status.OK) {
+		    	
+		    	// 마커 이미지 정보
+		    	var imageSrc = '${pageContext.request.contextPath}/resources/img/system/room_marker.png', // 마커이미지의 주소입니다    
+		    	imageSize = new kakao.maps.Size(64, 69), // 마커이미지의 크기입니다
+		        imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+		          
+		    	// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+		    	var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
 				
 				var marker = new kakao.maps.Marker({
 		 	        map: map, // 마커를 표시할 지도
 		 	        title: "${r.roomName}", // 숙소 이름
-		 	        position: new kakao.maps.LatLng(result[0].y, result[0].x) // 마커의 위치
+		 	        position: new kakao.maps.LatLng(result[0].y, result[0].x), // 마커의 위치
+		 	        image : markerImage
 		 	    });
-			 
-			    // 마커에 표시할 인포윈도우를 생성합니다 
-			    var infowindow = new kakao.maps.InfoWindow({
-			        content: '<div style="width:150px;text-align:center;padding:6px 0;">${r.roomName}</div>' // 인포윈도우에 표시할 내용
-			    });
-				// 인포윈도우를 띄웁니다
-			    infowindow.open(map, marker);
+				
+			 	// 커스텀 오버레이에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+		        var link_room = '${pageContext.request.contextPath}/roomOne?roomId=${r.roomId}&detailAddressId=${r.address.detailAddressId}';
+		           var content = '<div class="customoverlay">' +
+		               '  <a href="'+link_room+'">' +
+		               '    <span class="title">${r.roomName }</span>' +
+		               '  </a>' +
+		               '</div>';
+
+		           // 커스텀 오버레이가 표시될 위치입니다 
+		           var custom_position = new kakao.maps.LatLng(result[0].y, result[0].x);  
+
+		           // 커스텀 오버레이를 생성합니다
+		           var customOverlay = new kakao.maps.CustomOverlay({
+		               map: map,
+		               position: custom_position,
+		               content: content,
+		               yAnchor: 1 
+		           });
 
 			    // 마커에 클릭 이벤트를 달아줍니다
 			    kakao.maps.event.addListener(marker, 'click', makeClickListener("${r.roomId}","${r.address.detailAddressId}"));
