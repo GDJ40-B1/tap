@@ -1,11 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
 	<title>명소 상세보기</title>
+	
+	<!-- Favicons -->
+	<link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="icon">
+	
 	<script src="http://code.jquery.com/jquery-latest.js"></script>
 	
     <!-- Custom styles for this template-->
@@ -31,10 +36,27 @@
 	        	
 	            <div class="table-responsive">
 				<form action="${pageContext.request.contextPath}/systemAdmin/approvalAttractionOne" method="post">
+
 					<div style="margin-top:20px; margin-bottom:20px; font-size:20px; color:white;"class="badge rounded-pill bg-info">${hashtag }</div>		
-					<!-- 지도 -->
-					<div id="map" style="width:100%;height:400px; margin-bottom:20px"></div>				        
-				        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+
+				<!-- 명소 이미지 -->
+				<div>
+         		<c:forEach items="${imageList }" var="img">
+			    	<c:choose>
+						<c:when test="${fn:length(imageList)==1}">
+							<img src="${pageContext.request.contextPath}/resources/img/attraction/${img.imageName }" width="70%" height="500px" style="margin-left: 15%">
+						</c:when>
+						<c:when test="${fn:length(imageList)==2}">
+							<img src="${pageContext.request.contextPath}/resources/img/attraction/${img.imageName }" width="49%" height="400px">
+						</c:when>
+						<c:otherwise>
+							<img src="${pageContext.request.contextPath}/resources/img/attraction/${img.imageName }" width="33%" height="370px">
+						</c:otherwise>
+					</c:choose>
+			    </c:forEach>	
+			    </div>    
+			    <br>
+				        <table style="margin-top:20px;"class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 							<tr>
 								<td>명소 이름</td>
 								<td id="attractionName">${attraction.attractionName }</td>
@@ -60,6 +82,10 @@
 								<td id="attractionContent">${attraction.attractionContent }</td>
 							</tr>
 	                </table>
+	                <br>
+	                <!-- 지도 -->
+					<div id="map" style="width:100%;height:400px; margin-bottom:20px;"></div>	
+	               
 	                <br>
 	                <a class="btn btn-outline-danger" href="${pageContext.request.contextPath }/systemAdmin/removeAttraction?attractionId=${attraction.attractionId }">반려하기</a>
 					<a style="margin-left:20px;" class="btn btn-outline-success" href="${pageContext.request.contextPath}/systemAdmin/approvalAttraction?attractionId=${attraction.attractionId}">승인하기</a>

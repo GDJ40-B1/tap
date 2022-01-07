@@ -6,6 +6,10 @@
 <head>
     <meta charset="utf-8">
 	<title>명소 추가</title>
+	
+	<!-- Favicons -->
+	<link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="icon">
+	
 	<script src="http://code.jquery.com/jquery-latest.js"></script>
 	
     <!-- Custom styles for this template-->
@@ -30,8 +34,18 @@
 	        <div class="card-body">
 	        	
 	            <div class="table-responsive">
-	            	<form action="${pageContext.request.contextPath}/systemAdmin/addAttraction" method="post">
-		
+	            	<form action="${pageContext.request.contextPath}/systemAdmin/addAttraction" method="post" enctype="multipart/form-data">
+			
+			<div class="form-group">
+			<label>명소 사진</label>
+			<div class="input-group mb-3">
+				 <div class="custom-file">
+				   <input multiple="multiple" type="file" name="file" class="custom-file-input">
+				   <label class="custom-file-label" for="inputGroupFile02">사진을 한꺼번에 드래그해서 넣어주세요.</label>
+				 </div>
+			</div>
+		</div>
+				
 		<div class="form-group">
 			<label class="form-label mt-4">명소 이름</label>
 			<div>

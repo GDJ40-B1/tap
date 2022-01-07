@@ -5,8 +5,11 @@
 <html>
 <head>
     <meta charset="utf-8">
-	<title>Insert title here</title>
+	<title>가격 목록</title>
 	<script src="http://code.jquery.com/jquery-latest.js"></script> 
+	
+	<!-- Favicons -->
+	<link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="icon">
 	
 	<!-- 달력 관련 설정 -->
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

@@ -293,6 +293,14 @@
 											<input type="hidden" name="detailAddressId" value="${address.detailAddressId}">
 											<input type="hidden" class="roomReviewId" name="roomReviewId" value="${r.roomReviewId}">
 											<div class="d-flex justify-content-between align-items-center">
+												<span></span>
+												<ol style="list-style: none;">
+													<li>
+														<a class="btn btn-outline-dark" href="javascript:deleteRoomReview('${r.roomReviewId}');">숙소후기 삭제</a>
+													</li>
+												</ol>
+											</div>
+											<div class="d-flex justify-content-between align-items-center">
 												<c:forEach var="rre" items="${r.reservation}">
 													${rre.memberId} |
 													<c:forEach var="rro" items="${r.room}">

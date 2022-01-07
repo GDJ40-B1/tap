@@ -6,6 +6,9 @@
 <head>
     <meta charset="utf-8">
 	<title>명소 관리</title>
+	<!-- Favicons -->
+	<link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="icon">
+	
 	<script src="http://code.jquery.com/jquery-latest.js"></script>
 	
     <!-- Custom styles for this template-->

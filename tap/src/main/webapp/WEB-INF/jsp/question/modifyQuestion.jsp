@@ -9,6 +9,7 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
   <title>문의 글 수정</title>
+	
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -16,7 +17,7 @@
   <script src="http://code.jquery.com/jquery-latest.js"></script>
 
   <!-- Favicons -->
-  <link href="${pageContext.request.contextPath}/resources/img/favicon.png" rel="icon">
+  <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="icon">
   <link href="${pageContext.request.contextPath}/resources/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Vendor CSS Files -->

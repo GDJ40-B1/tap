@@ -4,6 +4,24 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+<style type="text/css">
+	.title {
+	  display: flex;
+	}
+	.box-left {
+	  flex: 1;
+	}
+	.box-center {
+	  flex: 3;
+	  text-align: center;
+	}
+	.box-right {
+	  flex: 1;
+	  text-align: right;
+	}
+	
+</style>
 <meta charset="UTF-8">
 <title>공지사항 : | TAP</title>
   <meta content="" name="description">
@@ -11,9 +29,8 @@
 <!-- Favicons -->
   <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="icon">
   <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="apple-touch-icon">
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  
+ 
 </head>
 <body>
 
@@ -24,41 +41,64 @@
     <!-- end : mainHeader -->
    
  	<main id="main">
- 	
- 	<!-- ======= Breadcrumbs ======= -->
+
+    <!-- ======= Breadcrumbs ======= -->
     <section id="breadcrumbs" class="breadcrumbs">
-      	<div class="container">
-        	<div class="d-flex justify-content-between align-items-center">
-          	<h2>공지사항 상세보기</h2>
-        	</div>
-    	</div>
+      <div class="container">
+
+        <div class="d-flex justify-content-between align-items-center">
+          <h2>공지사항</h2>
+          <ol>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="${pageContext.request.contextPath}/questionList">공지사항</a></li>            
+          </ol>
+        </div>
+
+      </div>
+    </section><!-- End Breadcrumbs -->
     
-	    <section id="list" class="list">
-	      <div class="container">
-			<a href="${pageContext.request.contextPath}/noticeList">리스트로</a>
-			<input type="hidden" name="noticeId" value="${noticeId}" readonly="readonly">
-			<br>
-			<table border="1">
-				<tr>
-					<td>제목 :</td>
-					<td>${notice.title}</td>
-				</tr>
-				<tr>
-					<td>내용 :</td>
-					<td>${notice.content}</td>
-				</tr>
-				
-			</table>		
+	    
+	      
+			
+			
+			<!-- ======= Table Section ======= -->
+   	 		<section id="list" class="list">
+   	 		
+      			<div class="container" style="">
+					<table class="table">
+						<thead class="table-primary">
+							<tr>
+								<th>
+									<div class="title">
+										<div class='box-left'>${notice.noticeId}</div>
+										<div class='box-center'>${notice.title}</div>
+										<div class='box-right'>${notice.updateDate}</div>
+									</div>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									<div style="margin-top:40px; margin-bottom:40px">
+										${notice.content}
+									</div></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>		
 				<c:if test="${loginUser.userLevel eq 'system_admin'}">
-					<div>
-						<a href="${pageContext.request.contextPath}/systemAdmin/modifyNotice?noticeId=${notice.noticeId}">수정</a>
-						
-						<a href="${pageContext.request.contextPath}/systemAdmin/deleteNotice?noticeId=${notice.noticeId}">삭제</a>
+					<div style="float:right; margin-right:120px;">
+						<a class="btn btn-outline-success" href="${pageContext.request.contextPath}/systemAdmin/modifyNotice?noticeId=${notice.noticeId}">글 수정</a>						
+						<a class="btn btn-outline-danger" href="${pageContext.request.contextPath}/systemAdmin/deleteNotice?noticeId=${notice.noticeId}">글 삭제</a> 
 					</div>
 				</c:if>
-			</div>
-	    </section>	
-	</section><!-- End Breadcrumbs -->
+				<div style="float:left; margin-left:120px;">
+					<a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/noticeList">목록</a>
+				</div>
+					<!--  <input type="hidden" name="noticeId" value="${noticeId}" readonly="readonly"> -->
+			
+	    </section><!-- End Breadcrumbs --> 
 	
 	</main><!-- End #main -->
 	

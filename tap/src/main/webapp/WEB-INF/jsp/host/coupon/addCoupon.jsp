@@ -6,7 +6,11 @@
 <head>
 <script src="http://code.jquery.com/jquery-latest.js"></script> 
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>쿠폰 생성</title>
+
+<!-- Favicons -->
+<link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="icon">
+	
 </head>
 <body id="page-top">
 	<!-- start : hostHeader -->

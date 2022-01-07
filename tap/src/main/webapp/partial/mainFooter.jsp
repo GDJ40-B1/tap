@@ -2,7 +2,7 @@
 
 
 <!-- ======= Footer ======= -->
-  <footer id="footer">
+  <footer id=footer>
     <div class="container">
       <h3>T A P</h3>
       <div class="copyright">

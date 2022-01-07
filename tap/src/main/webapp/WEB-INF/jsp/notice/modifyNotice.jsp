@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="UTF-8">
 <title>공지사항 : 수정 | TAP</title>
   <meta content="" name="description">
@@ -24,37 +25,42 @@
     <!-- end : mainHeader -->
  
     <main id="main">
-    
-    <!-- ======= Breadcrumbs ======= -->
+
     <section id="breadcrumbs" class="breadcrumbs">
-    	<div class="container">
-        	<div class="d-flex justify-content-between align-items-center">
-          	<h2>공지사항 수정하기</h2>
-        	</div>
-    	</div>
-    
-	    <section id="list" class="list">
-	    	<div class="container">
-				<a href="${pageContext.request.contextPath}/noticeList">리스트로</a>
-				<form action="${pageContext.request.contextPath}/modifyNotice?noticeId=${notice.noticeId}" method="post">
+      <div class="container">
+
+        <div class="d-flex justify-content-between align-items-center">
+          <h2>공지사항 수정</h2>
+          <ol>
+            <li><a href="${pageContext.request.contextPath}/">Home</a></li>
+            <li><a href="${pageContext.request.contextPath}/questionList">공지사항</a></li>
+            <li>공지사항 수정</li>
+          </ol>
+        </div>
+
+      </div>
+    </section>
+    	<!-- ======= Table Section ======= -->
+    <section id="list" class="list" style="padding-bottom:80px;">
+      <div class="container" style="width:60%;">
+	    
 				
-					<div>제목 :</div>
-					<div>
-						<input type="text" name="title" value="${notice.title}">
-					</div>
-					<div>내용 :</div>
-					<div>
-						<textarea rows="10" cols="20" name="content">${notice.content}</textarea>
-					</div>
-					<div>종류 :</div>
-					
-					<div>	
-						<button type="submit">수정</button>
-					</div>
-				</form>
+			<form action="${pageContext.request.contextPath}/modifyNotice?noticeId=${notice.noticeId}" method="post">
+				<div class="form-group">
+					<label for="title" class="form-label mt-4">제목 : </label>
+					<input type ="text" class="form-control" value="${notice.title}" id="title" name="title" >
+				</div>
+				<div class="form-group" style="margin-top:10px;">
+					<label for="content" class="form-label mt-4">내용 : </label>
+					<textarea class="form-control" rows="10" cols="20" wrap="hard" id="content" name="content" >${notice.content}</textarea>
+				</div>
+			</form>
+				<div style="float:right;">
+				<a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/noticeList">목록</a>
+				<button type="submit" class="btn btn-secondary">수정</button></div>
 			</div>
 	    </section>
-    </section><!-- End Breadcrumbs -->
+    <!-- End Breadcrumbs -->
 	</main><!-- End #main -->
 	
 	<!-- start : mainFooter -->
