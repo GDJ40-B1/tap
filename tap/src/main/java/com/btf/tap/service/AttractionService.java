@@ -4,9 +4,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.btf.tap.common.Font;
 import com.btf.tap.mapper.AddressMapper;
@@ -23,7 +26,7 @@ public class AttractionService {
 	@Autowired AttractionMapper attractionMapper;
 	@Autowired AddressMapper addressMapper;
 	@Autowired HashtagService hashtagService;
-	
+	@Autowired ImageService imageService;
 	
 	// 특정 명소 정보 추출
 	public Map<String, Object> getAttractionOne(int attractionId, int detailAddressId){
@@ -40,6 +43,9 @@ public class AttractionService {
 		map.put("attraction", attractionMapper.selectAttractionOne(attractionId));
 		// 해시태그 정보
 		map.put("hashtag", hashtagService.getHashtag("attraction", attractionId));
+		// 사진 정보
+		map.put("imageList", imageService.getTargetImage("attraction", attractionId));
+		
 		return map;
 	}	
 	
@@ -58,6 +64,8 @@ public class AttractionService {
 		map.put("attraction", attractionMapper.selectAttractionOne(attractionId));
 		// 해시태그 정보
 		map.put("hashtag", hashtagService.getHashtag("attraction", attractionId));
+		// 사진 정보
+		map.put("imageList", imageService.getTargetImage("attraction", attractionId));
 		return map;
 	}		
 	
@@ -68,9 +76,10 @@ public class AttractionService {
 	}
 	
 	// 명소삭제
-	public void removeAttraction(int attractionId) {
+	public void removeAttraction(HttpServletRequest request,int attractionId) {
 		int detailAddressId = attractionMapper.selectAttractionOne(attractionId).getDetailAddressId();
 		hashtagService.removeHashtag("attraction", attractionId);
+		imageService.removeImage(request, "attraction", attractionId);
 		attractionMapper.deleteAttraction(attractionId);
 		addressMapper.deleteDetailAddress(detailAddressId);
 	}
@@ -82,7 +91,7 @@ public class AttractionService {
 	
 	
 	// 명소 수정
-	public Address modifyAttraction(Attraction attraction, Address address, String hashtag) {
+	public Address modifyAttraction(Attraction attraction, Address address, String hashtag, MultipartHttpServletRequest mtRequest) {
 		String[] addressList = address.getDetailAddress().split(" ");
 		address.setSido(addressList[0]);
 		address.setSigungu(addressList[1]);
@@ -93,7 +102,7 @@ public class AttractionService {
 		addressMapper.updateDetailAddress(address);
 		attractionMapper.updateAttraction(attraction);
 		hashtagService.modifyHashtag(hashtag, "attraction", attraction.getAttractionId());
-		
+		imageService.modifyTargetImage(mtRequest, "attraction", attraction.getAttractionId());
 		return address;
 	}		
 	
@@ -125,7 +134,7 @@ public class AttractionService {
 	}
 	
 	// 명소 등록
-	public int addAttraction(Attraction attraction, Address address, String hashtag) {
+	public int addAttraction(Attraction attraction, Address address, String hashtag, MultipartHttpServletRequest mtRequest) {
 		
 		String[] addressList = address.getDetailAddress().split(" ");
 		address.setSido(addressList[0]);
@@ -146,6 +155,8 @@ public class AttractionService {
 		// 해시태그 추가
 		hashtagService.addHashtag(hashtag, "attraction", attraction.getAttractionId());
 		
+		// 이미지 추가
+		imageService.addImage(mtRequest, "attraction", attraction.getAttractionId());;
 		return attraction.getAttractionId(); 
 		
 	}

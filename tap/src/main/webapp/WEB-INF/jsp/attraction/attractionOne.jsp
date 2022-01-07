@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
 
 <!DOCTYPE html>
 <html>
@@ -37,9 +39,21 @@
 	<section class="event-list">
 		<div class="container">
 	<div style="margin-bottom:20px; font-size:20px;"class="badge rounded-pill bg-info">${hashtag }</div>
-
 	<form action="${pageContext.request.contextPath}/attractionOne" method="post">
-			
+				<!-- 명소 이미지 -->
+         		<c:forEach items="${imageList }" var="img">
+			    	<c:choose>
+						<c:when test="${fn:length(imageList)==1}">
+							<img src="${pageContext.request.contextPath}/resources/img/attraction/${img.imageName }" width="70%" height="500px" style="margin-left: 15%">
+						</c:when>
+						<c:when test="${fn:length(imageList)==2}">
+							<img src="${pageContext.request.contextPath}/resources/img/attraction/${img.imageName }" width="49%" height="400px">
+						</c:when>
+						<c:otherwise>
+							<img src="${pageContext.request.contextPath}/resources/img/attraction/${img.imageName }" width="33%" height="370px">
+						</c:otherwise>
+					</c:choose>
+			    </c:forEach>			
 		<!-- 지도 -->
 		<div id="map" style="width:100%;height:400px;"></div>
 		<table border="1" style=" margin-top: 20px;"class="table table-hover"">

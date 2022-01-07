@@ -30,7 +30,7 @@
 	        <div class="card-body">
 	            <div class="table-responsive">
 	            	<form action="${pageContext.request.contextPath}/systemAdmin/approvalAttractionList" method="post">
-	                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+	                <table class="table table-bordered" id="dataTable">
 	                    <thead>
 	                        <tr>
 								<th>명소 카테고리</th>
@@ -54,16 +54,6 @@
 	            </div>
 	        </div>
 	    </div>
-	    
-			<div>
-			<c:if test="${currentPage > 1}">
-				<a href="${pageContext.request.contextPath }/approvalAttractionList?currentPage=${currentPage-1}">이전</a>
-			</c:if>
-			<c:if test="${currentPage < lastPage}">
-				<a href="${pageContext.request.contextPath }/approvalAttractionList?currentPage=${currentPage+1}">다음</a>
-			</c:if>
-		</div>
-
 	</div>
 	<!-- end : content -->
 	
