@@ -54,9 +54,8 @@
 						</c:otherwise>
 					</c:choose>
 			    </c:forEach>			
-		<!-- 지도 -->
-		<div id="map" style="width:100%;height:400px;"></div>
-		<table border="1" style=" margin-top: 20px;"class="table table-hover"">
+
+		<table border="1" style=" margin-top: 25px;"class="table table-hover"">
 			<tr>
 				<td style="width:20%;">명소 이름</td>
 				<td id="attractionName" style="width:80%">${attraction.attractionName }</td>
@@ -78,6 +77,8 @@
 				<td id="attractionContent">${attraction.attractionContent }</td>
 			</tr>
 		</table>
+		<!-- 지도 -->
+		<div id="map" style="width:100%;height:400px;" style="margin-top:25px;"></div>
 	</form>
 	
 	</div>
