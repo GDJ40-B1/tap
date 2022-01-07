@@ -110,7 +110,7 @@ public class ReservationController {
 			couponService.modifyUseMemberCoupon(useCoupon);
 		}
 		
-		return "redirect:/reservationOne?reservationId="+reservationId; // 일을 다 마치고 예약 추가를 성공했을시 예약정보 상세보기 페이지로 넘어간다. 추가로 아이디값 보내줌
+		return "redirect:/member/reservationList"; // 일을 다 마치고 예약 추가를 성공했을시 내 예약 리스트 페이지로 넘어간다.
 	}
 	
 	//예약 상세정보 보기

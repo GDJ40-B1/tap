@@ -6,6 +6,8 @@
 <html>
 <head>
 	<script src="http://code.jquery.com/jquery-latest.js"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 	<meta charset="UTF-8">
 	<title>${room.roomName }</title>
 
@@ -19,7 +21,25 @@
 		.customoverlay a {display:block;text-decoration:none;color:#000;text-align:center;border-radius:6px;font-size:14px;font-weight:bold;overflow:hidden;background: #d95050;background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;}
 		.customoverlay .title {display:block;text-align:center;background:#fff;margin-right:35px;padding:10px 15px;font-size:14px;font-weight:bold;}
 		.customoverlay:after {content:'';position:absolute;margin-left:-12px;left:50%;bottom:-12px;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+   		
+   		#roomQna {	
+			text-align: center;
+		}
+		.insertCommentBtn {
+		  	background-color: #f44336; 
+		  	border: none;
+		  	color: white;
+		  	padding: 8px 13px;
+		  	text-align: center;
+		  	text-decoration: none;
+		  	display: inline-block;
+		  	font-size: 14px;
+		  	margin: 0px 0px;
+		  	cursor: pointer;
+		  	border-radius: 12px;
+		}
     </style>
+    
 </head>
 <body>
    <!-- start : mainHeader -->
@@ -34,7 +54,18 @@
 	      <div class="container">
 	
 	        <div class="d-flex justify-content-between align-items-center">
-	          <h2>숙소</h2>
+	          <h2>숙소 |
+	          <!-- 즐겨찾기 등록은 이미지로 변경할 필요가 있음 -->
+	        	<c:choose>
+					<c:when test="${favorite == '0'}">
+						<button type="button" class="btn btn-danger" id='addFavorites'>♡ <U>즐겨찾기 등록</U></button>
+					</c:when>
+					
+					<c:when test="${favorite == '1'}">
+						<button type="button" class="btn btn-danger" id='removeFavorites'>♥ <U>즐겨찾기 취소</U></button>
+					</c:when>
+				</c:choose>
+	          </h2>
 	          <ol>
 	            <li><a href="${pageContext.request.contextPath}">홈</a></li>
 	            <li><a href="${pageContext.request.contextPath}/roomList">숙소목록</a></li>
@@ -155,7 +186,7 @@
 	            <div id="map" style="width:100%;height:350px;"></div>
             </div>
       </section>
- 		<div class="container">
+ 		<div class="container" style="transform: translate(15%,0%);">
 			<div class="col-xl-8 col-lg-7">
 				<div class="card shadow mb-4">
 					<div id="roomChart" class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -172,266 +203,277 @@
 				</div>
 			</div>
 		</div>
- 
-      <section class="event-list">
-         	<div class="container">
-         	<!-- 즐겨찾기 등록은 이미지로 변경할 필요가 있음 -->
-        	<c:choose>
-				<c:when test="${favorite == '0'}">
-					<button type="button" class="btn btn-danger" id='addFavorites'>즐겨찾기 등록</button>
-				</c:when>
-				
-				<c:when test="${favorite == '1'}">
-					<button type="button" class="btn btn-danger" id='removeFavorites'>즐겨찾기 취소</button>
-				</c:when>
-			</c:choose>
-
-         	<button type="button" class="btn btn-danger" id='insertRoomQna'>문의 작성</button>
-			
-			<c:choose>
-				<c:when test="${empty roomQna.list}">
-					<div>문의 내역이 없습니다.</div>
-				</c:when>
-			
-				<c:otherwise>
-				
-	       		<table style="margin-top:10px;"class="table table-hover" id="roomQna" border="1">
-	       			<tr class="table-active">
-	       				<td>답변상태</td>
-	       				<td>문의내역</td>
-	       				<td>작성자</td>
-	       				<td>작성일</td>
-	       			</tr>
-	       			<c:forEach var="q" items="${roomQna.list}">
-	       				<tr>
-	       					<c:choose>
-								<c:when test="${q.answerCheck == 'N'}">
-									<td>미답변</td>
-								</c:when>
-								
-								<c:when test="${q.answerCheck == 'Y'}">
-									<td>답변완료</td>
-								</c:when>
-							</c:choose>
+ 	  
+ 	  <div class="container">
+      	<div class="row">
+      		<div class="col">
+	            <ul class="nav nav-tabs nav-justified">
+	              <li class="nav-item">
+	                <a class="nav-link active" data-toggle="tab" href="#qwe">문의</a>
+	              </li>
+	              <li class="nav-item">
+	                <a class="nav-link" data-toggle="tab" href="#review">후기</a>
+	              </li>
+	            </ul>
+	            <div class="tab-content">
+	            	<div class="tab-pane fade show active" id="qwe">
+	            		<p><br>
+	            		
+			         	<button type="button" class="btn btn-danger" id='insertRoomQna'>문의 작성</button>
 						
 						<c:choose>
-							<c:when test="${q.secretCheck == 'N' || q.secretCheck == 'Y' && loginUser.userId == q.memberId || loginUser.userId == room.hostId || loginUser.userLevel == 'system_admin'}">
-								<td><a href="#roomQna" onclick="result(this)" style="text-overflow: ellipsis;">${q.content}</a></td>
+							<c:when test="${empty roomQna.list}">
+								<div>문의 내역이 없습니다.</div>
 							</c:when>
+						
+							<c:otherwise>
 							
-							<c:when test="${q.secretCheck == 'Y' && loginUser == null || loginUser.userId != q.memberId}">
-								<td>비밀글 입니다.</td>
-							</c:when>
-						</c:choose>
-						<td>${q.memberId}</td>
-						<td>${q.createDate}</td>
-	       				</tr>
-	       				<tr class="qna" style="display: none;">
-							<td colspan = "4">
-								<div>문의 : ${q.content}</div>
-								<c:if test="${loginUser != null && q.memberId == loginUser.userId ||  loginUser.userLevel == 'system_admin'}">
-									<div><a href="javascript:removeQuestion(${q.roomQna},'${q.memberId}');">삭제</a></div>
-								</c:if>
-								<c:forEach var="a" items="${q.roomQnaAnswer}">
-									<div>답변 : ${a.answer}</div>
-									<div>등록일 : ${a.answerCreateDate}</div>
-									<c:if test="${loginUser != null && room.hostId == loginUser.userId || loginUser.userLevel == 'system_admin'}">
-										<div><a href="javascript:removeAnswer(${a.roomQnaId}, '${room.hostId}');">삭제</a></div>
-									</c:if>
-								</c:forEach>
-							</td>
-	       				</tr>
-	       			</c:forEach>
-	       		</table>
-       			</c:otherwise>
-       		</c:choose>
-      		<c:if test="${roomQna.roomQnaCurrentPage > 1}">
-				<a href="${pageContext.request.contextPath}/roomOne?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}&roomQnaCurrentPage=${roomQna.roomQnaCurrentPage-1}">이전</a>
-			</c:if>
-			
-			<c:forEach var="i" begin="${roomQna.roomQnaStartPage}" end="${roomQna.roomQnaEndPage}">
-				<a href="${pageContext.request.contextPath}/roomOne?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}&roomQnaCurrentPage=${i}"><c:out value="${i}"/></a>
-			</c:forEach>
-			
-			<c:if test="${roomQna.roomQnaCurrentPage < roomQna.roomQnaLastPage}">
-				<a href="${pageContext.request.contextPath}/roomOne?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}&roomQnaCurrentPage=${roomQna.roomQnaCurrentPage+1}">다음</a>
-			</c:if>		
-       		
-         	</div>
-       </section>
-       
-       <!-- *** 숙소 후기 *** -->
-  	   <section class="event-list">
-			<div class="container">
-				<div class="form-group">
-					<h4>후기(${roomReview.totalRoomReviewCount})개</h4>
-					<h2>★${roomReview.avgRoomReviewScore}/5</h2>
-					<hr>
-				</div>
-	   		<c:forEach var="r" items="${roomReview.list}">
-	   			<c:choose>
-	   				<c:when test="${loginUser.userId == room.hostId}">
-	   					<div>
-							<input type="hidden" name="roomId" value="${room.roomId}">
-							<input type="hidden" name="detailAddressId" value="${address.detailAddressId}">
-							<input type="hidden" class="roomReviewId" name="roomReviewId" value="${r.roomReviewId}">
-							<div class="d-flex justify-content-between align-items-center">
-								<span></span>
-								<ol style="list-style: none;">
-									<li>
-										<a class="btn btn-outline-dark" href="javascript:deleteRoomReview('${r.roomReviewId}');">숙소후기 삭제</a>
-									</li>
-								</ol>
-							</div>
-							<div class="d-flex justify-content-between align-items-center">
-								<c:forEach var="rre" items="${r.reservation}">
-									${rre.memberId} |
-									<c:forEach var="rro" items="${r.room}">
-										${rro.roomCategory}[${rro.roomForm}]
-									</c:forEach>
-								</c:forEach>
-								<ol style="list-style: none;"> 
-									<li>
-										<c:set var="ocreateDate" value="${r.createDate}"/>
-										<c:set var="createDate" value="${fn:substring(ocreateDate,0,10)}"/>
-										${createDate}
-									</li>
-								</ol>
-							</div>	
-							<div>
-								숙소후기 평점 : 
-								<c:choose>
-									<c:when test="${r.roomReviewScore == 1}">
-										<td >★☆☆☆☆</td>
-									</c:when>
-									<c:when test="${r.roomReviewScore == 2}">
-										<td>★★☆☆☆</td>
-									</c:when>
-									<c:when test="${r.roomReviewScore == 3}">
-										<td >★★★☆☆</td>
-									</c:when>
-									<c:when test="${r.roomReviewScore == 4}">
-										<td>★★★★☆</td>
-									</c:when>
-									<c:when test="${r.roomReviewScore == 5}">
-										<td>★★★★★</td>
-									</c:when>
-								</c:choose>
-							</div>
-							<div>
-								숙소후기 내용 :
-								${r.roomReviewContent}
-							</div>
-							<div>
-								<c:choose>
-									<c:when test="${r.answerStatus == 'N'}">
-										<form class="insertCommentForm" action="${pageContext.request.contextPath}/addRoomReviewComment" method="post">
-											<div class="form-group">
-												<input type="hidden" name="roomId" value="${room.roomId}">
-												<input type="hidden" name="detailAddressId" value="${address.detailAddressId}">
-												<input type="hidden" name="roomReviewId" value="${r.roomReviewId}">
-												<label for="reviewCommentContent">답변 작성 : </label>
-													<textarea class="form-control" rows="5" placeholder="답변을 작성해주세요" class="insertComment" name="roomReviewCommentContent"></textarea>
-											</div>
-											<div>
-												<button class="insertCommentBtn" type ="button">작성</button>
-											</div>
-										</form>
-									</c:when>
-									<c:otherwise>
-										<div>
-											<c:forEach var="rc" items="${r.roomReviewComment}">
-												<div class="d-flex justify-content-between align-items-center">
-													<span>숙소후기 답변</span>
-													<ol style="list-style: none;">
-														<li>
-															<a class="btn btn-outline-dark" href="javascript:deleteRoomReviewComment('${r.roomReviewId}');">숙소후기 답변삭제</a>
-														</li>
-													</ol>
-												</div>
-												<textarea class="form-control" rows="5" cols="50" name="roomReviewCommentContent" readonly="readonly">${rc.roomReviewCommentContent}</textarea>
+				       		<table style="margin-top:10px;"class="table table-hover" id="roomQna" border="1">
+				       			<tr class="table-active">
+				       				<td>답변상태</td>
+				       				<td>문의내역</td>
+				       				<td>작성자</td>
+				       				<td>작성일</td>
+				       			</tr>
+				       			<c:forEach var="q" items="${roomQna.list}">
+				       				<tr>
+				       					<c:choose>
+											<c:when test="${q.answerCheck == 'N'}">
+												<td>미답변</td>
+											</c:when>
+											
+											<c:when test="${q.answerCheck == 'Y'}">
+												<td>답변완료</td>
+											</c:when>
+										</c:choose>
+									
+									<c:choose>
+										<c:when test="${q.secretCheck == 'N' || q.secretCheck == 'Y' && loginUser.userId == q.memberId || loginUser.userId == room.hostId || loginUser.userLevel == 'system_admin'}">
+											<td><a href="#roomQna" onclick="result(this)" style="text-overflow: ellipsis;">${q.content}</a></td>
+										</c:when>
+										
+										<c:when test="${q.secretCheck == 'Y' && loginUser == null || loginUser.userId != q.memberId}">
+											<td>비밀글 입니다.</td>
+										</c:when>
+									</c:choose>
+									<td>${q.memberId}</td>
+									<td>${q.createDate}</td>
+				       				</tr>
+				       				<tr class="qna" style="display: none; text-align:left;">
+										<td colspan = "4">
+											<div>문의 : ${q.content}</div>
+											<c:if test="${loginUser != null && q.memberId == loginUser.userId ||  loginUser.userLevel == 'system_admin'}">
+												<br><div><a class="btn btn-danger btn-sm" href="javascript:removeQuestion(${q.roomQna},'${q.memberId}');">삭제</a></div>
+											</c:if>
+											<c:forEach var="a" items="${q.roomQnaAnswer}">
+												<div>답변 : ${a.answer}</div>
+												<div>등록일 : ${a.answerCreateDate}</div>
+												<c:if test="${loginUser != null && room.hostId == loginUser.userId || loginUser.userLevel == 'system_admin'}">
+													<div><a href="javascript:removeAnswer(${a.roomQnaId}, '${room.hostId}');">삭제</a></div>
+												</c:if>
 											</c:forEach>
-										</div>
+										</td>
+				       				</tr>
+				       			</c:forEach>
+				       		</table>
+			       			</c:otherwise>
+			       		</c:choose>
+			       		<div style="text-align:center;">
+				      		<c:if test="${roomQna.roomQnaCurrentPage > 1}">
+								<a class="btn btn-primary" href="${pageContext.request.contextPath}/roomOne?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}&roomQnaCurrentPage=${roomQna.roomQnaCurrentPage-1}">이전</a>
+							</c:if>
+							
+							<c:forEach var="i" begin="${roomQna.roomQnaStartPage}" end="${roomQna.roomQnaEndPage}">
+								<a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/roomOne?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}&roomQnaCurrentPage=${i}"><c:out value="${i}"/></a>
+							</c:forEach>
+							
+							<c:if test="${roomQna.roomQnaCurrentPage < roomQna.roomQnaLastPage}">
+								<a class="btn btn-primary" href="${pageContext.request.contextPath}/roomOne?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}&roomQnaCurrentPage=${roomQna.roomQnaCurrentPage+1}">다음</a>
+							</c:if>
+						</div> 	
+	            		</p>
+	             	</div>
+	             	<div class="tab-pane fade" id="review">
+	               		<p>
+	               			<!-- *** 숙소 후기 *** -->
+							<div class="form-group">
+								<c:choose>
+									<c:when test="${empty roomReview.list}">
+										후기 내역이 없습니다.
+									</c:when>
+									
+									<c:otherwise>
+										<h4 style="text-align:center;">후기(${roomReview.totalRoomReviewCount})개</h4>
+										<h2><span style="color:#fedd7b;">★</span> ${roomReview.avgRoomReviewScore}<span style="font-size:0.5em;">/5</span></h2>
+										<hr>
 									</c:otherwise>
 								</c:choose>
-								<div>
-									<hr style="height: 3px;">
-								</div>
 							</div>
-						</div>
-	   				</c:when>
-	   				<c:otherwise>
-	   					<div class="d-flex justify-content-between align-items-center">
-	   						<c:forEach var="rre" items="${r.reservation}">
-								${rre.memberId} |
-								<c:forEach var="rro" items="${r.room}">
-									${rro.roomCategory}[${rro.roomForm}]
-								</c:forEach>
+							
+							<c:forEach var="r" items="${roomReview.list}">
+					   			<c:choose>
+					   				<c:when test="${loginUser.userId == room.hostId}">
+					   					<div>
+											<input type="hidden" name="roomId" value="${room.roomId}">
+											<input type="hidden" name="detailAddressId" value="${address.detailAddressId}">
+											<input type="hidden" class="roomReviewId" name="roomReviewId" value="${r.roomReviewId}">
+											<div class="d-flex justify-content-between align-items-center">
+												<c:forEach var="rre" items="${r.reservation}">
+													${rre.memberId} |
+													<c:forEach var="rro" items="${r.room}">
+														${rro.roomCategory}[${rro.roomForm}]
+													</c:forEach>
+												</c:forEach>
+												<ol style="list-style: none;"> 
+													<li>
+														<c:set var="ocreateDate" value="${r.createDate}"/>
+														<c:set var="createDate" value="${fn:substring(ocreateDate,0,10)}"/>
+														${createDate}
+													</li>
+												</ol>
+											</div>	
+											<div>
+												숙소후기 평점 : 
+												<c:choose>
+													<c:when test="${r.roomReviewScore == 1}">
+														<td >★☆☆☆☆</td>
+													</c:when>
+													<c:when test="${r.roomReviewScore == 2}">
+														<td>★★☆☆☆</td>
+													</c:when>
+													<c:when test="${r.roomReviewScore == 3}">
+														<td >★★★☆☆</td>
+													</c:when>
+													<c:when test="${r.roomReviewScore == 4}">
+														<td>★★★★☆</td>
+													</c:when>
+													<c:when test="${r.roomReviewScore == 5}">
+														<td>★★★★★</td>
+													</c:when>
+												</c:choose>
+											</div>
+											<div>
+												숙소후기 내용 :
+												${r.roomReviewContent}
+											</div>
+											<div>
+												<c:choose>
+													<c:when test="${r.answerStatus == 'N'}">
+														<form class="insertCommentForm" action="${pageContext.request.contextPath}/addRoomReviewComment" method="post">
+															<div class="form-group">
+																<input type="hidden" name="roomId" value="${room.roomId}">
+																<input type="hidden" name="detailAddressId" value="${address.detailAddressId}">
+																<input type="hidden" name="roomReviewId" value="${r.roomReviewId}">
+																<label for="reviewCommentContent">답변 작성 </label>
+																	<textarea class="form-control" rows="5" placeholder="답변을 작성해주세요" class="insertComment" name="roomReviewCommentContent"></textarea>
+															</div>
+															<div>
+																<button class="insertCommentBtn" type ="button">작성</button>
+															</div>
+														</form>
+													</c:when>
+													<c:otherwise>
+														<div>
+															<c:forEach var="rc" items="${r.roomReviewComment}">
+																<div class="d-flex justify-content-between align-items-center">
+																	<span>숙소후기 답변</span>
+																	<ol style="list-style: none;">
+																		<li>
+																			<a class="btn btn-danger" href="javascript:deleteRoomReviewComment('${r.roomReviewId}');">숙소후기 답변삭제</a>
+																		</li>
+																	</ol>
+																</div>
+																<textarea class="form-control" rows="5" cols="50" name="roomReviewCommentContent" readonly="readonly">${rc.roomReviewCommentContent}</textarea>
+															</c:forEach>
+														</div>
+													</c:otherwise>
+												</c:choose>
+												<div>
+													<hr style="height: 3px;">
+												</div>
+											</div>
+										</div>
+					   				</c:when>
+					   				<c:otherwise>
+					   					<div class="d-flex justify-content-between align-items-center">
+					   						<c:forEach var="rre" items="${r.reservation}">
+												${rre.memberId} |
+												<c:forEach var="rro" items="${r.room}">
+													${rro.roomCategory}[${rro.roomForm}]
+												</c:forEach>
+											</c:forEach>
+											<ol style="list-style: none;">
+												<li>
+													<c:set var="ocreateDate" value="${r.createDate}"/>
+													<c:set var="createDate" value="${fn:substring(ocreateDate,0,10)}"/>
+													${createDate}					
+												</li>
+											</ol>
+										</div>
+										<div>
+											숙소후기 평점 : 
+											<c:choose>
+												<c:when test="${r.roomReviewScore == 1}">
+													<td>★☆☆☆☆</td>
+												</c:when>
+												<c:when test="${r.roomReviewScore == 2}">
+													<td>★★☆☆☆</td>
+												</c:when>
+												<c:when test="${r.roomReviewScore == 3}">
+													<td>★★★☆☆</td>
+												</c:when>
+												<c:when test="${r.roomReviewScore == 4}">
+													<td>★★★★☆</td>
+												</c:when>
+												<c:when test="${r.roomReviewScore == 5}">
+													<td>★★★★★</td>
+												</c:when>
+											</c:choose>
+										</div>
+										<div>
+											숙소후기 내용 :
+											${r.roomReviewContent}
+										</div>
+										<div>
+											<c:if test="${r.answerStatus eq 'Y'}">
+												<c:forEach var="rc" items="${r.roomReviewComment}">
+													숙소후기 답변
+													<textarea class="form-control" rows="5" cols="50" name="roomReviewCommentContent" readonly="readonly">${rc.roomReviewCommentContent}</textarea>
+												</c:forEach>
+											</c:if>
+										</div>
+										<div>
+											<hr style="height: 3px;">
+										</div>
+					   				</c:otherwise>
+								</c:choose>
 							</c:forEach>
-							<ol style="list-style: none;">
-								<li>
-									<c:set var="ocreateDate" value="${r.createDate}"/>
-									<c:set var="createDate" value="${fn:substring(ocreateDate,0,10)}"/>
-									${createDate}					
-								</li>
-							</ol>
-						</div>
-						<div>
-							숙소후기 평점 : 
-							<c:choose>
-								<c:when test="${r.roomReviewScore == 1}">
-									<td>★☆☆☆☆</td>
-								</c:when>
-								<c:when test="${r.roomReviewScore == 2}">
-									<td>★★☆☆☆</td>
-								</c:when>
-								<c:when test="${r.roomReviewScore == 3}">
-									<td>★★★☆☆</td>
-								</c:when>
-								<c:when test="${r.roomReviewScore == 4}">
-									<td>★★★★☆</td>
-								</c:when>
-								<c:when test="${r.roomReviewScore == 5}">
-									<td>★★★★★</td>
-								</c:when>
-							</c:choose>
-						</div>
-						<div>
-							숙소후기 내용 :
-							${r.roomReviewContent}
-						</div>
-						<div>
-							<c:if test="${r.answerStatus eq 'Y'}">
-								<c:forEach var="rc" items="${r.roomReviewComment}">
-									숙소후기 답변
-									<textarea class="form-control" rows="5" cols="50" name="roomReviewCommentContent" readonly="readonly">${rc.roomReviewCommentContent}</textarea>
+							
+							<div style="text-align:center;">
+								<!-- ======= Paging Section ======= -->
+								<c:if test="${roomReviw.roomReviewCurrentPage > 1}">
+									<a class="btn btn-primary" href="${pageContext.request.contextPath}/roomOne?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}&roomReviewCurrentPage=${roomReviw.roomReviewCurrentPage-1}">이전</a>
+								</c:if>
+								
+								<c:forEach var="i" begin="${roomReview.startPage}" end="${roomReview.endPage}">
+									<a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/roomOne?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}&roomReviewCurrentPage=${i}"><c:out value="${i}"/></a>
 								</c:forEach>
-							</c:if>
-						</div>
-						<div>
-							<hr style="height: 3px;">
-						</div>
-	   				</c:otherwise>
-				</c:choose>
-			</c:forEach>
-			
-			<!-- ======= Paging Section ======= -->
-			<c:if test="${roomReviw.roomReviewCurrentPage > 1}">
-				<a href="${pageContext.request.contextPath}/roomOne?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}&roomOne?roomReviewCurrentPage=1">처음으로</a>
-				<a href="${pageContext.request.contextPath}/roomOne?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}&roomReviewCurrentPage=${roomReviw.roomReviewCurrentPage-1}">이전</a>
-			</c:if>
-			
-			<c:forEach var="i" begin="${roomReview.startPage}" end="${roomReview.endPage}">
-				<a href="${pageContext.request.contextPath}/roomOne?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}&roomReviewCurrentPage=${i}"><c:out value="${i}"/></a>
-			</c:forEach>
-			
-			<c:if test="${roomReviw.roomReviewCurrentPage < roomReview.lastPage}">
-				<a href="${pageContext.request.contextPath}/roomOne?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}&roomReviewCurrentPage=${roomReviw.roomReviewCurrentPage+1}">다음</a>
-				<a href="${pageContext.request.contextPath}/roomOne?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}&roomReviewCurrentPage=${roomReview.lastPage}">끝으로</a>
-			</c:if>		
-			<!-- End Paging Section -->
-			</div>
-		</section>	
+								
+								<c:if test="${roomReviw.roomReviewCurrentPage < roomReview.lastPage}">
+									<a class="btn btn-primary" href="${pageContext.request.contextPath}/roomOne?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}&roomReviewCurrentPage=${roomReviw.roomReviewCurrentPage+1}">다음</a>
+								</c:if>		
+								<!-- End Paging Section -->
+							</div>									
+	               		</p>
+	             	</div>
+	            </div>       
+	        </div>    
+        </div>  
+ 	  </div>
+ 	  
+      
+       
+       	
    </main>
    
    <div class="back-to-top active" style="width:300px ; margin-bottom: 400px;">

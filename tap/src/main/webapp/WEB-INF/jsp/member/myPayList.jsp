@@ -5,7 +5,11 @@
 <html>
 <head>
     <meta charset="utf-8">
-	<title>Insert title here</title>
+	<title>결제내역조회</title>
+	
+	<!-- Favicons -->
+	<link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="icon">
+
 	<script src="http://code.jquery.com/jquery-latest.js"></script>
 	<!-- Datepicker 관련 요소 -->
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
