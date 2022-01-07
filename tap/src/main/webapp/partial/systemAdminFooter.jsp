@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-			</div>
+			
             <!-- End of Main Content -->
 
             <!-- Footer -->
@@ -13,10 +13,10 @@
             </footer>
             <!-- End of Footer -->
 
-        </div>
+        
         <!-- End of Content Wrapper -->
 
-    </div>
+    
     <!-- End of Page Wrapper -->
 
     <!-- Scroll to Top Button-->
