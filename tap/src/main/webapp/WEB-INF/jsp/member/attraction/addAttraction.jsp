@@ -6,7 +6,10 @@
 <head>
 <script src="http://code.jquery.com/jquery-latest.js"></script> 
 <meta charset="UTF-8">
-<title>addAttraction</title>
+<title>명소 등록</title>
+<!-- Favicons -->
+<link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="icon">
+	
 </head>
 <body>
 	<!-- start : mainHeader -->
