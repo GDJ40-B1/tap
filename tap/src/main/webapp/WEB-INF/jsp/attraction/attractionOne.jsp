@@ -40,6 +40,7 @@
 		<div class="container">
 	<div style="margin-bottom:20px; font-size:20px;"class="badge rounded-pill bg-info">${hashtag }</div>
 	<form action="${pageContext.request.contextPath}/attractionOne" method="post">
+			<div>	
 				<!-- 명소 이미지 -->
          		<c:forEach items="${imageList }" var="img">
 			    	<c:choose>
@@ -54,7 +55,7 @@
 						</c:otherwise>
 					</c:choose>
 			    </c:forEach>			
-
+			</div>
 		<table border="1" style=" margin-top: 25px;"class="table table-hover"">
 			<tr>
 				<td style="width:20%;">명소 이름</td>

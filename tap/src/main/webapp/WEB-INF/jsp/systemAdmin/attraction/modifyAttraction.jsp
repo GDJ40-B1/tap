@@ -30,12 +30,13 @@
 	        <div class="card-body">
 	        	
 	            <div class="table-responsive">
-	            	<form action="${pageContext.request.contextPath}/systemAdmin/modifyAttraction" method="post">
+	            	<form action="${pageContext.request.contextPath}/systemAdmin/modifyAttraction" method="post" enctype="multipart/form-data">
 						<!-- 전달 -->
 						<input type="hidden" name="attractionId" value="${attraction.attractionId }">
 						<input type="hidden" name="detailAddressId" value="${address.detailAddressId}">
 		
 		<div class="form-group">
+		
 			<label class="form-label mt-4">명소 이름</label>
 			<div>
 				<input type="text" name="attractionName" class="form-control" value="${attraction.attractionName }">			
@@ -98,7 +99,17 @@
             	<input type="text" id="hashtag" name="hashtag" value="${hashtag }" class="form-control">			
 			</div>
          	</div>		
-		</div>			
+		</div>
+		
+			<div class="form-group">
+				<label>명소 사진</label>
+				<div class="input-group mb-3">
+				  <div class="custom-file">
+				    <input multiple="multiple" type="file" name="file" class="custom-file-input">
+				    <label class="custom-file-label" for="inputGroupFile02">사진을 한꺼번에 드래그해서 넣어주세요.</label>
+				  </div>
+				</div>
+			</div>					
 			<br>
 			<button type="submit" id="modifyBtn" class="btn btn-outline-success">수정하기</button>
 		</form>	
