@@ -5,8 +5,11 @@
 <html>
 <head>
     <meta charset="utf-8">
-	<title>Insert title here</title>
+	<title>쿠폰 목록</title>
 	<script src="http://code.jquery.com/jquery-latest.js"></script> 
+	
+	<!-- Favicons -->
+	<link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="icon">
 </head>
 <body id="page-top">
 

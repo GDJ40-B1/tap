@@ -7,6 +7,10 @@
 <head>
     <meta charset="utf-8">
 	<title>명소 상세보기</title>
+	
+	<!-- Favicons -->
+	<link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="icon">
+	
 	<script src="http://code.jquery.com/jquery-latest.js"></script>
 	
     <!-- Custom styles for this template-->

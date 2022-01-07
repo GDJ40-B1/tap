@@ -9,7 +9,7 @@
 	
 	<style>
 		@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;500;700&display=swap');
-		li, span {
+		.font1 {
 			font-family: 'Noto Sans KR', sans-serif;
 		} 
 	</style>
@@ -34,7 +34,7 @@
 	        <div class="card-header py-3">
 	        	<div class="d-flex justify-content-between align-items-center">
 					<h5 class="m-0 font-weight-bold text-primary">
-		           		<span>공지사항(총 ${totalNoticeCount}개)</span>
+		           		<span class="font1">공지사항(총 ${totalNoticeCount}개)</span>
 		           	</h5>
 		           	<ol style="list-style: none;">
 						<li>

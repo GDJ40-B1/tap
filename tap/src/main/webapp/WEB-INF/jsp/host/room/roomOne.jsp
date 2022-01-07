@@ -7,7 +7,9 @@
 <head>
 <script src="http://code.jquery.com/jquery-latest.js"></script> 
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>숙소 상세보기</title>
+<!-- Favicons -->
+<link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="icon">
 </head>
 <body id="page-top">
 	<!-- start : hostHeader -->

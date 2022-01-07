@@ -15,12 +15,12 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
   <title>문의 게시판</title>
+	
   <meta content="" name="description">
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="${pageContext.request.contextPath}/resources/img/favicon.png" rel="icon">
-  <link href="${pageContext.request.contextPath}/resources/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="icon">
 
   <!-- Vendor CSS Files -->
   <link href="${pageContext.request.contextPath}/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">

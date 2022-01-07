@@ -13,6 +13,10 @@
 	  
     <meta charset="utf-8">
 	<title>문의 미답변 리스트</title>
+	
+	<!-- Favicons -->
+	<link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="icon">
+	
 	<script src="http://code.jquery.com/jquery-latest.js"></script> 
 	
 	  <!-- Google Fonts -->
