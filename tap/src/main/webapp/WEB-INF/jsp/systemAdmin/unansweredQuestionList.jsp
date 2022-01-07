@@ -88,7 +88,7 @@
 														<textarea class="form-control" rows="5" placeholder="답변을 작성해주세요" id="questionAnswerContent" name="questionAnswerContent"></textarea>
 												</div>
 												<div>
-													<button class="btn btn-primary" id="addQnaAnswer" type ="button">작성</button>
+													<button class="btn btn-primary addQnaAnswer" type="button">작성</button>
 												</div>
 											</form>		
 										</div>
@@ -173,7 +173,7 @@
 	</script>
 	    
 	<script>	
-		$('#addQnaAnswer').click(function(){
+		$('.addQnaAnswer').click(function(){
 			if($(this).parents(".questionAnswerForm").find('textarea').val() == '') {
 				alert('답변을 입력하세요');
 				return;

@@ -57,7 +57,7 @@ public interface RoomMapper {
 	void deleteRoom(int roomId);
 	
 	// 사용자 설정 선호지역 별 인기 숙소 리스트
-	List<Room> selectPreferLocalRoomList(Map<String, Object> paramMap);
+	List<Map<String, Object>> selectPreferLocalRoomList(Map<String, Object> paramMap);
 	
 	// 사용자 설정 선호지역 별 인기 숙소 개수
 	int preferLocalRoomTotalCount(Map<String, Object> paramMap);

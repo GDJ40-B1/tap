@@ -101,11 +101,17 @@ public class RoomQuestionService {
 	
 	// 숙소 문의 글 삽입
 	public void addRoomQuestion(RoomQuestion roomQuestion) {
+		String content = roomQuestion.getContent();
+		roomQuestion.setContent(content.replace("\r\n","<br>"));
+		
 		roomQuestionMapper.insertRoomQna(roomQuestion);
 	}	
 	
 	// 숙소 문의 답변 삽입
 	public void addRoomQnaAnswer(RoomQnaAnswer roomQnaAnswer) {
+		String content = roomQnaAnswer.getAnswer();
+		roomQnaAnswer.setAnswer(content.replace("\r\n","<br>"));
+		
 		roomQuestionMapper.insertRoomQnaAnswer(roomQnaAnswer);
 		roomQuestionMapper.updateAnswerCheck(roomQnaAnswer);
 	}

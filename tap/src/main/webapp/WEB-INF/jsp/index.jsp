@@ -131,7 +131,6 @@ pageEncoding="UTF-8"%>
       <div class="container">
 
         <div class="row">
-	        <div>
 	        	<c:choose>
 				<c:when test="${empty preferRoomMap.list}">
 			        <div class="section-title">
@@ -148,12 +147,12 @@ pageEncoding="UTF-8"%>
 				<div class="col-lg-3 col-md-6 d-flex align-items-stretch">
 		            <div class="card">
 		              <div class="card-img">
-		                <a href="${pageContext.request.contextPath}/roomOne?roomId=${list.roomId}&detailAddressId=${list.detailAddressId}"><img src="${pageContext.request.contextPath}/resources/img/events-1.jpg" class="img-fluid" alt=""></a>
+		                <a href="${pageContext.request.contextPath}/roomOne?roomId=${list.roomId}&detailAddressId=${list.detailAddressId}"><img src="${pageContext.request.contextPath}/resources/img/room/${list.imageName}" class="img-fluid" alt="숙소 이미지"></a>
 		              </div>
 		              <div class="card-body">
 		                <h5 class="card-title">${list.roomName}</h5>
-		                <p class="fst-italic text-center">${list.roomCategory}</p>
-		                <p class="fst-italic text-center">${list.roomPrice}원</p>
+		                <p class="text-center">${list.roomCategory}</p>
+		                <p class="text-center">${list.roomPrice}원</p>
 		                <p class="card-text">${list.roomIntro}</p>
 		              </div>
 		            </div>
@@ -192,7 +191,6 @@ pageEncoding="UTF-8"%>
 				</nav>				
 				</c:otherwise>
 				</c:choose>
-	        </div>
         </div>
       </div>
     </section>

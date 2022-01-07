@@ -19,9 +19,6 @@
   <link href="${pageContext.request.contextPath}/resources/img/favicon.png" rel="icon">
   <link href="${pageContext.request.contextPath}/resources/img/apple-touch-icon.png" rel="apple-touch-icon">
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-
   <!-- Vendor CSS Files -->
   <link href="${pageContext.request.contextPath}/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="${pageContext.request.contextPath}/resources/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
@@ -75,24 +72,24 @@
 			<input type="hidden" name="writerId" value="${loginUser.userId}">
 			<input type="hidden" name="writerCategory" value="${loginUser.userLevel}">
 			<div class="form-group">
-			<label for="questionTitle" class="form-label mt-4">제목</label>
-				<input type ="text" class="form-control" placeholder="제목을 입력해주세요" id="questionTitle" name="questionTitle" >
+				<label for="questionTitle" class="form-label mt-4">제목</label>
+					<input type ="text" class="form-control" placeholder="제목을 입력해주세요" id="questionTitle" name="questionTitle" >
 			</div>
 			<div class="form-group">
-			<label for="questionContent" class="form-label mt-4">내용</label>
+				<label for="questionContent" class="form-label mt-4">내용</label>
 				<textarea class="form-control" rows="10" cols="20" wrap="hard" placeholder="내용을 입력해주세요" id="questionContent" name="questionContent" ></textarea>
 			</div>
 			<fieldset class="form-group" style="margin-top:10px;">
-			 <div class="form-check">
-			  <label class="form-check-label">
-			    <input type="radio" class="form-check-input" name="secretStatus" value="Y">비밀글 작성
-			  </label>
-			 </div>
-			 <div class="form-check">
-	  		  <label class="form-check-label">
-	   			<input type="radio" class="form-check-input" name="secretStatus" value="N" checked>외부 공개 허용
-	  		  </label>
-			 </div>
+				<div class="form-check">
+					<label class="form-check-label">
+			    		<input type="radio" class="form-check-input" name="secretStatus" value="Y">비밀글 작성
+					</label>
+			 	</div>
+				<div class="form-check">
+		  			<label class="form-check-label">
+		   				<input type="radio" class="form-check-input" name="secretStatus" value="N" checked>외부 공개 허용
+		  		  	</label>
+				</div>
 			</fieldset>
 		</form>
 			

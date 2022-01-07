@@ -61,7 +61,7 @@ public class RoomService {
       page.put("sido", sido);
       page.put("sigungu", sigungu);
       
-      List<Room> list = roomMapper.selectPreferLocalRoomList(page);
+      List<Map<String, Object>> list = roomMapper.selectPreferLocalRoomList(page);
       log.debug(Font.JSB + list.toString() + Font.RESET);
       
       int totalRowCount = roomMapper.preferLocalRoomTotalCount(page);

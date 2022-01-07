@@ -4,9 +4,22 @@
 <!DOCTYPE html>
 <html>
 <head>
+	  <style type="text/css">
+	  	.title {	
+			font-family: 'Noto Sans KR', sans-serif;
+			font-weight: 500
+		}
+	  </style>
+
     <meta charset="utf-8">
 	<title>Insert title here</title>
-	<script src="http://code.jquery.com/jquery-latest.js"></script> 
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	
+	  <!-- Google Fonts -->
+	  <link rel="preconnect" href="https://fonts.googleapis.com">
+	  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+		
 </head>
 <body id="page-top">
 
@@ -51,17 +64,16 @@
 		       				</tr>
 		       				<tr class="qna" style="display: none;">
 								<td colspan = "4">
-									<div>[문의]</div>
-									<div>${q.content}</div><br>
+									<h3 class="title">문의 내역</h3>
+									<div style="margin: 20px;">${q.content}</div><br>
 									<div>
 										<form class="roomQnaAnswerForm" action="${pageContext.request.contextPath}/host/unansweredRoomQna" method="post">
 											<div class="form-group">
 												<input type="hidden" name="roomQnaId" value="${q.roomQna}">
-												<label for="questionAnswer">[답변 작성]</label>
-													<textarea class="form-control" rows="5" placeholder="답변을 작성해주세요" class="answer" name="answer"></textarea>
+													<textarea class="form-control" rows="5" cols="20" wrap="hard" placeholder="답변을 작성해주세요" class="answer" name="answer"></textarea>
 											</div>
 											<div>
-												<button class="btn btn-primary" id="addRoomQnaAnswer" type ="button">작성</button>
+												<button class="btn btn-primary addRoomQnaAnswer" type ="button">작성</button>
 											</div>
 										</form>		
 									</div>
@@ -139,7 +151,7 @@
 	</script>
 	    
 	<script>	
-		$('#addRoomQnaAnswer').click(function(){
+		$('.addRoomQnaAnswer').click(function(){
 			if($(this).parents(".roomQnaAnswerForm").find('textarea').val() == '') {
 				alert('답변을 입력하세요');
 				return;

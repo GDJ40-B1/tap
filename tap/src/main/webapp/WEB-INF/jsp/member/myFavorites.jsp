@@ -36,15 +36,14 @@
 	                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 	                    <thead>
 	                        <tr>
-	                            <th>숙소명</th>
-	                            <th>삭제</th>
+	                            <th colspan="2">숙소명</th>
 	                        </tr>
 	                    </thead>
 	                    <tbody>	
 	                    	<c:forEach var="f" items="${favoritesList}">
 								<tr>
 									<td><a href="${f.favoritesUrl}">${f.favoritesTitle}</a></td>
-									<td><button type="button" class="btn btn-danger" value="${f.roomId}" id='removeFavorites'>취소</button></td>
+									<td><button type="button" class="btn btn-danger btn-sm" value="${f.roomId}" id='removeFavorites'>취소</button></td>
 								</tr>
 							</c:forEach>
 	                    </tbody>

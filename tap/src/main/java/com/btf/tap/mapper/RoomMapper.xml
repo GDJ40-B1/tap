@@ -169,19 +169,26 @@
    </delete>
    
    <!-- 선호 지역 인기 숙소 리스트 -->
-   <select id="selectPreferLocalRoomList" parameterType="java.util.Map" resultMap="resultRoom">
-	  SELECT
-		  room_id, detail_address_id, host_id, room_category, room_form, room_name,
-		  room_intro, min_day, check_in_time, check_out_time, people_num, room_price
-	  FROM view_room_info
-	  <if test="sido != null and sigungu != null">
+   <select id="selectPreferLocalRoomList" parameterType="java.util.Map" resultType="java.util.Map">
+	  SELECT * FROM (
+		  SELECT
+			  v.room_id roomId, v.detail_address_id detailAddressId, v.host_id hostId, 
+			  v.room_category roomCategory, v.room_form roomForm, v.room_name roomName,
+			  v.room_intro roomIntro, v.min_day minDay, v.check_in_time checkInTime, v.check_out_time checkOutTime, v.people_num peopleNum, 
+			  v.room_price roomPrice, i.image_name imageName
+		  FROM view_room_info v
+		  INNER JOIN image i ON v.room_id = i.image_target
 		  <where>
-			  sido = #{sido}
-			  AND sigungu = #{sigungu}
-		  </where>	  
-	  </if>
+			i.image_target_category = 'room'
+			  <if test="sido != null and sigungu != null">
+			  	AND sido = #{sido}
+				AND sigungu = #{sigungu}
+			  </if>
+		  </where>
 		  ORDER BY ranking_score DESC
-		  LIMIT #{beginRow}, #{rowPerPage}
+		  LIMIT #{beginRow}, #{rowPerPage} 
+	  ) AS list
+	  GROUP BY roomId
    </select>
   
    <!-- 선호 지역 인기 숙소 개수 -->

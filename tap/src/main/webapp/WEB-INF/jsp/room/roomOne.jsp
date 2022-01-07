@@ -229,24 +229,8 @@
 	       				<tr class="qna" style="display: none;">
 							<td colspan = "4">
 								<div>문의 : ${q.content}</div>
-								<c:if test="${loginUser != null && q.memberId == loginUser.userId || loginUser.userId == room.hostId || loginUser.userLevel == 'system_admin'}">
+								<c:if test="${loginUser != null && q.memberId == loginUser.userId ||  loginUser.userLevel == 'system_admin'}">
 									<div><a href="javascript:removeQuestion(${q.roomQna},'${q.memberId}');">삭제</a></div>
-								</c:if>
-								<c:if test="${q.roomQnaAnswer.isEmpty() && loginUser != null && room.hostId == loginUser.userId}">
-										<div>
-											<form class="roomQnaAnswerForm" action="${pageContext.request.contextPath}/roomOne" method="post">
-												<div class="form-group">
-													<input type="hidden" name="roomId" value="${room.roomId}">
-													<input type="hidden" name="detailAddressId" value="${address.detailAddressId}">
-													<input type="hidden" name="roomQnaId" value="${q.roomQna}">
-													<label for="questionAnswer">답변 작성 : </label>
-														<textarea class="form-control" rows="5" placeholder="답변을 작성해주세요" class="answer" name="answer"></textarea>
-												</div>
-												<div>
-													<button class="addRoomQnaAnswer" type ="button">작성</button>
-												</div>
-											</form>		
-										</div>
 								</c:if>
 								<c:forEach var="a" items="${q.roomQnaAnswer}">
 									<div>답변 : ${a.answer}</div>
@@ -761,17 +745,6 @@
 			}
 		}
 	</script>	
-	
-	<script>	
-		$('.addRoomQnaAnswer').click(function(){
-			if($(this).parents(".roomQnaAnswerForm").find('textarea').val() == '') {
-				alert('답변을 입력하세요');
-				return;
-			}
-
-			$(this).parents(".roomQnaAnswerForm").submit();
-		});
-    </script>
     
     <script>	
 		function removeAnswer(roomQnaId, hostId){
