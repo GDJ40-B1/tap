@@ -29,7 +29,7 @@
 	      <div class="container">
 	
 	        <div class="d-flex justify-content-between align-items-center">
-	          <h2>숙소</h2>
+	          <h2>결제</h2>
 	          <ol>
 	            <li><a href="${pageContext.request.contextPath}">홈</a></li>
 	            <li><a href="${pageContext.request.contextPath}/roomList">숙소목록</a></li>
@@ -46,9 +46,8 @@
    					<label class="form-label mt-4">회원</label>
 				   <input class="form-control" type="text" name="memberId" value="${reservation.memberId}" readonly="readonly">
 				   <br>
-				   <label class="form-label mt-4">숙소ID</label>
-				   <input class="form-control" type="text" name="roomId" value="${reservation.roomId}" readonly="readonly">
-				   <br>
+				   <!-- 숙소ID -->
+				   <input class="form-control" type="hidden" name="roomId" value="${reservation.roomId}" readonly="readonly">
 				   <label class="form-label mt-4">숙소명</label>
 				   <input class="form-control" type="text" name="room.roomName" value="${reservation.room.roomName }" readonly="readonly">
 				   <br>
