@@ -201,7 +201,7 @@ public class AttractionService {
 		page.put("sido", sido);
 		page.put("sigungu", sigungu);
 		
-		List<Attraction> list = attractionMapper.selectPreferLocalAttractionList(page);
+		List<Map<String, Object>> list = attractionMapper.selectPreferLocalAttractionList(page);
 		log.debug(Font.JSB + list.toString() + Font.RESET);
 		
 		int totalRowCount = attractionMapper.preferLocalAttractionTotalCount(page);

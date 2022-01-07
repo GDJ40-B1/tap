@@ -47,7 +47,7 @@
    
     <c:choose>
 		<c:when test="${empty roomMap.roomList && empty attractionMap.attractionList && empty hashtagRoomMap.hashtagRoomList && empty hashtagAttractionList}">
-			<div class="section-title" style="margin-top:50px;">
+			<div class="section-title" style="margin-top:120px;">
 				<h2>검색 결과가 없습니다.</h2>
 			</div>	
 		</c:when>
@@ -137,7 +137,7 @@
 					<c:forEach var="a" items="${attractionMap.attractionList}">
 						<div class="col-lg-3 col-md-6 gallery-item filter-home">
 							<div class="gallery-wrap">
-								<img src="${pageContext.request.contextPath}/resources/img/events-1.jpg" class="img-fluid" alt="">
+								<img src="${pageContext.request.contextPath}/resources/img/attraction/${a.imageName}" class="img-fluid" alt="명소 이미지">
 								<div class="gallery-info">
 									<h4>${a.attractionName}</h4>
 									<p>${a.attractionCategory}</p>
@@ -269,7 +269,7 @@
 					<c:forEach var="a" items="${hashtagAttractionMap.hashtagAttractionList}">
 						<div class="col-lg-3 col-md-6 gallery-item filter-home">
 							<div class="gallery-wrap">
-								<img src="${pageContext.request.contextPath}/resources/img/events-1.jpg" class="img-fluid" alt="">
+								<img src="${pageContext.request.contextPath}/resources/img/attraction/${a.imageName}" class="img-fluid" alt="명소 이미지">
 								<div class="gallery-info">
 									<h4>${a.attractionName}</h4>
 									<p>${a.attractionCategory}</p>

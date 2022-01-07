@@ -40,22 +40,28 @@
 	</select>	
 	
 	<!-- 명소 검색 조회 -->
-	<select id="attractionSearchList" parameterType="java.util.Map" resultType="com.btf.tap.vo.Attraction">
-		SELECT
-			attraction_id attractionId,
-			detail_address_id detailAddressId,
-			attraction_category attractionCategory,
-			attraction_name attractionName,
-			attraction_phone_number attractionPhoneNumber
-		FROM attraction
-		<where>
-			attraction_name LIKE
-			CONCAT ('%', #{keyword}, '%')
-		</where>
-		ORDER BY create_date DESC
-		LIMIT #{beginRow}, #{rowPerPage}
-	</select>
-
+	<select id="attractionSearchList" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT * FROM (
+			SELECT
+				a.attraction_id attractionId,
+				a.detail_address_id detailAddressId,
+				a.attraction_category attractionCategory,
+				a.attraction_name attractionName,
+				a.attraction_phone_number attractionPhoneNumber,
+				i.image_name imageName
+			FROM attraction a
+			INNER JOIN image i ON a.attraction_id = i.image_target 
+			<where>
+				i.image_target_category = 'attraction'
+				AND attraction_name LIKE
+				CONCAT ('%', #{keyword}, '%')
+			</where>
+			ORDER BY create_date DESC
+			LIMIT #{beginRow}, #{rowPerPage}
+		) AS list
+		GROUP BY attractionId
+		</select>
+	
 	<!-- 명소 검색 페이지 체크 -->
 	<select id="attractionTotalRowCount" parameterType="String" resultType="int">
 		SELECT
@@ -64,7 +70,7 @@
 		<where>
 			attraction_name LIKE
 			CONCAT ('%', #{keyword}, '%')
-		</where>		
+		</where>
 	</select>	
 	
 	<!-- 해시태그 숙소 관련 검색 조회 -->
@@ -110,24 +116,30 @@
 	</select>	
 
 	<!-- 해시태그 명소 관련 검색 조회 -->
-	<select id="hashtagAttractionSearchList" parameterType="java.util.Map" resultType="com.btf.tap.vo.Attraction">
-		SELECT DISTINCT
-			a.attraction_id attractionId,
-			a.detail_address_id detailAddressId,
-			a.attraction_category attractionCategory,
-			a.attraction_name attractionName,
-			a.attraction_phone_number attractionPhoneNumber
-		FROM attraction a INNER JOIN hashtag h
-		ON a.attraction_id = h.hashtag_target
-		<where>
-			h.hashtag_name LIKE
-			CONCAT ('%', #{keyword}, '%')
-			AND h.hashtag_target_category = 'attraction'
-		</where>
-		ORDER BY a.create_date DESC
-		LIMIT #{beginRow}, #{rowPerPage}
+	<select id="hashtagAttractionSearchList" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT * FROM (
+			SELECT DISTINCT
+				a.attraction_id attractionId,
+				a.detail_address_id detailAddressId,
+				a.attraction_category attractionCategory,
+				a.attraction_name attractionName,
+				a.attraction_phone_number attractionPhoneNumber,
+				i.image_name imageName
+			FROM attraction a 
+			INNER JOIN hashtag h ON a.attraction_id = h.hashtag_target
+			INNER JOIN image i ON a.attraction_id = i.image_target
+			<where>
+				h.hashtag_name LIKE
+				CONCAT ('%', #{keyword}, '%')
+				AND h.hashtag_target_category = 'attraction'
+				AND i.image_target_category = 'attraction'
+			</where>
+			ORDER BY a.create_date DESC
+			LIMIT #{beginRow}, #{rowPerPage}
+		) as list
+		GROUP BY attractionId; 
 	</select>
-
+	
 	<!-- 해시태그 명소 관련 검색 페이지 체크 -->
 	<select id="hashtagAttractionTotalRowCount" parameterType="String" resultType="int">
 		SELECT
@@ -188,24 +200,30 @@
 	</select>
 
 	<!-- 지역별 명소 검색 조회 -->
-	<select id="attractionDistrictSearchList" parameterType="java.util.Map" resultType="com.btf.tap.vo.Attraction">
-		SELECT
-			a.attraction_id attractionId,
-			a.detail_address_id detailAddressId,
-			a.attraction_category attractionCategory,
-			a.attraction_name attractionName,
-			a.attraction_phone_number attractionPhoneNumber
-		FROM attraction a
-		INNER JOIN detail_address da ON a.detail_address_id = da.detail_address_id
-		INNER JOIN address ON da.address_id = address.address_id
-		<where>
-			a.attraction_name LIKE
-			CONCAT ('%', #{keyword}, '%')
-			AND address.sido LIKE #{sido}
-			AND address.sigungu LIKE #{sigungu}				
-		</where>
-		ORDER BY a.create_date DESC
-		LIMIT #{beginRow}, #{rowPerPage}
+	<select id="attractionDistrictSearchList" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT * FROM (
+			SELECT
+				a.attraction_id attractionId,
+				a.detail_address_id detailAddressId,
+				a.attraction_category attractionCategory,
+				a.attraction_name attractionName,
+				a.attraction_phone_number attractionPhoneNumber,
+				i.image_name imageName
+			FROM attraction a
+			INNER JOIN detail_address da ON a.detail_address_id = da.detail_address_id
+			INNER JOIN address ON da.address_id = address.address_id
+			INNER JOIN image i ON a.attraction_id = i.image_target
+			<where>
+				a.attraction_name LIKE
+				CONCAT ('%', #{keyword}, '%')
+				AND address.sido LIKE #{sido}
+				AND address.sigungu LIKE #{sigungu}
+				AND i.image_target_category = 'attraction'				
+			</where>
+			ORDER BY a.create_date DESC
+			LIMIT #{beginRow}, #{rowPerPage}
+		) AS list
+		GROUP BY attractionId
 	</select>
 
 	<!-- 지역별 명소 검색 페이지 체크 -->
@@ -274,26 +292,32 @@
 	</select>	
 
 	<!-- 지역별 해시태그 명소 관련 검색 조회 -->
-	<select id="hashtagAttractionDistrictSearchList" parameterType="java.util.Map" resultType="com.btf.tap.vo.Attraction">
-		SELECT DISTINCT
-			a.attraction_id attractionId,
-			a.detail_address_id detailAddressId,
-			a.attraction_category attractionCategory,
-			a.attraction_name attractionName,
-			a.attraction_phone_number attractionPhoneNumber
-		FROM attraction a
-		INNER JOIN hashtag h ON a.attraction_id = h.hashtag_target
-		INNER JOIN detail_address da ON a.detail_address_id = da.detail_address_id
-		INNER JOIN address ON da.address_id = address.address_id
-		<where>
-			h.hashtag_name LIKE
-			CONCAT ('%', #{keyword}, '%')
-			AND h.hashtag_target_category = 'attraction'
-			AND address.sido LIKE #{sido}
-			AND address.sigungu LIKE #{sigungu}						
-		</where>
-		ORDER BY a.create_date DESC
-		LIMIT #{beginRow}, #{rowPerPage}
+	<select id="hashtagAttractionDistrictSearchList" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT * FROM (
+			SELECT DISTINCT
+				a.attraction_id attractionId,
+				a.detail_address_id detailAddressId,
+				a.attraction_category attractionCategory,
+				a.attraction_name attractionName,
+				a.attraction_phone_number attractionPhoneNumber,
+				i.image_name imageName
+			FROM attraction a
+			INNER JOIN hashtag h ON a.attraction_id = h.hashtag_target
+			INNER JOIN detail_address da ON a.detail_address_id = da.detail_address_id
+			INNER JOIN address ON da.address_id = address.address_id
+			INNER JOIN image i ON a.attraction_id = i.image_target
+			<where>
+				h.hashtag_name LIKE
+				CONCAT ('%', #{keyword}, '%')
+				AND h.hashtag_target_category = 'attraction'
+				AND address.sido LIKE #{sido}
+				AND address.sigungu LIKE #{sigungu}
+				AND i.image_target_category = 'attraction'					
+			</where>
+			ORDER BY a.create_date DESC
+			LIMIT #{beginRow}, #{rowPerPage}
+		) AS list
+		GROUP BY attractionId
 	</select>
 
 	<!-- 지역별 해시태그 명소 관련 검색 페이지 체크 -->

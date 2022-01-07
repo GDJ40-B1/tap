@@ -158,19 +158,25 @@
 	</insert>
 	
 	<!-- 선호 지역 인기 명소 리스트 -->
-	<select id="selectPreferLocalAttractionList" parameterType="java.util.Map" resultType="com.btf.tap.vo.Attraction">
-		SELECT
-			attraction_id attractionId, detail_address_id detailAddressId, attraction_category attractionCategory, 
-			attraction_name attractionName, attraction_phone_number attractionPhoneNumber, attraction_content attractionContent
-		FROM view_attraction_info
-	   <if test="sido != null and sigungu != null">
-		   <where>
-			   sido = #{sido}
-			   AND sigungu = #{sigungu}
-		   </where>	  
-	   </if>
-		ORDER BY view_count DESC
-		LIMIT #{beginRow}, #{rowPerPage}		
+	<select id="selectPreferLocalAttractionList" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT * FROM (
+			SELECT
+				a.attraction_id attractionId, a.detail_address_id detailAddressId, a.attraction_category attractionCategory, 
+				a.attraction_name attractionName, a.attraction_phone_number attractionPhoneNumber, a.attraction_content attractionContent,
+				i.image_name imageName
+			FROM view_attraction_info a
+			INNER JOIN image i ON a.attraction_id = i.image_target
+			<where>
+				i.image_target_category = 'attraction'
+			   <if test="sido != null and sigungu != null">
+					AND sido = #{sido}
+					AND sigungu = #{sigungu}	  
+			   </if>				
+			</where>
+			ORDER BY a.view_count DESC
+			LIMIT #{beginRow}, #{rowPerPage}
+		) AS list
+		GROUP BY attractionId		
 	</select>
   
 	<!-- 선호 지역 인기 명소 개수 -->

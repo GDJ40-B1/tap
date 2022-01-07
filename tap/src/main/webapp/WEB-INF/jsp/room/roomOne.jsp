@@ -15,30 +15,8 @@
     <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="icon">
     <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="apple-touch-icon">
     
-    <style type="text/css">
-    	.customoverlay {position:relative;bottom:85px;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;float:left;}
-		.customoverlay:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
-		.customoverlay a {display:block;text-decoration:none;color:#000;text-align:center;border-radius:6px;font-size:14px;font-weight:bold;overflow:hidden;background: #d95050;background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;}
-		.customoverlay .title {display:block;text-align:center;background:#fff;margin-right:35px;padding:10px 15px;font-size:14px;font-weight:bold;}
-		.customoverlay:after {content:'';position:absolute;margin-left:-12px;left:50%;bottom:-12px;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
-   		
-   		#roomQna {	
-			text-align: center;
-		}
-		.insertCommentBtn {
-		  	background-color: #f44336; 
-		  	border: none;
-		  	color: white;
-		  	padding: 8px 13px;
-		  	text-align: center;
-		  	text-decoration: none;
-		  	display: inline-block;
-		  	font-size: 14px;
-		  	margin: 0px 0px;
-		  	cursor: pointer;
-		  	border-radius: 12px;
-		}
-    </style>
+   	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<link rel="stylesheet" href="/resources/demos/style.css">
     
 </head>
 <body>
@@ -58,11 +36,11 @@
 	          <!-- 즐겨찾기 등록은 이미지로 변경할 필요가 있음 -->
 	        	<c:choose>
 					<c:when test="${favorite == '0'}">
-						<button type="button" class="btn btn-danger" id='addFavorites'>♡ <U>즐겨찾기 등록</U></button>
+						<button type="button" class="btn btn-danger" id='addFavorites'>♡</button>
 					</c:when>
 					
 					<c:when test="${favorite == '1'}">
-						<button type="button" class="btn btn-danger" id='removeFavorites'>♥ <U>즐겨찾기 취소</U></button>
+						<button type="button" class="btn btn-danger" id='removeFavorites'>♥</button>
 					</c:when>
 				</c:choose>
 	          </h2>
@@ -158,47 +136,45 @@
                      </tr>
                 </table>
                 <div style="margin-bottom:20px; font-size:17px;"class="badge rounded-pill bg-info">${hashtag }</div>
-	            
-	            <div class="form-group row">
-					<div class="col-sm-6 mb-3 mb-sm-0">
-						<label>숙소 구성</label>
-						<ul class="list-group">
-							<c:forEach items="${roomPartList}" var="p">
-								<li class="list-group-item">${p.partName } x${p.quantity }</li>
-							</c:forEach>
-						</ul>
-					</div>
-					
-					<div class="col-sm-6 mb-3 mb-sm-0">
-						<label>숙소 비품</label>
-						<ul class="list-group">
-							<li class="list-group-item">
-								<c:forEach items="${roomAmenitiesList}" var="a">
-									<span>${a }</span>&nbsp;&nbsp;&nbsp;
-								</c:forEach>
-							</li>
-						</ul>
-					</div>
-				</div>
-	            
+         
 	            <br>
 	            <!-- 지도 -->
 	            <div id="map" style="width:100%;height:350px;"></div>
             </div>
       </section>
- 		<div class="container" style="transform: translate(15%,0%);">
-			<div class="col-xl-8 col-lg-7">
-				<div class="card shadow mb-4">
+ 		<div class="container">
+			<div class="form-group row">
+				<div class="col-sm-6 mb-3 mb-sm-0">
+					<h6><label style="margin:10px;">숙소 구성</label></h6>
+					<ul class="list-group">
+						<c:forEach items="${roomPartList}" var="p">
+							<li class="list-group-item">${p.partName } x${p.quantity }</li>
+						</c:forEach>
+					</ul>
+					
+					<h6><label style="margin:10px;">숙소 비품</label></h6>
+					<ul class="list-group">
+						<li class="list-group-item">
+							<c:forEach items="${roomAmenitiesList}" var="a">
+								<span>${a }</span>&nbsp;&nbsp;&nbsp;
+							</c:forEach>
+						</li>
+					</ul>
+				</div>
+					
+				<div class="col-sm-6 mb-3 mb-sm-0">
+					<div class="card shadow mb-4">
 					<div id="roomChart" class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 						<h6 class="m-0 font-weight-bold text-primary">${year}년 ${room.roomName} 이용 연령대</h6>
-							<select name="year" id="year" onchange="selectYear()">
-								<option value="">연도 선택</option>
-							</select>
+						<select name="year" id="year" onchange="selectYear()">
+							<option value="">연도 선택</option>
+						</select>
 					</div>
 					<div class="card-body">
 						<div class="chart-area">
 							<canvas id="myPieChart"></canvas>
 						</div>
+					</div>
 					</div>
 				</div>
 			</div>
@@ -291,7 +267,6 @@
 								<a class="btn btn-primary" href="${pageContext.request.contextPath}/roomOne?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}&roomQnaCurrentPage=${roomQna.roomQnaCurrentPage+1}">다음</a>
 							</c:if>
 						</div> 	
-	            		</p>
 	             	</div>
 	             	<div class="tab-pane fade" id="review">
 	               		<p>
@@ -464,7 +439,6 @@
 								</c:if>		
 								<!-- End Paging Section -->
 							</div>									
-	               		</p>
 	             	</div>
 	            </div>       
 	        </div>    
@@ -476,28 +450,42 @@
        	
    </main>
    
-   <div class="back-to-top active" style="width:300px ; margin-bottom: 400px;">
-   		<form id="addReservationForm" action="${pageContext.request.contextPath}/member/addPayment" method="get" class="rounded" style="background: gray; padding: 30px;">
-		   <input type="hidden" name="roomId" value="${room.roomId}">
-		   <input type="hidden" name="room.roomPrice" value="${room.roomPrice}">
-		   <input type="hidden" name="room.roomName" value="${room.roomName }">
-		   <div class="form-group">
-		   		<label for="inputCity">체크인 날짜</label>
-			      <input type="text" id="dateRangePicker1" class="form-control" name="checkInDate" readonly>
+   <div class="roomOneRv">
+		<div class="accordion" id="accordionExample">
+		   <div class="accordion-item">
+		     <h2 class="accordion-header" id="headingOne">
+		       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="ture" aria-controls="collapseOne">
+		         예약
+		       </button>
+		     </h2>
+		     <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+		       <div class="accordion-body">
+				<div class="container" style="width:90%;">
+			   		<form id="addReservationForm" action="${pageContext.request.contextPath}/member/addPayment" method="get" class="rounded">
+					   <input type="hidden" name="roomId" value="${room.roomId}">
+					   <input type="hidden" name="room.roomPrice" value="${room.roomPrice}">
+					   <input type="hidden" name="room.roomName" value="${room.roomName }">
+					   <div class="form-group">
+					   		<label for="inputCity" class="form-label mb-2">체크인</label>
+						      <input type="text" id="dateRangePicker1" class="form-control" name="checkInDate" readonly>
+					   </div>
+					   <div class="form-group" style="margin-top:12px;">
+					   		<label for="inputState" class="form-label mb-2">체크아웃</label>
+						      <input type="text" id="dateRangePicker2" class="form-control" name="checkOutDate" readonly>
+					   </div>
+					   <div class="form-group" style="margin-top:12px;">
+					   		<label class="form-label mb-2">인원수</label>
+					   <input type="number" id="peopleNum" class="form-control" name="peopleNum" value="---------">
+					   </div>
+					   <div class="form-group" style="margin-top:12px;">
+					   		<button id="resBtn" type="button" class="btn btn-primary" style="width: 100%;">예약</button>
+					   </div>
+					</form>
+				</div>		         
+		       </div>
+		     </div>
 		   </div>
-		   <div class="form-group">
-		   		<label for="inputState">체크아웃 날짜</label>
-			      <input type="text" id="dateRangePicker2" class="form-control" name="checkOutDate" readonly>
-		   </div>
-		   <div class="form-group">
-		   		<label>인원수</label>
-		   <input type="number" id="peopleNum" class="form-control" name="peopleNum" value="---------">
-		   </div>
-		   <div class="form-group">
-		   		<button id="resBtn" type="button" class="btn btn-primary" style="width: 100%;">예약</button>
-		   </div>
-			
-		</form>
+		</div>
    </div>
    
    <!-- start : mainFooter -->
@@ -542,8 +530,6 @@
 	</script>
 	
 	<!-- Datepicker 관련 script-->
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<link rel="stylesheet" href="/resources/demos/style.css">
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script src="js/lib/jquery/jquery.dataTables.js"></script>

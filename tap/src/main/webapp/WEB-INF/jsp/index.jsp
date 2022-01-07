@@ -208,7 +208,7 @@ pageEncoding="UTF-8"%>
         	<c:choose>
 			<c:when test="${empty preferAttractionMap.list}">
 		        <div class="section-title">
-					<h2>현재 추천 가능한 숙소가 없습니다.</h2>
+					<h2>현재 추천 가능한 명소가 없습니다.</h2>
 				</div>	
 			</c:when>
 			
@@ -221,7 +221,7 @@ pageEncoding="UTF-8"%>
 			<div class="col-lg-3 col-md-6 d-flex align-items-stretch">
 	            <div class="card">
 	              <div class="card-img">
-	                <a href="${pageContext.request.contextPath}/attractionOne?attractionId=${list.attractionId}&detailAddressId=${list.detailAddressId}"><img src="${pageContext.request.contextPath}/resources/img/events-1.jpg" class="img-fluid" alt=""></a>
+	                <a href="${pageContext.request.contextPath}/attractionOne?attractionId=${list.attractionId}&detailAddressId=${list.detailAddressId}"><img src="${pageContext.request.contextPath}/resources/img/attraction/${list.imageName}" class="img-fluid" alt="명소 이미지"></a>
 	              </div>
 	              <div class="card-body">
 	                <h5 class="card-title">${list.attractionName}</h5>

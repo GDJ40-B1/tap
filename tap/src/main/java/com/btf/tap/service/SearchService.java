@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.btf.tap.common.Font;
 import com.btf.tap.mapper.SearchMapper;
-import com.btf.tap.vo.Attraction;
 import com.btf.tap.vo.SearchHistory;
 import com.btf.tap.vo.User;
 
@@ -73,11 +72,10 @@ public class SearchService {
 		attractionPage.put("rowPerPage", rowPerPage);
 		attractionPage.put("keyword", keyword);
 
-		List<Attraction> attractionList = searchMapper.attractionSearchList(attractionPage);
+		List<Map<String, Object>> attractionList = searchMapper.attractionSearchList(attractionPage);
 		log.debug(Font.JSB + attractionList.toString() + Font.RESET);
 			
 		int totalRowCount = searchMapper.attractionTotalRowCount(keyword);
-		
 		attractionLastPage = totalRowCount / rowPerPage;
 		
 		if(totalRowCount % rowPerPage != 0) {
@@ -146,7 +144,7 @@ public class SearchService {
 		hashtagPage.put("rowPerPage", rowPerPage);
 		hashtagPage.put("keyword", keyword);
 
-		List<Attraction> hashtagAttractionList = searchMapper.hashtagAttractionSearchList(hashtagPage);
+		List<Map<String, Object>> hashtagAttractionList = searchMapper.hashtagAttractionSearchList(hashtagPage);
 		log.debug(Font.JSB + hashtagAttractionList.toString() + Font.RESET);
 		
 		int totalRowCount = searchMapper.hashtagAttractionTotalRowCount(keyword);
@@ -224,7 +222,7 @@ public class SearchService {
 		attractionPage.put("sigungu", sigungu);
 		
 		
-		List<Attraction> attractionList = searchMapper.attractionDistrictSearchList(attractionPage);
+		List<Map<String, Object>> attractionList = searchMapper.attractionDistrictSearchList(attractionPage);
 		log.debug(Font.JSB + attractionList.toString() + Font.RESET);
 			
 		int totalRowCount = searchMapper.attractionDistrictTotalRowCount(attractionPage);
@@ -301,7 +299,7 @@ public class SearchService {
 		hashtagPage.put("sido", sido);
 		hashtagPage.put("sigungu", sigungu);		
 
-		List<Attraction> hashtagAttractionList = searchMapper.hashtagAttractionDistrictSearchList(hashtagPage);
+		List<Map<String, Object>> hashtagAttractionList = searchMapper.hashtagAttractionDistrictSearchList(hashtagPage);
 		log.debug(Font.JSB + hashtagAttractionList.toString() + Font.RESET);
 		
 		int totalRowCount = searchMapper.hashtagAttractionDistrictTotalRowCount(hashtagPage);

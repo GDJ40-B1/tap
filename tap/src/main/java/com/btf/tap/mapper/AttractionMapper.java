@@ -21,7 +21,7 @@ public interface AttractionMapper {
 	// 명소 등록
 	int insertAttraction(Attraction attraction);
 	// 선호 지역 인기 명소 리스트
-	List<Attraction> selectPreferLocalAttractionList(Map<String, Object> page);
+	List<Map<String, Object>> selectPreferLocalAttractionList(Map<String, Object> page);
 	// 선호 지역 인기 명소 개수
 	int preferLocalAttractionTotalCount(Map<String, Object> page);
 	// 특정 숙소 주변 명소 목록 추출
