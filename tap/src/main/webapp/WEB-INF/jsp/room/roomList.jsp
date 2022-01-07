@@ -76,35 +76,52 @@
 	                  </td>
 	               </tr>
 	            </table>
-				<!-- 페이징 -->
-				<nav style="margin-top: 50px">
-		   			<ul class="pagination" style="justify-content: center;">
-					    <c:if test="${result.currentPage!=1}">
-						    <li class="page-item"><a class="btn btn-secondary btn-sm" href="${pageContext.request.contextPath}/roomList?currentPage=<%=1 %>">처음</a></li>
-						</c:if>
-						
-						<c:if test="${result.currentnumPage>0}">
-						    <li class="page-item"><a class="btn btn-primary" href="${pageContext.request.contextPath}/roomList?currentPage=${result.pagePerPage*(result.currentnumPage-1)+1 }">이전</a></li>
-						</c:if>
-						
-						<c:forEach begin="0" end="${result.pagePerPage-1}" step="1" var="i">
-							<c:if test="${result.lastPage>=(result.pagePerPage*result.currentnumPage)+i+1}">
-							    <li class="page-item"><a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/roomList?currentPage=${(result.pagePerPage*result.currentnumPage)+i+1 }">${(result.pagePerPage*result.currentnumPage)+i+1 }</a></li>
-							</c:if>
-						</c:forEach>
-						    
-						<c:if test="${result.lastnumPage>result.currentnumPage}">
-						    <li class="page-item"><a class="btn btn-primary" href="${pageContext.request.contextPath}/roomList?currentPage=${result.pagePerPage*(result.currentnumPage+1)+1 }">다음</a></li>
-						</c:if>
-						
-						<c:if test="${result.currentPage!=result.lastPage && result.lastPage!=0}">
-						    <li class="page-item"><a class="btn btn-secondary btn-sm" href="${pageContext.request.contextPath}/roomList?currentPage=${result.lastPage }">끝으로</a></li>
-						</c:if>
-					</ul>
-				</nav>
 			</div>
 		</section>
 	</main>
+
+    <section id="pageNumber" class="pageNumber">
+      <div class="container">
+      <!-- 페이징 -->
+		<nav>
+	  		<ul class="pagination" style="justify-content: center;">
+	  			<li>
+				    <c:if test="${result.currentPage!=1}">
+				    	<div class="btn-group me-2" role="group" aria-label="First group" style="justify-content: center;">
+					    	<a class="btn btn-secondary btn-sm" href="${pageContext.request.contextPath}/roomList?currentPage=<%=1 %>">처음</a>
+						</div>
+					</c:if>
+					
+					<c:if test="${result.currentnumPage>0}">
+						<div class="btn-group me-2" role="group" aria-label="First group" style="justify-content: center;">
+					    	<a class="btn btn-primary" href="${pageContext.request.contextPath}/roomList?currentPage=${result.pagePerPage*(result.currentnumPage-1)+1 }">이전</a>
+						</div>
+					</c:if>
+					
+					<div class="btn-group me-2" role="group" aria-label="First group" style="justify-content: center;">
+						<c:forEach begin="0" end="${result.pagePerPage-1}" step="1" var="i">
+							<c:if test="${result.lastPage>=(result.pagePerPage*result.currentnumPage)+i+1}">
+							    <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/roomList?currentPage=${(result.pagePerPage*result.currentnumPage)+i+1 }">${(result.pagePerPage*result.currentnumPage)+i+1 }</a>
+							</c:if>
+						</c:forEach>
+					</div>
+										    
+					<c:if test="${result.lastnumPage>result.currentnumPage}">
+					    <div class="btn-group me-2" role="group" aria-label="First group" style="justify-content: center;">
+					    	<a class="btn btn-primary" href="${pageContext.request.contextPath}/roomList?currentPage=${result.pagePerPage*(result.currentnumPage+1)+1 }">다음</a>
+						</div>
+					</c:if>
+					
+					<c:if test="${result.currentPage!=result.lastPage && result.lastPage!=0}">
+					    <div class="btn-group me-2" role="group" aria-label="First group" style="justify-content: center;">
+					    	<a class="btn btn-secondary btn-sm" href="${pageContext.request.contextPath}/roomList?currentPage=${result.lastPage }">끝으로</a>
+						</div>
+					</c:if>
+				</li>
+			</ul>
+		</nav>
+      </div>
+    </section><!-- End Paging Section -->
 	
    <!-- start : mainFooter -->
    <div>

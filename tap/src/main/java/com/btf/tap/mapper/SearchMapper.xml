@@ -2,24 +2,30 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.btf.tap.mapper.SearchMapper">
 	<!-- 숙소명 검색 조회 -->
-	<select id="roomSearchList" parameterType="java.util.Map" resultType="com.btf.tap.vo.Room">
-		SELECT
-			room_id roomId,
-			detail_address_id detailAddressId,
-			room_category roomCategory,
-			room_form roomForm,
-			room_name roomName,
-			room_intro roomIntro,
-			min_day minDay,
-			people_num peopleNum,
-			room_price roomPrice
-		FROM room
-		<where>
-			room_name LIKE 
-			CONCAT ('%', #{keyword}, '%')
-		</where>
-		ORDER BY create_date DESC
-		LIMIT #{beginRow}, #{rowPerPage}
+	<select id="roomSearchList" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT * FROM (
+			SELECT
+				r.room_id roomId,
+				r.detail_address_id detailAddressId,
+				r.room_category roomCategory,
+				r.room_form roomForm,
+				r.room_name roomName,
+				r.room_intro roomIntro,
+				r.min_day minDay,
+				r.people_num peopleNum,
+				r.room_price roomPrice,
+				i.image_name imageName
+			FROM room r
+			INNER JOIN image i ON r.room_id = i.image_target
+			<where>
+				i.image_target_category = 'room'
+				AND r.room_name LIKE 
+				CONCAT ('%', #{keyword}, '%')
+			</where>
+			ORDER BY r.create_date DESC
+			LIMIT #{beginRow}, #{rowPerPage}
+		) AS list
+		GROUP BY roomId
 	</select>
 	
 	<!-- 숙소 검색 페이지 체크 -->
@@ -62,26 +68,32 @@
 	</select>	
 	
 	<!-- 해시태그 숙소 관련 검색 조회 -->
-	<select id="hashtagRoomSearchList" parameterType="java.util.Map" resultType="com.btf.tap.vo.Room">
-		SELECT DISTINCT
-			r.room_id roomId,
-			r.detail_address_id detailAddressId,
-			r.room_category roomCategory,
-			r.room_form roomForm,
-			r.room_name roomName,
-			r.room_intro roomIntro,
-			r.min_day minDay,
-			r.people_num peopleNum,
-			r.room_price roomPrice
-		FROM room r INNER JOIN hashtag h
-		ON r.room_id = h.hashtag_target
-		<where>
-			h.hashtag_name LIKE 
-			CONCAT ('%', #{keyword}, '%')
-			AND h.hashtag_target_category = 'room'
-		</where>
-		ORDER BY r.create_date DESC
-		LIMIT #{beginRow}, #{rowPerPage}	
+	<select id="hashtagRoomSearchList" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT * FROM (
+			SELECT DISTINCT
+				r.room_id roomId,
+				r.detail_address_id detailAddressId,
+				r.room_category roomCategory,
+				r.room_form roomForm,
+				r.room_name roomName,
+				r.room_intro roomIntro,
+				r.min_day minDay,
+				r.people_num peopleNum,
+				r.room_price roomPrice,
+				i.image_name imageName
+			FROM room r 
+			INNER JOIN hashtag h ON r.room_id = h.hashtag_target
+			INNER JOIN image i ON r.room_id = i.image_target
+			<where>
+				h.hashtag_name LIKE 
+				CONCAT ('%', #{keyword}, '%')
+				AND h.hashtag_target_category = 'room'
+				AND i.image_target_category = 'room'
+			</where>
+			ORDER BY r.create_date DESC
+			LIMIT #{beginRow}, #{rowPerPage}
+		) AS list 
+		GROUP BY roomId
 	</select>
 
 	<!-- 해시태그 숙소 관련 검색 페이지 체크 -->
@@ -130,28 +142,34 @@
 	</select>	
 	
 	<!-- 지역별 숙소명 검색 조회 -->
-	<select id="roomDistrictSearchList" parameterType="java.util.Map" resultType="com.btf.tap.vo.Room">
-		SELECT
-			r.room_id roomId,
-			r.detail_address_id detailAddressId,
-			r.room_category roomCategory,
-			r.room_form roomForm,			
-			r.room_name roomName,
-			r.room_intro roomIntro,
-			r.min_day minDay,
-			r.people_num peopleNum,
-			r.room_price roomPrice
-		FROM room r
-		INNER JOIN detail_address da ON r.detail_address_id = da.detail_address_id
-		INNER JOIN address a ON da.address_id = a.address_id
-		<where>
-			r.room_name LIKE 
-			CONCAT ('%', #{keyword}, '%')
-			AND a.sido LIKE #{sido}
-			AND a.sigungu LIKE #{sigungu}
-		</where>
-		ORDER BY r.create_date DESC
-		LIMIT #{beginRow}, #{rowPerPage}
+	<select id="roomDistrictSearchList" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT * FROM (	
+			SELECT
+				r.room_id roomId,
+				r.detail_address_id detailAddressId,
+				r.room_category roomCategory,
+				r.room_form roomForm,			
+				r.room_name roomName,
+				r.room_intro roomIntro,
+				r.min_day minDay,
+				r.people_num peopleNum,
+				r.room_price roomPrice,
+				i.image_name imageName
+			FROM room r
+			INNER JOIN detail_address da ON r.detail_address_id = da.detail_address_id
+			INNER JOIN address a ON da.address_id = a.address_id
+			INNER JOIN image i ON r.room_id = i.image_target
+			<where>
+				r.room_name LIKE 
+				CONCAT ('%', #{keyword}, '%')
+				AND a.sido LIKE #{sido}
+				AND a.sigungu LIKE #{sigungu}
+				AND i.image_target_category = 'room'
+			</where>
+			ORDER BY r.create_date DESC
+			LIMIT #{beginRow}, #{rowPerPage}
+		) AS list
+		GROUP BY roomId
 	</select>
 	
 	<!-- 지역별 숙소 검색 페이지 체크 -->
@@ -206,30 +224,36 @@
 	</select>
 
 	<!-- 지역별 해시태그 숙소 관련 검색 조회 -->
-	<select id="hashtagRoomDistrictSearchList" parameterType="java.util.Map" resultType="com.btf.tap.vo.Room">
-		SELECT DISTINCT
-			r.room_id roomId,
-			r.detail_address_id detailAddressId,
-			r.room_category roomCategory,
-			r.room_form roomForm,
-			r.room_name roomName,
-			r.room_intro roomIntro,
-			r.min_day minDay,
-			r.people_num peopleNum,
-			r.room_price roomPrice
-		FROM room r
-		INNER JOIN hashtag h ON r.room_id = h.hashtag_target
-		INNER JOIN detail_address da ON r.detail_address_id = da.detail_address_id
-		INNER JOIN address a ON da.address_id = a.address_id
-		<where>
-			h.hashtag_name LIKE 
-			CONCAT ('%', #{keyword}, '%')
-			AND h.hashtag_target_category = 'room'
-			AND a.sido LIKE #{sido}
-			AND a.sigungu LIKE #{sigungu}						
-		</where>
-		ORDER BY r.create_date DESC
-		LIMIT #{beginRow}, #{rowPerPage}	
+	<select id="hashtagRoomDistrictSearchList" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT * FROM (
+			SELECT DISTINCT
+				r.room_id roomId,
+				r.detail_address_id detailAddressId,
+				r.room_category roomCategory,
+				r.room_form roomForm,
+				r.room_name roomName,
+				r.room_intro roomIntro,
+				r.min_day minDay,
+				r.people_num peopleNum,
+				r.room_price roomPrice,
+				i.image_name imageName
+			FROM room r
+			INNER JOIN hashtag h ON r.room_id = h.hashtag_target
+			INNER JOIN detail_address da ON r.detail_address_id = da.detail_address_id
+			INNER JOIN address a ON da.address_id = a.address_id
+			INNER JOIN image i ON r.room_id = i.image_target
+			<where>
+				h.hashtag_name LIKE 
+				CONCAT ('%', #{keyword}, '%')
+				AND h.hashtag_target_category = 'room'
+				AND a.sido LIKE #{sido}
+				AND a.sigungu LIKE #{sigungu}
+				AND i.image_target_category = 'room'						
+			</where>
+			ORDER BY r.create_date DESC
+			LIMIT #{beginRow}, #{rowPerPage}
+		) AS list
+		GROUP BY roomId
 	</select>
 
 	<!-- 지역별 해시태그 숙소 관련 검색 페이지 체크 -->

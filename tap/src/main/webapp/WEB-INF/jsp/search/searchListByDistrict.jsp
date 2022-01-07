@@ -47,20 +47,6 @@
     <!-- end : mainHeader -->
 
    <main id="main">
-
-    <section id="breadcrumbs" class="breadcrumbs" style="padding-bottom : 0px;">
-      <div class="container">
-
-        <div class="d-flex justify-content-between align-items-center">
-          <h2>${keyword} 검색</h2>
-          <ol>
-            <li><a href="${pageContext.request.contextPath}/">Home</a></li>
-            <li>지역별 검색</li>
-          </ol>
-        </div>
-		<hr style="margin-top : 1em; margin-bottom : 0px;">
-      </div>
-    </section>
     
     <c:choose>
 		<c:when test="${empty roomMap.roomList && empty attractionMap.attractionList && empty hashtagRoomMap.hashtagRoomList && empty hashtagAttractionList}">
@@ -72,7 +58,7 @@
 		<c:otherwise>
     
 	    <c:if test="${!empty roomMap.roomList}">
-	    <section id="breadcrumbs" class="breadcrumbs" style="margin-top:0px;">
+	    <section id="breadcrumbs" class="breadcrumbs">
 		 <div id="roomList" class="container">
 		   <div class="d-flex justify-content-between align-items-center">
 		     <h2>숙소 검색 결과</h2>
@@ -88,7 +74,7 @@
 					<c:forEach var="r" items="${roomMap.roomList}">
 						<div class="col-lg-3 col-md-6 gallery-item filter-home">
 							<div class="gallery-wrap">
-								<img src="${pageContext.request.contextPath}/resources/img/events-1.jpg" class="img-fluid" alt="">
+								<img src="${pageContext.request.contextPath}/resources/img/room/${r.imageName}" class="img-fluid" alt="숙소 이미지">
 								<div class="gallery-info">
 									<h4>${r.roomName}</h4>
 									<p>${r.roomCategory} / ${r.roomForm}</p>
@@ -137,7 +123,7 @@
 	    </c:if>
 		
 		<c:if test="${!empty attractionMap.attractionList}">
-	    <section id="breadcrumbs" class="breadcrumbs" style="margin-top:0px;">
+	    <section id="breadcrumbs" class="breadcrumbs">
 	      <div id="attractionList" class="container">
 	        <div class="d-flex justify-content-between align-items-center">
 	          <h2>명소 검색 결과</h2>
@@ -203,7 +189,7 @@
 		</c:if>
 	
 		<c:if test="${!empty hashtagRoomMap.hashtagRoomList}">
-	    <section id="breadcrumbs" class="breadcrumbs" style="margin-top:0px;">
+	    <section id="breadcrumbs" class="breadcrumbs">
 	      <div id="hashtagRoomList" class="container">
 	        <div class="d-flex justify-content-between align-items-center">
 	          <h2>해시태그 숙소 관련 검색 결과</h2>
@@ -220,7 +206,7 @@
 					<c:forEach var="r" items="${hashtagRoomMap.hashtagRoomList}">
 						<div class="col-lg-3 col-md-6 gallery-item filter-home">
 							<div class="gallery-wrap">
-								<img src="${pageContext.request.contextPath}/resources/img/events-1.jpg" class="img-fluid" alt="">
+								<img src="${pageContext.request.contextPath}/resources/img/room/${r.imageName}" class="img-fluid" alt="숙소 이미지">
 								<div class="gallery-info">
 									<h4>${r.roomName}</h4>
 									<p>${r.roomCategory} / ${r.roomForm}</p>
@@ -269,7 +255,7 @@
 		</c:if>
 		
 		<c:if test="${!empty hashtagAttractionMap.hashtagAttractionList}">
-	    <section id="breadcrumbs" class="breadcrumbs" style="margin-top:0px;">
+	    <section id="breadcrumbs" class="breadcrumbs">
 	      <div id="hashtagAttractionList" class="container">
 	        <div class="d-flex justify-content-between align-items-center">
 	          <h2>해시태그 명소 관련 검색 결과</h2>

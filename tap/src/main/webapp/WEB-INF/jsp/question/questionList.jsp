@@ -61,7 +61,7 @@
         <div class="d-flex justify-content-between align-items-center">
           <h2>문의 게시판</h2>
           <ol>
-            <li><a href="${pageContext.request.contextPath}/">Home</a></li>
+            <li><a href="${pageContext.request.contextPath}/">홈</a></li>
             <li>문의 게시판</li>
           </ol>
         </div>

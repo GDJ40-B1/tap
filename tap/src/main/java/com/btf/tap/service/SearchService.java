@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.btf.tap.common.Font;
 import com.btf.tap.mapper.SearchMapper;
 import com.btf.tap.vo.Attraction;
-import com.btf.tap.vo.Room;
 import com.btf.tap.vo.SearchHistory;
 import com.btf.tap.vo.User;
 
@@ -37,7 +36,7 @@ public class SearchService {
 		roomPage.put("rowPerPage", rowPerPage);
 		roomPage.put("keyword", keyword);
 		
-		List<Room> roomList = searchMapper.roomSearchList(roomPage);
+		List<Map<String, Object>> roomList = searchMapper.roomSearchList(roomPage);
 		log.debug(Font.JSB + roomList.toString() + Font.RESET);
 		
 		int totalRowCount = searchMapper.roomTotalRowCount(keyword);
@@ -111,7 +110,7 @@ public class SearchService {
 		hashtagPage.put("rowPerPage", rowPerPage);
 		hashtagPage.put("keyword", keyword);
 
-		List<Room> hashtagRoomList = searchMapper.hashtagRoomSearchList(hashtagPage);
+		List<Map<String, Object>> hashtagRoomList = searchMapper.hashtagRoomSearchList(hashtagPage);
 		log.debug(Font.JSB + hashtagRoomList.toString() + Font.RESET);
 		
 		int totalRowCount = searchMapper.hashtagRoomTotalRowCount(keyword);
@@ -185,7 +184,7 @@ public class SearchService {
 		roomPage.put("sido", sido);
 		roomPage.put("sigungu", sigungu);
 		
-		List<Room> roomList = searchMapper.roomDistrictSearchList(roomPage);
+		List<Map<String, Object>> roomList = searchMapper.roomDistrictSearchList(roomPage);
 		log.debug(Font.JSB + roomList.toString() + Font.RESET);
 		
 		int totalRowCount = searchMapper.roomDistrictTotalRowCount(roomPage);
@@ -264,7 +263,7 @@ public class SearchService {
 		hashtagPage.put("sido", sido);
 		hashtagPage.put("sigungu", sigungu);
 		
-		List<Room> hashtagRoomList = searchMapper.hashtagRoomDistrictSearchList(hashtagPage);
+		List<Map<String, Object>> hashtagRoomList = searchMapper.hashtagRoomDistrictSearchList(hashtagPage);
 		log.debug(Font.JSB + hashtagRoomList.toString() + Font.RESET);
 		
 		int totalRowCount = searchMapper.hashtagRoomDistrictTotalRowCount(hashtagPage);
