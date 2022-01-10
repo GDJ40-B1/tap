@@ -20,7 +20,20 @@
 	  flex: 1;
 	  text-align: right;
 	}
-	
+	#breadcrumbs	{
+		position:relative;
+		height:70px;}
+		
+	#list	{
+		height:auto;
+	min-height:100%;
+	padding-bottom:150px;
+	}
+	#main	{
+		height:auto;
+	min-height:100%;
+	padding-bottom:200px;
+	}
 </style>
 <meta charset="UTF-8">
 <title>공지사항 : | TAP</title>

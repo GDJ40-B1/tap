@@ -9,6 +9,18 @@
   	table {	
 		text-align: center;
 	}
+	#breadcrumbs	{
+		position:relative;
+		height:70px;}
+	#pageNumber	{
+	position:relative;
+	padding-bottom:50px;
+	}
+	#list	{
+		height:auto;
+	min-height:100%;
+	padding-bottom:150px;
+	}
   </style>
 
   <meta charset="utf-8">

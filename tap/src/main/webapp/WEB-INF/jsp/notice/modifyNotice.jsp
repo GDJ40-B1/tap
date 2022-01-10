@@ -4,7 +4,18 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style>
+	#breadcrumbs	{
+		position:relative;
+		height:70px;}
+		
+	#list	{
+		height:auto;
+	min-height:100%;
+	padding-bottom:150px;
+	}
 
+</style>
 <meta charset="UTF-8">
 <title>공지사항 : 수정 | TAP</title>
   <meta content="" name="description">
@@ -13,13 +24,12 @@
   <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="icon">
   <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="apple-touch-icon">
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  
 </head>
 <body>
 
 	<!-- start : mainHeader -->
-    <div>
+    <div id=header>
        <jsp:include page="/partial/mainHeader.jsp"></jsp:include>
     </div>
     <!-- end : mainHeader -->

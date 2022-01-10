@@ -3,6 +3,20 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style>
+#breadcrumbs	{
+		position:relative;
+		height:70px;}
+	.pagination	{
+	position:relative;
+	padding-bottom:50px;
+	}
+	#list	{
+		height:auto;
+	min-height:100%;
+	padding-bottom:150px;
+	}
+</style>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <meta charset="UTF-8">
 <title>명소</title>
