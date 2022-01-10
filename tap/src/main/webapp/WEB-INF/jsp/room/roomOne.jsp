@@ -459,15 +459,9 @@
    </main>
    
    <div class="roomOneRv">
-		<div class="accordion" id="accordionExample">
-		   <div class="accordion-item">
-		     <h2 class="accordion-header" id="headingOne">
-		       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="ture" aria-controls="collapseOne">
-		         예약
-		       </button>
-		     </h2>
-		     <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-		       <div class="accordion-body">
+		<div class="card mb-3">
+	        <h5 class="card-header">예약하기</h5>
+	        <div class="card-body">
 				<div class="container" style="width:90%;">
 			   		<form id="addReservationForm" action="${pageContext.request.contextPath}/member/addPayment" method="get" class="rounded">
 					   <input type="hidden" name="roomId" value="${room.roomId}">
@@ -489,11 +483,9 @@
 					   		<button id="resBtn" type="button" class="btn btn-primary" style="width: 100%;">예약</button>
 					   </div>
 					</form>
-				</div>		         
-		       </div>
-		     </div>
-		   </div>
-		</div>
+				</div>		
+	        </div>
+		</div>   
    </div>
    
    <!-- start : mainFooter -->

@@ -1172,8 +1172,10 @@ section {
   right: 15px;
   bottom: 15px;
   z-index: 996;
-  width: auto;
+  width: 250px;
   height: auto;
+  margin-right: 5px;
+  margin-bottom: 40px;
   border-radius: 50px;
   transition: all 0.4s;
 }
