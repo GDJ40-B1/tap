@@ -15,11 +15,7 @@
 	min-height:100%;
 	padding-bottom:150px;
 	}
-	.roomOneRv	{
-		height:auto;
-	min-height:100%;
-	padding-bottom:150px;
-	}
+
 	#main	{
 	
 	height:auto;
