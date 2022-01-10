@@ -20,6 +20,16 @@
 	  flex: 1;
 	  text-align: right;
 	}
+	#breadcrumbs	{
+		position:relative;
+		height:70px;}
+		
+	#list	{
+		height:auto;
+	min-height:100%;
+	padding-bottom:150px;
+	}
+	
   </style>
 
   <meta charset="utf-8">

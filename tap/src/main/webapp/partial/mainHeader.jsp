@@ -1,7 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>
 <style>
-	
+	#header	{
+		position:fixed;
+	    width:100%;
+
+	    top:0;
+
+	    left:0;
+	    
+	    height:70px;
+
+
+
+
 </style>
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 

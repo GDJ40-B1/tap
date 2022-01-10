@@ -1,9 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<style>
-	#footer	{
-		position:absolute;
-		bottom:0;}	
-</style>
+
 			</div>
             <!-- End of Main Content -->
 

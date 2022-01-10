@@ -1,4 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<style>
+	#footer {
+		height:150px;
+	position: relative;
+
+</style>
 
 
 <!-- ======= Footer ======= -->

@@ -1,5 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<style>
+	#breadcrumbs	{
+		position:relative;
+		height:70px;}
+	#main	{
+		height:auto;
+	min-height:20px;
+	padding-bottom:10px;
+	
+	}
+	#list	{
+		height:auto;
+	margin-bottom: 20px;
+	}
+</style>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,8 +26,7 @@
   <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="icon">
   <link href="${pageContext.request.contextPath}/resources/img/tap_favicon.png" rel="apple-touch-icon">
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  
 </head>
 <body>
  
@@ -47,11 +61,11 @@
 					</div>
 					<div class="form-group">
 					<label for="title" class="form-label mt-4">제목 : </label>
-					<div><input type="text" class="form-control" name="title" value="${notice.title}" readonly="readonly"></div>
+					<input type="text" class="form-control" name="title" id="title" value="${notice.title}" readonly="readonly">
 					</div>
 					<div class="form-group" style="margin-top:10px;">
-					<div>내용 :</div>
-					<div><textarea class="form-control" rows="10" cols="20" name="content" readonly="readonly">${notice.content}</textarea></div>
+					<label for="content" class="form-label mt-4">내용 : </label>
+					<textarea class="form-control" rows="10" cols="20" name="content" id="content" readonly="readonly">${notice.content}</textarea>
 					</div>
 				
 					<div style="float:right; margin-top:10px;">

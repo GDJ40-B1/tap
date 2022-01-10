@@ -5,6 +5,28 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style>
+	#breadcrumbs	{
+		position:relative;
+		height:70px;}
+		
+	#list	{
+		height:auto;
+	min-height:100%;
+	padding-bottom:150px;
+	}
+	.roomOneRv	{
+		height:auto;
+	min-height:100%;
+	padding-bottom:150px;
+	}
+	#main	{
+	
+	height:auto;
+	min-height:100%;
+	padding-bottom:150px;
+	}
+</style>
 	<script src="http://code.jquery.com/jquery-latest.js"></script> 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>

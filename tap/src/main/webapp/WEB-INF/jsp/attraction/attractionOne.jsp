@@ -6,6 +6,28 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style>
+	.event-list	{
+	position:relative;
+	padding-bottom:70px;}
+	#breadcrumbs	{
+		position:relative;
+		height:70px;}
+	.pagination	{
+	position:relative;
+	padding-bottom:50px;
+	}
+	#list	{
+		height:auto;
+	min-height:100%;
+	padding-bottom:150px;
+	}
+	#main	{
+		height:auto;
+	min-height:100%;
+	padding-bottom:200px;
+	}
+</style>
 	<script src="http://code.jquery.com/jquery-latest.js"></script>
 	<meta charset="UTF-8">
 	<title>${attraction.attractionName }</title>
@@ -29,7 +51,7 @@
    </div>
    <!-- end : mainHeader -->
    <main id="main">
-   <section class="breadcrumbs">
+   <sectvion class="breadcrumbs">
    	<div class="container">
 		<div class="d-flex justify-content-between align-items-center"> 
 	<h2>명소</h2>

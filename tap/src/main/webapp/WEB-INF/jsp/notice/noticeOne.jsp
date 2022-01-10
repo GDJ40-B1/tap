@@ -20,7 +20,19 @@
 	  flex: 1;
 	  text-align: right;
 	}
+	#breadcrumbs	{
+		position:relative;
+		height:70px;}
+	#main	{
+		height:auto;
+	min-height:620px;
+	padding-bottom:140px;
 	
+	}
+	#list	{
+		height:auto;
+	min-height:100%;
+	}
 </style>
 <meta charset="UTF-8">
 <title>공지사항 : | TAP</title>
@@ -64,7 +76,7 @@
 			<!-- ======= Table Section ======= -->
    	 		<section id="list" class="list">
    	 		
-      			<div class="container" style="">
+      			<div class="container">
 					<table class="table">
 						<thead class="table-primary">
 							<tr>
@@ -80,20 +92,21 @@
 						<tbody>
 							<tr>
 								<td>
-									<div style="margin-top:40px; margin-bottom:40px">
+									<div style="margin-top:40px; margin-bottom:40px; height:auto; min-height:300px;">
 										${notice.content}
-									</div></td>
+									</div>
+								</td>
 							</tr>
 						</tbody>
 					</table>
 				</div>		
 				<c:if test="${loginUser.userLevel eq 'system_admin'}">
-					<div style="float:right; margin-right:120px;">
+					<div style="float:right; margin-right:200px;">
 						<a class="btn btn-outline-success" href="${pageContext.request.contextPath}/systemAdmin/modifyNotice?noticeId=${notice.noticeId}">글 수정</a>						
 						<a class="btn btn-outline-danger" href="${pageContext.request.contextPath}/systemAdmin/deleteNotice?noticeId=${notice.noticeId}">글 삭제</a> 
 					</div>
 				</c:if>
-				<div style="float:left; margin-left:120px;">
+				<div style="float:left; margin-left:200px;">
 					<a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/noticeList">목록</a>
 				</div>
 					<!--  <input type="hidden" name="noticeId" value="${noticeId}" readonly="readonly"> -->
