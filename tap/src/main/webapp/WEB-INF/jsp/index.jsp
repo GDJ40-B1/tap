@@ -6,6 +6,22 @@ pageEncoding="UTF-8"%>
 <html lang="en">
 
 <head>
+<style>
+	.pagination	{
+	position:relative;
+	padding-bottom:50px;
+	}
+	#list	{
+		height:auto;
+	min-height:100%;
+	padding-bottom:150px;
+	}
+	#main	{
+		height:auto;
+	min-height:100%;
+	padding-bottom:200px;
+	}
+</style>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 

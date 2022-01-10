@@ -23,16 +23,15 @@
 	#breadcrumbs	{
 		position:relative;
 		height:70px;}
-		
+	#main	{
+		height:auto;
+	min-height:620px;
+	padding-bottom:140px;
+	
+	}
 	#list	{
 		height:auto;
 	min-height:100%;
-	padding-bottom:150px;
-	}
-	#main	{
-		height:auto;
-	min-height:100%;
-	padding-bottom:200px;
 	}
 </style>
 <meta charset="UTF-8">

@@ -4,16 +4,15 @@
 	#breadcrumbs	{
 		position:relative;
 		height:70px;}
-		
-	#list	{
-		height:auto;
-	min-height:100%;
-	padding-bottom:150px;
-	}
 	#main	{
 		height:auto;
-	min-height:100%;
-	padding-bottom:200px;
+	min-height:20px;
+	padding-bottom:10px;
+	
+	}
+	#list	{
+		height:auto;
+	margin-bottom: 20px;
 	}
 </style>
 <!DOCTYPE html>

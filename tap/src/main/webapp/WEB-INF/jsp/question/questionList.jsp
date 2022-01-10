@@ -12,14 +12,15 @@
 	#breadcrumbs	{
 		position:relative;
 		height:70px;}
-	#pageNumber	{
-	position:relative;
-	padding-bottom:50px;
+	#main	{
+		height:auto;
+	min-height:620px;
+	padding-bottom:140px;
+	
 	}
 	#list	{
 		height:auto;
 	min-height:100%;
-	padding-bottom:150px;
 	}
   </style>
 

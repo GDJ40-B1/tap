@@ -10,7 +10,7 @@
 	.event-list	{
 	position:relative;
 	padding-bottom:70px;}
-#breadcrumbs	{
+	#breadcrumbs	{
 		position:relative;
 		height:70px;}
 	.pagination	{

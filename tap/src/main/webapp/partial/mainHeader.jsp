@@ -3,7 +3,6 @@
 <style>
 	#header	{
 		position:fixed;
-
 	    width:100%;
 
 	    top:0;
