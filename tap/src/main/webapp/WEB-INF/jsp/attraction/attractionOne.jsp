@@ -22,6 +22,11 @@
 	min-height:100%;
 	padding-bottom:150px;
 	}
+	#main	{
+		height:auto;
+	min-height:100%;
+	padding-bottom:200px;
+	}
 </style>
 	<script src="http://code.jquery.com/jquery-latest.js"></script>
 	<meta charset="UTF-8">

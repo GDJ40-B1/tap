@@ -14,7 +14,11 @@
 	min-height:100%;
 	padding-bottom:150px;
 	}
-
+	#main	{
+		height:auto;
+	min-height:100%;
+	padding-bottom:200px;
+	}
 </style>
 <meta charset="UTF-8">
 <title>공지사항 : 수정 | TAP</title>
