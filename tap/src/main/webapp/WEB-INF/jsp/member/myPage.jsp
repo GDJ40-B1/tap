@@ -126,7 +126,7 @@
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold text-primary">
-                                    	<c:if test="${year != 0}">${year}년</c:if> 결제 금액</h6>
+                                    	 결제 금액</h6>
                                     <div class='box-right'>	
 										<select class="form-control" name="year" id="year" onchange="selectYear(this.value)">
 											<option value="" selected disabled>연도 선택</option>
@@ -150,7 +150,7 @@
                             <div class="card shadow mb-4">
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">${year}년 숙소 결제 금액 비율</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">숙소 결제 금액 비율</h6>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">

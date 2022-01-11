@@ -194,7 +194,7 @@
                             <div class="card shadow mb-4">
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">${year}년 매출 통계</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">매출 통계</h6>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">

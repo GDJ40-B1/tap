@@ -148,7 +148,7 @@
                             <div class="card shadow mb-4">
                                 <div id="roomChart"
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary" style="width: 44%;">${year}년 ${roomName} 월별 숙소 수익 통계</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">${year}년 ${roomName} 월별 숙소 수익 통계</h6>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
@@ -308,11 +308,6 @@
 	      yPadding: 15,
 	      displayColors: false,
 	      caretPadding: 10,
-	      callbacks: {
-              label: function(tooltipItem, data) {
-                  return tooltipItem.yLabel.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원"; 
-                  }
-	    	},
 	    },
 	  }
 	});

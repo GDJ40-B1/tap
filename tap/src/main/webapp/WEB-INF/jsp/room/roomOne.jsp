@@ -184,7 +184,7 @@
 					<div class="card shadow mb-4">
 					<div id="roomChart" class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 						<h6 class="m-0 font-weight-bold text-primary">
-							<c:if test="${year != 0}">${year}년</c:if> ${room.roomName} 이용 연령대</h6>
+							${room.roomName} 이용 연령대</h6>
 						<div class='box-right'>	
 						<select class="form-control" name="year" id="year" onchange="selectYear(this.value)">
 							<option value="" selected disabled>연도 선택</option>
@@ -990,7 +990,7 @@
 		      callbacks: {
 	              label: function(tooltipItem, data) {
 	            	  var indice = tooltipItem.index;                 
-	                  return data.labels[indice] +': '+data.datasets[0].data[indice] + '명'; 
+	                  return data.labels[indice] +' : '+data.datasets[0].data[indice] + '명'; 
 	                  }
 		    	},
 		    },
