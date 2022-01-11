@@ -258,6 +258,7 @@
 		FROM member_coupon
 		<where>
 			member_id = #{memberId}
+			AND use_status = 0
 		</where>
 	</select>
 	
