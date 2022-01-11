@@ -92,8 +92,10 @@
 						<tbody>
 							<tr>
 								<td>
-									<div style="margin-top:40px; margin-bottom:40px; height:auto; min-height:300px;">
-										${notice.content}
+									<div>
+					<div class="form-group" style="">
+					<textarea class="form-control" rows="15" cols="20" wrap="hard" id="content" name="content">${notice.content}</textarea>
+					</div>
 									</div>
 								</td>
 							</tr>
@@ -101,12 +103,12 @@
 					</table>
 				</div>		
 				<c:if test="${loginUser.userLevel eq 'system_admin'}">
-					<div style="float:right; ">
+					<div style="float:right; margin-right:115px;">
 						<a class="btn btn-outline-success" href="${pageContext.request.contextPath}/systemAdmin/modifyNotice?noticeId=${notice.noticeId}">글 수정</a>						
 						<a class="btn btn-outline-danger" href="${pageContext.request.contextPath}/systemAdmin/deleteNotice?noticeId=${notice.noticeId}">글 삭제</a> 
 					</div>
 				</c:if>
-				<div style="float:left;">
+				<div style="float:left; margin-left: 115px;">
 					<a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/noticeList">목록</a>
 				</div>
 					<!--  <input type="hidden" name="noticeId" value="${noticeId}" readonly="readonly"> -->
