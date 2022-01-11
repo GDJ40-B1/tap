@@ -67,11 +67,12 @@
 					<label for="content" class="form-label mt-4">내용 : </label>
 					<textarea class="form-control" rows="10" cols="20" wrap="hard" id="content" name="content" >${notice.content}</textarea>
 				</div>
-			</form>
 				<div style="float:right;">
 				<a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/noticeList">목록</a>
 				<button type="submit" class="btn btn-secondary">수정</button></div>
-			</div>
+				</div>
+			</form>
+				
 	    </section>
     <!-- End Breadcrumbs -->
 	</main><!-- End #main -->
