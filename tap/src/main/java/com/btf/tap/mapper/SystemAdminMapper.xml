@@ -172,4 +172,12 @@
 			fee_rate = #{feeRate},
 			update_date = NOW()		
 	</update>
+	
+	<!-- 조회 가능 연도 체크 -->
+	<select id="selectYearList" resultType="Integer">
+		SELECT 
+			year(create_date) year
+		FROM fee
+		GROUP BY year	
+	</select>
 </mapper>

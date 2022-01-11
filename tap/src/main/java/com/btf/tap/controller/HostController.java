@@ -1,12 +1,16 @@
 package com.btf.tap.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.btf.tap.common.Font;
 import com.btf.tap.mapper.RoomMapper;
@@ -411,5 +416,26 @@ public class HostController {
 		model.addAttribute("endPage", map.get("endPage"));
 		
 		return "host/hostList";
+	}
+	
+	// 숙소 선택 시 조회 가능 연도 체크
+	@RequestMapping("/yearList")
+	@ResponseBody
+	public void requestYearList(HttpServletResponse res, @RequestParam Map<String, String> paramMap) throws IOException {
+		res.setContentType("text/html;charset=UTF-8");
+		String hostId = (String)paramMap.get("hostId");
+		int roomId = Integer.parseInt(paramMap.get("roomId"));
+		
+		List<Integer> yearList = hostService.getYearList(hostId, roomId);
+
+		JSONArray jsonArray = new JSONArray();
+		
+		for(int i = 0; i < yearList.size(); i++) {
+			jsonArray.put(yearList.get(i));
+		}
+		PrintWriter pw = res.getWriter();
+		pw.print(jsonArray.toString());
+		pw.flush();
+		pw.close();
 	}
 }

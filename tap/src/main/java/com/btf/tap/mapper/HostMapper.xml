@@ -209,5 +209,20 @@
 			AND p.refund_status = 'N'
 		</where>
 		GROUP BY monthList;
+	</select>
+
+	<!-- 조회 가능 연도 체크 -->
+	<select id="selectYearList" parameterType="java.util.Map" resultType="Integer">
+		SELECT 
+			YEAR(p.payment_date) year
+		FROM payment p
+		INNER JOIN reservation rv ON p.reservation_id = rv.reservation_id
+		INNER JOIN room r ON rv.room_id = r.room_id
+		<where>
+			r.host_id = #{hostId}
+			AND r.room_id = #{roomId}
+			AND p.refund_status = 'N'
+		</where>
+		GROUP BY year
 	</select>	
 </mapper>

@@ -216,7 +216,7 @@
 	<select id="selectTotalPaymentList" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT 
 			DATE_FORMAT(payment_date, '%Y-%m') monthList, 
-			SUM(final_payment_price) price
+			SUM(final_payment_price) amountPrice
 		FROM payment
 		<where>
 			YEAR(payment_date) = #{year}
@@ -259,5 +259,16 @@
 		<where>
 			member_id = #{memberId}
 		</where>
+	</select>
+	
+	<!-- 조회 가능 연도 체크 -->
+	<select id="selectYearList" parameterType="String" resultType="Integer">
+		SELECT
+			YEAR(payment_date) year
+		FROM payment
+		where
+			member_id = #{memberId}
+			AND refund_status = 'N'
+		GROUP BY year;	
 	</select>
 </mapper>

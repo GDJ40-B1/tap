@@ -62,7 +62,7 @@
                     <div class="row">
 
                         <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="col-xl-4 col-md-6 mb-4">
                             <div class="card border-left-primary shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
@@ -80,7 +80,7 @@
                         </div>
 
                         <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="col-xl-4 col-md-6 mb-4">
                             <div class="card border-left-success shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
@@ -97,37 +97,8 @@
                             </div>
                         </div>
 
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-info shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks
-                                            </div>
-                                            <div class="row no-gutters align-items-center">
-                                                <div class="col-auto">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="progress progress-sm mr-2">
-                                                        <div class="progress-bar bg-info" role="progressbar"
-                                                            style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-                                                            aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
                         <!-- Pending Requests Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="col-xl-4 col-md-6 mb-4">
                             <div class="card border-left-warning shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
@@ -154,10 +125,16 @@
                             <div class="card shadow mb-4">
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">${year}년 결제 금액</h6>
-									<select name="year" id="year" onchange="selectYear()">
-										<option value="">연도 선택</option>
-									</select>
+                                    <h6 class="m-0 font-weight-bold text-primary">
+                                    	<c:if test="${year != 0}">${year}년</c:if> 결제 금액</h6>
+                                    <div class='box-right'>	
+										<select class="form-control" name="year" id="year" onchange="selectYear(this.value)">
+											<option value="" selected disabled>연도 선택</option>
+											<c:forEach items="${yearList}" var="y">
+												<option value="${y}">${y}년</option>
+											</c:forEach>
+										</select>
+									</div>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
@@ -207,26 +184,63 @@
 
     <!-- Custom scripts for all pages-->
     <script src="${pageContext.request.contextPath}/resources/js/sb-admin-2.min.js"></script>
-
- 	<script>
-		$(function(){
-			yearList();
-		});   
-	
-		function yearList(){
-			var date = new Date();
-			var year = date.getFullYear();
-			for(var i=(year); i >= (year-10); i--) {
-				$("#year").append("<option value='"+i+"'>" + i + "</option>");
-			}
-		}
-	</script>
 	
 	<script>	
-		function selectYear(){
-			var year = $("#year option:selected").val();
-			
-			location.href="${pageContext.request.contextPath}/myPage?year="+year;
+		function selectYear(year){
+			  var memberId = "${member.memberId}";
+			  
+			  var month = new Array();
+			  var amountPrice = new Array();
+			  
+			  var roomName = new Array();
+			  var price = new Array();
+			  
+			  $.ajax({
+				  type: 'GET',
+				  contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+				  url : '${pageContext.request.contextPath}/yearMonthPrice',
+				  cache : false,
+				  data : {memberId : memberId, year : year},
+				  dataType: 'json',
+				  success : function(result){
+					  console.log(result)
+					  
+					  $.each(result, function(i){
+						  month.push(result[i].monthList);
+						  amountPrice.push(result[i].amountPrice);
+					  });
+					  
+					  myBarChart.data.labels = month;
+					  myBarChart.data.datasets[0].data = amountPrice;
+
+					  myBarChart.update();
+				  }
+			  }).fail(function (error) {
+				  alert(JSON.stringify(error));
+			  })
+			  
+			  $.ajax({
+				  type: 'GET',
+				  contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+				  url : '${pageContext.request.contextPath}/yearRoomPrice',
+				  cache : false,
+				  data : {memberId : memberId, year : year},
+				  dataType: 'json',
+				  success : function(result){
+					  console.log(result)
+					  
+					  $.each(result, function(i){
+						  roomName.push(result[i].roomName);
+						  price.push(result[i].price);
+					  });
+					  
+					  myPieChart.data.labels = roomName;
+					  myPieChart.data.datasets[0].data = price;
+					  myPieChart.update();
+				  }
+			  }).fail(function (error) {
+				  alert(JSON.stringify(error));
+			  })
 		}
     </script>
 
@@ -239,7 +253,7 @@
 	
 	<c:forEach items="${totalPaymentList}" var="r">
 		arr.push("${r.monthList}");
-		arr2.push("${r.price}");
+		arr2.push("${r.amountPrice}");
 	</c:forEach>
 	
 	console.log(arr);
@@ -285,9 +299,12 @@
 	      yAxes: [{
 	        ticks: {
 	          min: 0,
-	          max: 5000000,
-	          maxTicksLimit: 12,
+	          max: 1000000,
+	          maxTicksLimit: 8,
 	          padding: 10,
+              callback: function(value, index, values) {
+            	  return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '원'; 
+                }
 	        },
 	        gridLines: {
 	          color: "rgb(234, 236, 244)",
@@ -357,7 +374,24 @@
 		      borderWidth: 1,
 		      displayColors: false,
 		      caretPadding: 10,
+		      mode: 'label',
+		      callbacks: {
+	              label: function(tooltipItem, data) {
+	            	  var indice = tooltipItem.index;                 
+	                  return data.labels[indice] +' : '+data.datasets[0].data[indice].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '원'; 
+	                  }
+		    	},
 		    },
+	   	    legend: {
+		   	      display: true,
+		   	      position: 'left',
+		   	      labels:{
+		   	    	padding: 25, 
+		   	    	usePointStyle: true, 
+		   	    	pointStyle: "circle",
+		   	    	font: { size: 20 }
+		   	      }
+		   	    }
 		  },
 		});
 	</script>   

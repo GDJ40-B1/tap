@@ -372,4 +372,14 @@ public class MemberService {
 		
 		return couponCount;
 	}
+	
+	// 조회 가능 연도 체크
+	public List<Integer> getYearList(String memberId) {
+		List<Integer> yearList = new ArrayList<>();
+		
+		yearList = memberMapper.selectYearList(memberId);
+		log.debug(Font.JSB  + "조회 가능 연도 => " + yearList + Font.RESET);
+		
+		return yearList;
+	}
 }

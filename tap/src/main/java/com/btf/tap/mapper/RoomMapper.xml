@@ -257,4 +257,16 @@
 			</where>  		
 		</if>
    </select>
+   
+   <!-- 조회 가능 연도 체크 -->
+   <select id="selectYearList" parameterType="int" resultType="Integer">
+		SELECT
+			year(rv.create_date) year
+		FROM room r
+		INNER JOIN reservation rv ON rv.room_id = r.room_id
+		<where>
+			r.room_id = #{roomId}
+		</where>
+		GROUP BY year
+   </select>
 </mapper>

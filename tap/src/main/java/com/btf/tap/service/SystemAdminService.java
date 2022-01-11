@@ -190,7 +190,7 @@ public class SystemAdminService {
 		paramMap.put("userCount", userCount);
 		paramMap.put("revenue", revenue); 
 		
-		log.debug(Font.JSB + "사이트 총합 이용자 수 및 수익" + paramMap.toString() + Font.RESET);
+		log.debug(Font.JSB + "사이트 총합 이용자 수 및 수익 =>" + paramMap.toString() + Font.RESET);
 		
 		return paramMap;
 	}
@@ -200,11 +200,23 @@ public class SystemAdminService {
 		int feeRate = 0;
 		feeRate = systemAdminMapper.selectFeeRate();
 		
+		log.debug(Font.JSB + "현재 사이트 설정 수수료 => " + feeRate + Font.RESET);
+		
 		return feeRate;
 	}
 	
 	// 사이트 수수료 변경
 	public void modifyFeeRate(int feeRate) {
 		systemAdminMapper.updateFeeRate(feeRate);
+	}
+	
+	// 조회 가능 연도 체크
+	public List<Integer> getYearList() {
+		List<Integer> yearList = new ArrayList<>();
+		
+		yearList = systemAdminMapper.selectYearList();
+		log.debug(Font.JSB + "조회 가능 연도 =>" + yearList.toString() + Font.RESET);
+		
+		return yearList;
 	}
 }

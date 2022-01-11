@@ -1,6 +1,7 @@
 package com.btf.tap.service;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -293,4 +294,20 @@ public class HostService {
 		
 		return roomRevenueHost;
 	}
+
+
+	// 조회 가능 연도 체크
+	public List<Integer> getYearList(String hostId, int roomId) {
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("hostId", hostId);
+		paramMap.put("roomId", roomId);
+		
+		List<Integer> yearList = new ArrayList<>();
+	   
+		yearList = hostMapper.selectYearList(paramMap);
+		log.debug(Font.JSB + yearList.toString() + Font.RESET);
+	   
+		return yearList;
+	}
+	
 }

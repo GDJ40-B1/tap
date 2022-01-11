@@ -70,4 +70,7 @@ public interface RoomMapper {
 	
 	// 특정 숙소 기간별 결제 내역 조회
 	List<Map<String, Object>> selectPayRoomDateList(Map<String, Object> paramMap);
+	
+	// 조회 가능 연도 체크
+	List<Integer> selectYearList(int roomId);
 }

@@ -77,8 +77,11 @@
                         <div class="card-body">
                         	<div class="title">
 							<div class='box-left'>
-								<select class="form-control" name="year" id="year" onchange="selectYear()">
-									<option value="">연도 선택</option>
+								<select class="form-control" name="year" id="year" onchange="selectYear(this.value)">
+									<option value="" selected disabled>연도 선택</option>
+									<c:forEach items="${yearList}" var="y">
+										<option value="${y}">${y}년</option>
+									</c:forEach>
 								</select>
 							</div> 
 							                    
@@ -240,28 +243,37 @@
 			location.href="${pageContext.request.contextPath}/systemAdmin/modifyFeeRate?feeRate="+feeRate;
 		});
     </script>
-
- 	<script>
-		$(function(){
-			yearList();
-		});   
-	
-		function yearList(){
-			var date = new Date();
-			var year = date.getFullYear();
-			for(var i=(year); i >= (year-10); i--) {
-				$("#year").append("<option value='"+i+"'>" + i + "</option>");
-			}
-		}
+		
+	<script>
+	  function selectYear(year) {
+		  
+		  var month = new Array();
+		  var revenue = new Array();
+		  
+		  $.ajax({
+			  type: 'GET',
+			  contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+			  url : '${pageContext.request.contextPath}/adminRevenueList',
+			  cache : false,
+			  data : {year : year},
+			  dataType: 'json',
+			  success : function(result){
+				  console.log(result)
+				  
+				  $.each(result, function(i){
+					  month.push(result[i].monthList);
+					  revenue.push(result[i].revenue);
+				  });
+				  
+				  myBarChart.data.labels = month;
+				  myBarChart.data.datasets[0].data = revenue;
+				  myBarChart.update();
+			  }
+		  }).fail(function (error) {
+			  alert(JSON.stringify(error));
+		  })
+	  }	
 	</script>
-	
-	<script>	
-		function selectYear(){
-			var year = $("#year option:selected").val();
-			
-			location.href="${pageContext.request.contextPath}/systemAdminMyPage?year="+year;
-		}
-    </script>
 
 	<!-- Page level plugins -->
     <script src="${pageContext.request.contextPath}/resources/vendor/chart.js/Chart.min.js"></script>
@@ -319,8 +331,11 @@
 	        ticks: {
 	          min: 0,
 	          max: 10000000,
-	          maxTicksLimit: 12,
+	          maxTicksLimit: 8,
 	          padding: 10,
+              callback: function(value, index, values) {
+            	  return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '원'; 
+                }
 	        },
 	        gridLines: {
 	          color: "rgb(234, 236, 244)",
@@ -390,7 +405,24 @@
 		      borderWidth: 1,
 		      displayColors: false,
 		      caretPadding: 10,
+		      mode: 'label',
+		      callbacks: {
+	              label: function(tooltipItem, data) {
+	            	  var indice = tooltipItem.index;                 
+	                  return data.labels[indice] +' : '+data.datasets[0].data[indice].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '원'; 
+	                  }
+		    	},
 		    },
+	   	    legend: {
+		   	      display: true,
+		   	      position: 'left',
+		   	      labels:{
+		   	    	padding: 25, 
+		   	    	usePointStyle: true, 
+		   	    	pointStyle: "circle",
+		   	    	font: { size: 20 }
+		   	      }
+		   	    }
 		  },
 		});
 	</script>   

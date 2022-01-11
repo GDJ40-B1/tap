@@ -27,4 +27,5 @@ public interface MemberMapper {
 	int selectTotalPaymentCount(String memberId);									// 회원 사이트 총 결제 횟수 조회
 	List<Map<String, Object>> selectRoomTotalPayment(Map<String, Object> paramMap);	// 연도별 숙소 결제 금액 조회
 	int selectCouponCount(String memberId);											// 회원 보유쿠폰 개수 조회
+	List<Integer> selectYearList(String memberId);									// 조회 가능 연도 체크
 }

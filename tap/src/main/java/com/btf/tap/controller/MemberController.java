@@ -1,13 +1,17 @@
 package com.btf.tap.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -279,9 +283,10 @@ public class MemberController {
 		member.setMemberId(user.getUserId());
 		Map<String, Object> memberMap = memberService.getMemberMyPage(member);
 		
-		if(year == 0) {
-			LocalDate now = LocalDate.now();
-			year = now.getYear();
+		List<Integer> yearList = memberService.getYearList(memberId);
+		
+		if(year == 0 && !yearList.isEmpty()) {
+			year = yearList.get(0);
 		}
 		
 		// 회원 사이트 연도별 결제 총액, 총 횟수, 숙소별 결제 금액, 보유 쿠폰 수
@@ -295,6 +300,7 @@ public class MemberController {
 		model.addAttribute("point", memberMap.get("point"));
 
 		model.addAttribute("year", year);
+		model.addAttribute("yearList", yearList);
 		model.addAttribute("totalPaymentList", totalPaymentList);
 		model.addAttribute("totalPaymentCount", totalPaymentCount);
 		model.addAttribute("roomTotalPayment", roomTotalPayment);
@@ -505,5 +511,49 @@ public class MemberController {
 		model.addAttribute("favoritesList", favoritesList);
 		
 		return "member/myFavorites";
+	}
+	
+	// 연도 선택시 월별 총 결제금액 조회
+	@RequestMapping("/yearMonthPrice")
+	@ResponseBody
+	public void requestYearMonthPrice(HttpServletResponse res, @RequestParam Map<String, String> paramMap) throws IOException {
+		res.setContentType("text/html;charset=UTF-8");
+		String memberId = (String)paramMap.get("memberId");
+		int year = Integer.parseInt(paramMap.get("year"));
+		
+		List<Map<String, Object>> totalPaymentList = memberService.getTotalPaymentList(memberId, year);
+
+		JSONArray jsonArray = new JSONArray();
+		
+		for(int i = 0; i < totalPaymentList.size(); i++) {
+			jsonArray.put(totalPaymentList.get(i));
+		}
+		
+		PrintWriter pw = res.getWriter();
+		pw.print(jsonArray.toString());
+		pw.flush();
+		pw.close();
+	}
+	
+	// 연도 선택시 숙소별 총 결제금액 조회
+	@RequestMapping("/yearRoomPrice")
+	@ResponseBody
+	public void requestYearRoomPrice(HttpServletResponse res, @RequestParam Map<String, String> paramMap) throws IOException {
+		res.setContentType("text/html;charset=UTF-8");
+		String memberId = (String)paramMap.get("memberId");
+		int year = Integer.parseInt(paramMap.get("year"));
+
+		List<Map<String, Object>> roomTotalPayment = memberService.getRoomTotalPayment(memberId, year);
+
+		JSONArray jsonArray = new JSONArray();
+		
+		for(int i = 0; i < roomTotalPayment.size(); i++) {
+			jsonArray.put(roomTotalPayment.get(i));
+		}
+		
+		PrintWriter pw = res.getWriter();
+		pw.print(jsonArray.toString());
+		pw.flush();
+		pw.close();
 	}
 }

@@ -1,13 +1,17 @@
 package com.btf.tap.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -87,10 +91,13 @@ public class RoomController {
 			user.setUserId("");
 		}
 		
-		if(year == 0) {
-			LocalDate now = LocalDate.now();
-			year = now.getYear();
+		List<Integer> yearList = roomService.getYearList(roomId);
+		
+
+		if(year == 0 && !yearList.isEmpty()) {
+			year = yearList.get(0);
 		}
+		
 		
 		Map<String, Object> result = roomService.getRoomOne(roomId, detailAddressId, user.getUserId());
 		Map<String, Object> roomQna = roomQuestionService.getRoomQnaList(roomQnaCurrentPage, roomId);
@@ -119,6 +126,7 @@ public class RoomController {
 		model.addAttribute("favorite", favorite);
 		model.addAttribute("ageList", ageList);
 		model.addAttribute("year", year);
+		model.addAttribute("yearList", yearList);
 		
 		return "room/roomOne";
 	}
@@ -440,5 +448,26 @@ public class RoomController {
 		log.debug(Font.HS + "roomReviewComment 객체안의 값 => " + roomReviewComment.toString() + Font.RESET);
 		
 		return "redirect:/host/unansweredRoomReview";
+	}
+	
+	// 연도 선택시 해당 통계값 조회
+	@RequestMapping("/yearRoomOne")
+	@ResponseBody
+	public void requestYearRoomOne(HttpServletResponse res, @RequestParam Map<String, String> paramMap) throws IOException {
+		res.setContentType("text/html;charset=UTF-8");
+		int roomId = Integer.parseInt(paramMap.get("roomId"));
+		int year = Integer.parseInt(paramMap.get("year"));
+		
+		List<Map<String, Object>> ageList = roomService.getRoomAgeList(roomId, year);
+
+		JSONArray jsonArray = new JSONArray();
+		
+		for(int i = 0; i < ageList.size(); i++) {
+			jsonArray.put(ageList.get(i));
+		}
+		PrintWriter pw = res.getWriter();
+		pw.print(jsonArray.toString());
+		pw.flush();
+		pw.close();
 	}
 }

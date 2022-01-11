@@ -1,19 +1,25 @@
 package com.btf.tap.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.btf.tap.common.Font;
 import com.btf.tap.service.NoticeService;
@@ -54,9 +60,10 @@ public class SystemAdminController {
 		systemAdmin = systemAdminService.getSystemAdminOne(systemAdmin.getSystemAdminId());
 		log.debug(Font.HS + "getMyPageCont : " + systemAdmin.toString() + Font.RESET);
 		
-		if(year == 0) {
-			LocalDate now = LocalDate.now();
-			year = now.getYear();
+		List<Integer> yearList = systemAdminService.getYearList();
+		
+		if(year == 0 && !yearList.isEmpty()) {
+			year = yearList.get(0);
 		}
 		
 		// 연도별 월간 / 연간 사이트 매출 차트 데이터 리스트
@@ -69,6 +76,7 @@ public class SystemAdminController {
 		int feeRate = systemAdminService.getFeeRate();
 		
 		model.addAttribute("year", year);
+		model.addAttribute("yearList", yearList);
 		model.addAttribute("systemAdmin", systemAdmin);
 		model.addAttribute("revenueList", revenueList);
 		model.addAttribute("revenueYearList", revenueYearList);
@@ -371,5 +379,25 @@ public class SystemAdminController {
 		noticeService.deleteNotice(notice);
 		
 		return "redirect:/systemAdmin/noticeList";	
+	}
+	
+	// 연도 선택시 사이트 월별 매출 통계값 조회
+	@RequestMapping("/adminRevenueList")
+	@ResponseBody
+	public void requestAdminRevenueList(HttpServletResponse res, @RequestParam Map<String, String> paramMap) throws IOException {
+		res.setContentType("text/html;charset=UTF-8");
+		int year = Integer.parseInt(paramMap.get("year"));
+		
+		List<Map<String, Object>> revenueList = systemAdminService.getRevenueYearList(year);
+
+		JSONArray jsonArray = new JSONArray();
+		
+		for(int i = 0; i < revenueList.size(); i++) {
+			jsonArray.put(revenueList.get(i));
+		}
+		PrintWriter pw = res.getWriter();
+		pw.print(jsonArray.toString());
+		pw.flush();
+		pw.close();
 	}
 }

@@ -183,10 +183,16 @@
 				<div class="col-sm-6 mb-3 mb-sm-0">
 					<div class="card shadow mb-4">
 					<div id="roomChart" class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-						<h6 class="m-0 font-weight-bold text-primary">${year}년 ${room.roomName} 이용 연령대</h6>
-						<select name="year" id="year" onchange="selectYear()">
-							<option value="">연도 선택</option>
+						<h6 class="m-0 font-weight-bold text-primary">
+							<c:if test="${year != 0}">${year}년</c:if> ${room.roomName} 이용 연령대</h6>
+						<div class='box-right'>	
+						<select class="form-control" name="year" id="year" onchange="selectYear(this.value)">
+							<option value="" selected disabled>연도 선택</option>
+							<c:forEach items="${yearList}" var="y">
+								<option value="${y}">${y}년</option>
+							</c:forEach>
 						</select>
+						</div>
 					</div>
 					<div class="card-body">
 						<div class="chart-area">
@@ -943,28 +949,6 @@
     		}
     	});
 	</script>
-    
- 	<script>
-		$(function(){
-			yearList();
-		});   
-	
-		function yearList(){
-			var date = new Date();
-			var year = date.getFullYear();
-			for(var i=(year); i >= (year-10); i--) {
-				$("#year").append("<option value='"+i+"'>" + i + "</option>");
-			}
-		}
-	</script>
-	
-	<script>	
-		function selectYear(){
-			var year = $("#year option:selected").val();
-			
-			location.href="${pageContext.request.contextPath}/roomOne?roomId=${room.roomId}&detailAddressId=${address.detailAddressId}&year="+year;
-		}
-    </script>
 	
 	<!-- Page level plugins -->
     <script src="${pageContext.request.contextPath}/resources/vendor/chart.js/Chart.min.js"></script>
@@ -1002,9 +986,51 @@
 		      borderWidth: 1,
 		      displayColors: false,
 		      caretPadding: 10,
+		      mode: 'label',
+		      callbacks: {
+	              label: function(tooltipItem, data) {
+	            	  var indice = tooltipItem.index;                 
+	                  return data.labels[indice] +': '+data.datasets[0].data[indice] + '명'; 
+	                  }
+		    	},
 		    },
 		  },
 		});
-	</script>   
+	</script> 
+	
+	<script>
+	  function selectYear(year) {
+		  var roomId = "${room.roomId}";
+		  
+		  var arr3 = new Array();
+		  var arr4 = new Array();
+		  
+		  $.ajax({
+			  type: 'GET',
+			  contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+			  url : '${pageContext.request.contextPath}/yearRoomOne',
+			  cache : false,
+			  data : {roomId : roomId, year : year},
+			  dataType: 'json',
+			  success : function(result){
+				  console.log(result)
+				  
+				  $.each(result, function(i){
+					  arr3.push(result[i].ageGroup);
+					  arr4.push(result[i].age);
+				  });
+				  
+				  console.log(arr3);
+				  console.log(arr4);
+				  
+				  myPieChart.data.labels = arr3;
+				  myPieChart.data.datasets[0].data = arr4;
+				  myPieChart.update();
+			  }
+		  }).fail(function (error) {
+			  alert(JSON.stringify(error));
+		  })
+	  }	
+	</script>
 </body>
 </html>

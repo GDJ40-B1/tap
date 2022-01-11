@@ -66,14 +66,15 @@
                         </div>
                         <div class="card-body">
                         	<div class="row">
-							<c:if test="${!empty roomList}">
-								<select class="form-control" name="room" id="room" style="width: 20%; margin-left: 1%;;">
+							<c:if test="${!empty roomList}"> 
+								<select class="form-control" name="roomId" id="roomId" onchange="selectRoom(this.value);"style="width: 20%; margin-left: 1%;;">
+									<option value="" selected disabled>숙소 선택</option>
 									<c:forEach var="s" items="${roomList}">
 										<option value="${s.roomId}">${s.roomName}</option>
 									</c:forEach>
 								</select>
 							</c:if>
-							<select class="form-control" name="year" id="year" style="width: 10%; margin-left: 1%;"></select>
+							<select class="form-control" name="yearList" id="yearList" style="width: 10%; margin-left: 1%;"></select>
 							<button class="btn btn-primary" id="roomAndYearBtn" type="button" style="width: 5%; margin-left: 1%;">조회</button>                      
                         	</div>
                         </div>
@@ -83,7 +84,7 @@
                     <div class="row">
 
                         <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="col-xl-4 col-md-6 mb-4">
                             <div class="card border-left-primary shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
@@ -101,7 +102,7 @@
                         </div>
 
                         <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="col-xl-4 col-md-6 mb-4">
                             <div class="card border-left-success shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
@@ -118,37 +119,9 @@
                             </div>
                         </div>
 
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-info shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks
-                                            </div>
-                                            <div class="row no-gutters align-items-center">
-                                                <div class="col-auto">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="progress progress-sm mr-2">
-                                                        <div class="progress-bar bg-info" role="progressbar"
-                                                            style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-                                                            aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
                         <!-- Pending Requests Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="col-xl-4 col-md-6 mb-4">
                             <div class="card border-left-warning shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
@@ -175,7 +148,7 @@
                             <div class="card shadow mb-4">
                                 <div id="roomChart"
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary" style="width: 44%;">${year}년 ${roomName} 월별 숙소 이용객 수</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary" style="width: 44%;">${year}년 ${roomName} 월별 숙소 수익 통계</h6>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
@@ -221,26 +194,12 @@
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-
-	<script>
-		$(function(){
-			selectYear();
-		});   
-	
-		function selectYear(){
-			var date = new Date();
-			var year = date.getFullYear();
-			for(var i=(year); i >= (year-10); i--) {
-				$("#year").append("<option value='"+i+"'>" + i + "</option>");
-			}
-		}
-	</script>
 	
 	<script>	
 		$('#roomAndYearBtn').click(function(){
-			var roomId = $("#room option:selected").val();
-			var roomName = $("#room option:selected").text();
-			var year = $("#year option:selected").val();
+			var roomId = $("#roomId option:selected").val();
+			var roomName = $("#roomId option:selected").text();
+			var year = $("#yearList option:selected").val();
 			
 			location.href="${pageContext.request.contextPath}/hostMyPage?roomId="+roomId+"&year="+year+"&roomName="+roomName;
 		});
@@ -253,25 +212,22 @@
 	var arr = new Array();
 	var arr2 = new Array();
 	var arr3 = new Array();
-	var arr4 = new Array();
 	
 	<c:forEach items="${list}" var="m">
 		arr.push("${m.monthList}");
-		arr2.push("${m.userNum}");
 	</c:forEach>
 
 	<c:forEach items="${roomMonthRevenue}" var="r">
-		arr3.push("${r.price}");
+		arr2.push("${r.price}");
 	</c:forEach>
 	
 	<c:forEach items="${monthRevenueHost}" var="mr">
-		arr4.push("${mr.price}");
+		arr3.push("${mr.price}");
 	</c:forEach>
 	
 	console.log(arr);
 	console.log(arr2);
 	console.log(arr3);
-	console.log(arr4);
 
 	var ctx = document.getElementById("myBarChart");
 	var myBarChart = new Chart(ctx, {
@@ -279,7 +235,7 @@
 	  data: {
 	    labels: arr,
 	    datasets: [{
-	      label: "이용객 수",
+	      label: "숙소 수익",
 	      backgroundColor: "#4e73df",
 	      hoverBackgroundColor: "#2e59d9",
 	      borderColor: "#4e73df",
@@ -287,19 +243,11 @@
 	    },
 	    
 	    {
-		      label: "숙소 수익",
-		      backgroundColor: "#4e73df",
-		      hoverBackgroundColor: "#2e59d9",
-		      borderColor: "#4e73df",
-		      data: arr3
-		    },
-		    
-		    {
 		      label: "총 수익",
 		      backgroundColor: "#4e73df",
 		      hoverBackgroundColor: "#2e59d9",
 		      borderColor: "#4e73df",
-		      data: arr4
+		      data: arr3
 		    }],
 	  },
 	  options: {
@@ -322,7 +270,7 @@
 	          drawBorder: false
 	        },
 	        ticks: {
-	          maxTicksLimit: 6
+	          maxTicksLimit: 12
 	        },
 	        maxBarThickness: 25,
 	      }],
@@ -332,6 +280,9 @@
 	          max: 10000000,
 	          maxTicksLimit: 8,
 	          padding: 10,
+              callback: function(value, index, values) {
+            	  return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '원'; 
+                }
 	        },
 	        gridLines: {
 	          color: "rgb(234, 236, 244)",
@@ -357,6 +308,11 @@
 	      yPadding: 15,
 	      displayColors: false,
 	      caretPadding: 10,
+	      callbacks: {
+              label: function(tooltipItem, data) {
+                  return tooltipItem.yLabel.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원"; 
+                  }
+	    	},
 	    },
 	  }
 	});
@@ -396,10 +352,52 @@
 		      borderWidth: 1,
 		      displayColors: false,
 		      caretPadding: 10,
+		      mode: 'label',
+		      callbacks: {
+	              label: function(tooltipItem, data) {
+	            	  var indice = tooltipItem.index;                 
+	                  return data.labels[indice] +' : '+data.datasets[0].data[indice] + '명'; 
+	                  }
+		    	},
 		    },
+	   	    legend: {
+		   	      display: true,
+		   	      position: 'left',
+		   	      labels:{
+		   	    	padding: 25, 
+		   	    	usePointStyle: true, 
+		   	    	pointStyle: "circle",
+		   	    	font: { size: 20 }
+		   	      }
+		   	    }
 		  },
 		});
 	</script>   	
+
+	<script>
+	  function selectRoom(roomId) {
+		  var hostId = "${host.hostId}";
+
+		  $.ajax({
+			  type: 'GET',
+			  contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+			  url : '${pageContext.request.contextPath}/yearList',
+			  cache : false,
+			  data : { hostId : hostId, roomId : roomId },
+			  dataType: 'json',
+			  success : function(result){
+				  console.log(result)
+					
+				  $("#yearList").find("option").remove().end().append("<option value='' selected disabled>연도 선택</option>")
+				  $.each(result, function(i){
+					 $("#yearList").append("<option value='"+result[i]+"'>"+result[i]+"년</option>")
+				  });
+			  }
+		  }).fail(function (error) {
+			  alert(JSON.stringify(error));
+		  })
+	  }	
+	</script>
 	
     <!-- Core plugin JavaScript-->
     <script src="${pageContext.request.contextPath}/resources/vendor/jquery-easing/jquery.easing.min.js"></script>

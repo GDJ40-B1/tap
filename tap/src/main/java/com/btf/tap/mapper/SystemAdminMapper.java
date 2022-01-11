@@ -25,4 +25,5 @@ public interface SystemAdminMapper {
 	int selectRevenue();	// 사이트 총합 수익
 	int selectFeeRate();	// 사이트 수수료 조회
 	int updateFeeRate(int feeRate);	// 사이트 수수료 변경
+	List<Integer> selectYearList(); // 조회 가능 연도 체크
 }

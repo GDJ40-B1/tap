@@ -468,4 +468,14 @@ public class RoomService {
 	   
 	   return list;
    }
+   
+   // 조회 가능 연도 체크
+   public List<Integer> getYearList(int roomId) {
+	   List<Integer> yearList = new ArrayList<>();
+	   
+	   yearList = roomMapper.selectYearList(roomId);
+	   log.debug(Font.JSB + yearList.toString() + Font.RESET);
+	   
+	   return yearList;
+   }
 }
